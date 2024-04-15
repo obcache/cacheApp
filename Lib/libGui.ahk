@@ -56,7 +56,7 @@ initGui(&cfg, &ui) {
 	GuiDockTab(&ui)
 	GuiSetupTab(&ui,&cfg)
 	GuiEditorTab()
-	GuiGameTab(&ui,&cfg)
+	GuiGameTab()
 	
 	
 	if (FileExist("./Logs/persist.log"))
