@@ -1,0 +1,59 @@
+mage of shadows,1,r,350,World//Zero
+mage of shadows,2,e,350,World//Zero
+mage of shadows,3,r,350,World//Zero
+mage of shadows,4,f,350,World//Zero
+mage of shadows,5,r,350,World//Zero
+mage of shadows,6,1,350,World//Zero
+mage of shadows,7,r,350,World//Zero
+mage of shadows,8,x,350,World//Zero
+summoner,1,f,350,World//Zero
+summoner,2,e,350,World//Zero
+summoner,3,f,350,World//Zero
+summoner,4,r,350,World//Zero
+summoner,5,f,350,World//Zero
+summoner,6,1,350,World//Zero
+summoner,7,f,350,World//Zero
+summoner,8,x,350,World//Zero
+summoner:rev,1,f,350,World//Zero
+summoner:rev,2,e,350,World//Zero
+summoner:rev,3,f,350,World//Zero
+summoner:rev,4,r,350,World//Zero
+summoner:rev,5,f,350,World//Zero
+summoner:rev,6,1,350,World//Zero
+summoner:rev,7,f,350,World//Zero
+summoner:rev,8,x,350,World//Zero
+spirit archer,1,e,350,World//Zero
+spirit archer,2,f,350,World//Zero
+spirit archer,3,e,350,World//Zero
+spirit archer,4,r,350,World//Zero
+spirit archer,5,e,350,World//Zero
+spirit archer,6,1,350,World//Zero
+spirit archer,7,e,350,World//Zero
+spirit archer,8,x,350,World//Zero
+spirit archer:rev,1,x,350,World//Zero
+spirit archer:rev,2,e,350,World//Zero
+spirit archer:rev,3,1,350,World//Zero
+spirit archer:rev,4,e,350,World//Zero
+spirit archer:rev,5,r,350,World//Zero
+spirit archer:rev,6,e,350,World//Zero
+spirit archer:rev,7,f,350,World//Zero
+spirit archer:rev,8,e,350,World//Zero
+Malva:Heal-U,1,w,850,Shatterline
+Malva:Heal-U,2,d,650,Shatterline
+Malva:Heal-U,3,q,250,Shatterline
+Malva:Heal-U,4,c,250,Shatterline
+AFK: Good Boy Protocol,1,e,800,Destiny 2
+strand:webdash,1,w,550,Destiny 2
+strand:webdash,2,c,350,Destiny 2
+strand:webdash,3,w,550,Destiny 2
+strand:webdash,4,c,350,Destiny 2
+strand:webdash,5,q,250,Destiny 2
+solar:deadeye,1,1,350,Destiny 2
+solar:deadeye,2,rbutton d,800,Destiny 2
+solar:deadeye,3,lbutton,250,Destiny 2
+solar:deadeye,4,rbutton u,250,Destiny 2
+statis:crystall,1,d,350,Destiny 2
+statis:crystall,2,space,250,Destiny 2
+statis:crystall,3,space,250,Destiny 2
+statis:crystall,4,q,800,Destiny 2
+<disabled>,,,,<disabled>
