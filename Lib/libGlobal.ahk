@@ -299,11 +299,13 @@ preAutoExec(InstallDir,ConfigFileName) {
 			;IMGv2 below
 			fileInstall("./img2/button_power.png",installDir "/img2/button_power.png",1)
 			fileInstall("./img2/button_power_down.png",installDir "/img2/button_power_down.png",1)
+			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			persistLog("Copied Assets to: " InstallDir)
 			sleep(4500)
-			fileCreateShortcut "cacheApp.exe", A_Desktop "\cacheApp.lnk", "C:\", A_ScriptFullPath, "cacheApp gaming assistant",, "i"
-			filecopy(A_Desktop "\cacheApp.lnk",A_StartMenu)
+			fileCreateShortcut("cacheApp.exe", A_Desktop "\cacheApp.lnk", "C:\", A_ScriptFullPath, "cacheApp gaming assistant","./attack_icon.ico",)
+			fileCreateShortcut("cacheApp.exe", A_StartMenu "\cacheApp.lnk", "C:\", A_ScriptFullPath, "cacheApp gaming assistant","./attack_icon.ico",)
+
 			Run(InstallDir "\" A_AppName ".exe")
 		ExitApp
 		
