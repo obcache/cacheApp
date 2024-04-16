@@ -408,8 +408,11 @@ autoUpdate() {
 	runWait("cmd /C start /b /wait ping -n 1 8.8.8.8 > " a_scriptDir "/.tmp",,"Hide")
 	if !inStr(fileRead(a_scriptDir "/.tmp"),"100% loss") {
 		checkForUpdates(0)
-	} else 
+	} else {
 		setTimer () => pbNotify("Network Down. Bypassing Auto-Update.",1000),-100
+	}
+	try
+		fileDelete("/.tmp")
 }	
 
 CheckForUpdates(msg,*) {
