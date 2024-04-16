@@ -303,8 +303,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			persistLog("Copied Assets to: " InstallDir)
 			sleep(4500)
-			fileCreateShortcut("cacheApp.exe", A_Desktop "\cacheApp.lnk", "C:\", A_ScriptFullPath, "cacheApp gaming assistant","./attack_icon.ico",)
-			fileCreateShortcut("cacheApp.exe", A_StartMenu "\cacheApp.lnk", "C:\", A_ScriptFullPath, "cacheApp gaming assistant","./attack_icon.ico",)
+			fileCreateShortcut("cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant")
+			fileCreateShortcut("cacheApp.exe", A_StartMenu "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant")
 
 			Run(InstallDir "\" A_AppName ".exe")
 		ExitApp
