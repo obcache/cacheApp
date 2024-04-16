@@ -110,26 +110,39 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	d2CreateHotkeys()
 	d2CreateHotkeys(*) {
 
-		hotIfWinActive("ahk_exe destiny2.exe")
+	hotIfWinActive("ahk_exe destiny2.exe")
 		loop cfg.d2LoadoutCoords.length {
 			hotKey(cfg.d2AppLoadoutKey " & " substr(a_index,-1),d2LoadoutModifier)
 		}
-
-		hotKey(cfg.d2AppVehicleKey,d2MountVehicle)
-
+		
 		hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysRun)
 ;		hotKey("~*r",d2reload)
-		hotIf()
+	hotIf()
 
-		hotIf(d2ReadyToReload)
-			hotKey("~*r",d2reload)
-		hotIf()
+
+	hotIf(d2VehicleReady)
+		hotKey(cfg.d2AppVehicleKey,d2MountVehicle)
+	hotIf()
+
+	hotIf(d2ReadyToReload)
+		hotKey("~*r",d2reload)
+	hotIf()
 	
-		hotIf(d2ReadyToSprint)
-			hotKey("~*w",d2StartSprinting)
-		hotIf()
+	hotIf(d2ReadyToSprint)
+		hotKey("~*w",d2StartSprinting)
+	hotIf()
+		
+	
+
+
 	}
 	
+	d2VehicleReady(*) {
+		if winActive("ahk_exe destiny2.exe") && cfg.d2AlwaysRunEnabled
+			return 1
+		else
+			return 0
+	}
 	d2reload(*) {
 		
 		if cfg.d2AlwaysRunEnabled {

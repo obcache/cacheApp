@@ -302,7 +302,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			persistLog("Copied Assets to: " InstallDir)
 			sleep(4500)
-
+			createShortcut
 			Run(InstallDir "\" A_AppName ".exe")
 		ExitApp
 		
@@ -914,7 +914,8 @@ NotifyOSD(NotifyMsg,Duration := 10,Alignment := "Left",YN := "")
 		SetTimer(waitOSD,-10000)
 	} else {
 		ui.Transparent := 250
-		WinSetTransparent(ui.Transparent,ui.notifyGui)
+		ry
+			WinSetTransparent(ui.Transparent,ui.notifyGui)
 		setTimer () => (sleep(duration),fadeOSD()),-100
 	}
 
@@ -933,12 +934,13 @@ fadeOSD() {
 	ui.transparent := 250
 	While ui.Transparent > 10 { 	
 	
-		WinSetTransparent(ui.Transparent,ui.notifyGui)
+		try
+			WinSetTransparent(ui.Transparent,ui.notifyGui)
 		ui.Transparent -= 3
 		Sleep(1)
 	}
-	
-	guiVis(ui.notifyGui,false)
+	try
+		guiVis(ui.notifyGui,false)
 	
 	ui.Transparent := ""
 	
