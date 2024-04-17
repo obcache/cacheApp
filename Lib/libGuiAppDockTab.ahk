@@ -29,12 +29,12 @@ GuiDockTab(&ui)
 
 	drawOutlineNamed("appDockRightPanel",ui.mainGui,433,35,93,166,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	drawOutlineNamed("appDockBottomPanel",ui.mainGui,39,75,389,126,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
-	ui.MainGui.SetFont("s16 c" cfg.ThemeFont1Color,"Calibri")
+	ui.MainGui.SetFont("s16 c" cfg.ThemeFont4Color,"Calibri")
 	ui.SetMonitorButton := ui.MainGui.AddPicture("x45 y36 w80 h32 section backgroundTrans backgroundTrans","./Img/Button_Change.png")
 	ui.SetMonitorButton.OnEvent("Click", SetMonitorButtonPush)
 	ui.SetMonitorButton.ToolTip := "Selects secondary monitor to display docked apps while gaming"
 	
-	ui.MainGui.SetFont("s16 c" cfg.ThemeFont1Color,"Calibri Bold")
+	ui.MainGui.SetFont("s16 c" cfg.ThemeFont4Color,"Calibri Bold")
 	cfg.cacheAppMonitorLabel := ui.MainGui.AddText("x+3 ys+2 w35 Center backgroundTrans","Monitor")
 	cfg.cacheAppMonitorLabel.OnEvent("Click", SetMonitorButtonPush)
 	cfg.cacheAppMonitorLabel.ToolTip := "Selects secondary monitor to display docked apps while gaming"
@@ -42,9 +42,9 @@ GuiDockTab(&ui)
 	ui.cacheAppMonitorText := ui.MainGui.AddText("x+8 ys+4 w31 h24 Center background" cfg.ThemeEditboxColor " c" cfg.ThemeFont1Color, cfg.cacheAppMonitor)
 	ui.cacheAppMonitorText.OnEvent("Click", SetMonitorButtonPush)
 	ui.cacheAppMonitorText.ToolTip := "Monitor currently selected to display docked apps while gaming"
-	ui.appDockTitle := ui.mainGui.addText("x315 y38 w120 h25 backgroundTrans c" cfg.themeFont1Color,"Dock Apps")	
+	ui.appDockTitle := ui.mainGui.addText("x315 y38 w120 h25 backgroundTrans c" cfg.themeFont4Color,"Dock Apps")	
 	drawOutlineMainGui(207,41,30,23,cfg.themePanel4Color,cfg.themeBorderDarkColor,1)
-	ui.MainGui.SetFont("s14 c" cfg.ThemeFont1Color, "Calibri Bold")
+	ui.MainGui.SetFont("s14 c" cfg.ThemeFont4Color, "Calibri Bold")
 	ui.cacheAppMonitorUpdatedText := ui.MainGui.AddText("ys+3 w130 backgroundTrans","")
 	
 	ui.MainGui.SetFont("s13 c" cfg.ThemeFont1Color,"Calibri Bold")

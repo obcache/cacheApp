@@ -280,7 +280,9 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img/icon_blueberries.png",installDir "/img/icon_blueberries.png",1)
 			fileInstall("./img/icon_lightgg.png",installDir "/img/icon_lightgg.png",1)
 			fileInstall("./img/icon_d2Checklist.png",installDir "/img/icon_d2Checklist.png",1)
+			fileInstall("./img/icon_braytech.png",installDir "/img/icon_braytech.png",1)
 			fileInstall("./img/icon_steeringwheel.png",installDir "/img/icon_steeringwheel.png",1)
+			fileInstall("./img/button_loadouts_ready.png",installDir "/img/button_loadouts_ready.png",1)
 			fileInstall("./img2/d2_button_dim.png",installDir "/img2/d2_button_dim.png",1)
 			fileInstall("./img2/d2_button_dim_down.png",installDir "/img2/d2_button_dim_down.png",1)
 			fileInstall("./img2/d2_button_bbgg.png",installDir "/img2/d2_button_bbgg.png",1)
@@ -920,9 +922,10 @@ NotifyOSD(NotifyMsg,Duration := 10,Alignment := "Left",YN := "")
 		SetTimer(waitOSD,-10000)
 	} else {
 		ui.Transparent := 250
-		ry
+		try {
 			WinSetTransparent(ui.Transparent,ui.notifyGui)
-		setTimer () => (sleep(duration),fadeOSD()),-100
+			setTimer () => (sleep(duration),fadeOSD()),-100
+		}
 	}
 
 	waitOSD() {
