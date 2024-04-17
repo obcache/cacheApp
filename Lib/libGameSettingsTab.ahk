@@ -150,7 +150,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			ui.d2GameReloadKeyData.redraw()
 			ui.d2IsReloading := true
 			d2ToggleAlwaysRunOff()
-			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-3000
+			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2000
 		}	
 		;setTimer () => d2ToggleAlwaysRunOn(), -2600
 	}
@@ -208,7 +208,10 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 	d2LoadoutModifier(hotKeyName) {
 		if (cfg.d2AlwaysRunEnabled) {
-		
+		try {
+			ui.dockBarLoadouts.opt("background" cfg.themeButtonAlertColor)
+			ui.dockBarLoadouts.redraw()
+		}
 		ui.d2AppLoadoutKeyData.text := cfg.d2AppLoadoutKey " - " subStr(hotKeyName,-1)
 		ui.d2AppLoadoutKeyData.opt("c" cfg.themeButtonOnColor)
 		ui.d2AppLoadoutKeyData.redraw()
@@ -220,15 +223,19 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		return
 		
 		send("{F1}")
-		sleep(650)
+		sleep(550)
 		send("{Left}")
 		sleep(150)
 		coordMode("mouse","client")
 		click(loadoutX,loadoutY,0)
-		sleep(650)
+		sleep(250)
 		send("{LButton}")
-		sleep(450)
+		sleep(100)
 		send("{F1}")
+		}
+		try {
+			ui.dockBarLoadouts.opt("background" cfg.themeButtonReadyColor)
+			ui.dockBarLoadouts.redraw()
 		}
 	}
 	

@@ -1029,16 +1029,20 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarWidth 		+= 32
 				ui.topDockBBGGbutton		:= ui.dockBarGui.addPicture("x+0 ys w28 h28 section backgroundTrans","./img/icon_blueberries.png")
 				ui.dockBarWidth 		+= 32
+				ui.topDockBrayTechbutton		:= ui.dockBarGui.addPicture("x+0  ys w28 h28 section backgroundTrans","./img/icon_braytech.png")
+				 ui.dockBarWidth 		+= 32
 				ui.topDockd2Checklistbutton		:= ui.dockBarGui.addPicture("x+0  ys w28 h28 section backgroundTrans","./img/icon_d2Checklist.png")
 				 ui.dockBarWidth 		+= 32
 				ui.topDockDIMbutton.onEvent("click",d2LaunchDIMButtonClicked)
 				ui.topDockLightGGbutton.onEvent("click",d2LaunchLightGGButtonClicked)
 				ui.topDockBBGGbutton.onEvent("click",d2LaunchBlueBerriesButtonClicked)
+				ui.topDockBrayTechbutton.onEvent("click",d2LaunchBrayTechButtonClicked)
 				ui.topDockd2Checklistbutton.onEvent("click",d2Launchd2ChecklistButtonClicked)
 				ui.topDockLightGGbutton.toolTip := "Launch light.gg"
 				ui.topDockDIMbutton.toolTip := "Launch DIM"
 				ui.topDockBBGGbutton.toolTip := "Launch Blueberries"
 				ui.topDockd2Checklistbutton.toolTip := "Launch D2 Checklist"
+				ui.topDockBrayTechbutton.toolTip := "Launch Bray.Tech"
 				; ui.dockBarWidth 		+= 32
 				; ui.dockBarGui.addText("x+5 ys-2 w1 h32 section background" cfg.themeBright1Color,"")
 				
@@ -1049,9 +1053,10 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarD2Vehicle 	:= ui.dockBarGui.addPicture("x+-1 ys-1 w32 h33 section background" cfg.ThemeButtonReadyColor,"./img/icon_steeringwheel.png")	
 				ui.dockBarWidth 		+= 32
 				ui.dockBarD2Vehicle.onEvent("click",d2AppVehicleKeyClicked)				
+				ui.dockBarLoadouts		:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,"./img/button_loadouts_ready.png")
+				ui.dockBarWidth			+= 32
 				ui.dockBarRunIcon 		:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeDisabledColor, "./img/icon_running.png")
 				ui.dockBarWidth 		+= 32
-
 				ui.dockBarRunIcon.opt("Background" cfg.ThemeButtonOnColor)
 				ui.dockBarD2AlwaysRun 	:= ui.dockBarGui.addPicture("x+-1 ys-1 w25 h33 section " 
 				((cfg.d2AlwaysRunEnabled) 
