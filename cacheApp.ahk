@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.2.5"
+A_FileVersion := "1.1.2.6"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -11,6 +11,20 @@ if (fileExist("./cacheApp_currentBuild.dat"))
 #Requires AutoHotkey v2.0
 #SingleInstance
 #Warn All, Off
+
+currExe := DllCall("GetCommandLine", "str")
+
+if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
+{
+    try
+    {
+        if a_isCompiled
+            run '*runAs "' a_scriptFullPath '" /restart'
+        else
+            run '*runAs "' a_ahkPath '" /restart "' a_scriptFullPath '"'
+    }
+    exitApp()
+}
 
 persistent()
 installMouseHook()

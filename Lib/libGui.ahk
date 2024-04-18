@@ -81,7 +81,7 @@ initGui(&cfg, &ui) {
 	ui.ExitButton.OnEvent("Click",ExitButtonPushed)
 	ui.ExitButton.ToolTip := "Terminates cacheApp App"
 
-	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x+0 ys w2 h35 section background" cfg.themeBorderDarkColor," ")
+	;ui.rightPadding 	:= ui.titleBarButtonGui.addText("x+0 ys w1 h35 section background" cfg.themeBorderDarkColor," ")
 	ui.buttonUndockAfk := ui.titleBarButtonGui.AddPicture("x+6 ys w35 h35 hidden Background" cfg.ThemeButtonAlertColor,"./Img/button_dockright_ready.png")
 	ui.buttonUndockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonUndockAfk.ToolTip := "Undocks AFK Window"
@@ -1026,8 +1026,8 @@ dockBarIcons(game,operation := "") {
 				ui.topDockDIMbutton			:= ui.dockBarGui.addPicture("x+8 ys+6 w24 h24 section backgroundTrans","./img/icon_DIM.png")
 				ui.dockBarWidth 		+= 32
 		 		ui.topDocklightGGbutton		:= ui.dockBarGui.addPicture("x+2 ys-2 w28 h28 section backgroundTrans","./img/icon_lightGG.png")
-				ui.dockBarWidth 		+= 32
 				ui.topDockBBGGbutton		:= ui.dockBarGui.addPicture("x+0 ys w28 h28 section backgroundTrans","./img/icon_blueberries.png")
+				ui.dockBarWidth 		+= 32
 				ui.dockBarWidth 		+= 32
 				ui.topDockBrayTechbutton		:= ui.dockBarGui.addPicture("x+0  ys w28 h28 section backgroundTrans","./img/icon_braytech.png")
 				 ui.dockBarWidth 		+= 32

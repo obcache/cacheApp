@@ -584,7 +584,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.SilentIdleEnabled 		:= IniRead(cfg.file,"AFK","SilentIdleEnabled",true)
 	cfg.AutoClickerSpeed 		:= IniRead(cfg.file,"AFK","AutoClickerSpeed",50)
 	cfg.CelestialTowerEnabled	:= IniRead(cfg.file,"AFK","CelestialTowerEnabled",false)
-	cfg.cacheAppMonitor 		:= IniRead(cfg.file,"cacheApp","cacheAppMonitor","1")	
+	cfg.AppDockMonitor 		:= IniRead(cfg.file,"cacheApp","AppDockMonitor","1")	
 	cfg.app1filename			:= IniRead(cfg.file,"cacheApp","app1filename","")
 	cfg.app1path				:= IniRead(cfg.file,"cacheApp","app1path","")
 	cfg.app2filename			:= IniRead(cfg.file,"cacheApp","app2filename","")
@@ -675,7 +675,7 @@ WriteConfig() {
 	IniWrite(cfg.win2disabled,cfg.file,"Game","win2disabled")
 	IniWrite(cfg.hwndSwapEnabled,cfg.file,"Game","HwndSwapEnabled")
 	IniWrite(cfg.cs2HoldToScopeEnabled,cfg.file,"Game","cs2HoldToScope")
-	IniWrite(cfg.cacheAppMonitor,cfg.file,"cacheApp","cacheAppMonitor")
+	IniWrite(cfg.AppDockMonitor,cfg.file,"cacheApp","AppDockMonitor")
 	IniWrite(cfg.dockHeight,cfg.file,"cacheApp","DockHeight")
 	IniWrite(cfg.dockMarginSize,cfg.file,"cacheApp","DockMarginSize")
 

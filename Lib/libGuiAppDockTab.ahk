@@ -23,11 +23,11 @@ GuiDockTab(&ui)
 	ui.MainGuiTabs.UseTab("AppDock")
 	ui.appDockTopPanel := ui.mainGui.addText("x41 y35 w385 h33 background" cfg.themePanel4color,"")
 	ui.appDockBottomPanel := ui.mainGui.addText("x41 y75 w385 h124 background" cfg.themePanel4color,"")
-	ui.appDockRightPanel := ui.mainGui.addText("x434 y35 w93 h166 background" cfg.themePanel4Color,"")
+	ui.appDockRightPanel := ui.mainGui.addText("x434 y35 w91 h164 background" cfg.themePanel4Color,"")
 	
 	drawOutlineNamed("appDockTopPanel",ui.mainGui,39,35,389,35,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 
-	drawOutlineNamed("appDockRightPanel",ui.mainGui,433,35,93,166,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
+	drawOutlineNamed("appDockRightPanel",ui.mainGui,433,35,94,166,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	drawOutlineNamed("appDockBottomPanel",ui.mainGui,39,75,389,126,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	ui.MainGui.SetFont("s16 c" cfg.ThemeFont4Color,"Calibri")
 	ui.SetMonitorButton := ui.MainGui.AddPicture("x45 y36 w80 h32 section backgroundTrans backgroundTrans","./Img/Button_Change.png")
@@ -35,17 +35,17 @@ GuiDockTab(&ui)
 	ui.SetMonitorButton.ToolTip := "Selects secondary monitor to display docked apps while gaming"
 	
 	ui.MainGui.SetFont("s16 c" cfg.ThemeFont4Color,"Calibri Bold")
-	cfg.cacheAppMonitorLabel := ui.MainGui.AddText("x+3 ys+2 w35 Center backgroundTrans","Monitor")
-	cfg.cacheAppMonitorLabel.OnEvent("Click", SetMonitorButtonPush)
-	cfg.cacheAppMonitorLabel.ToolTip := "Selects secondary monitor to display docked apps while gaming"
+	cfg.AppDockMonitorLabel := ui.MainGui.AddText("x+3 ys+2 w35 Center backgroundTrans","Monitor")
+	cfg.AppDockMonitorLabel.OnEvent("Click", SetMonitorButtonPush)
+	cfg.AppDockMonitorLabel.ToolTip := "Selects secondary monitor to display docked apps while gaming"
 	
-	ui.cacheAppMonitorText := ui.MainGui.AddText("x+8 ys+4 w31 h24 Center background" cfg.ThemeEditboxColor " c" cfg.ThemeFont1Color, cfg.cacheAppMonitor)
-	ui.cacheAppMonitorText.OnEvent("Click", SetMonitorButtonPush)
-	ui.cacheAppMonitorText.ToolTip := "Monitor currently selected to display docked apps while gaming"
+	ui.AppDockMonitorText := ui.MainGui.AddText("x+8 ys+4 w31 h24 Center background" cfg.ThemeEditboxColor " c" cfg.ThemeFont1Color, cfg.AppDockMonitor)
+	ui.AppDockMonitorText.OnEvent("Click", SetMonitorButtonPush)
+	ui.AppDockMonitorText.ToolTip := "Monitor currently selected to display docked apps while gaming"
 	ui.appDockTitle := ui.mainGui.addText("x315 y38 w120 h25 backgroundTrans c" cfg.themeFont4Color,"Dock Apps")	
 	drawOutlineMainGui(207,41,30,23,cfg.themePanel4Color,cfg.themeBorderDarkColor,1)
 	ui.MainGui.SetFont("s14 c" cfg.ThemeFont4Color, "Calibri Bold")
-	ui.cacheAppMonitorUpdatedText := ui.MainGui.AddText("ys+3 w130 backgroundTrans","")
+	ui.AppDockMonitorUpdatedText := ui.MainGui.AddText("ys+3 w130 backgroundTrans","")
 	
 	ui.MainGui.SetFont("s13 c" cfg.ThemeFont1Color,"Calibri Bold")
 	ui.MainGui.AddText("y84 x118 w68 h22 background" cfg.themeBackgroundColor,"  Upper")
@@ -86,19 +86,21 @@ GuiDockTab(&ui)
 	TextDockApps := ui.MainGui.AddText("x412 y40 w80 Right section backgroundTrans backgroundTrans","Dock ")
 	
 
-	ui.ButtonDockApps := ui.MainGui.AddPicture("ys+1 w30 h20 section backgroundTrans backgroundTrans","./Img/button_up.png")
+	ui.ButtonDockApps := ui.MainGui.AddPicture("ys+1 w30 h20 section backgroundTrans background" cfg.themeDisabledColor,"./Img/button_down.png")
 	ui.ButtonDockApps.OnEvent("Click",DockApps)
 	ui.MainGui.AddText("xs-60 y+3 section backgroundTrans w60 Right backgroundTrans","Titlebar ")
-	ui.toggleCaption := ui.MainGui.AddPicture("ys+1 w30 h20","./Img/button_up.png")
+	ui.toggleCaption := ui.MainGui.AddPicture("ys+1 w30 h20","./Img/button_down.png")
 	ui.toggleCaption.toolTip := "Enable/Disable the caption bar on any window."
 	ui.toggleCaption.OnEvent("Click",toggleCaption)
 	
 	ui.MainGui.AddText("xs y+4 section backgroundTrans w60 Right backgroundTrans","OnTop ")
-	ui.universalOnTop := ui.MainGui.AddPicture("ys+1 w30 h20","")
+	ui.universalOnTop := ui.MainGui.AddPicture("ys+1 w30 h20 background" cfg.themeDisabledColor,"")
 	ui.universalOnTop.OnEvent("Click",universalOnTop)
-	ui.universalOnTop.Value := "./Img/button_up.png"
+	ui.universalOnTop.Value := "./Img/button_down.png"
 	ui.universalOnTop.toolTip := "Set any window to AlwaysOnTop"
 	 
+	ui.bottomBar := ui.mainGui.addText("x39 y204 w488 h8 background" cfg.themeBright2Color)
+	ui.bottomBar2 := ui.mainGui.addText("x40 y205 w486 h6 background" cfg.themePanel2Color)
 	; ui.MainGui.AddText("xs y+3 section backgroundTrans w140  Right","Snap Windows")
 	; ui.snapWindows := ui.MainGui.AddPicture("ys-3 w30 h30","./Img/button_ready.png")
 	; ui.snapWindows.toolTip := "Launches and Snaps Roblox Windows"
@@ -315,10 +317,10 @@ TogglePinWorkApp(*)
 
 SetMonitorButtonPush(*)
 {
-	SetcacheAppMonitor()
+	SetAppDockMonitor()
 }
 
-SetcacheAppMonitor()
+SetAppDockMonitor()
 {
 	Global
 	DialogBox("Click anywhere on the screen to which you'd like your apps docked.")
@@ -338,12 +340,12 @@ SetcacheAppMonitor()
 			MonitorGet(A_Index, &Left, &Top, &Right, &Bottom)
 			if (MouseX > Left) and (MouseX < Right) and (MouseY > Top) and (MouseY < Bottom)
 			{
-				cfg.cacheAppMonitor := A_Index
-				IniWrite(cfg.cacheAppMonitor, cfg.file, "cacheApp", "cfg.cacheAppMonitor")
-				; ui.cacheAppMonitorText.Text := cfg.cacheAppMonitor
-				; ui.cacheAppMonitorUpdatedText.Text := "UPDATED"
+				cfg.AppDockMonitor := A_Index
+				IniWrite(cfg.AppDockMonitor, cfg.file, "cacheApp", "cfg.AppDockMonitor")
+				; ui.AppDockMonitorText.Text := cfg.AppDockMonitor
+				; ui.AppDockMonitorUpdatedText.Text := "UPDATED"
 				ToolTip("")
-				TrayTip("Monitor[" cfg.cacheAppMonitor "] is now your cacheApp display","cacheApp Settings","Mute")
+				TrayTip("Monitor[" cfg.AppDockMonitor "] is now your cacheApp display","cacheApp Settings","Mute")
 				; SetTimer(RemoveNotice,-2500)
 				DialogBoxClose()
 				Return 0
@@ -356,7 +358,7 @@ Return 0
 
 RemoveNotice()
 {
-	ui.cacheAppMonitorUpdatedText.Text := ""
+	ui.AppDockMonitorUpdatedText.Text := ""
 }
 dockApps(*) {
 	global
@@ -369,14 +371,12 @@ dockApps(*) {
 	if (ui.dockApp_enabled)
 	{
 		ui.ButtonDockApps.Value := "./Img/button_down.png"
-		SetTimer(UnpushButton,-500)
 		ui.buttonDockApps.Opt("Background" cfg.ThemeButtonOnColor)
-		cacheApp("On",&cfg)
+		appDock("On",&cfg)
 	} else {
 		ui.ButtonDockApps.Value := "./Img/button_down.png"
-		SetTimer(UnpushButton,-500)
-		ui.buttonDockApps.Opt("Background" cfg.ThemeButtonAlertColor)
-		cacheApp("Off",&cfg)
+		ui.buttonDockApps.Opt("Background" cfg.ThemeDisabledColor)
+		appDock("Off",&cfg)
 	}
 	
 	UnpushButton(*) {
@@ -386,7 +386,7 @@ dockApps(*) {
 }
 
 drawDivider(DockY) { 
-	MonitorGetWorkArea(cfg.cacheAppMonitor, &Left, &Top, &Right, &Bottom)
+	MonitorGetWorkArea(cfg.AppDockMonitor, &Left, &Top, &Right, &Bottom)
 	WorkAreaHeightWhenDocked :=  (Bottom - Top - cfg.DockHeight)
 	ui.dividerGui.opt("-caption +alwaysOnTop +ToolWindow +0x4000000")
 	ui.dividerGui.backColor := cfg.themeBright1Color
@@ -394,23 +394,22 @@ drawDivider(DockY) {
 	winSetTransparent(255,ui.dividerGui)
 }
 
-cacheApp(Status,&cfg)
+appDock(Status,&cfg)
 {
-
 	hwndActiveWin := WinActive("A")
 
-	if (cfg.cacheAppMonitor > MonitorGetCount())
+	if (cfg.AppDockMonitor > MonitorGetCount())
 	{
-		SetcacheAppMonitor()
+		SetAppDockMonitor()
 	}
 
-	MonitorGetWorkArea(cfg.cacheAppMonitor, &Left, &Top, &Right, &Bottom)
+	MonitorGetWorkArea(cfg.AppDockMonitor, &Left, &Top, &Right, &Bottom)
 	WorkAreaHeightWhenDocked :=  (Bottom - Top - cfg.DockHeight)
 	
 	CoordMode("Mouse","Screen")
 	MouseGetPos(&mX,&mY)
 	
-	debugLog("Current cacheApp Monitor: " cfg.cacheAppMonitor)
+	debugLog("Current cacheApp Monitor: " cfg.AppDockMonitor)
 
 
 	If (Status == "On")

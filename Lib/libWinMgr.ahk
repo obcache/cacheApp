@@ -79,7 +79,7 @@ WM_LBUTTONDOWN(wParam, lParam, msg, Hwnd) {
 		; if (hwnd == ui.dividerGui.hwnd)
 		; {
 		; keyWait("LButton")
-		; MonitorGetWorkArea(cfg.cacheAppMonitor, &Left, &Top, &Right, &Bottom)
+		; MonitorGetWorkArea(cfg.AppDockMonitor, &Left, &Top, &Right, &Bottom)
 		; coordMode("mouse","screen")
 		; MouseGetPos(&mX,&mY,&currWin)
 		; winMove(,mY,,Bottom-mY+8,"ahk_exe " ui.app2filename.text)
