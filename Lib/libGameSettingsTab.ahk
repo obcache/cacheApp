@@ -150,7 +150,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			ui.d2GameReloadKeyData.redraw()
 			ui.d2IsReloading := true
 			d2ToggleAlwaysRunOff()
-			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2000
+			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2700
 		}	
 		;setTimer () => d2ToggleAlwaysRunOn(), -2600
 	}
@@ -223,14 +223,14 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		return
 		
 		send("{F1}")
-		sleep(550)
+		sleep(550*cfg.d2AppLoadoutMultiplier)
 		send("{Left}")
-		sleep(150)
+		sleep(150*cfg.d2AppLoadoutMultiplier)
 		coordMode("mouse","client")
 		click(loadoutX,loadoutY,0)
-		sleep(250)
+		sleep(250*cfg.d2AppLoadoutMultiplier)
 		send("{LButton}")
-		sleep(100)
+		sleep(100*cfg.d2AppLoadoutMultiplier)
 		send("{F1}")
 		}
 		try {
@@ -352,7 +352,8 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_d2CheckList.png")
 		ui.d2LaunchDestinyRecipesButton 	:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_destinyrecipes.png")
 		ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_braytech.png")
-
+		;ui.d2LoadoutTimingBg				:= ui.gameSettingsGui.addText("x125 y33 w70 h10 background" cfg.themePanel1Color)
+		;ui.d2LoadoutTiming					:= ui.gameSettingsGui.addSlider("x204 y18 w10 h30  altSubmit vertical tickInterval5 range1-5 thick10 vD2loadoutTiming c" cfg.themeFont2Color " background" cfg.themePanel1Color)
 
 		drawPanelLabel(ui.gameSettingsGui,130,47,80,15,"App Settings",cfg.themePanel1Color,cfg.themeBright1Color,cfg.themeFont1Color)
 		

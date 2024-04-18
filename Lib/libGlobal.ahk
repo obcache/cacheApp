@@ -637,6 +637,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.d2GameReloadKey		:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
 	cfg.d2AppVehicleKey			:= IniRead(cfg.file,"Game","d2AppVehicleKey","<UNSET>")
 	cfg.d2AppLoadoutKey		:= IniRead(cfg.file,"Game","d2AppLoadoutKey","<UNSET>")
+	cfg.d2AppLoadoutMultiplier	:= iniRead(cfg.file,"Game","d2AppLoadoutMultiplier",1)
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
 }
@@ -735,6 +736,7 @@ WriteConfig() {
 		IniWrite(cfg.d2GameToggleSprintKey,cfg.file,"Game","d2GameToggleSprintKey")
 		IniWrite(cfg.d2AppVehicleKey,cfg.file,"Game","d2AppVehicleKey")
 		IniWrite(cfg.d2AppLoadoutKey,cfg.file,"Game","d2AppLoadoutKey")
+		iniWrite(cfg.d2AppLoadoutMultiplier,cfg.file,"Game","d2AppLoadoutMultiplier")
 		IniWrite(cfg.d2AppToggleSprintKey,cfg.file,"Game","d2AppToggleSprintKey")
 		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
 		IniWrite(cfg.d2AppVehicleKey,cfg.file,"Game","d2AppVehicleKey")
