@@ -151,9 +151,9 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 
 		ui.MainGui.SetFont("s7.7 c" cfg.ThemeFont4Color,"Arial Bold")
 
-		ui.Win1Name := ui.MainGui.AddText("ys-17 x+2 section w152 h14 Right Background" cfg.ThemePanel4Color,"Game  ")
-		ui.Win1ProcessName := ui.MainGui.AddText("xs y+0 section w152 h14 Right Background" cfg.ThemePanel4Color,"Not  ")
-		ui.Win1HwndText := ui.MainGui.AddText("xs y+0 section w152 h14 Right Background" cfg.ThemePanel4Color,"Found  ")
+		ui.Win1Name := ui.MainGui.AddText("ys-17 x+2 section w153 h14 Right Background" cfg.ThemePanel4Color,"Game  ")
+		ui.Win1ProcessName := ui.MainGui.AddText("xs y+0 section w153 h14 Right Background" cfg.ThemePanel4Color,"Not  ")
+		ui.Win1HwndText := ui.MainGui.AddText("xs y+0 section w153 h14 Right Background" cfg.ThemePanel4Color,"Found  ")
 		ui.Win1HwndText.ToolTip := "Window ID for Game Window 1"
 		
 		ui.buttonSwapHwnd := ui.MainGui.AddPicture("ys-27 x+3 section w47 h45 Background" (cfg.HwndSwapEnabled ? cfg.ThemeButtonOnColor : cfg.ThemeButtonReadyColor), (cfg.HwndSwapEnabled ? "./Img/button_swapHwnd_enabled.png" : "./Img/button_swapHwnd_disabled.png"))
@@ -186,7 +186,7 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 		ui.OpsAfkButton.OnEvent("Click",ToggleAFK)
 		ui.OpsAfkButton.ToolTip := "Toggle AFK"
 	
-		ui.Win2ClassDDL := ui.MainGui.AddDDL("x+2 ys-1 w154 r6 section AltSubmit choose" cfg.win2class " Background" cfg.ThemeEditBoxColor, ui.ProfileList)
+		ui.Win2ClassDDL := ui.MainGui.AddDDL("x+3 ys-1 w152 r6 section AltSubmit choose" cfg.win2class " Background" cfg.ThemeEditBoxColor, ui.ProfileList)
 		ui.Win2ClassDDL.SetFont("s12","eras bold")
 		ui.Win2ClassDDL.OnEvent("Change",opsWin2ClassChange)
 		PostMessage("0x153", -1, 20,, "AHK_ID " ui.Win2ClassDDL.Hwnd ) ; CB_SETITEMHEIGHT = 0x153

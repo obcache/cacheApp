@@ -815,8 +815,7 @@ getClick(&clickX,&clickY,&activeWindow) {
 	CoordMode("Mouse","Client")
 	MonitorSelectStatus := KeyWait("LButton", "D T15")
 	DialogBoxClose()
-	if (MonitorSelectStatus = 0)
-	{	
+	if (MonitorSelectStatus = 0) {	
 		MsgBox("A monitor was not selected in time.`nPlease try again.")
 		Return
 	} else {
@@ -849,7 +848,6 @@ DialogBox(Msg,Alignment := "Center")
 	Global
 	if !InStr("LeftRightCenter",Alignment)
 		Alignment := "Left"
-		
 	Transparent := 250
 	
 	ui.notifyGui			:= Gui()
@@ -872,8 +870,7 @@ DialogBox(Msg,Alignment := "Center")
 	
 	Transparency := 0
 	guiVis("all",false)	
-While Transparency < 253
-	{
+	While Transparency < 253 {
 		Transparency += 5
 		WinSetTransparent(Round(Transparency),ui.notifyGui)
 	}

@@ -311,20 +311,20 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.d2cleanupNeeded := false
 
 		ui.gameSettingsGui.setFont("s10")
-		ui.gameSettingsGui.addText("x6 y3 w480 h62 background" cfg.themePanel1Color,"")
-		ui.gameSettingsGui.addText("x6 y68 w480 h79 background" cfg.themePanel1Color,"")
+		ui.gameSettingsGui.addText("x7 y4 w479 h60 background" cfg.themePanel1Color,"")
+		ui.gameSettingsGui.addText("x7 y69 w479 h73 background" cfg.themePanel1Color,"")
 
-		ui.gameSettingsGui.addText("x24 y74 w445 h64 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,22,72,447,67,cfg.themeBright2Color,cfg.themeBright1Color,1)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,480,62,cfg.themeBright2Color,cfg.themeDark2Color,1)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,66,480,80,cfg.themeBright2Color,cfg.themeBright2Color,1)
+		ui.gameSettingsGui.addText("x13 y74 w388 h63 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,14,75,388,63,cfg.themeDark2Color,cfg.themeBright2Color,1)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,482,62,cfg.themeBright2Color,cfg.themeDark2Color,1)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,69,482,75,cfg.themeBright2Color,cfg.themeDark2Color,1)
 
 
 		ui.gameSettingsGui.addText("hidden x19 y18 section")
 		ui.gameSettingsGui.addText("x40 y10 w260 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")
-		drawOutlineNamed("gameSettings",ui.gameSettingsGui,40,11,260,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
+		drawOutlineNamed("gameSettings",ui.gameSettingsGui,40,11,260,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
 		ui.gameSettingsGui.addText("x306 y10 w173 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")		
-		drawOutlineNamed("appSettings",ui.gameSettingsGui,306,11,173,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
+		drawOutlineNamed("appSettings",ui.gameSettingsGui,306,11,173,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
 
 		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x43 y20 w84  h28 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppToggleSprintKey),1,8))
@@ -339,25 +339,25 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x309 y20 w84  h28 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
 		ui.d2GameToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
-		ui.d2GameReloadKey				:= ui.gameSettingsGui.addPicture("x+2 ys w84  h28 section backgroundTrans","./img/keyboard_key_up.png")
-		ui.d2GameReloadKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
-		ui.d2GameReloadKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")
+		ui.d2GameReloadKey				:= ui.gameSettingsGui.addPicture("x+2 ys w82 h28 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2GameReloadKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w82  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
+		ui.d2GameReloadKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w82  h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")
 		; ui.d2GameVehicleKey					:= ui.gameSettingsGui.addPicture("x15 y55 w84  h28 section hidden backgroundTrans","./img/keyboard_key_up.png")
 		; ui.d2AppVehicleKeyData 				:= ui.gameSettingsGui.addText("xs y+-23 w84  h21 center c" cfg.themeButtonAlertColor " hidden backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
 		; ui.d2AppVehicleKeyLabel 			:= ui.gameSettingsGui.addText("xs-1 y+-20 w84  h20 hidden center c" cfg.themeFont1Color " backgroundTrans","Mount Vehicle")
 			
-		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x33 y+43 section w60  h60 backgroundTrans","./Img2/d2_button_DIM.png")
-		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_LightGG.png")
-		ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_bbgg.png")
-		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_d2CheckList.png")
-		ui.d2LaunchDestinyRecipesButton 	:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_destinyrecipes.png")
-		ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+13 ys w60  h60 backgroundTrans","./Img2/d2_button_braytech.png")
+		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
+		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
+		ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
+		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
+		ui.d2LaunchDestinyRecipesButton 	:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_destinyrecipes.png")
+		ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_braytech.png")
 		;ui.d2LoadoutTimingBg				:= ui.gameSettingsGui.addText("x125 y33 w70 h10 background" cfg.themePanel1Color)
 		;ui.d2LoadoutTiming					:= ui.gameSettingsGui.addSlider("x204 y18 w10 h30  altSubmit vertical tickInterval5 range1-5 thick10 vD2loadoutTiming c" cfg.themeFont2Color " background" cfg.themePanel1Color)
 
-		drawPanelLabel(ui.gameSettingsGui,130,47,80,15,"App Settings",cfg.themePanel1Color,cfg.themeBright1Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,130,47,80,15,"App Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
 		
-		drawPanelLabel(ui.gameSettingsGui,344,47,90,15,"Game Settings",cfg.themePanel1Color,cfg.themeBright1Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,344,47,90,15,"Game Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
 
 		drawPanelLabel(guiName,labelX,labelY,labelW := 100,labelH := 20,labelText := "needs value",backColor := "gray",outlineColor := "white",fontColor := "white") {
 			static labelName := array()
@@ -396,7 +396,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		; ui.d2AppSetupLabelInfo.toolTip 		:= "Bind these to what you'd`nlike to use when playing."
 		; ui.d2DestinySetupLabelInfo.toolTip	:= "Bind these to whatever they're set to in Destiny 2."
 		
-		ui.d2AlwaysSprint := ui.gameSettingsGui.addPicture("x12 y10 w25 h43 section "
+		ui.d2AlwaysSprint := ui.gameSettingsGui.addPicture("x13 y6 w28 h49 section "
 		((cfg.d2AlwaysRunEnabled) 
 			? ("Background" cfg.ThemeButtonOnColor) 
 				: ("Background" cfg.themeButtonReadyColor)),

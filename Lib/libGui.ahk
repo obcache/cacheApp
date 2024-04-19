@@ -818,9 +818,9 @@ initConsole(&ui) {
 		drawOutlineNamed("opsToolbarOutline2",ui.mainGui,36,33,494,30,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)	;Ops Toolbar Outline
 		drawOutlineNamed("opsToolbarCenter",ui.mainGui,269,34,29,30,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)	;Ops Toolbar Outline
 
-		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,257,62,53,139,cfg.themeBright1Color,cfg.themeBright1Color,2)	;Ops Toolbar Outline
-		drawOutlineNamed("opsMiddleColumnOutlineLight",ui.mainGui,259,63,49,137,cfg.themeDark1Color,cfg.themeDark1Color,1)		;Ops Toolbar
-		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,258,62,49,138,cfg.themeBright1Color,cfg.themeBright1Color,1)	;Ops Toolbar Outline
+		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,258,62,54,138,cfg.themeBright1Color,cfg.themeBright1Color,3)	;Ops Toolbar Outline
+		drawOutlineNamed("opsMiddleColumnOutlineLight",ui.mainGui,260,63,50,135,cfg.themeDark1Color,cfg.themeDark1Color,1)		;Ops Toolbar
+		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,261,64,48,133,cfg.themeBright2Color,cfg.themeBright2Color,1)	;Ops Toolbar Outline
 		drawOutlineNamed("opsAfkStatusLeft",ui.mainGui,36,104,67,25,cfg.themeBright1Color,cfg.themeBright1Color,1)
 		drawOutlineNamed("opsAfkStatusRight",ui.mainGui,464,104,66,25,cfg.themeBright1Color,cfg.themeBright1Color,1)	
 		drawOutlineNamed("opsAfkStatusLeft",ui.mainGui,36,130,67,32,cfg.themeBright1Color,cfg.themeBright1Color,1)
