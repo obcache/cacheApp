@@ -346,7 +346,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		; ui.d2AppVehicleKeyData 				:= ui.gameSettingsGui.addText("xs y+-23 w84  h21 center c" cfg.themeButtonAlertColor " hidden backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
 		; ui.d2AppVehicleKeyLabel 			:= ui.gameSettingsGui.addText("xs-1 y+-20 w84  h20 hidden center c" cfg.themeFont1Color " backgroundTrans","Mount Vehicle")
 			
-		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
+		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+48 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
 		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
 		ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
 		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
