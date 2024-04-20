@@ -1030,6 +1030,8 @@ killMe(*) {
 }
 
 resetWindowPosition(*) {
+	try 
+		guiVis(ui.dockBarGui,false)
 	guiVis(ui.titleBarButtonGui,false)
 	guiVis(ui.afkGui,false)
 	guiVis(ui.gameSettingsGui,false)

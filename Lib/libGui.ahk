@@ -1003,9 +1003,9 @@ createDockBar() {
 		case "World//Zero":
 			dockBarIcons("World//Zero","Add")
 	}
-	ui.dockBarGui.addText("x+-3 ys-2 w1 h32 section background" cfg.themeBright1Color,"")
-	ui.dockBarWidth -= 0
-	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
+	ui.dockBarGui.addText("x+-3 ys-2 w2 h30 section background" cfg.themeBright2Color,"")
+	ui.dockBarWidth -= 4
+	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+1 ys+2 w30 h31 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
 	ui.dockBarWidth += 32
 	ui.dockBarExitButton.onEvent("click",topDockPowerButtonPushed)
 	ui.dockBarExitButton.toolTip := "Close cacheApp App"
@@ -1111,7 +1111,7 @@ dockBarIcons(game,operation := "") {
 
 showDockBar() {
 	ui.dockBarGui.show("x" (a_ScreenWidth/2)-(ui.dockBarWidth/2) " y0 w" ui.dockBarWidth " h34 noActivate")
-	drawOutlineNamed("dockBarOutline2",ui.dockBarGui,1,0,ui.dockBarWidth,34,cfg.themeDark1Color,cfg.themeDark1Color,2)
+	drawOutlineNamed("dockBarOutline2",ui.dockBarGui,1,0,ui.dockBarWidth,34,cfg.themeDark1Color,cfg.themeBright2Color,2)
 	drawOutlineNamed("dockBarOutline",ui.dockBarGui,0,0,ui.dockBarWidth,35,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
 }
 
