@@ -530,7 +530,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.debugEnabled			:= IniRead(cfg.file,"System","debugEnabled",false)
 	cfg.consoleVisible			:= IniRead(cfg.file,"System","consoleVisible",false)
 	cfg.ToolTipsEnabled 		:= IniRead(cfg.file,"System","ToolTipsEnabled",true)
-	cfg.releaseChannel			:= IniRead(cfg.file,"System","ReleaseChannel","Stable")
+	cfg.monitorRes				:= IniRead(cfg.file,"System","MonitorResolution","Auto")
 	cfg.disabledTabs 			:= iniRead(cfg.file,"System","DisabledTabs","Audio,Editor")
 	cfg.listDataFile			:= iniRead(cfg.file,"System","ListDataFile","./listData.ini")
 	cfg.toggleOn				:= IniRead(cfg.file,"Interface","ToggleOnImage","./Img/toggle_on.png")
@@ -552,10 +552,10 @@ cfgLoad(&cfg, &ui) {
 
 
 
-	MonitorGet(MonitorGetPrimary(),&L,&T,&R,&B)
-	if (cfg.GuiX < L)
+	;MonitorGet(MonitorGetPrimary(),&L,&T,&R,&B)
+	if (cfg.GuiX < primaryMonitorLeft)
 		cfg.GuiX := 200
-	if (cfg.GuiY > B)
+	if (cfg.GuiY > primaryMonitorBottom)
 		cfg.GuiY := 200
 		
 	cfg.AfkX					:= IniRead(cfg.file,"Interface","AfkX",cfg.GuiX+10)
@@ -584,18 +584,18 @@ cfgLoad(&cfg, &ui) {
 	cfg.SilentIdleEnabled 		:= IniRead(cfg.file,"AFK","SilentIdleEnabled",true)
 	cfg.AutoClickerSpeed 		:= IniRead(cfg.file,"AFK","AutoClickerSpeed",50)
 	cfg.CelestialTowerEnabled	:= IniRead(cfg.file,"AFK","CelestialTowerEnabled",false)
-	cfg.AppDockMonitor 		:= IniRead(cfg.file,"cacheApp","AppDockMonitor","1")	
-	cfg.app1filename			:= IniRead(cfg.file,"cacheApp","app1filename","")
-	cfg.app1path				:= IniRead(cfg.file,"cacheApp","app1path","")
-	cfg.app2filename			:= IniRead(cfg.file,"cacheApp","app2filename","")
-	cfg.app2path				:= IniRead(cfg.file,"cacheApp","app2path","")
+	cfg.AppDockMonitor 			:= IniRead(cfg.file,"AppDock","AppDockMonitor","1")	
+	cfg.app1filename			:= IniRead(cfg.file,"AppDock","app1filename","")
+	cfg.app1path				:= IniRead(cfg.file,"AppDock","app1path","")
+	cfg.app2filename			:= IniRead(cfg.file,"AppDock","app2filename","")
+	cfg.app2path				:= IniRead(cfg.file,"AppDock","app2path","")
 	
-	cfg.DockHeight 				:= IniRead(cfg.file,"cacheApp","DockHeight","240")
-	cfg.DockMarginSize 			:= IniRead(cfg.file,"cacheApp","DockMarginSize","8")
-	cfg.UndockedX 				:= IniRead(cfg.file,"cacheApp","UndockedX","150")
-	cfg.UndockedY 				:= IniRead(cfg.file,"cacheApp","UndockedY","150")
-	cfg.UndockedW 				:= IniRead(cfg.file,"cacheApp","UndockedW","1600")
-	cfg.UndockedH 				:= IniRead(cfg.file,"cacheApp","UndockedH","1000")
+	cfg.DockHeight 				:= IniRead(cfg.file,"AppDock","DockHeight","240")
+	cfg.DockMarginSize 			:= IniRead(cfg.file,"AppDock","DockMarginSize","8")
+	cfg.UndockedX 				:= IniRead(cfg.file,"AppDock","UndockedX","150")
+	cfg.UndockedY 				:= IniRead(cfg.file,"AppDock","UndockedY","150")
+	cfg.UndockedW 				:= IniRead(cfg.file,"AppDock","UndockedW","1600")
+	cfg.UndockedH 				:= IniRead(cfg.file,"AppDock","UndockedH","1000")
 
 	cfg.gameAudioEnabled		:= IniRead(cfg.file,"audio","gameAudioEnabled","false")
 	cfg.MicName					:= IniRead(cfg.file,"audio","MicName","Yeti")
@@ -666,7 +666,7 @@ WriteConfig() {
 	iniWrite(cfg.disabledTabs,cfg.file,"System","DisabledTabs")
 
 	iniWrite(cfg.startMinimizedEnabled,cfg.file,"System","StartMinimizedEnabled")
-	IniWrite(ui.releaseChannelDDL.value,cfg.file,"System","ReleaseChannel")
+	IniWrite(ui.monitorResDDL.value,cfg.file,"System","MonitorResolution")
 	IniWrite(arr2str(cfg.gameModuleList),cfg.file,"Game","GameModuleList")
 	IniWrite(arr2str(cfg.gameList),cfg.file,"Game","GameList")
 	IniWrite(ui.gameDDL.value,cfg.file,"Game","Game")
@@ -676,19 +676,19 @@ WriteConfig() {
 	IniWrite(cfg.win2disabled,cfg.file,"Game","win2disabled")
 	IniWrite(cfg.hwndSwapEnabled,cfg.file,"Game","HwndSwapEnabled")
 	IniWrite(cfg.cs2HoldToScopeEnabled,cfg.file,"Game","cs2HoldToScope")
-	IniWrite(cfg.AppDockMonitor,cfg.file,"cacheApp","AppDockMonitor")
-	IniWrite(cfg.dockHeight,cfg.file,"cacheApp","DockHeight")
-	IniWrite(cfg.dockMarginSize,cfg.file,"cacheApp","DockMarginSize")
+	IniWrite(cfg.AppDockMonitor,cfg.file,"AppDock","AppDockMonitor")
+	IniWrite(cfg.dockHeight,cfg.file,"AppDock","DockHeight")
+	IniWrite(cfg.dockMarginSize,cfg.file,"AppDock","DockMarginSize")
 
-	IniWrite(cfg.undockedX,cfg.file,"cacheApp","UndockedX")
-	IniWrite(cfg.undockedY,cfg.file,"cacheApp","UndockedY")
-	IniWrite(cfg.undockedW,cfg.file,"cacheApp","UndockedW")
-	IniWrite(cfg.undockedH,cfg.file,"cacheApp","UndockedH")
+	IniWrite(cfg.undockedX,cfg.file,"AppDock","UndockedX")
+	IniWrite(cfg.undockedY,cfg.file,"AppDock","UndockedY")
+	IniWrite(cfg.undockedW,cfg.file,"AppDock","UndockedW")
+	IniWrite(cfg.undockedH,cfg.file,"AppDock","UndockedH")
 
-	IniWrite(ui.app2path.text,cfg.file,"cacheApp","app2path")
-	IniWrite(ui.app2filename.text,cfg.file,"cacheApp","app2filename")
-	IniWrite(ui.app1path.text,cfg.file,"cacheApp","app1path")
-	IniWrite(ui.app1filename.text,cfg.file,"cacheApp","app1filename")
+	IniWrite(ui.app2path.text,cfg.file,"AppDock","app2path")
+	IniWrite(ui.app2filename.text,cfg.file,"AppDock","app2filename")
+	IniWrite(ui.app1path.text,cfg.file,"AppDock","app1path")
+	IniWrite(ui.app1filename.text,cfg.file,"AppDock","app1filename")
 
 	IniWrite(cfg.gameAudioEnabled,cfg.file,"Audio","gameAudioEnabled")
 	IniWrite(cfg.micName,cfg.file,"Audio","Mic")
@@ -740,6 +740,23 @@ WriteConfig() {
 		IniWrite(cfg.d2AppToggleSprintKey,cfg.file,"Game","d2AppToggleSprintKey")
 		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
 		IniWrite(cfg.d2AppVehicleKey,cfg.file,"Game","d2AppVehicleKey")
+		d2LoadoutCoordsStr := ""
+		loop cfg.d2LoadoutCoords.length {
+			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1080[a_index] ","
+		}
+		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords1080")
+		d2LoadoutCoordsStr := ""
+		loop cfg.d2LoadoutCoords.length {
+			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1440[a_index] ","
+		}		
+		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords1440")
+				d2LoadoutCoordsStr := ""
+		loop cfg.d2LoadoutCoords.length {
+			d2LoadoutCoordsStr .= cfg.d2LoadoutCoordsCustom[a_index] ","
+		}
+		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoordsCustom")
+
+		
 		for appGui in cfg.appGuiList {
 			appGuiListStr .= appGui ","
 		}

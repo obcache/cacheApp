@@ -34,7 +34,7 @@ initGui(&cfg, &ui) {
 ;	ui.MainGuiTabs.Choose(cfg.mainTabList[3])
 	ui.MainGuiTabs.UseTab("")
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	ui.handleBarImage := ui.MainGui.AddPicture("x0 y-2 w35 h216","./Img/handlebar_vertical.png")
+	ui.handleBarImage := ui.MainGui.AddPicture("x0 y30 w35 h184","./Img/handlebar_vertical.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	;ui.rightHandlebarImage := ui.titleBarButtonGui.AddPicture("x530 w35 y3 h216","./Img/handlebar_vertical.png")
 	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w35 y0 h216 section","./Img/handlebar_vertical.png")
@@ -43,7 +43,10 @@ initGui(&cfg, &ui) {
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.handleBarImage.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
-	
+	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x0 y0 w34 h32 background" cfg.themeDark2Color)
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x2 y1 w32 h30 background" cfg.themeButtonReadyColor,"./img/button_dockUp_ready.png")
+	ui.gameTabTopDockButton.onEvent("click",topDockOn)
+	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
 
 	ui.gvConsole := ui.MainGui.AddListBox("x35 y220 w500 h192 +Background" cfg.ThemePanel1Color)
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
@@ -77,11 +80,11 @@ initGui(&cfg, &ui) {
 	ui.DownButton.OnEvent("Click",HideGui)
 	ui.DownButton.ToolTip := "Minimizes cacheApp App"
 	
-	ui.ExitButton 	:= ui.titleBarButtonGui.AddPicture("x+2 ys section w35 h35 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
+	ui.ExitButton 	:= ui.titleBarButtonGui.AddPicture("x+3 ys section w35 h35 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
 	ui.ExitButton.OnEvent("Click",ExitButtonPushed)
 	ui.ExitButton.ToolTip := "Terminates cacheApp App"
 
-	;ui.rightPadding 	:= ui.titleBarButtonGui.addText("x+0 ys w1 h35 section background" cfg.themeBorderDarkColor," ")
+
 	ui.buttonUndockAfk := ui.titleBarButtonGui.AddPicture("x+6 ys w35 h35 hidden Background" cfg.ThemeButtonAlertColor,"./Img/button_dockright_ready.png")
 	ui.buttonUndockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonUndockAfk.ToolTip := "Undocks AFK Window"
@@ -98,9 +101,9 @@ initGui(&cfg, &ui) {
 	try
 	guiVis(ui.gameSettingsGui,false)
 
-
+	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h35 background" cfg.themeBright2Color," ")
 	ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
-	ui.titleBarButtonGui.Show("w73 h35 NoActivate")
+	ui.titleBarButtonGui.Show("w75 h35 NoActivate")
 	
 	
 	ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
@@ -850,6 +853,7 @@ initConsole(&ui) {
 
 tabsChanged(*) {
 	ui.activeTab := ui.mainGuiTabs.Text
+	ui.topDockPrevTab := ui.activeTab
 	cfg.activeMainTab := ui.mainGuiTabs.value
 
 	switch ui.activeTab {
@@ -1128,11 +1132,22 @@ topDockOn(*) {
 	guiVis(ui.titleBarButtonGui,false)
 	if cfg.AnimationsEnabled {
 		transparent := 255
+		while transparent > 120 {
+			transparent -= 10
+			winSetTransparent(transparent,ui.mainGui)
+			sleep(10)
+		}
+	}
+	guiVis(ui.gameSettingsGui,false)
+	guiVis(ui.gameTabGui,false)
+	guiVis(ui.afkGui,false)
+	if cfg.AnimationsEnabled {
 		while transparent > 20 {
 			transparent -= 10
 			winSetTransparent(transparent,ui.mainGui)
 			sleep(10)
 		}
+		
 	}
 	guiVis(ui.mainGui,false)
 	showDockBar()
@@ -1181,19 +1196,19 @@ topDockOff(*) {
 	guiVis(ui.dockBarGui,false)
 	guiVis(ui.mainGui,false)
 	guiVis(ui.titleBarButtonGui,false)
-	
-	winSetTransparent(0,ui.mainGui)
-	if (cfg.AnimationsEnabled) {
-		while transparent < 245 {
-			transparent += 10
-			winSetTransparent(transparent, ui.mainGui)
-			winSetTransparent(transparent, ui.titleBarButtonGui)
-			sleep(10)
-		}
-	}
-	guiVis(ui.mainGui,true)
-	;ui.mainGuiTabs.choose(ui.topDockPrevTab)
-	guivis(ui.titleBarbuttonGui,true)
+	fadeIn()
+	; winSetTransparent(0,ui.mainGui)
+	; if (cfg.AnimationsEnabled) {
+		; while transparent < 245 {
+			; transparent += 10
+			; winSetTransparent(transparent, ui.mainGui)
+			; winSetTransparent(transparent, ui.titleBarButtonGui)
+			; sleep(10)
+		; }
+	; }
+	; guiVis(ui.mainGui,true)
+	ui.mainGuiTabs.choose(ui.topDockPrevTab)
+	; guivis(ui.titleBarbuttonGui,true)
 	ui.opsDockButton.opt("background" cfg.themeButtonReadyColor)
 
 }

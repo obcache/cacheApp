@@ -125,7 +125,7 @@ ThemeFont3Color=FF0180
 ThemeProgressColor=FFFF01
 
 [Custom]
-ThemeBright2Color=9D9D9D
+ThemeBright2Color=A8A8A8
 ThemeBright1Color=E4E4E4
 ThemeDark2Color=141414
 ThemeDark1Color=272727
@@ -167,7 +167,7 @@ ThemeProgressColor=9ED1E0
 ThemeBright1Color=E4E4E4
 ThemeDark1Color=272727
 ThemeDisabledColor=292929
-ThemeBright2Color=9D9D9D
+ThemeBright2Color=A8A8A8
 ThemeDark2Color=141414
 ThemeFont2Color=C0C0C0
 

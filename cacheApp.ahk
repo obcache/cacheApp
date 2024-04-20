@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.2.9"
+A_FileVersion := "1.1.3.0"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -124,6 +124,9 @@ drawAfkOutlines()
 ui.afkGui.show("x" mainGuiX+45 " y" mainGuiY+50 " w270 h140 noActivate")
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 fadeIn()
-tabsChanged()
+if !cfg.topDockEnabled
+	tabsChanged()
+else
+	ui.topDockPrevTab := ui.mainGuiTabs.text
 
 

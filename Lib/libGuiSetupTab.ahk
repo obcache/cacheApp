@@ -86,7 +86,15 @@ GuiSetupTab(&ui,&cfg)
 	ui.checkForUpdatesButton.Tooltip := "Checks to see if a more recent version is available"	
 	ui.installedVersionText := ui.mainGui.addText("ys x+5 section w100 backgroundTrans","Installed:" ui.installedVersion)
 	ui.latestVersionText := ui.mainGui.addText("xs y+-5 w100 backgroundTrans","Latest:" ui.latestVersion)
-	ui.releaseChannelDDL := ui.mainGui.AddDDL("xs-35 w155 r3 choose" cfg.releaseChannel " background" cfg.themeBackgroundColor,["Dev","Beta","Stable"])
+	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 w98 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,["Auto","1080","1440","Custom"])
+	ui.monitorResDDL.onEvent("change",monitorResChanged)
+	ui.monitorResLabel := ui.mainGui.AddText("x+5 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
+	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")
+	ui.monitorResLabel.setFont("s09")
+	ui.monitorResLabel2.setFont("s09")
+	monitorResChanged(*) {
+		d2CreateHotkeys()
+	}
 
 	ui.installedVersionText.setFont("s10")
 	ui.latestVersionText.setFont("s10")

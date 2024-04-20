@@ -26,7 +26,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.gameSettingsGui.MarginX := 5
 		ui.gameSettingsGui.Opt("-Caption -Border +AlwaysOnTop +ToolWindow +Owner" ui.MainGui.Hwnd)
 		ui.gameSettingsGui.SetFont("s14 c" cfg.ThemeFont1Color,"Calibri")
-		ui.gameTabs := ui.gameSettingsGui.addTab3("x-1 y-5 w496 h181 0x400 bottom c" cfg.themeFont1Color " choose" cfg.activeGameTab,cfg.gameModuleList)
+		ui.gameTabs := ui.gameSettingsGui.addTab3("x-1 y-5 w497 h181 0x400 bottom c" cfg.themeFont1Color " choose" cfg.activeGameTab,cfg.gameModuleList)
 		ui.gameTabs.choose(cfg.gameModuleList[cfg.activeGameTab])
 		ui.gameTabs.setFont("s10")
 		ui.gameTabs.onEvent("Change",gameTabChanged)
@@ -90,35 +90,37 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				: "s11")
 			,"Impact")
 		ui.gameTabGui.addText("ys+0 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,"")
+	
 		guiVis(ui.gameTabGui,false)
+		
 		winGetPos(&winX,&winY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w227 h29 x" winX+35 " y" winY+184 " noActivate")
+		ui.gameTabGui.show("w227 h29 x" winX+35 " y" winY+184 " noActivate") 
+		;setTimer () => ui.gameTabGui.move(winX+35,winY+184,495,29),-3000
+
 	}
 }
 
 { ;d2 Logic
-
-	cfg.d2LoadoutCoords := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoords","636:512,760:512,636:640,760:640,636:770,760:770,636:900,760:900,636:1030,760:1030"),",")
-	loop cfg.d2LoadoutCoords.length {
-		d2LoadOutCoordsStr .= cfg.d2LoadoutCoords[a_index] ","
-	}
-	iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords")
-
+	cfg.d2LoadoutCoords1080 := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoords1080","145:380,240:380,145:480,240:480,145:580,240:580,145:680,240:680,145:790,240:790"),",")
+		
+	cfg.d2LoadoutCoords1440 := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoords1440","636:512,760:512,636:640,760:640,636:770,760:770,636:900,760:900,636:1030,760:1030"),",")	
+					
+	cfg.d2LoadoutCoordsCustom := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoordsCustom","636:512,760:512,636:640,760:640,636:770,760:770,636:900,760:900,636:1030,760:1030"),
+	",")
+	
+	cfg.d2LoadoutCoords := cfg.d2LoadoutCoords1080
 	ui.d2IsReloading := false
 	ui.d2IsSprinting := false
-
+	d2LoadoutCoordsStr := ""
+	loop cfg.d2LoadoutCoords.length {
+		d2LoadoutCoordsStr .= cfg.d2LoadoutCoords[a_index] ","
+	}
+	d2LoadoutCoordsStr := rtrim(d2LoadoutCoordsStr,",")
 	d2CreateHotkeys()
-	d2CreateHotkeys(*) {
-
+	
 	hotIfWinActive("ahk_exe destiny2.exe")
-		loop cfg.d2LoadoutCoords.length {
-			hotKey(cfg.d2AppLoadoutKey " & " substr(a_index,-1),d2LoadoutModifier)
-		}
-		
 		hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysRun)
-;		hotKey("~*r",d2reload)
 	hotIf()
-
 
 	hotIf(d2VehicleReady)
 		hotKey(cfg.d2AppVehicleKey,d2MountVehicle)
@@ -131,10 +133,36 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf(d2ReadyToSprint)
 		hotKey("~*w",d2StartSprinting)
 	hotIf()
-		
-	
+
+	d2CreateHotkeys(*) {
+		if ui.monitorResDDL.text == "Auto" {
+			autoDetectMonitor()
+		} else {
+			try
+				cfg.d2LoadoutCoords := cfg.d2LoadoutCoords%ui.monitorResDDL.text%
+			catch
+				cfg.d2LoadoutCoords := cfg.d2LoadoutCoords1080
+		}
+
+		loop cfg.d2LoadoutCoords.length {
+			d2LoadOutCoordsStr .= cfg.d2LoadoutCoords[a_index] ","
+		}	
 
 
+			hotIfWinActive("ahk_exe destiny2.exe")
+				loop cfg.d2LoadoutCoords.length {
+					hotKey(cfg.d2AppLoadoutKey " & " substr(a_index,-1),d2LoadoutModifier)
+				}
+			hotIf()
+			
+	autoDetectMonitor(*) {
+		if inStr(ui.monitorResDDL.text,primaryMonitorRight) {
+			try
+				cfg.d2LoadoutCoords := cfg.d2LoadoutCoords%primaryMonitorRight%
+			catch
+				cfg.d2LoadoutCoords := cfg.d2LoadoutCoords1080
+		}
+	}
 	}
 	
 	d2VehicleReady(*) {
@@ -206,7 +234,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		send("{w up}")
 	}
 
-	d2LoadoutModifier(hotKeyName) {
+d2LoadoutModifier(hotKeyName) {
 		if (cfg.d2AlwaysRunEnabled) {
 		try {
 			ui.dockBarLoadouts.opt("background" cfg.themeButtonAlertColor)
@@ -216,11 +244,12 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.d2AppLoadoutKeyData.opt("c" cfg.themeButtonOnColor)
 		ui.d2AppLoadoutKeyData.redraw()
 		setTimer () => (ui.d2AppLoadoutKeyData.text := cfg.d2AppLoadoutKey,ui.d2AppLoadoutKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2AppLoadoutKeyData.redraw()),-1000
+
 		loadoutX := strSplit(cfg.d2LoadoutCoords[subStr(hotKeyName,-1)],":")[1]
 		loadoutY := strSplit(cfg.d2LoadoutCoords[subStr(hotKeyName,-1)],":")[2]
-		
+
 		if !(loadoutX || loadoutY)
-		return
+			return
 		
 		send("{F1}")
 		sleep(550*cfg.d2AppLoadoutMultiplier)
@@ -326,20 +355,20 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.gameSettingsGui.addText("x306 y10 w173 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")		
 		drawOutlineNamed("appSettings",ui.gameSettingsGui,306,11,173,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
 
-		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x43 y20 w84  h28 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x43 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppToggleSprintKey),1,8))
 		ui.d2AppToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","(un)Pause App")
-		ui.d2AppLoadoutKey				:= ui.gameSettingsGui.addPicture("x+2 ys w84  h28 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppLoadoutKey				:= ui.gameSettingsGui.addPicture("x+2 ys w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppLoadoutKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppLoadoutKey),1,8))
 		ui.d2AppLoadoutKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Loadout")
-		ui.d2AppVehicleKey				:= ui.gameSettingsGui.AddPicture("x+2 ys w84  h28 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppVehicleKey				:= ui.gameSettingsGui.AddPicture("x+2 ys w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppVehicleKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
 		ui.d2AppVehicleKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Vehicle")
 		
-		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x309 y20 w84  h28 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x309 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
 		ui.d2GameToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
-		ui.d2GameReloadKey				:= ui.gameSettingsGui.addPicture("x+2 ys w82 h28 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2GameReloadKey				:= ui.gameSettingsGui.addPicture("x+2 ys w82 h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameReloadKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w82  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
 		ui.d2GameReloadKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w82  h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")
 		; ui.d2GameVehicleKey					:= ui.gameSettingsGui.addPicture("x15 y55 w84  h28 section hidden backgroundTrans","./img/keyboard_key_up.png")
@@ -355,9 +384,9 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		;ui.d2LoadoutTimingBg				:= ui.gameSettingsGui.addText("x125 y33 w70 h10 background" cfg.themePanel1Color)
 		;ui.d2LoadoutTiming					:= ui.gameSettingsGui.addSlider("x204 y18 w10 h30  altSubmit vertical tickInterval5 range1-5 thick10 vD2loadoutTiming c" cfg.themeFont2Color " background" cfg.themePanel1Color)
 
-		drawPanelLabel(ui.gameSettingsGui,130,47,80,15,"App Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,130,45,80,18,"App Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
 		
-		drawPanelLabel(ui.gameSettingsGui,344,47,90,15,"Game Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,344,45,90,18,"Game Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
 
 		drawPanelLabel(guiName,labelX,labelY,labelW := 100,labelH := 20,labelText := "needs value",backColor := "gray",outlineColor := "white",fontColor := "white") {
 			static labelName := array()
@@ -688,15 +717,15 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		cfg.towerInterval := ui.towerIntervalSlider.Value
 	}
 
-	ToggleSilentIdle(*)
-	{
-		ui.toggleSilentIdle.Opt((cfg.SilentIdleEnabled := !cfg.SilentIdleEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
-		ui.toggleSilentIdle.Redraw()
-	}
-	ui.toggleSilentIdle := ui.gameSettingsGui.AddPicture("xs-60 y+45 w60 h25 section vSilentIdle " (r)),((cfg.SilentIdleEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor) ? (cfg.toggleOn) : (cfg.toggleOff)))
-	ui.toggleSilentIdle.OnEvent("Click", toggleChanged)
-	ui.toggleSilentIdle.ToolTip := "Minimizes Roblox Windows While Anti-Idling"
-	ui.labelSilentIdle:= ui.gameSettingsGui.AddText("xs-8 y+0 w82 center backgroundTrans","Silent AntiIdle")
+	; ToggleSilentIdle(*)
+	; {
+		; ui.toggleSilentIdle.Opt((cfg.SilentIdleEnabled := !cfg.SilentIdleEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
+		; ui.toggleSilentIdle.Redraw()
+	; }
+	; ui.toggleSilentIdle := ui.gameSettingsGui.AddPicture("xs-60 y+45 w60 h25 section vSilentIdle " (r)),((cfg.SilentIdleEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	; ui.toggleSilentIdle.OnEvent("Click", toggleChanged)
+	; ui.toggleSilentIdle.ToolTip := "Minimizes Roblox Windows While Anti-Idling"
+	; ui.labelSilentIdle:= ui.gameSettingsGui.AddText("xs-8 y+0 w82 center backgroundTrans","Silent AntiIdle")
 	
 } ;end w0 tab
 
