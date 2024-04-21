@@ -64,12 +64,13 @@ initGui(&cfg, &ui) {
 	
 	if (FileExist("./Logs/persist.log"))
 	{
-		Loop Read, "./Logs/persist.log"
-		{
-			ui.gvConsole.Add([A_LoopReadLine])
-		}
-		FileDelete("./Logs/persist.log")
-		}
+		try
+			Loop Read, "./Logs/persist.log" {
+				ui.gvConsole.Add([A_LoopReadLine])
+			}
+		try
+			FileDelete("./Logs/persist.log")
+	}
 
 
 	ui.titleBarButtonGui := Gui()

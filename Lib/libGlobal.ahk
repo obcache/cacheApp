@@ -417,6 +417,7 @@ autoUpdate() {
 		setTimer () => pbNotify("Network Down. Bypassing Auto-Update.",1000),-100
 	}
 	try
+	if fileExist("/.tmp")
 		fileDelete("/.tmp")
 }	
 
