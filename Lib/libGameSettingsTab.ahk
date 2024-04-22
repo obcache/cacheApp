@@ -431,7 +431,7 @@ d2LoadoutModifier(hotKeyName) {
 				: ("Background" cfg.themeButtonReadyColor)),
 		((cfg.d2AlwaysRunEnabled) 
 			? ("./img/toggle_vertical_trans_on.png") 
-				: ("./img/toggle_vertical_trans_off.png")))
+				: ("./img/toggle_vertical_trans_off.png")))
 		ui.d2Log			:= ui.gameSettingsGui.addText("x405 y10 w68 h80 hidden background" cfg.themePanel3color " c" cfg.themeFont3color," Destiny 2`n Log Started`n Waiting for Input")
 		ui.d2Log.setFont("s7","ariel")
 

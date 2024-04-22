@@ -302,14 +302,15 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/button_power.png",installDir "/img2/button_power.png",1)
 			fileInstall("./img2/button_power_down.png",installDir "/img2/button_power_down.png",1)
 			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
+			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			persistLog("Copied Assets to: " InstallDir)
 			sleep(4500)
 			fileCreateShortcut(installDir "/cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
 			fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
-
+			IniWrite(installDir,cfg.file,"System","InstallDir")
 			Run(InstallDir "\" A_AppName ".exe")
-		ExitApp
+			ExitApp
 		
 		}
 	}
@@ -319,21 +320,19 @@ createPbConsole(title) {
 
 	transColor := "010203"
 	ui.pbConsoleBg := gui()
-	ui.pbConsoleBg.opt("-caption")
+	ui.pbConsoleBg.opt("-caption owner" ui.pbConsole.hwnd)
 	ui.pbConsoleBg.backColor := "304030"
 	ui.pbConsoleHandle := ui.pbConsoleBg.addPicture("w700 h400 background203020","")
 	ui.pbConsoleBg.show("w700 h400 noActivate")
 	winSetTransparent(160,ui.pbConsoleBg)
 	ui.pbConsole := gui()
-	ui.pbConsole.opt("-caption AlwaysOnTop owner" ui.pbConsoleBg.hwnd)
+	ui.pbConsole.opt("-caption AlwaysOnTop")
 	ui.pbConsole.backColor := transColor
 	ui.pbConsole.color := transColor
 	winSetTransColor(transColor,ui.pbConsole)
 	ui.pbConsoleTitle := ui.pbConsole.addText("x8 y4 w700 h35 section center background303530 c859585",title)
 	ui.pbConsoleTitle.setFont("s20","Verdana Bold")
-	ui.pbConsoleMinimize := ui.pbConsole.addText("x+-60 ys+7 w50 h35 backgroundTrans ca0ffa0","HIDE")
-	ui.pbConsoleMinimize.setFont("s10 Underline","Verdana Bold")
-	ui.pbConsoleMinimize.onEvent("click",hidePbConsole)
+
 
 	drawOutlineNamed("pbConsoleTitle",ui.pbConsole,6,4,692,35,"253525","202520",2)
 	ui.pbConsoleData := ui.pbConsole.addText("xs+10 w680 h380 backgroundTrans cA5C5A5","")
@@ -342,9 +341,6 @@ createPbConsole(title) {
 	drawOutlineNamed("pbConsoleOutside2",ui.pbConsole,3,3,696,396,"457745","457745",1)
 	drawOutlineNamed("pbConsoleOutside3",ui.pbConsole,4,4,694,394,"353535","353535",2)
 	ui.pbConsole.show("w700 h400 noActivate")
-	ui.pbConsoleHandle.onEvent("click",WM_LBUTTONDOWN_pBcallback)
-	OnMessage(0x0202, WM_LBUTTONDOWN)
-	OnMessage(0x47, WM_WINDOWPOSCHANGED)
 }
 
 hidePbConsole(*) {
@@ -519,14 +515,13 @@ cfgLoad(&cfg, &ui) {
 	ui.dividerGui				:= gui()
 	cfg.gamingStartProc 		:= strSplit(IniRead(cfg.file,"System","GamingStartProcesses",cfg.gamingStartProcString),",")
 	cfg.gamingStopProc 			:= strSplit(IniRead(cfg.file,"System","GamingStopProcesses",cfg.gamingStopProcString),",")
-	cfg.gameModuleList			:= strSplit(iniRead(cfg.file,"Game","GameModuleList","  Destiny2  ,  World//Zero  "),",")
+	cfg.gameModuleList			:= strSplit(iniRead(cfg.file,"Game","GameModuleList","Destiny2,World//Zero"),",")
 	cfg.GameList				:= StrSplit(IniRead(cfg.file,"Game","GameList","Roblox,Rocket League"),",")
-	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Sys,AFK,Game,Dock,Editor,Setup"),",")
+	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Editor,Setup"),",")
 	cfg.mainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
 	cfg.startMinimizedEnabled	:= iniRead(cfg.file,"System","StartMinimizedEnabled",false)
 	cfg.excludedApps			:= IniRead(cfg.file,"System","ExcludedApps","Windows10Universal.exe,explorer.exe,RobloxPlayerInstaller.exe,RobloxPlayerLauncher.exe,Chrome.exe,msedge.exe")
 	cfg.MainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
-	cfg.InstallDir				:= IniRead(cfg.file,"System","InstallDir", A_MyDocuments "\cacheApp")
 	cfg.MainScriptName			:= IniRead(cfg.file,"System","MainScriptName", "cacheApp")
 	cfg.debugEnabled			:= IniRead(cfg.file,"System","debugEnabled",false)
 	cfg.consoleVisible			:= IniRead(cfg.file,"System","consoleVisible",false)
@@ -662,7 +657,6 @@ WriteConfig() {
 	IniWrite(cfg.game,cfg.file,"Game","Game")
 	iniWrite(cfg.listDataFile,cfg.file,"System","ListDataFile")
 	IniWrite(cfg.mainScriptName,cfg.file,"System","ScriptName")
-	IniWrite(cfg.installDir,cfg.file,"System","InstallDir")
 	IniWrite(cfg.mainGui,cfg.file,"System","MainGui")
 	iniWrite(cfg.disabledTabs,cfg.file,"System","DisabledTabs")
 

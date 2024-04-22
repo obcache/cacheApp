@@ -16,7 +16,48 @@ if !(StrCompare(A_LineFile,A_ScriptFullPath)) {
 	Run(A_ScriptDir "/../" MainScriptName ".ahk")
 	ExitApp
 }
+launchApp(appName) {
+	switch appName {
+		case "discord":
+			run('C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\5) Utilities\Discord.lnk')
+			launchSuccessful := false
+			timeoutCount := 0
+			while !launchSuccessful and timeoutCount < 60 {
+				timeoutCount += 1
+				sleep(1000)
+				if winExist("ahk_exe discord.exe")
+					launchSuccessful := true
+			}
+			if (launchSuccessful) {
+				winActivate("ahk_exe discord.exe")
+			} else {
+				notifyOSD("Problems launching Discord",2000)
+				Return
+			}
+		case "foobar2000":
+			run('E:\Music\foobar2000\foobar2000.exe')
+			launchSuccessful := false
+			timeoutCount := 0
+			while !launchSuccessful and timeoutCount < 60 {
+				timeoutCount += 1
+				sleep(1000)
+				if winExist("ahk_exe foobar2000.exe") {
+					launchSuccessful := true
+				}
+			}
+			if (launchSuccessful) {
+			winActivate("ahk_exe foobar2000.exe")
 
+		} else {
+			notifyOSD("Problems launching Foobar2000",2000)
+			Return
+		}
+	}
+}
+
+
+	
+	
 GuiDockTab(&ui) {
 	ui.MainGuiTabs.UseTab("AppDock")
 	ui.appDockTopPanel := ui.mainGui.addText("x41 y37 w386 h40 background" cfg.themePanel4color,"")
@@ -167,8 +208,14 @@ app1browse(*) {
 	SplitPath(SelectedFile,&selectedFilename,&selectedPath,&selectedExt,&selectedName,&selectedDrive)
 	cfg.app1filename := selectedFilename
 	cfg.app1path := selectedPath
-	ui.app1filename.text := " " selectedFilename
-	ui.app1path.text := " " selectedPath
+	
+if inStr(cfg.app1filename,"discord") || inStr(cfg.app1path,"discord") {
+		cfg.app1filename := "Discord.exe"
+		cfg.app1Path := "./redist"
+	} 
+	
+	ui.app1filename.text := " " cfg.app1filename
+	ui.app1path.text := " " cfg.app1path
 	ui.app1filename.Redraw()
 	ui.app1path.Redraw()
 }
@@ -178,8 +225,14 @@ app2browse(*) {
 	SplitPath(SelectedFile,&selectedFilename,&selectedPath,&selectedExt,&selectedName,&selectedDrive)
 	cfg.app2filename := selectedFilename
 	cfg.app2path := selectedPath
-	ui.app2filename.text := " " selectedFilename
-	ui.app2path.text := " " selectedPath
+	
+	if inStr(cfg.app2filename,"discord") || inStr(cfg.app2path,"discord") {
+		cfg.app2filename := "Discord.exe"
+		cfg.app2Path := "./redist"
+	}
+	
+	ui.app2filename.text := " " cfg.app2filename
+	ui.app2path.text := " " cfg.app2path
 	ui.app2filename.Redraw()
 	ui.app2path.Redraw()
 }
@@ -349,6 +402,24 @@ appDock(Status,&cfg) {
 	debugLog("Current cacheApp Monitor: " cfg.AppDockMonitor)
 	If (Status == "On")	{
 		debugLog("Docking Apps")
+		timeOut := 0
+		if !processExist(cfg.app1filename) {
+			run(cfg.app1path "\" cfg.app1filename)
+		}
+		if !processExist(cfg.app2filename) {
+			run(cfg.app2path "\" cfg.app2filename)
+		}
+		while !processExist(cfg.app1filename) || !processExist(cfg.app2filename) || timeOut > 30 {
+			sleep(1000)
+			timeOut +=1
+		}
+		if timeOut > 30 {
+			notify("Could not start one of the Docked Apps")
+			return
+		} else {
+			sleep(3000)
+		}
+	
 		DockX := Left - cfg.DockMarginSize
 		DockY := Top + WorkAreaHeightWhenDocked - cfg.DockMarginSize
 		DockW := Right - Left + ((cfg.DockMarginSize-1) * 2)
@@ -358,7 +429,7 @@ appDock(Status,&cfg) {
 		WorkAreaY := Top
 		WorkAreaW := Right - Left
 		WorkAreaH := WorkAreaHeightWhenDocked
-		StartNonRunningApps()
+		
 		WinSetStyle("-0xC00000","ahk_exe " ui.app2filename.text)
 		WinSetTransColor("0x000002", "ahk_exe " ui.app2filename.text)
 		WinSetAlwaysOnTop(1, "ahk_exe " ui.app2filename.text)

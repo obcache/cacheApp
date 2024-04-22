@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.3.2"
+A_FileVersion := "1.1.3.3"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -43,7 +43,7 @@ onMessage(0x0202, WM_LBUTTONDOWN)
 onMessage(0x47, WM_WINDOWPOSCHANGED)
 
 
-installDir 		:= a_myDocuments "\cacheApp"
+installDir 		:= "a_myDocuments\cacheApp"
 configFileName 	:= "cacheApp.ini"
 themeFileName	:= "cacheApp.themes"
 
