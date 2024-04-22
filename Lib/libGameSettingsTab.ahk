@@ -135,7 +135,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf()
 
 	d2CreateHotkeys(*) {
-		if ui.monitorResDDL.text == "Auto" {
+		if inStr(ui.monitorResDDL.text,"Auto") {
 			autoDetectMonitor()
 		} else {
 			try
@@ -156,12 +156,10 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			hotIf()
 			
 	autoDetectMonitor(*) {
-		if inStr(ui.monitorResDDL.text,primaryMonitorRight) {
 			try
-				cfg.d2LoadoutCoords := cfg.d2LoadoutCoords%primaryMonitorRight%
+				cfg.d2LoadoutCoords := cfg.d2LoadoutCoords%primaryMonitorBottom%
 			catch
 				cfg.d2LoadoutCoords := cfg.d2LoadoutCoords1080
-		}
 	}
 	}
 	

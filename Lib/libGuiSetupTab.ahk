@@ -10,9 +10,19 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 }
 
 ;libGuiSetupTab
+monitorResChanged(*) {
+	cfg.monitorRes := ui.monitorResDDL.text
+	if (cfg.monitorRes == "Auto") {
+		ui.monitorResDDL.delete()
+		ui.monitorResDDl.add(["Auto (" primaryMonitorBottom ")",1080,1440,"Custom"])
+		ui.monitorResDDL.text := "Auto (" primaryMonitorBottom ")"
+		}
+
+	d2CreateHotkeys()
+}
+
 	
-GuiSetupTab(&ui,&cfg)
-{
+GuiSetupTab(&ui,&cfg) {
 	global
 	ui.MainGuiTabs.UseTab("Setup")
 	ui.MainGui.SetFont("s09")
@@ -86,15 +96,12 @@ GuiSetupTab(&ui,&cfg)
 	ui.checkForUpdatesButton.Tooltip := "Checks to see if a more recent version is available"	
 	ui.installedVersionText := ui.mainGui.addText("ys x+5 section w100 backgroundTrans","Installed:" ui.installedVersion)
 	ui.latestVersionText := ui.mainGui.addText("xs y+-5 w100 backgroundTrans","Latest:" ui.latestVersion)
-	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 w98 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,["Auto","1080","1440","Custom"])
+	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 w100 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,["Auto","1080","1440","Custom"])
 	ui.monitorResDDL.onEvent("change",monitorResChanged)
 	ui.monitorResLabel := ui.mainGui.AddText("x+5 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
 	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")
 	ui.monitorResLabel.setFont("s09")
 	ui.monitorResLabel2.setFont("s09")
-	monitorResChanged(*) {
-		d2CreateHotkeys()
-	}
 
 	ui.installedVersionText.setFont("s10")
 	ui.latestVersionText.setFont("s10")
@@ -189,8 +196,7 @@ GuiSetupTab(&ui,&cfg)
 	}
   
   	AutoClickerSpeedChanged(*) {
-		
-	cfg.AutoClickerSpeed := (ui.AutoClickerSpeedSlider.Value/0.128)
+		cfg.AutoClickerSpeed := (ui.AutoClickerSpeedSlider.Value/0.128)
 			
 		; Switch
 		; {
@@ -336,9 +342,8 @@ GuiSetupTab(&ui,&cfg)
 				ui.themeDDL.Choose(1)
 			}
 		}
+
 	} ;End Game Profile List Modal Gui
-
-
 
 ui.defaultThemes := "
 (
