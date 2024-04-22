@@ -308,7 +308,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			sleep(4500)
 			fileCreateShortcut(installDir "/cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
 			fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
-			IniWrite(installDir,cfg.file,"System","InstallDir")
+			IniWrite(installDir,installDir "/cacheApp.ini","System","InstallDir")
 			Run(InstallDir "\" A_AppName ".exe")
 			ExitApp
 		
@@ -320,7 +320,6 @@ createPbConsole(title) {
 
 	transColor := "010203"
 	ui.pbConsoleBg := gui()
-	ui.pbConsoleBg.opt("-caption owner" ui.pbConsole.hwnd)
 	ui.pbConsoleBg.backColor := "304030"
 	ui.pbConsoleHandle := ui.pbConsoleBg.addPicture("w700 h400 background203020","")
 	ui.pbConsoleBg.show("w700 h400 noActivate")
@@ -341,6 +340,7 @@ createPbConsole(title) {
 	drawOutlineNamed("pbConsoleOutside2",ui.pbConsole,3,3,696,396,"457745","457745",1)
 	drawOutlineNamed("pbConsoleOutside3",ui.pbConsole,4,4,694,394,"353535","353535",2)
 	ui.pbConsole.show("w700 h400 noActivate")
+	ui.pbConsoleBg.opt("-caption owner" ui.pbConsole.hwnd)
 }
 
 hidePbConsole(*) {
