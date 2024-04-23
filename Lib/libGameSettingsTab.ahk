@@ -214,7 +214,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	}
 	
 	d2ReadyToSprint(*) {
-		if (winActive("ahk_exe destiny2.exe") && cfg.d2AlwaysRunEnabled && !getKeyState("RButton"))
+		if (winActive("ahk_exe destiny2.exe") && cfg.d2AlwaysRunEnabled && !getKeyState("RButton") && !getKeyState("LButton"))
 			return 1
 		else
 			return 0
