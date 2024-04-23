@@ -429,11 +429,11 @@ CheckForUpdates(msg,*) {
 		ui.latestVersionText.text := "Latest:`t*****"
 		if (ui.installedVersion < ui.latestVersion) {
 			try {
-				guiVis(ui.mainGui,false)
-				guiVis(ui.titleBarButtonGui,false)
 				guiVis(ui.afkGui,false)
 				guiVis(ui.gameSettingsGui,false)
 				guiVis(ui.gameTabGui,false)
+				guiVis(ui.titleBarButtonGui,false)
+				guiVis(ui.mainGui,false)
 			} 
 				
 			sleep(1500)
