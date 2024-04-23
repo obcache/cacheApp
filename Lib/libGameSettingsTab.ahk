@@ -547,7 +547,7 @@ d2LoadoutModifier(hotKeyName) {
 
 	d2LaunchBrayTechButtonClicked(*) {
 		ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech_down.png"
-		setTimer () => ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_braytech.png",-400
+		setTimer () => ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_braytech.png",-400
 		run("chrome.exe https://www.bray.tech")
 		}
 
