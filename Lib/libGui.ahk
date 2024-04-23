@@ -570,7 +570,7 @@ stopGaming(*) {
 }
 	
 startGaming(*) {
-	msgBox(cfg.gamingStartProc.length)
+	; msgBox(cfg.gamingStartProc.length)
 	loop cfg.gamingStartProc.length {
 		if inStr(cfg.gamingStartProc[a_index],"discord") 
 			run("./redist/discord.exe")
