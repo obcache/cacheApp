@@ -40,8 +40,11 @@ WM_WINDOWPOSCHANGED(wParam, lParam, msg, Hwnd) {
 
 { ;mouse events
 
-WM_LBUTTONDOWN_callback(*) {
-	WM_LBUTTONDOWN(0,0,0,ui.MainGui.Hwnd)
+WM_LBUTTONDOWN_callback(thisControl,info) {
+	postMessage("0xA1",2,,,"A")
+	;WM_LBUTTONDOWN(0,0,0,thisControl)
+	
+	
 }
 
 WM_LBUTTONDOWN_pBcallback(*) {
@@ -50,7 +53,10 @@ WM_LBUTTONDOWN_pBcallback(*) {
 
 WM_LBUTTONDOWN(wParam, lParam, msg, Hwnd) {
 	;ShowMouseClick()
-	postMessage("0xA1",2)
+	try
+		postMessage("0xA1",2,,,ui.mainGui)
+	try
+		postMessage("0xA1",2,,,ui.themeEditorGui)
 		; try {
 			; if (Hwnd = ui.MainGui.hwnd) 
 			; PostMessage("0xA1",2)

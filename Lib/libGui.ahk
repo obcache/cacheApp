@@ -60,7 +60,9 @@ initGui(&cfg, &ui) {
 	GuiSetupTab(&ui,&cfg)
 	GuiEditorTab()
 	GuiGameTab()
-	
+		OnMessage(0x0200, WM_MOUSEMOVE)
+	OnMessage(0x0202, WM_LBUTTONDOWN)
+	OnMessage(0x47, WM_WINDOWPOSCHANGED)
 	
 	if (FileExist("./Logs/persist.log"))
 	{
@@ -129,10 +131,6 @@ initGui(&cfg, &ui) {
 	
 	debugLog("Interface Initialized")
 	ui.MainGuiTabs.UseTab("")
-
-	OnMessage(0x0200, WM_MOUSEMOVE)
-	OnMessage(0x0202, WM_LBUTTONDOWN)
-	OnMessage(0x47, WM_WINDOWPOSCHANGED)
 }
 
 

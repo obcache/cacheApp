@@ -341,8 +341,8 @@ d2LoadoutModifier(hotKeyName) {
 		ui.gameSettingsGui.addText("x7 y4 w479 h60 background" cfg.themePanel1Color,"")
 		ui.gameSettingsGui.addText("x7 y69 w479 h73 background" cfg.themePanel1Color,"")
 
-		ui.gameSettingsGui.addText("x13 y74 w388 h63 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,14,75,388,63,cfg.themeDark2Color,cfg.themeBright2Color,1)
+		ui.gameSettingsGui.addText("x13 y74 w465 h63 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,14,75,465,63,cfg.themeDark2Color,cfg.themeBright2Color,1)
 		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,482,62,cfg.themeBright2Color,cfg.themeDark2Color,1)
 		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,69,482,75,cfg.themeBright2Color,cfg.themeDark2Color,1)
 
@@ -373,12 +373,13 @@ d2LoadoutModifier(hotKeyName) {
 		; ui.d2AppVehicleKeyData 				:= ui.gameSettingsGui.addText("xs y+-23 w84  h21 center c" cfg.themeButtonAlertColor " hidden backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
 		; ui.d2AppVehicleKeyLabel 			:= ui.gameSettingsGui.addText("xs-1 y+-20 w84  h20 hidden center c" cfg.themeFont1Color " backgroundTrans","Mount Vehicle")
 			
-		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+48 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
-		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
-		ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
-		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
-		ui.d2LaunchDestinyRecipesButton 	:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_destinyrecipes.png")
-		ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+13 ys w50  h50 backgroundTrans","./Img2/d2_button_braytech.png")
+		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
+		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
+		ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
+		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
+		ui.d2LaunchDestinyTrackerButton 	:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_DestinyTracker.png")
+		ui.d2Launchd2FoundryButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2Foundry.png")
+		ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_braytech.png")
 		;ui.d2LoadoutTimingBg				:= ui.gameSettingsGui.addText("x125 y33 w70 h10 background" cfg.themePanel1Color)
 		;ui.d2LoadoutTiming					:= ui.gameSettingsGui.addSlider("x204 y18 w10 h30  altSubmit vertical tickInterval5 range1-5 thick10 vD2loadoutTiming c" cfg.themeFont2Color " background" cfg.themePanel1Color)
 
@@ -456,9 +457,9 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2LaunchLightGGbutton.toolTip := "Launch Light.gg in Browser"
 		ui.d2LaunchBlueberriesButton.toolTip	:= "Launch Blueberries.gg in Browser"
 		ui.d2Launchd2CheckListButton.toolTip	:= "Launch D2Checklist.com in Browser"
-		ui.d2LaunchDestinyRecipesButton.toolTip	:= "Launch DestinyRecipes.com in Browser"
+		ui.d2LaunchDestinyTrackerButton.toolTip	:= "Launch DestinyTracker.com in Browser"
 		ui.d2LaunchBrayTechButton.toolTip	:= "Launch Bray.Tech in Browser"
-
+		ui.d2Launchd2FoundryButton.toolTip	:= "Launch d2Foundry"
 		ui.d2AppLoadoutKeyData.setFont("s11")
 		ui.d2AppVehicleKeyData.setFont("s11")
 		ui.d2gameToggleSprintKeyData.setFont("s11")
@@ -496,7 +497,8 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2LaunchLightGGbutton.onEvent("click",d2launchLightGGbuttonClicked)
 		ui.d2LaunchD2checkListButton.onEvent("click",d2launchd2checklistButtonClicked)
 		ui.d2LaunchBlueberriesButton.onEvent("click",d2LaunchBlueBerriesButtonClicked)
-		ui.d2LaunchDestinyRecipesButton.onEvent("click",d2LaunchDestinyRecipesButtonClicked)
+		ui.d2LaunchDestinyTrackerButton.onEvent("click",d2LaunchDestinyTrackerButtonClicked)
+		ui.d2Launchd2FoundryButton.onEvent("click",d2Launchd2FoundryButtonClicked)
 		ui.d2LaunchBrayTechButton.onEvent("click",d2LaunchBrayTechButtonClicked)
 
 } ;end d2 ui
@@ -531,15 +533,21 @@ d2LoadoutModifier(hotKeyName) {
 		run("chrome.exe https://www.d2checklist.com")
 		}
 
-	d2LaunchDestinyRecipesButtonClicked(*) {
-		ui.d2LaunchDestinyRecipesButton.value := "./Img2/d2_button_destinyrecipes_down.png"
-		setTimer () => ui.d2LaunchDestinyRecipesButton.value := "./Img2/d2_button_destinyrecipes.png",-400
-		run("chrome.exe https://www.destinyrecipes.com")
+	d2LaunchDestinyTrackerButtonClicked(*) {
+		ui.d2LaunchDestinyTrackerButton.value := "./Img2/d2_button_DestinyTracker_down.png"
+		setTimer () => ui.d2LaunchDestinyTrackerButton.value := "./Img2/d2_button_DestinyTracker.png",-400
+		run("chrome.exe https://www.DestinyTracker.com")
 		}
 
+	d2Launchd2FoundryButtonClicked(*) {
+		ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry_down.png"
+		setTimer () => ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry.png",-400
+		run("chrome.exe https://www.d2foundry.gg")
+		}	
+
 	d2LaunchBrayTechButtonClicked(*) {
-		ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_braytech_down.png"
-		setTimer () => ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_braytech.png",-400
+		ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech_down.png"
+		setTimer () => ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_braytech.png",-400
 		run("chrome.exe https://www.bray.tech")
 		}
 
@@ -731,3 +739,4 @@ if (cfg.d2AlwaysRunEnabled) {
 				d2ToggleAlwaysRunOn()
 			}
 			
+

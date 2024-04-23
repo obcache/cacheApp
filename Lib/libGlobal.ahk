@@ -24,8 +24,7 @@ initTrayMenu(*) {
 	Try
 		persistLog("Tray Initialized")
 }
-OnMessage(0x0202, WM_LBUTTONDOWN)
-OnMessage(0x47, WM_WINDOWPOSCHANGED)	
+
 	
 preAutoExec(InstallDir,ConfigFileName) {
 	Global
@@ -280,7 +279,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img/icon_blueberries.png",installDir "/img/icon_blueberries.png",1)
 			fileInstall("./img/icon_lightgg.png",installDir "/img/icon_lightgg.png",1)
 			fileInstall("./img/icon_d2Checklist.png",installDir "/img/icon_d2Checklist.png",1)
-			fileInstall("./img/icon_braytech.png",installDir "/img/icon_braytech.png",1)
+			fileInstall("./img/icon_brayTech.png",installDir "/img/icon_brayTech.png",1)
 			fileInstall("./img/icon_steeringwheel.png",installDir "/img/icon_steeringwheel.png",1)
 			fileInstall("./img/button_loadouts_ready.png",installDir "/img/button_loadouts_ready.png",1)
 			fileInstall("./img2/d2_button_dim.png",installDir "/img2/d2_button_dim.png",1)
@@ -292,11 +291,11 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/d2_button_d2Checklist.png",installDir "/img2/d2_button_d2Checklist.png",1)
 			fileInstall("./img2/d2_button_d2Checklist_down.png",installDir "/img2/d2_button_d2Checklist_down.png",1)
 			
-			fileInstall("./img2/d2_button_braytech.png",installDir "/img2/d2_button_braytech.png",1)
-			fileInstall("./img2/d2_button_braytech_down.png",installDir "/img2/d2_button_braytech_down.png",1)
-			
-			fileInstall("./img2/d2_button_destinyrecipes.png",installDir "/img2/d2_button_destinyrecipes.png",1)
-			fileInstall("./img2/d2_button_destinyrecipes_down.png",installDir "/img2/d2_button_destinyrecipes_down.png",1)
+			fileInstall("./img2/d2_button_d2Foundry.png",installDir "/img2/d2_button_d2Foundry.png",1)
+			fileInstall("./img2/d2_button_d2Foundry_down.png",installDir "/img2/d2_button_d2Foundry_down.png",1)
+			fileInstall("./img2/d2_button_brayTech.png",installDir "/img2/d2_button_brayTech.png",1)
+			fileInstall("./img2/d2_button_DestinyTracker.png",installDir "/img2/d2_button_DestinyTracker.png",1)
+			fileInstall("./img2/d2_button_DestinyTracker_down.png",installDir "/img2/d2_button_DestinyTracker_down.png",1)
 			
 			;IMGv2 below
 			fileInstall("./img2/button_power.png",installDir "/img2/button_power.png",1)
@@ -511,7 +510,7 @@ cfgLoad(&cfg, &ui) {
 	win1afk.currStepNum			:= ""
 	win2afk.currStepNum 		:= ""
 	ui.clearClockAlert			:= false
-	
+	ui.themeEditorVisible		:= false
 	ui.dividerGui				:= gui()
 	cfg.gamingStartProc 		:= strSplit(IniRead(cfg.file,"System","GamingStartProcesses",cfg.gamingStartProcString),",")
 	cfg.gamingStopProc 			:= strSplit(IniRead(cfg.file,"System","GamingStopProcesses",cfg.gamingStopProcString),",")
@@ -1133,4 +1132,8 @@ resetKeyStates() {
 appChangeTrans(transLevel) {
 	try
 		winSetTransparent(transLevel,ui.dockBarGui.hwnd)
+}
+
+newGuid(*) {
+	return ComObjCreate("Scriptlet.TypeLib").GUID
 }

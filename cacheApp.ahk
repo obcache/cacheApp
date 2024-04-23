@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.3.8"
+A_FileVersion := "1.1.4.3"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -39,8 +39,7 @@ a_restarted :=
 		? true
 		: false
 
-onMessage(0x0202, WM_LBUTTONDOWN)
-onMessage(0x47, WM_WINDOWPOSCHANGED)
+
 
 
 installDir 		:= a_myDocuments "\cacheApp"
