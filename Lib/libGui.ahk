@@ -570,48 +570,14 @@ stopGaming(*) {
 }
 	
 startGaming(*) {
-	; while a_index <= cfg.gamingStartProc.length {
-		; try
-			; run(cfg.gamingStartProc[a_index])
-		run('C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\5) Utilities\Discord.lnk')
-		launchSuccessful := false
-		timeoutCount := 0
-		while !launchSuccessful and timeoutCount < 60 {
-			timeoutCount += 1
-			sleep(1000)
-			if winExist("ahk_exe discord.exe")
-				launchSuccessful := true
-		}
-		if (launchSuccessful) {
-			winActivate("ahk_exe discord.exe")
-		} else {
-			notifyOSD("Problems launching Discord",2000)
-			Return
-		}
-	
-		run('E:\Music\foobar2000\foobar2000.exe')
-		launchSuccessful := false
-		timeoutCount := 0
-		while !launchSuccessful and timeoutCount < 60 {
-			timeoutCount += 1
-			sleep(1000)
-			if winExist("ahk_exe foobar2000.exe") {
-				launchSuccessful := true
-			}
-		}
-		if (launchSuccessful) {
-			winActivate("ahk_exe foobar2000.exe")
-
-		} else {
-			notifyOSD("Problems launching Foobar2000",2000)
-			Return
-		}
-		if winExist("ahk_exe discord.exe") && winExist("ahk_exe foobar2000.exe")
-			dockApps()
-		
-	
+	msgBox(cfg.gamingStartProc.length)
+	loop cfg.gamingStartProc.length {
+		if inStr(cfg.gamingStartProc[a_index],"discord") 
+			run("./redist/discord.exe")
+		else
+			run(cfg.gamingStartProc[a_index])
+	}
 }
-
 exitMenuShow() {
 	winGetPos(&tbX,&tbY,,,ui.titleBarButtonGui)
 	ui.exitMenuGui := gui()

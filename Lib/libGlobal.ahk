@@ -454,8 +454,7 @@ cfgLoad(&cfg, &ui) {
 	global
 	ui.guiH					:= 220  	;430 for Console Mode
 
-	cfg.gamingStopProcString	:= "foobar2000.exe,discord.exe,shatterline.exe,rocketLeague.exe,destiny2.exe,robloxPlayerBeta.exe,applicationFrameHost.exe,steam.exe,epicGamesLauncher.exe"
-	cfg.gamingStartProcString 	:= "E:\Music\foobar2000\foobar2000.exe,C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\5) Utilities\Discord.lnk,C:\Program Files (x86)\Steam\steam.exe,C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+
 		
 	ui.gameWindowsList 		:= array()
 	cfg.gameWindowsList 	:= array()
@@ -512,13 +511,12 @@ cfgLoad(&cfg, &ui) {
 	ui.clearClockAlert			:= false
 	ui.themeEditorVisible		:= false
 	ui.dividerGui				:= gui()
-	cfg.gamingStartProc 		:= strSplit(IniRead(cfg.file,"System","GamingStartProcesses",cfg.gamingStartProcString),",")
-	cfg.gamingStopProc 			:= strSplit(IniRead(cfg.file,"System","GamingStopProcesses",cfg.gamingStopProcString),",")
 	cfg.gameModuleList			:= strSplit(iniRead(cfg.file,"Game","GameModuleList","Destiny2,World//Zero"),",")
 	cfg.GameList				:= StrSplit(IniRead(cfg.file,"Game","GameList","Roblox,Rocket League"),",")
 	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Editor,Setup"),",")
 	cfg.mainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
 	cfg.startMinimizedEnabled	:= iniRead(cfg.file,"System","StartMinimizedEnabled",false)
+	cfg.confirmExitEnabled		:= iniRead(cfg.file,"System","ConfirmExit",false)
 	cfg.excludedApps			:= IniRead(cfg.file,"System","ExcludedApps","Windows10Universal.exe,explorer.exe,RobloxPlayerInstaller.exe,RobloxPlayerLauncher.exe,Chrome.exe,msedge.exe")
 	cfg.MainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
 	cfg.MainScriptName			:= IniRead(cfg.file,"System","MainScriptName", "cacheApp")
@@ -543,6 +541,9 @@ cfgLoad(&cfg, &ui) {
 	cfg.appGuiList				:= strSplit(iniRead(cfg.file,"Interface","AppGuiList","ui.mainGui,ui.afkGui,ui.gameSettingsGui,ui.titleBarButtonGui,ui.dockBarGui"),",")
 	cfg.gameProcessList			:= iniRead(cfg.file,"Interface","GameProcessList","destiny2.exe,shatterline.exe,rocketleague.exe,robloxPlayerBeta.exe")
 	cfg.nonGameProcessList		:= iniRead(cfg.file,"Interface","nonGameProcessList","foobar2000.exe,discord.exe,chrome.exe,edge.exe,firefox.exe,explorer.exe")
+	cfg.gamingStopProc := strSplit(iniRead(cfg.file,"System","GamingStopProcesses","foobar2000.exe,discord.exe,shatterline.exe,rocketLeague.exe,destiny2.exe,robloxPlayerBeta.exe,applicationFrameHost.exe,steam.exe,EpicGamesLauncher.exe"),",")
+
+	cfg.gamingStartProc	:= strSplit(iniRead(cfg.file,"System","GamingStartProcesses",'"C:\Program Files (x86)\Steam\steam.exe","C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe","C:\Program Files\BakkesMod\BakkesMod.exe","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Medal.lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\2) Video\OBS Studio (64bit).lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\7) System\Logitech G HUB.lnk"'),",")
 
 
 
@@ -1040,7 +1041,7 @@ resetWindowPosition(*) {
 exitFunc(ExitReason,ExitCode) {
 	debugLog("Exit Command Received")
 	ui.MainGui.Opt("-AlwaysOnTop")
-	If !InStr("Logoff Shutdown Reload Single Close",ExitReason)
+	If !InStr("Logoff Shutdown Reload Single Close",ExitReason) && cfg.confirmExitEnabled
 	{
 		Result := MsgBox("Are you sure you want to`nTERMINATE cacheApp?",,4)
 		if Result = "No" {
