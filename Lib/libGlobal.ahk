@@ -429,11 +429,7 @@ CheckForUpdates(msg,*) {
 		ui.latestVersionText.text := "Latest:`t*****"
 		if (ui.installedVersion < ui.latestVersion) {
 			try {
-				guiVis(ui.afkGui,false)
-				guiVis(ui.gameSettingsGui,false)
-				guiVis(ui.gameTabGui,false)
-				guiVis(ui.titleBarButtonGui,false)
-				guiVis(ui.mainGui,false)
+				winMinimize("ahk_id ui.mainGui.hwnd")
 			} 
 				
 			sleep(1500)
