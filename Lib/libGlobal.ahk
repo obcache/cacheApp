@@ -428,18 +428,15 @@ CheckForUpdates(msg,*) {
 		ui.installedVersionText.text := "Installed:`t" ui.installedVersion
 		ui.latestVersionText.text := "Latest:`t*****"
 		if (ui.installedVersion < ui.latestVersion) {
-			try 
+			try {
 				guiVis(ui.mainGui,false)
-			try
 				guiVis(ui.titleBarButtonGui,false)
-			try
 				guiVis(ui.afkGui,false)
-			try
 				guiVis(ui.gameSettingsGui,false)
-			try 
 				guiVis(ui.gameTabGui,false)
+			} 
 				
-			sleep(2500)
+			sleep(1500)
 			run("./cacheApp_updater.exe")
 		} else {
 			 if(msg) {
