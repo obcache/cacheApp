@@ -635,16 +635,16 @@ cfgLoad(&cfg, &ui) {
 WriteConfig() {
 	Global
 	tmpGameList := ""
-	cfg.gamingStartProcString := ""
+	cfg.gamingStartProcString := "'"
 	loop cfg.gamingStartProc.length {
 		cfg.gamingStartProcString .= cfg.gamingStartProc[a_index] ","
 	}
-	cfg.gamingStopProcString := ""
+	cfg.gamingStopProcString := "'"
 	loop cfg.gamingStopProc.length {
 		cfg.gamingStopProcString .= cfg.gamingStopProc[a_index] ","
 	}
-	iniWrite(rtrim(cfg.gamingStartProcString,","),cfg.file,"System","GamingStartProcesses")
-	iniWrite(rtrim(cfg.gamingStopProcString,","),cfg.file,"System","GamingStopProcesses")
+	iniWrite(rtrim(cfg.gamingStartProcString,",") "'",cfg.file,"System","GamingStartProcesses")
+	iniWrite(rtrim(cfg.gamingStopProcString,",") "'",cfg.file,"System","GamingStopProcesses")
 	iniWrite(cfg.excludedProcesses,cfg.file,"Game","ExcludedProcesses")
 	IniWrite(cfg.autoDetectGame,cfg.file,"Game","AutoDetectGame")
 	iniWrite(cfg.excludedApps,cfg.file,"System","ExcludedApps")
