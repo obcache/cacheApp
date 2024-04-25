@@ -53,10 +53,8 @@ WM_LBUTTONDOWN_pBcallback(*) {
 
 WM_LBUTTONDOWN(wParam, lParam, msg, Hwnd) {
 	;ShowMouseClick()
-	try
-		postMessage("0xA1",2,,,ui.mainGui)
-	try
-		postMessage("0xA1",2,,,ui.themeEditorGui)
+		postMessage("0xA1",2)
+
 		; try {
 			; if (Hwnd = ui.MainGui.hwnd) 
 			; PostMessage("0xA1",2)
@@ -234,3 +232,38 @@ GetTaskbarHeight() {
 
 } ;end utility functions
 
+drawPanel(targetGui,panelX,panelY,panelW,panelH,panelColor,outlineColor,outlineColor2,outlineWidth := 1,outlineOffset := 1,labelPos := .5,labelW := 100,labelText := "Demo Panel",labelFont := "Calibri",labelFontColor := "white") {
+	labelH := 20
+	static panelId := 0
+	panelId+=1
+	
+
+	
+
+	ui.backPanel%panelId% := targetGui.addText("x" panelX " y" panelY " w" panelW " h" panelH " background" panelColor)		
+
+	ui.panelOutline2%panelId% := targetGui.addText("x" panelX+outlineOffset " y" panelY+outlineOffset " w" panelW-outlineOffset*2 " h" panelH-outlineOffset*2 " background" outlineColor2)		
+
+	ui.panelOutline1%panelId% := targetGui.addText("x" panelX+outlineOffset " y" panelY+outlineOffset " w" panelW-outlineWidth-outlineOffset*2 " h" panelH-outlineWidth-outlineOffset*2 " background" outlineColor)	
+		
+	ui.panel%panelId% := targetGui.addText("x" panelX+outlineWidth+outlineOffset " y" panelY+outlineWidth+outlineOffset " w" panelW-outlineWidth*2-outlineOffset*2 " h" panelH-outlineWidth*2-outlineOffset*2 " background" panelColor)	
+
+if (labelPos != "none") {
+	labelX := panelX+panelW*labelPos
+	labelY := panelY
+	
+
+	ui.label%panelId% := targetGui.addText("x" labelX " y" labelY " w" labelW " h" labelH/2-1 " background" targetGui.backColor,"")
+	
+	ui.label%panelId%.setFont("s10")
+	
+	ui.labelTop%panelId% := targetGui.addText("x" labelX+1 " y" labelY+1 " w" labelW-2 " h" labelH-2 " background" targetGui.backColor " center c" labelFontColor) 
+	
+	ui.labelTop%panelId%.setFont("s10")
+	ui.labelBottom%panelId% := targetGui.addText("x" labelX+1 " y" labelY-1 " w" labelW-2 " h" labelH " backgroundTrans center c" labelFontColor, labelText) 
+	
+	ui.labelBottom%panelId%.setFont("s10")
+
+	ui.demoGui.show("w500 h500")		
+	}
+}

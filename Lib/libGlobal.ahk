@@ -22,7 +22,7 @@ initTrayMenu(*) {
 	A_TrayMenu.Add("Exit App",KillMe)
 	A_TrayMenu.Default := "Show Window"
 	Try
-		persistLog("Tray Initialized")
+		installLog("Tray Initialized")
 }
 
 	
@@ -30,6 +30,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 	Global
 	cfg				:= object()
 	ui 				:= object()
+	afk				:= object()
 	if (A_IsCompiled)
 	{
 		; if !(FileExist("./cacheApp.ini"))
@@ -42,17 +43,17 @@ preAutoExec(InstallDir,ConfigFileName) {
   		{
 			createPbConsole("cacheApp Install")
 			pbConsole("Running standalone executable, attempting to install")
-			persistLog("Running standalone executable, attempting to auto-install")
+			installLog("Running standalone executable, attempting to auto-install")
 			if !(DirExist(InstallDir))
 			{
 				pbConsole("Attempting to create install folder")
-				persistLog("Attempting to create install folder")
+				installLog("Attempting to create install folder")
 				try
 				{
 					DirCreate(InstallDir)
 					SetWorkingDir(InstallDir)
 				} catch {
-					persistLog("Couldn't create install location")
+					installLog("Couldn't create install location")
 					sleep(1500)
 					pbConsole("Cannot Create Folder at the Install Location.")
 					pbConsole("Suspect permissions issue with the desired install location")
@@ -61,11 +62,11 @@ preAutoExec(InstallDir,ConfigFileName) {
 					ExitApp
 				}
 				pbConsole("Successfully created install location at " InstallDir)
-				persistLog("Successfully created install location at " InstallDir)
+				installLog("Successfully created install location at " InstallDir)
 				sleep(1000)
 			}
 			pbConsole("Copying executable to install location")
-			persistLog("Copying executable to install location")
+			installLog("Copying executable to install location")
 			sleep(1000)
 			try{
 				FileCopy(A_ScriptFullPath, InstallDir "/" A_AppName ".exe", true)
@@ -132,7 +133,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			{
 				DirCreate(InstallDir "\Redist")
 			}
-			persistLog("Created Img folder")
+			installLog("Created Img folder")
 			
 			; if (FileExist(InstallDir "cacheApp.ini")) 
 			; || (FileExist(InstallDir "/cacheApp.themes"))
@@ -304,7 +305,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
-			persistLog("Copied Assets to: " InstallDir)
+			installLog("Copied Assets to: " InstallDir)
 			sleep(4500)
 			fileCreateShortcut(installDir "/cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
 			fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
@@ -394,9 +395,8 @@ FileFound(fileName,destination,fileDescription) {
 	}
 }
 			
-persistLog(LogMsg) {
-	Global
-	if !(DirExist(InstallDir "\Logs"))
+installLog(LogMsg) {
+ 	if !(DirExist(InstallDir "\Logs"))
 	{
 		DirCreate(InstallDir "\Logs")
 		FileAppend(A_YYYY A_MM A_DD " [" A_Hour ":" A_Min ":" A_Sec "] Created Logs Folder`n",InstallDir "/Logs/persist.log")
@@ -485,7 +485,6 @@ cfgLoad(&cfg, &ui) {
 	ui.inGameChat			:= false
 	ui.reloading			:= false
 	ui.gameWindowFound		:= false
-	afk							:= object()
 	ui.profileList				:= array()
 	ui.profileListStr			:= ""
 	win1afk 					:= object()
@@ -1035,7 +1034,7 @@ resetWindowPosition(*) {
 exitFunc(ExitReason,ExitCode) {
 	debugLog("Exit Command Received")
 	ui.MainGui.Opt("-AlwaysOnTop")
-	If !InStr("Logoff Shutdown Reload Single Close",ExitReason) && cfg.confirmExitEnabled
+	If (cfg.confirmExitEnabled) && !InStr("Logoff Shutdown Reload Single Close",ExitReason)
 	{
 		Result := MsgBox("Are you sure you want to`nTERMINATE cacheApp?",,4)
 		if Result = "No" {

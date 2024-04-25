@@ -79,11 +79,11 @@ initGui(&cfg, &ui) {
 	ui.titleBarButtonGui.Opt("-Caption -Border AlwaysOnTop owner" ui.mainGui.hwnd)
 	ui.titleBarButtonGui.BackColor := ui.TransparentColor
 	ui.titleBarButtonGui.Color := ui.TransparentColor
-	ui.DownButton := ui.titleBarButtonGui.AddPicture("x0 y0 w35 h35 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
+	ui.DownButton := ui.titleBarButtonGui.AddPicture("x0 y0 w36 h35 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
 	ui.DownButton.OnEvent("Click",HideGui)
 	ui.DownButton.ToolTip := "Minimizes cacheApp App"
 	
-	ui.ExitButton 	:= ui.titleBarButtonGui.AddPicture("x+3 ys section w35 h35 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
+	ui.ExitButton 	:= ui.titleBarButtonGui.AddPicture("x+1 ys section w36 h35 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
 	ui.ExitButton.OnEvent("Click",ExitButtonPushed)
 	ui.ExitButton.ToolTip := "Terminates cacheApp App"
 
@@ -104,7 +104,7 @@ initGui(&cfg, &ui) {
 	try
 	guiVis(ui.gameSettingsGui,false)
 
-	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h35 background" cfg.themeBright2Color," ")
+	;ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h34 background" cfg.themePanel4Color," ")
 	ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
 	ui.titleBarButtonGui.Show("w75 h35 NoActivate")
 	

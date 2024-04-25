@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.5.2"
+A_FileVersion := "1.1.6.1"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -94,8 +94,7 @@ initConsole(&ui)
 #include <libGuiSystemTab>
 #include <libHotkeys>
 #include <libRoutines>
-#include <Class_SQLiteDB>
-#include <libThemeCreator>
+#include <libThemeEditor>
 
 
 	debugLog("Interface Initialized")
@@ -126,6 +125,7 @@ fadeIn()
 if !cfg.topDockEnabled
 	tabsChanged()
 else
-	ui.topDockPrevTab := ui.mainGuiTabs.text
+ui.topDockPrevTab := ui.mainGuiTabs.text
 monitorResChanged()
 
+OnMessage(0x0201, wm_lButtonDown)
