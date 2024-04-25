@@ -1,33 +1,33 @@
 Dev preview of the CacheApp gaming assistant.
 
---Dual window AFK capability in games that support it.
+ -Dual window AFK capability in games that support it.
 
---AFK Dock to monitor/control during AFK routines
+ -AFK Dock to monitor/control during AFK routines
 
---Gaming Mode
+ -Gaming Mode
 
-----Automatically Starts/Sops processing to prepare or end gaming sessions.
+   -Automatically Starts/Sops processing to prepare or end gaming sessions.
 
---Window management and editable AFK routines.
+ -Window management and editable AFK routines.
 
---Modular design to add your own games.
+ -Modular design to add your own games.
 
-----Modules for Destiny2 and World Zero are pre-included.
+   -Modules for Destiny2 and World Zero are pre-included.
 
-------Destiny2: 
+     -Destiny2: 
 
---------AlwaysRun 
+     -AlwaysRun 
 
---------In-Game Loadout Switching
+       -In-Game Loadout Switching
 
---------Vehicle Mounting
+       -Vehicle Mounting
 
------World//Zero: 
+    -World//Zero: 
 
---------Automatic Infinite and Celestial Tower Restarts
+      -Automatic Infinite and Celestial Tower Restarts
 
---------AFK Routines for Each Class
+      -AFK Routines for Each Class
 
---Top-screen Dock and bottom-left mini console for EZ AFK.
+ -Top-screen Dock and bottom-left mini console for EZ AFK.
 
---In-App theme editor
+ -In-App theme editor
