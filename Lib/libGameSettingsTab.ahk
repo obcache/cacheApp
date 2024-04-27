@@ -338,22 +338,22 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2cleanupNeeded := false
 
 		ui.gameSettingsGui.setFont("s10")
-		ui.gameSettingsGui.addText("x7 y4 w479 h60 background" cfg.themePanel1Color,"")
-		ui.gameSettingsGui.addText("x7 y69 w479 h73 background" cfg.themePanel1Color,"")
+		ui.gameSettingsGui.addText("x9 y4 w479 h60 background" cfg.themePanel1Color,"")
+		ui.gameSettingsGui.addText("x9 y69 w479 h73 background" cfg.themePanel1Color,"")
 
-		ui.gameSettingsGui.addText("x13 y74 w465 h63 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,14,75,465,63,cfg.themeDark2Color,cfg.themeBright2Color,1)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,482,62,cfg.themeBright2Color,cfg.themeDark2Color,1)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,69,482,75,cfg.themeBright2Color,cfg.themeDark2Color,1)
+		ui.gameSettingsGui.addText("x15 y74 w465 h63 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,16,75,465,63,cfg.themeDark2Color,cfg.themeBright2Color,1)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,8,3,482,62,cfg.themeBright2Color,cfg.themeDark2Color,1)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,8,69,482,75,cfg.themeBright2Color,cfg.themeDark2Color,1)
 
 
-		ui.gameSettingsGui.addText("hidden x19 y18 section")
-		ui.gameSettingsGui.addText("x40 y10 w260 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")
-		drawOutlineNamed("gameSettings",ui.gameSettingsGui,40,11,260,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
-		ui.gameSettingsGui.addText("x306 y10 w173 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")		
-		drawOutlineNamed("appSettings",ui.gameSettingsGui,306,11,173,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
+		ui.gameSettingsGui.addText("hidden x21 y18 section")
+		ui.gameSettingsGui.addText("x42 y10 w260 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")
+		drawOutlineNamed("gameSettings",ui.gameSettingsGui,42,11,260,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
+		ui.gameSettingsGui.addText("x308 y10 w173 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")		
+		drawOutlineNamed("appSettings",ui.gameSettingsGui,308,11,173,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
 
-		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x43 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x45 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppToggleSprintKey),1,8))
 		ui.d2AppToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","(un)Pause App")
 		ui.d2AppLoadoutKey				:= ui.gameSettingsGui.addPicture("x+2 ys w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
@@ -363,7 +363,7 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2AppVehicleKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
 		ui.d2AppVehicleKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Vehicle")
 		
-		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x309 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x311 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
 		ui.d2GameToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
 		ui.d2GameReloadKey				:= ui.gameSettingsGui.addPicture("x+2 ys w82 h30 section backgroundTrans","./img/keyboard_key_up.png")
@@ -373,7 +373,7 @@ d2LoadoutModifier(hotKeyName) {
 		; ui.d2AppVehicleKeyData 				:= ui.gameSettingsGui.addText("xs y+-23 w84  h21 center c" cfg.themeButtonAlertColor " hidden backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
 		; ui.d2AppVehicleKeyLabel 			:= ui.gameSettingsGui.addText("xs-1 y+-20 w84  h20 hidden center c" cfg.themeFont1Color " backgroundTrans","Mount Vehicle")
 			
-		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
+		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x27 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
 		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
 		ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
 		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
@@ -383,9 +383,9 @@ d2LoadoutModifier(hotKeyName) {
 		;ui.d2LoadoutTimingBg				:= ui.gameSettingsGui.addText("x125 y33 w70 h10 background" cfg.themePanel1Color)
 		;ui.d2LoadoutTiming					:= ui.gameSettingsGui.addSlider("x204 y18 w10 h30  altSubmit vertical tickInterval5 range1-5 thick10 vD2loadoutTiming c" cfg.themeFont2Color " background" cfg.themePanel1Color)
 
-		drawPanelLabel(ui.gameSettingsGui,130,45,80,18,"App Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,132,45,80,18,"App Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
 		
-		drawPanelLabel(ui.gameSettingsGui,344,45,90,18,"Game Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,346,45,90,18,"Game Settings",cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeFont1Color)
 
 		drawPanelLabel(guiName,labelX,labelY,labelW := 100,labelH := 20,labelText := "needs value",backColor := "gray",outlineColor := "white",fontColor := "white") {
 			static labelName := array()

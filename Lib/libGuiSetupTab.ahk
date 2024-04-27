@@ -115,9 +115,9 @@ GuiSetupTab(&ui,&cfg) {
 	ui.checkForUpdatesButton.onEvent("Click",checkForUpdates)
 	ui.checkForUpdatesButton.Tooltip := "Checks to see if a more recent version is available"	
 	ui.installedVersionText := ui.mainGui.addText("ys x+5 section w100 backgroundTrans","Installed:" ui.installedVersion)
-	ui.latestVersionText := ui.mainGui.addText("xs y+0 w100 backgroundTrans","Latest:" ui.latestVersion)
+	ui.latestVersionText := ui.mainGui.addText("xs y+-3 w100 backgroundTrans","Latest:" ui.latestVersion)
 	
-	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 y+10 w100 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,["Auto","1080","1440","Custom"])
+	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 y+5 w110 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,["Auto","1080","1440","Custom"])
 	ui.monitorResDDL.onEvent("change",monitorResChanged)
 	ui.monitorResLabel := ui.mainGui.AddText("x+5 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
 	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")

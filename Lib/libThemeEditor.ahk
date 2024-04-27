@@ -21,13 +21,16 @@ ui.themeEditorGui := gui()
 ui.themeEditorGui.opt("-caption alwaysOnTop owner" ui.mainGui.hwnd)
 ui.themeEditorGui.backColor := cfg.themeBackgroundColor
 ui.themeEditorGui.color := cfg.themeBackgroundColor
-ui.themeEditorTitlebar := ui.themeEditorGui.addText("x0 y0 w320 h25 background" cfg.themePanel1Color " c" cfg.themeFont1Color,"")
+ui.themeEditorTitlebar := ui.themeEditorGui.addText("x0 y0 w295 h25 background" cfg.themePanel1Color " c" cfg.themeFont1Color,"")
 ui.themeEditorTitlebarText := ui.themeEditorGui.addText("x5 y3 w100 h25 backgroundTrans c" cfg.themeFont1Color,"Theme Editor" )
 ui.themeEditorTitlebarText.setFont("s13","calibri bold")
 ui.themeEditorTitlebar.onEvent("click",wm_lButtonDown_callback)
+
+
 guiVis(ui.themeEditorGui,false)
 ui.themeEditorGui.show("w320 h215 noActivate")
-
+drawOutlineNamed("themeOutline",ui.themeEditorGui,0,0,320,215,cfg.ThemeBorderDarkColor,cfg.ThemeBorderLightColor,1)
+drawOutlineNamed("themeOutline",ui.themeEditorGui,0,0,320,25,cfg.ThemeBorderDarkColor,cfg.ThemeBorderLightColor,1)
 ui.ColorSelectorLabel2 := ui.themeEditorGui.AddText("x11 y34 h23 section w75 BackgroundTrans c"
 	((cfg.ColorPickerEnabled) 
 		? cfg.ThemeFont3Color " background" cfg.themePanel3Color 
@@ -35,7 +38,9 @@ ui.ColorSelectorLabel2 := ui.themeEditorGui.AddText("x11 y34 h23 section w75 Bac
 	,((cfg.ColorPickerEnabled) 
 		? (" Color App") 
 		: (" Swatches ")))
-
+ui.themeEditorCancelButton := ui.themeEditorGui.addPicture("x295 y0 w25 h25","./img/button_no.png")
+ui.themeEditorCancelButton.onEvent("click", (*) => guiVis(ui.themeEditorGui,false))
+drawOutlineNamed("themeEditorCancelButtonOutline",ui.themeEditorGui,295,0,25,25,cfg.themeBorderDarkColor,cfg.themeBorderLightColor,2)
 ui.ColorSelectorLabel2.setFont("s13","calibri bold")
 drawOutlineNamed("ThemeOutlineShadow",ui.themeEditorGui,86,32,60,26,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,2)
 

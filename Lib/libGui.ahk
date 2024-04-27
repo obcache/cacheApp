@@ -104,7 +104,7 @@ initGui(&cfg, &ui) {
 	try
 	guiVis(ui.gameSettingsGui,false)
 
-	;ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h34 background" cfg.themePanel4Color," ")
+	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h35 background" cfg.themeBorderDarkColor," ")
 	ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
 	ui.titleBarButtonGui.Show("w75 h35 NoActivate")
 	
