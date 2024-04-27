@@ -652,7 +652,7 @@ WriteConfig() {
 	IniWrite(cfg.mainScriptName,cfg.file,"System","ScriptName")
 	IniWrite(cfg.mainGui,cfg.file,"System","MainGui")
 	iniWrite(cfg.disabledTabs,cfg.file,"System","DisabledTabs")
-
+	iniWrite(cfg.confirmExitEnabled,cfg.file,"System","ConfirmExit")
 	iniWrite(cfg.startMinimizedEnabled,cfg.file,"System","StartMinimizedEnabled")
 	IniWrite(ui.monitorResDDL.value,cfg.file,"System","MonitorResolution")
 	IniWrite(arr2str(cfg.gameModuleList),cfg.file,"Game","GameModuleList")

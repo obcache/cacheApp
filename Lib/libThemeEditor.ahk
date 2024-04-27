@@ -38,7 +38,7 @@ ui.ColorSelectorLabel2 := ui.themeEditorGui.AddText("x11 y34 h23 section w75 Bac
 	,((cfg.ColorPickerEnabled) 
 		? (" Color App") 
 		: (" Swatches ")))
-ui.themeEditorCancelButton := ui.themeEditorGui.addPicture("x295 y0 w25 h25","./img/button_no.png")
+ui.themeEditorCancelButton := ui.themeEditorGui.addPicture("x295 y0 w25 h25","./img/button_quit.png")
 ui.themeEditorCancelButton.onEvent("click", (*) => guiVis(ui.themeEditorGui,false))
 drawOutlineNamed("themeEditorCancelButtonOutline",ui.themeEditorGui,295,0,25,25,cfg.themeBorderDarkColor,cfg.themeBorderLightColor,2)
 ui.ColorSelectorLabel2.setFont("s13","calibri bold")
