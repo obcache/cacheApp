@@ -1019,9 +1019,9 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarGui.addText("x+5 ys-2 w1 h32 section background" cfg.themeBright1Color,"")
 				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+-2 ys-1 w32 h33 section background" cfg.themeButtonReadyColor,ui.buttonStartAfk.value)
 				ui.dockBarWidth 		+= 32
-				ui.dockBarD2Vehicle 	:= ui.dockBarGui.addPicture("x+-1 ys-1 w32 h33 section background" cfg.ThemeButtonReadyColor,"./img/icon_steeringwheel.png")	
+				ui.dockBarD2EagerEdge 	:= ui.dockBarGui.addPicture("x+-1 ys-1 w32 h33 section background" cfg.ThemeButtonReadyColor,"./img/icon_steeringwheel.png")	
 				ui.dockBarWidth 		+= 32
-				ui.dockBarD2Vehicle.onEvent("click",d2AppVehicleKeyClicked)				
+				ui.dockBarD2EagerEdge.onEvent("click",d2AppEagerEdgeKeyClicked)				
 				ui.dockBarLoadouts		:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,"./img/button_loadouts_ready.png")
 				ui.dockBarWidth			+= 32
 				ui.dockBarRunIcon 		:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeDisabledColor, "./img/icon_running.png")

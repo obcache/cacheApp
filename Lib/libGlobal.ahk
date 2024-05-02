@@ -624,7 +624,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.d2AlwaysRunEnabled		:= iniRead(cfg.file,"Game","d2AlwaysRunEnabled",false)
 	cfg.d2AppToggleSprintKey	:= IniRead(cfg.file,"Game","d2AppToggleSprintKey","<UNSET>")
 	cfg.d2GameReloadKey		:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
-	cfg.d2AppVehicleKey			:= IniRead(cfg.file,"Game","d2AppVehicleKey","<UNSET>")
+	cfg.d2AppEagerEdgeKey			:= IniRead(cfg.file,"Game","d2AppEagerEdgeKey","<UNSET>")
 	cfg.d2AppLoadoutKey		:= IniRead(cfg.file,"Game","d2AppLoadoutKey","<UNSET>")
 	cfg.d2AppLoadoutMultiplier	:= iniRead(cfg.file,"Game","d2AppLoadoutMultiplier",1)
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
@@ -722,12 +722,12 @@ WriteConfig() {
 		
 		iniWrite(cfg.SLBHopKey,cfg.file,"Game","ShatterLineBunnyHopKey")
 		IniWrite(cfg.d2GameToggleSprintKey,cfg.file,"Game","d2GameToggleSprintKey")
-		IniWrite(cfg.d2AppVehicleKey,cfg.file,"Game","d2AppVehicleKey")
+		IniWrite(cfg.d2AppEagerEdgeKey,cfg.file,"Game","d2AppEagerEdgeKey")
 		IniWrite(cfg.d2AppLoadoutKey,cfg.file,"Game","d2AppLoadoutKey")
 		iniWrite(cfg.d2AppLoadoutMultiplier,cfg.file,"Game","d2AppLoadoutMultiplier")
 		IniWrite(cfg.d2AppToggleSprintKey,cfg.file,"Game","d2AppToggleSprintKey")
 		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
-		IniWrite(cfg.d2AppVehicleKey,cfg.file,"Game","d2AppVehicleKey")
+		IniWrite(cfg.d2AppEagerEdgeKey,cfg.file,"Game","d2AppEagerEdgeKey")
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {
 			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1080[a_index] ","

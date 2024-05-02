@@ -18,7 +18,7 @@ monitorResChanged(*) {
 		ui.monitorResDDL.text := "Auto (" primaryMonitorBottom ")"
 		}
 
-	d2CreateHotkeys()
+	d2CreateLoadoutKeys()
 }
 
 GuiSetupTab(&ui,&cfg) {

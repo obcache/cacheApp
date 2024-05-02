@@ -41,8 +41,8 @@ Class SQLiteDB {
       If (SQLiteDB._RefCount = 0) {
          SQLiteDLL := SQLiteDB._SQLiteDLL
          If !FileExist(SQLiteDLL)
-            If FileExist(A_ScriptDir . "\SQLiteDB.ini") {
-               SQLiteDLL := IniRead(A_ScriptDir . "\SQLiteDB.ini", "Main", "DllPath", SQLiteDLL)
+            If FileExist(A_ScriptDir . "\app.ini") {
+               SQLiteDLL := IniRead(A_ScriptDir . "\app.ini", "Main", "SqlDllPath", SQLiteDLL)
                SQLiteDB._SQLiteDLL := SQLiteDLL
          }
          If !(DLL := DllCall("LoadLibrary", "Str", SQLiteDB._SQLiteDLL, "UPtr")) {

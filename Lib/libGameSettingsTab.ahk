@@ -42,6 +42,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	} 
 } ;END global UI
 
+
 { ;Global UI Logic
 	drawGameTabs(cfg.activeGameTab)
 	;gameTabChanged()
@@ -116,14 +117,15 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		d2LoadoutCoordsStr .= cfg.d2LoadoutCoords[a_index] ","
 	}
 	d2LoadoutCoordsStr := rtrim(d2LoadoutCoordsStr,",")
-	d2CreateHotkeys()
+	d2CreateLoadoutKeys()
 	
 	hotIfWinActive("ahk_exe destiny2.exe")
 		hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysRun)
+
 	hotIf()
 
-	hotIf(d2VehicleReady)
-		hotKey(cfg.d2AppVehicleKey,d2MountVehicle)
+	hotIf(d2EagerEdgeReady)
+		hotKey(cfg.d2AppEagerEdgeKey,d2EagerEdgeSkate)
 	hotIf()
 
 	hotIf(d2ReadyToReload)
@@ -134,7 +136,9 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		hotKey("~*w",d2StartSprinting)
 	hotIf()
 
-	d2CreateHotkeys(*) {
+
+
+	d2CreateLoadoutKeys(*) {
 		if inStr(ui.monitorResDDL.text,"Auto") {
 			autoDetectMonitor()
 		} else {
@@ -163,12 +167,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	}
 	}
 	
-	d2VehicleReady(*) {
-		if winActive("ahk_exe destiny2.exe") && cfg.d2AlwaysRunEnabled
-			return 1
-		else
-			return 0
-	}
+
 	d2reload(*) {
 		
 		if cfg.d2AlwaysRunEnabled {
@@ -176,26 +175,29 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			ui.d2GameReloadKeyData.redraw()
 			ui.d2IsReloading := true
 			d2ToggleAlwaysRunOff()
-			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2700
+			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2300
 		}	
 		;setTimer () => d2ToggleAlwaysRunOn(), -2600
 	}
 
-	d2MountVehicle(*) {
-		send("{tab down}")
-		sleep(650)
-		send("{e}")
-		send("{e}")
-		send("{e}")
-		send("{e}")
-		send("{tab}")
-		
-		ui.d2AppVehicleKeyData.opt("c" cfg.themeButtonOnColor)
-		ui.d2AppVehicleKeyData.redraw()
-		setTimer () => (ui.d2AppVehicleKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2AppVehicleKeyData.redraw()),-1000
-	
-	
-	}
+d2EagerEdgeSkate(*) {
+		ui.d2AppEagerEdgeKeyData.opt("c" cfg.themeButtonOnColor)
+		setTimer () => ui.d2AppEagerEdgeKeyData.opt("c" cfg.themeButtonAlertColor)
+		send("!{PgUp}")
+		sleep(350)
+		send("{LButton}")
+		sleep(350)
+		send("!{Insert}")
+		send("{space}")
+}
+
+	d2EagerEdgeReady(*) {
+		if winActive("ahk_exe destiny2.exe") 
+			return 1
+		else
+			return 0
+}
+
 	
 	d2FireButtonClicked(*) {
 		send("{LButton Down}")
@@ -203,11 +205,11 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 		send("{LButton Up}")
 		if ui.d2IsSprinting
-			send("{" cfg.d2GameToggleSprintKey "}")
+			se13nd("{" cfg.d2GameToggleSprintKey "}")
 	}
 	
 	d2ReadyToReload(*) {
-		if winActive("ahk_exe destiny2.exe") && !ui.d2IsReloading
+		if winActive("ahk_exe destiny2.exe") && !ui.d2IsReloading && cfg.d2AlwaysRunEnabled
 			return 1
 		else
 			return 0	
@@ -233,7 +235,6 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	}
 
 d2LoadoutModifier(hotKeyName) {
-		if (cfg.d2AlwaysRunEnabled) {
 		try {
 			ui.dockBarLoadouts.opt("background" cfg.themeButtonAlertColor)
 			ui.dockBarLoadouts.redraw()
@@ -259,7 +260,6 @@ d2LoadoutModifier(hotKeyName) {
 		send("{LButton}")
 		sleep(100*cfg.d2AppLoadoutMultiplier)
 		send("{F1}")
-		}
 		try {
 			ui.dockBarLoadouts.opt("background" cfg.themeButtonReadyColor)
 			ui.dockBarLoadouts.redraw()
@@ -317,7 +317,7 @@ d2LoadoutModifier(hotKeyName) {
 	keyCleanUp(this,*) {
 		for keyForCleanup in 
 					[cfg.d2GameToggleSprintKey
-					,cfg.d2AppVehicleKey
+					,cfg.d2AppEagerEdgeKey
 					,cfg.d2AppToggleSprintKey
 					,cfg.d2AppLoadoutKey
 					,"Shift"
@@ -355,13 +355,13 @@ d2LoadoutModifier(hotKeyName) {
 
 		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x45 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppToggleSprintKey),1,8))
-		ui.d2AppToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","(un)Pause App")
+		ui.d2AppToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Always Sprint")
 		ui.d2AppLoadoutKey				:= ui.gameSettingsGui.addPicture("x+2 ys w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppLoadoutKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppLoadoutKey),1,8))
 		ui.d2AppLoadoutKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Loadout")
-		ui.d2AppVehicleKey				:= ui.gameSettingsGui.AddPicture("x+2 ys w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
-		ui.d2AppVehicleKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
-		ui.d2AppVehicleKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Vehicle")
+		ui.d2AppEagerEdgeKey				:= ui.gameSettingsGui.AddPicture("x+2 ys w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppEagerEdgeKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppEagerEdgeKey),1,8))
+		ui.d2AppEagerEdgeKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","EagerEdge")
 		
 		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x311 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-23 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
@@ -369,9 +369,9 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2GameReloadKey				:= ui.gameSettingsGui.addPicture("x+2 ys w82 h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameReloadKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-23 w82  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
 		ui.d2GameReloadKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-33 w82  h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")
-		; ui.d2GameVehicleKey					:= ui.gameSettingsGui.addPicture("x15 y55 w84  h28 section hidden backgroundTrans","./img/keyboard_key_up.png")
-		; ui.d2AppVehicleKeyData 				:= ui.gameSettingsGui.addText("xs y+-23 w84  h21 center c" cfg.themeButtonAlertColor " hidden backgroundTrans",subStr(strUpper(cfg.d2AppVehicleKey),1,8))
-		; ui.d2AppVehicleKeyLabel 			:= ui.gameSettingsGui.addText("xs-1 y+-20 w84  h20 hidden center c" cfg.themeFont1Color " backgroundTrans","Mount Vehicle")
+		; ui.d2GameEagerEdgeKey					:= ui.gameSettingsGui.addPicture("x15 y55 w84  h28 section hidden backgroundTrans","./img/keyboard_key_up.png")
+		; ui.d2AppEagerEdgeKeyData 				:= ui.gameSettingsGui.addText("xs y+-23 w84  h21 center c" cfg.themeButtonAlertColor " hidden backgroundTrans",subStr(strUpper(cfg.d2AppEagerEdgeKey),1,8))
+		; ui.d2AppEagerEdgeKeyLabel 			:= ui.gameSettingsGui.addText("xs-1 y+-20 w84  h20 hidden center c" cfg.themeFont1Color " backgroundTrans","Mount EagerEdge")
 			
 		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x27 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
 		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
@@ -435,9 +435,9 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2Log.setFont("s7","ariel")
 
 		ui.d2AlwaysSprint.ToolTip 			:= "Toggles holdToCrouch"
-		ui.d2AppVehicleKey.ToolTip 			:= "Click to Assign"
-		ui.d2AppVehicleKeyData.ToolTip  	:= "Click to Assign"
-		ui.d2AppVehicleKeyLabel.ToolTip		:= "Click to Assign"
+		ui.d2AppEagerEdgeKey.ToolTip 			:= "Click to Assign"
+		ui.d2AppEagerEdgeKeyData.ToolTip  	:= "Click to Assign"
+		ui.d2AppEagerEdgeKeyLabel.ToolTip		:= "Click to Assign"
 		ui.d2AppLoadoutKey.ToolTip			:= "Click to Assign"
 		ui.d2AppLoadoutKeyData.ToolTip  	:= "Click to Assign"
 		ui.d2AppLoadoutKeyLabel.ToolTip		:= "Click to Assign"
@@ -447,9 +447,9 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2AppToggleSprintKey.ToolTip		:= "Click to Assign"
 		ui.d2AppToggleSprintKeyData.ToolTip  	:= "Click to Assign"
 		ui.d2AppToggleSprintKeyLabel.ToolTip	:= "Click to Assign"
-		ui.d2AppVehicleKey.ToolTip		:= "Click to Assign"
-		ui.d2AppVehicleKeyData.ToolTip  	:= "Click to Assign"
-		ui.d2AppVehicleKeyLabel.ToolTip	:= "Click to Assign"
+		ui.d2AppEagerEdgeKey.ToolTip		:= "Click to Assign"
+		ui.d2AppEagerEdgeKeyData.ToolTip  	:= "Click to Assign"
+		ui.d2AppEagerEdgeKeyLabel.ToolTip	:= "Click to Assign"
 		ui.d2GameReloadKey.ToolTip		:= "Click to Assign"
 		ui.d2GameReloadKeyData.ToolTip  	:= "Click to Assign"
 		ui.d2GameReloadKeyLabel.ToolTip	:= "Click to Assign"
@@ -461,35 +461,35 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2LaunchBrayTechButton.toolTip	:= "Launch Bray.Tech in Browser"
 		ui.d2Launchd2FoundryButton.toolTip	:= "Launch d2Foundry"
 		ui.d2AppLoadoutKeyData.setFont("s11")
-		ui.d2AppVehicleKeyData.setFont("s11")
+		ui.d2AppEagerEdgeKeyData.setFont("s11")
 		ui.d2gameToggleSprintKeyData.setFont("s11")
-		ui.d2AppVehicleKeyData.setFont("s11")
+		ui.d2AppEagerEdgeKeyData.setFont("s11")
 		ui.d2GameReloadKeyData.setFont("s11")
 		ui.d2AppToggleSprintKeyData.setFont("s11")
 
 		ui.d2AppLoadoutKeyLabel.setFont("s9")
-		ui.d2AppVehicleKeyLabel.setFont("s9")
+		ui.d2AppEagerEdgeKeyLabel.setFont("s9")
 		ui.d2gameToggleSprintKeyLabel.setFont("s9")
 		
-		ui.d2AppVehicleKeyLabel.setFont("s9")
+		ui.d2AppEagerEdgeKeyLabel.setFont("s9")
 		ui.d2GameReloadKeylabel.setFont("s9")
 		ui.d2AppToggleSprintKeyLabel.setFont("s9")
 		
 		ui.d2AlwaysSprint.OnEvent("Click", d2ToggleAlwaysRun)
 		
 		ui.d2AppLoadoutKey.onEvent("click",d2AppLoadoutKeyClicked)
-		ui.d2AppVehicleKey.onEvent("click",d2AppVehicleKeyClicked)
+		ui.d2AppEagerEdgeKey.onEvent("click",d2AppEagerEdgeKeyClicked)
 		ui.d2gameToggleSprintKey.onEvent("click",d2gameToggleSprintKeyClicked)
 		
 		ui.d2AppLoadoutKeyData.onEvent("click",d2AppLoadoutKeyClicked)
-		ui.d2AppVehicleKeyData.onEvent("click",d2AppVehicleKeyClicked)
+		ui.d2AppEagerEdgeKeyData.onEvent("click",d2AppEagerEdgeKeyClicked)
 		ui.d2gameToggleSprintKeyData.onEvent("click",d2gameToggleSprintKeyClicked)
 		
-		ui.d2AppVehicleKey.onEvent("click",d2AppVehicleKeyClicked)
+		ui.d2AppEagerEdgeKey.onEvent("click",d2AppEagerEdgeKeyClicked)
 		ui.d2GameReloadKey.onEvent("click",d2GameReloadKeyClicked)
 		ui.d2AppToggleSprintKey.onEvent("click",d2AppToggleSprintKeyClicked)
 		
-		ui.d2AppVehicleKeyData.onEvent("click",d2AppVehicleKeyClicked)
+		ui.d2AppEagerEdgeKeyData.onEvent("click",d2AppEagerEdgeKeyClicked)
 		ui.d2GameReloadKeyData.onEvent("click",d2GameReloadKeyClicked)
 		ui.d2AppToggleSprintKeyData.onEvent("click",d2AppToggleSprintKeyClicked)
 		
@@ -506,7 +506,7 @@ d2LoadoutModifier(hotKeyName) {
 { ;d2 UI Logic
 
 	d2RedrawUI(*) {
-		d2CreateHotkeys()
+		d2CreateLoadoutKeys()
 	}
 
 	d2LaunchDIMButtonClicked(*) {
@@ -551,23 +551,23 @@ d2LoadoutModifier(hotKeyName) {
 		run("chrome.exe https://www.bray.tech")
 		}
 
-	d2AppVehicleKeyClicked(*) {
-		DialogBox('Press key for Vehicle',"Center")
+	d2AppEagerEdgeKeyClicked(*) {
+		DialogBox('Press key for EagerEdge',"Center")
 		Sleep(100)
-		d2AppVehicleKeyInput := InputHook("L1 T6",inputHookAllowedKeys,"+V")
-		d2AppVehicleKeyInput.start()
-		d2AppVehicleKeyInput.wait()
-		if (d2AppVehicleKeyInput.endKey == "" && d2AppVehicleKeyInput.input =="") {
+		d2AppEagerEdgeKeyInput := InputHook("L1 T6",inputHookAllowedKeys,"+V")
+		d2AppEagerEdgeKeyInput.start()
+		d2AppEagerEdgeKeyInput.wait()
+		if (d2AppEagerEdgeKeyInput.endKey == "" && d2AppEagerEdgeKeyInput.input =="") {
 			DialogBoxClose()
 			notifyOSD('No Key Detected.`nPlease Try Again.',2000,"Center")
 		} else {
-			if (d2AppVehicleKeyInput.input)
+			if (d2AppEagerEdgeKeyInput.input)
 			{
-				cfg.d2AppVehicleKey := d2AppVehicleKeyInput.input
+				cfg.d2AppEagerEdgeKey := d2AppEagerEdgeKeyInput.input
 			} else {
-				cfg.d2AppVehicleKey := d2AppVehicleKeyInput.endKey
+				cfg.d2AppEagerEdgeKey := d2AppEagerEdgeKeyInput.endKey
 			}
-			ui.d2AppVehicleKeyData.text := subStr(strUpper(cfg.d2AppVehicleKey),1,8)
+			ui.d2AppEagerEdgeKeyData.text := subStr(strUpper(cfg.d2AppEagerEdgeKey),1,8)
 		}
 
 		DialogBoxClose()
@@ -643,23 +643,23 @@ d2LoadoutModifier(hotKeyName) {
 	}
 
 
-	; d2AppVehicleKeyClicked(*) {
+	; d2AppEagerEdgeKeyClicked(*) {
 		; DialogBox('Press Key to Assign to: `n"Toggle Walk"',"Center")
 		; Sleep(100)
-		; d2AppVehicleKeyInput := InputHook("L1 T6", inputHookAllowedKeys,"+V")
-		; d2AppVehicleKeyInput.start()
-		; d2AppVehicleKeyInput.wait()
-		; if (d2AppVehicleKeyInput.endKey == "" && d2AppVehicleKeyInput.input == "") {
+		; d2AppEagerEdgeKeyInput := InputHook("L1 T6", inputHookAllowedKeys,"+V")
+		; d2AppEagerEdgeKeyInput.start()
+		; d2AppEagerEdgeKeyInput.wait()
+		; if (d2AppEagerEdgeKeyInput.endKey == "" && d2AppEagerEdgeKeyInput.input == "") {
 			; DialogBoxClose()
 			; notifyOSD('No Key Detected.`nPlease Try Again.',2000,"Center")
 		; } else {
-			; if (d2AppVehicleKeyInput.input)
+			; if (d2AppEagerEdgeKeyInput.input)
 			; {
-				; cfg.d2AppVehicleKey := d2AppVehicleKeyInput.input
+				; cfg.d2AppEagerEdgeKey := d2AppEagerEdgeKeyInput.input
 			; } else {
-				; cfg.d2AppVehicleKey := d2AppVehicleKeyInput.endKey
+				; cfg.d2AppEagerEdgeKey := d2AppEagerEdgeKeyInput.endKey
 			; }
-			; ui.d2AppVehicleKeyData.text := subStr(strUpper(cfg.d2AppVehicleKey),1,8)
+			; ui.d2AppEagerEdgeKeyData.text := subStr(strUpper(cfg.d2AppEagerEdgeKey),1,8)
 		; }
 		; DialogBoxClose()
 	; }
