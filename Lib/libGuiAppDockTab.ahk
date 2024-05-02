@@ -81,7 +81,7 @@ ui.SetMonitorButton := ui.MainGui.AddPicture("x43 y38 w82 h35 section background
 	ui.AppDockMonitorText := ui.MainGui.AddText("x+13 ys+6 w31 h23 Center background" cfg.ThemeEditboxColor " c" cfg.ThemeFont1Color, cfg.AppDockMonitor)
 	ui.AppDockMonitorText.OnEvent("Click", SetMonitorButtonPush)
 	ui.AppDockMonitorText.ToolTip := "Monitor currently selected to display docked apps while gaming"
-	ui.appDockTitle := ui.mainGui.addText("x315 y38 w120 h25 backgroundTrans c" cfg.themeFont4Color,"Dock Apps")	
+	ui.appDockTitle := ui.mainGui.addText("x315 y38 w120 h25 hidden backgroundTrans c" cfg.themeFont4Color,"Dock Apps")	
 	drawOutlineMainGui(193,44,31,23,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	ui.MainGui.SetFont("s14 c" cfg.ThemeFont4Color, "Calibri Bold")
 	ui.AppDockMonitorUpdatedText := ui.MainGui.AddText("ys+3 w130 backgroundTrans","")
