@@ -14,13 +14,12 @@ monitorResChanged(*) {
 	cfg.monitorRes := ui.monitorResDDL.text
 	if (cfg.monitorRes == "Auto") {
 		ui.monitorResDDL.delete()
-		ui.monitorResDDl.add(["Auto (" primaryMonitorBottom ")",1080,1440,"Custom"])
+		ui.monitorResDDL.add(["Auto (" primaryMonitorBottom ")",192011080,1440,"Custom"])
 		ui.monitorResDDL.text := "Auto (" primaryMonitorBottom ")"
 		}
 
 	d2CreateHotkeys()
 }
-
 	
 GuiSetupTab(&ui,&cfg) {
 	global

@@ -7,7 +7,7 @@
 #SingleInstance
 #Warn All, Off
 
-if (InStr(A_LineFile,A_ScriptFullPath)){
+if (InStr(A_LineFile,A_ScriptFullPath)) {	
 	Run(A_ScriptDir "/../cacheApp.ahk")
 	ExitApp
 	Return
@@ -15,8 +15,9 @@ if (InStr(A_LineFile,A_ScriptFullPath)){
 
 
 showThemeEditor(*) {
-		guiVis(ui.themeEditorGui,true)
+	guiVis(ui.themeEditorGui,true)
 }
+
 ui.themeEditorGui := gui()
 ui.themeEditorGui.opt("-caption alwaysOnTop owner" ui.mainGui.hwnd)
 ui.themeEditorGui.backColor := cfg.themeBackgroundColor
@@ -49,8 +50,7 @@ ui.toggleColorSelector := ui.themeEditorGui.AddPicture("ys-2 x+-61 section w60 h
 ui.toggleColorSelector.OnEvent("Click", ToggleColorSelector)
 ui.toggleColorSelector.ToolTip := "Select color picking method for theming features"
 
-ToggleColorSelector(*)
-{
+ToggleColorSelector(*) {
 	ui.toggleColorSelector.Value := 
 		(cfg.ColorPickerEnabled := !cfg.ColorPickerEnabled) 
 			? (ui.ColorSelectorLabel2.Opt("c" cfg.ThemeFont3Color " background" cfg.themeButtonOnColor)
@@ -61,10 +61,11 @@ ToggleColorSelector(*)
 				,"./Img/toggle_off.png") 
 	ui.toggleColorSelector.Redraw()
 }
+
 ui.buttonNewTheme := ui.themeEditorGui.AddPicture("x+0 ys+1  section w23 h22 Background" cfg.ThemeButtonReadyColor,"./Img/button_plus_ready.png")
 ui.buttonNewTheme.OnEvent("Click",addTheme)
-
 ui.ThemeDDL := ui.themeEditorGui.AddDDL("ys+0 x+1 w120 section center Background" cfg.ThemeEditboxColor,cfg.ThemeList)
+
 ;
 ui.ThemeDDL.OnEvent("Change",ThemeChanged)
 ui.ThemeDDL.OnEvent("Focus",RepaintThemeDDL)

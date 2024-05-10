@@ -11,18 +11,18 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 
 
 
-^+/::
-{
-	mx := 0
-	coordMode("mouse","screen")
-	while (mx < a_screenwidth) {
-		if (getKeyState("Escape"))
-			Return
-		mouseMove(mx,-10,2)
-		mx += 1
-		sleep(1)
-	}
-}
+; ^+/::
+; {
+	; mx := 0
+	; coordMode("mouse","screen")
+	; while (mx < a_screenwidth) {
+		; if (getKeyState("Escape"))
+			; Return
+		; mouseMove(mx,-10,2)
+		; mx += 1
+		; sleep(1)
+	; }
+; }
 
 
 
@@ -30,28 +30,28 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	; hotKey("w down",SLBHop)
 ; hotIf()
 
-SLCapsOn(*) {
-	if getKeyState("CapsLock","T") && winActive("ahk_exe shatterline.exe")
-		return 1
-	else
-		return 0
-}
+; SLCapsOn(*) {
+	; if getKeyState("CapsLock","T") && winActive("ahk_exe shatterline.exe")
+		; return 1
+	; else
+		; return 0
+; }
 
-SLBHop(*) {
-	CoordMode("Mouse","Client")
-	send("{w down}")
-	sleep(400)
-	send("{LShift}")
-	Sleep(400)
-	MouseMove(-100,0,30,"R")
-	MouseMove(100,0,30,"R")
-	send("{Space}")
-	sleep(300)
-	while getKeyState("W") {
-		send("{Space}")
-		sleep(50)
-	}
-}
+; SLBHop(*) {
+	; CoordMode("Mouse","Client")
+	; send("{w down}")
+	; sleep(400)
+	; send("{LShift}")
+	; Sleep(400)
+	; MouseMove(-100,0,30,"R")
+	; MouseMove(100,0,30,"R")
+	; send("{Space}")
+	; sleep(300)
+	; while getKeyState("W") {
+		; send("{Space}")
+		; sleep(50)
+	; }
+; }
 
 !+F:: {
 	keyWait("F")
@@ -65,15 +65,15 @@ SLBHop(*) {
 }
 
 
-!^Backspace:: {
-	ui.MainGui.Move(30,A_ScreenHeight-ui.TaskbarHeight-GuiH)
-	winGetPos(,,,&GuiH,,ui.mainGui)
-	ToggleGuiCollapse()
-}
+; !^Backspace:: {
+	; ui.MainGui.Move(30,A_ScreenHeight-ui.TaskbarHeight-GuiH)
+	; winGetPos(,,,&GuiH,,ui.mainGui)
+	; ToggleGuiCollapse()
+; }
 
-+Esc:: {
-	resetWindowPosition()
-}
+; +Esc:: {
+	; resetWindowPosition()
+; }
 
 
 
@@ -110,68 +110,58 @@ else
 
 }
 
+::><::sendEvent(")
 
-^+]:: {
+; ^Enter::
+; {
 	
-}
-
-^Enter::
-{
+		; togglePip()
 	
-		togglePip()
+	; }
+
+; !^m::
+; {
+	; getClick(&clickX,&clickY,&activeWindow)
+; }
+
+
+
+; !^F::
+; {
+	; autoFire(0)
+; }
+
+; !^c::
+; {
+	; ToggleAutoClicker()
+; }
+
+; !^a::
+; {
+	; ToggleAFK()
+; }
+
+; !^t::
+; {
+	; ToggleTower()
+; }
+
+; !^w::
+; {
+	; ReturnToWorld()
+; }
 	
-	}
-
-!^m::
-{
-	getClick(&clickX,&clickY,&activeWindow)
-}
-
-
-!^F1::
-{
-	Global
-
-RobloxLauncher()
-}	
-
-;AFK Hotkeys
-!^F::
-{
-	autoFire(0)
-}
-
-!^c::
-{
-	ToggleAutoClicker()
-}
-
-!^a::
-{
-	ToggleAFK()
-}
-
-!^t::
-{
-	ToggleTower()
-}
-
-!^w::
-{
-	ReturnToWorld()
-}
-	
-!^d::
-{
-	ToggleAfkDock()
-}
+; !^d::
+; {
+	; ToggleAfkDock()
+; }
 
 ;GameSettings HotKeys	
-^+d::
-{
-	global
-	toggleOSD()
-}
+; ^+d::
+; {
+	; global
+	; toggleOSD()
+; }
 
 
 

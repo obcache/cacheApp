@@ -552,7 +552,8 @@ cfgLoad(&cfg, &ui) {
 	cfg.AfkSnapEnabled			:= IniRead(cfg.file,"Interface","AfkSnapEnabled",false)
 	cfg.GuiSnapEnabled			:= IniRead(cfg.file,"Interface","GuiSnapEnabled",true)
 	cfg.topDockEnabled 			:= iniRead(cfg.file,"Interface","TopDockEnabled",false)
-						
+				
+	cfg.displaySizeAuto			:= iniRead(cfg.file,"Game","DisplaySizeAuto",true)
 	cfg.AutoDetectGame			:= IniRead(cfg.file,"Game","AutoDetectGame",true)
 	cfg.excludedProcesses		:= IniRead(cfg.file,"Game","ExcludedProcesses",true)
 	cfg.game					:= IniRead(cfg.file,"Game","Game","2")
@@ -623,9 +624,9 @@ cfgLoad(&cfg, &ui) {
 	cfg.cs2HoldToScopeEnabled	:= IniRead(cfg.file,"game","cs2HoldToScopeEnabled",true)
 	cfg.d2AlwaysRunEnabled		:= iniRead(cfg.file,"Game","d2AlwaysRunEnabled",false)
 	cfg.d2AppToggleSprintKey	:= IniRead(cfg.file,"Game","d2AppToggleSprintKey","<UNSET>")
-	cfg.d2GameReloadKey		:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
-	cfg.d2AppEagerEdgeKey			:= IniRead(cfg.file,"Game","d2AppEagerEdgeKey","<UNSET>")
-	cfg.d2AppLoadoutKey		:= IniRead(cfg.file,"Game","d2AppLoadoutKey","<UNSET>")
+	cfg.d2GameReloadKey			:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
+	cfg.d2AppEagerEdgeKey		:= IniRead(cfg.file,"Game","d2AppEagerEdgeKey","<UNSET>")
+	cfg.d2AppLoadoutKey			:= IniRead(cfg.file,"Game","d2AppLoadoutKey","<UNSET>")
 	cfg.d2AppLoadoutMultiplier	:= iniRead(cfg.file,"Game","d2AppLoadoutMultiplier",1)
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
@@ -642,6 +643,7 @@ WriteConfig() {
 	loop cfg.gamingStopProc.length {
 		cfg.gamingStopProcString .= cfg.gamingStopProc[a_index] ","
 	}
+	iniWrite(cfg.displaySizeAuto,cfg.file,"Game","DisplaySizeAuto")
 	iniWrite(rtrim(cfg.gamingStartProcString,",") "'",cfg.file,"System","GamingStartProcesses")
 	iniWrite(rtrim(cfg.gamingStopProcString,",") "'",cfg.file,"System","GamingStopProcesses")
 	iniWrite(cfg.excludedProcesses,cfg.file,"Game","ExcludedProcesses")
@@ -728,21 +730,30 @@ WriteConfig() {
 		IniWrite(cfg.d2AppToggleSprintKey,cfg.file,"Game","d2AppToggleSprintKey")
 		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
 		IniWrite(cfg.d2AppEagerEdgeKey,cfg.file,"Game","d2AppEagerEdgeKey")
+
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {
-			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1080[a_index] ","
+			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1920x1080[a_index] ","
 		}
-		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords1080")
+		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords1920x1080")
+
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {
-			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1440[a_index] ","
+			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords3440x1440[a_index] ","
 		}		
-		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords1440")
-				d2LoadoutCoordsStr := ""
+		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords3440x1440")
+
+		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {
-			d2LoadoutCoordsStr .= cfg.d2LoadoutCoordsCustom[a_index] ","
+			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1920x1200[a_index] ","
 		}
-		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoordsCustom")
+		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords1920x1200")
+		
+		d2LoadoutCoordsStr := ""
+		loop cfg.d2LoadoutCoords.length {
+			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords2560x1440[a_index] ","
+		}		
+		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords2560x1440")
 
 		
 		for appGui in cfg.appGuiList {
@@ -848,8 +859,7 @@ debugLog(LogMsg) {
 }
 
 
-DialogBox(Msg,Alignment := "Center")
-{
+DialogBox(Msg,Alignment := "Center") {
 	Global
 	if !InStr("LeftRightCenter",Alignment)
 		Alignment := "Left"

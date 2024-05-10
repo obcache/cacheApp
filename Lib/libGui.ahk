@@ -16,6 +16,7 @@ initGui(&cfg, &ui) {
 	
 	ui.MainGui := Gui()
 	ui.MainGui.Name := "cacheApp"
+	ui.mainGui.Title	:= "cacheApp Top Dock"
 	ui.TaskbarHeight := GetTaskBarHeight()
 	ui.MainGui.BackColor := ui.TransparentColor
 	ui.MainGui.Color := ui.TransparentColor
@@ -32,6 +33,7 @@ initGui(&cfg, &ui) {
 	ui.MainGuiTabs := ui.MainGui.AddTab3("x35 y1 w495 h213 Buttons -redraw Background" cfg.ThemeBackgroundColor " -E0x200", cfg.mainTabList)
 	ui.MainGuiTabs.OnEvent("Change",TabsChanged)
 ;	ui.MainGuiTabs.Choose(cfg.mainTabList[3])
+	ui.mainGuiTabs.useTab("Game")
 	ui.MainGuiTabs.UseTab("")
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
 	ui.handleBarImage := ui.MainGui.AddPicture("x0 y30 w35 h184","./Img/handlebar_vertical.png")
@@ -104,9 +106,9 @@ initGui(&cfg, &ui) {
 	try
 	guiVis(ui.gameSettingsGui,false)
 
-	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h35 background" cfg.themeBorderDarkColor," ")
+	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h38 background" cfg.themeBorderDarkColor," ")
 	ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
-	ui.titleBarButtonGui.Show("w75 h35 NoActivate")
+	ui.titleBarButtonGui.Show("w75 h36 NoActivate")
 	
 	
 	ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
@@ -258,10 +260,11 @@ toggleChange(name,onOff := "",toggleOnImg := cfg.toggleOn,toggleOffImg := cfg.to
 }
 	
 fadeIn() {
+
 	if (cfg.AnimationsEnabled) {
 		;guiVis(ui.titleBarButtonGui,false)
 		; guiVis(ui.gameSettingsGui,false)
-		; guiVis(ui.afkGui,false)
+		; guiVis(ui.afkGui,false)e
 		;winSetTransparent(0,ui.titleBarButtonGui)
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui)
 		;ui.titleBarButtonGui.Move(mainGuiX,mainGuiY-4)
@@ -307,12 +310,16 @@ fadeIn() {
 					sleep(1)
 				}
 			}
-			guiVis(ui.titleBarButtonGui,true)
-			guiVis(ui.mainGui,true)
+
 		}
 	
-	} 
+	}
 
+			guiVis(ui.titleBarButtonGui,true)
+			guiVis(ui.mainGui,true)
+						ui.mainGuiTabs.useTab("Game")
+			;ui.mainGui.addPicture("x0 y-5","./img2/gameScreenPic.png")
+			ui.mainGuiTabs.useTab("")
 }
 autoFireButtonClicked(*) {
 	ToggleAutoFire()
@@ -380,7 +387,8 @@ UncollapseGui() {
 	guiVis(ui.gameTabGui,true)
 	tabsChanged()
 	guiVis(ui.titleBarButtonGui,true)
-	}
+
+}
 
 mainGuiMove() {
 	winGetPos(&mainX,&mainY,&mainW,&mainH,ui.mainGui)
@@ -840,6 +848,9 @@ tabsChanged(*) {
 			guiVis(ui.afkGui,false)
 			guiVis(ui.editorGui,false)
 			guiVis(ui.gameTabGui,true)
+			ui.mainGuiTabs.useTab("Game")
+			;ui.mainGui.addPicture("x0 y-25","./img2/gameScreenPic.png")
+			ui.mainGuiTabs.useTab("")
 			controlFocus(ui.d2AlwaysSprint,ui.gameSettingsGui)
 			ui.previousTab := ui.activeTab
 		case "Editor":

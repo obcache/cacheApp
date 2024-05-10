@@ -1,4 +1,4 @@
-[Interface]
+[Interface]
 ThemeList=Modern Class,Cold Steel,Militarized,Neon,Ocean,Alien,tmp
 
 [Modern Class]
@@ -136,10 +136,10 @@ ThemeFont1Color=D6D6D6
 ThemeFont3Color=333333
 ThemeFont3Color=2D2D2D
 ThemeFont2Color=C0C0C0
-ThemePanel1Color=585858
+ThemePanel1Color=1B1B1B
 ThemePanel4Color=5C5C5C
 ThemePanel3Color=61823A
-ThemePanel2Color=383838
+ThemePanel2Color=515151
 ThemeEditboxColor=404040
 ThemeProgressColor=9ED1E0
 ThemeDisabledColor=292929
@@ -151,14 +151,14 @@ ThemeFont4Color=292929
 [Alien]
 ThemeButtonReadyColor=AAAAAA
 ThemeFont1Color=D6D6D6
-ThemePanel1Color=585858
+ThemePanel1Color=1B1B1B
 ThemePanel4Color=5C5C5C
 ThemeFont4Color=292929
 ThemePanel3Color=61823A
 ThemeFont3Color=333333
 ThemeButtonOnColor=BFFF01
 ThemeButtonAlertColor=FF8001
-ThemePanel2Color=383838
+ThemePanel2Color=515151
 ThemeBackgroundColor=2D2D2D
 ThemeBorderDarkColor=9E9E9E
 ThemeBorderLightColor=727272

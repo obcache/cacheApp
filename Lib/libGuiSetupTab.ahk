@@ -38,7 +38,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.AutoClickerSpeedSlider.OnEvent("Change",AutoClickerSpeedChanged)
 	
 	ui.MainGui.SetFont("s10 c" cfg.themeFont1Color)
-	drawOutlineMainGui(34,31,497,182,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,2)
+	drawOutlineMainGui(36,30,494,183,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,1)
 
 	ui.MainGui.SetFont("s13")
 	
@@ -122,17 +122,37 @@ GuiSetupTab(&ui,&cfg) {
 	ui.checkForUpdatesButton.Tooltip := "Checks to see if a more recent version is available"	
 	ui.installedVersionText := ui.mainGui.addText("ys x+5 section w100 backgroundTrans","Installed:" ui.installedVersion)
 	ui.latestVersionText := ui.mainGui.addText("xs y+-3 w100 backgroundTrans","Latest:" ui.latestVersion)
-	
-	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 y+5 w110 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,["Auto","1080","1440","Custom"])
-	ui.monitorResDDL.onEvent("change",monitorResChanged)
-	ui.monitorResLabel := ui.mainGui.AddText("x+5 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
-	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")
-	ui.monitorResLabel.setFont("s09")
-	ui.monitorResLabel2.setFont("s09")
+	ui.monitorResList := ["1920x1080","1920x1200","2560x1440","3440x1440","Custom"]
 
+	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 y+5 w110 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,ui.monitorResList)
+	ui.monitorResDDL.onEvent("change",monitorResChanged)
+	ui.monitorResLabel := ui.mainGui.AddText("x+5 y+-27 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
+	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")
+	ui.monitorResLabel.setFont("s8")
+	ui.monitorResLabel2.setFont("s8")
+	ui.monitorAuto := ui.mainGui.addCheckbox("x+-14 y+-22 w15 h15",cfg.displaySizeAuto)
+	ui.monitorAuto.onEvent("Click",toggleAutoDisplaySize)
+	ui.monitorAutoLabel := ui.mainGui.addText("x+-20 y+-30 w22 h12 c" cfg.themeFont1Color " backgroundTrans","Auto")
+	ui.monitorAutoLabel.setFont("s8")
 	ui.installedVersionText.setFont("s10")
 	ui.latestVersionText.setFont("s10")
 
+	if cfg.displaySizeAuto {
+		ui.monitorResDDL.opt("disabled")
+		ui.monitorAuto.value := true
+	} else {
+	ui.monitorResDDL.opt("-disabled")
+		ui.monitorAuto.value := false
+	}
+	
+	toggleAutoDisplaySize(*) {
+		cfg.displaySizeAuto := ui.monitorAuto.Value
+		if cfg.displaySizeAuto {
+			ui.monitorResDDL.opt("disabled")
+		} else {
+			ui.monitorResDDL.opt("-disabled")
+		}
+	}
 	ui.themeEditorButton := ui.mainGui.addPicture("x275 y161 w35 h35 section backgroundTrans","./img/color_swatches.png")
 	ui.themeEditorLabel := ui.mainGui.addText("x+8 ys+4 w150 h35 section background" cfg.themePanel1Color,"Theme Editor")
 	ui.themeEditorLabel.setFont("s14")

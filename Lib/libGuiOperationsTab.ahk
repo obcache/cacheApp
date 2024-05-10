@@ -74,10 +74,10 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 
 	ui.MainGuiTabs.UseTab("Sys")
 	ui.win1GridLines := ui.mainGui.addText("x105 y63 w155 h44 background" cfg.themeDisabledcolor,"")
-	ui.win2GridLines := ui.mainGui.addText("x285 y62 w200 h40 background" cfg.themeDisabledcolor,"")
+	ui.win2GridLines := ui.mainGui.addText("x284 y62 w200 h40 background" cfg.themeDisabledcolor,"")
 	ui.MainGui.SetFont("s14","Calibri Thin")
 
-	ui.OpsDockButton := ui.MainGui.AddPicture("x38 y34 w32 h27 section Background" cfg.ThemeButtonReadyColor,"./Img/button_dockLeft_ready.png")
+	ui.OpsDockButton := ui.MainGui.AddPicture("x36 y34 w32 h27 section Background" cfg.ThemeButtonReadyColor,"./Img/button_dockLeft_ready.png")
 	ui.OpsDockButton.OnEvent("Click",toggleAfkDock)
 	ui.OpsDockButton.ToolTip 		:= "Dock AFK Panel"
 	

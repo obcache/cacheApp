@@ -1,10 +1,10 @@
-A_FileVersion := "1.1.6.7"
+A_FileVersion := "1.1.6.8"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
 	A_FileVersion := FileRead("./cacheApp_currentBuild.dat")
-;@Ahk2Exe-SetName cacheApp
+;@Ahk2Exe-SetName cacheApp
 ;@Ahk2Exe-SetVersion %U_FileVersion%
 ;@Ahk2Exe-SetFileVersion %U_FileVersion%
 
@@ -32,13 +32,23 @@ installKeybdHook()
 keyHistory(10)
 setWorkingDir(a_scriptDir)
 
+;SQLite Functions
+;SQLiteSelectData(<byRef Array for Return Data>,<SQLite3 Query>,<SQLite3 Database Path+Filename>)
+;SQLiteInsertData(<Array of Data to Insert>,<Table Name>,<SQLite3 Database Path+Filename>)
+;SQLiteUpdateData(<Array of Updated Data>,<Table Name>,<Condition>,<SQLite3 Database Path+Filename>)
+
+;JSON Functions
+;SelectDataFromJSON(<byRef Array for Return Data>,<JSON Path+Filename>)
+;InsertDataIntoJSON(<Array of Data to Insert>,<JSON Path+Filename>)
+;UpdateDataInJSON(<Array of Updated Data>,<IndeX>,<JSON Path+Filename>)
 
 
+
+	
 a_restarted := 
 	(inStr(dllCall("GetCommandLine","Str"),"/restart"))
 		? true
 		: false
-
 
 
 
@@ -62,6 +72,8 @@ ui.AfkHeight 	:= 170
 ui.latestVersion := ""
 ui.installedVersion := ""
 
+
+
 MonitorGet(MonitorGetprimary(),
 	&primaryMonitorLeft,
 	&primaryMonitorTop,
@@ -75,6 +87,7 @@ MonitorGetWorkArea(MonitorGetprimary(),
 	&primaryWorkAreaBottom)
 
 ui.taskbarHeight := primaryMonitorBottom - primaryWorkAreaBottom
+
 
 cfgLoad(&cfg, &ui)
 initGui(&cfg, &ui)
@@ -95,12 +108,13 @@ initConsole(&ui)
 #include <libHotkeys>
 #include <libRoutines>
 #include <libThemeEditor>
+#include <libDataMgmt>
+
 
 
 	debugLog("Interface Initialized")
 
 OnExit(ExitFunc)
-
 
 	debugLog("Console Initialized")
 
@@ -117,8 +131,9 @@ changeGameDDL()
 
 winSetTransparent(0,ui.gameSettingsGui)
 winSetTransparent(0,ui.afkGui)
-ui.gameSettingsGui.show("x" mainGuiX+35 " y" mainGuiY+32 " w495 h176 noActivate")
+
 drawAfkOutlines()
+ui.gameSettingsGui.show("x" mainGuiX+35 " y" mainGuiY+32 " w495 h180 noActivate")
 ui.afkGui.show("x" mainGuiX+45 " y" mainGuiY+50 " w270 h140 noActivate")
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 fadeIn()

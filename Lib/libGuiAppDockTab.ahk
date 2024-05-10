@@ -41,7 +41,7 @@ launchApp(appName) {
 			while !launchSuccessful and timeoutCount < 60 {
 				timeoutCount += 1
 				sleep(1000)
-				if winExist("ahk_exe foobar2000.exe") {
+				if winExist("ahk_ee foobar2000.exe") {
 					launchSuccessful := true
 				}
 			}
