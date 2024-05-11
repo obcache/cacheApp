@@ -20,11 +20,11 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		}
 
 		ui.gameSettingsGui := Gui()
-		ui.gameSettingsGui.Name := "cacheApp Game Settings"
+		ui.gameSettingsGui.Name := "CacheApp D2ool"
 		ui.gameSettingsGui.BackColor := cfg.themeBackgroundColor
 		ui.gameSettingsGui.Color := cfg.themeBackgroundColor
 		ui.gameSettingsGui.MarginX := 5
-		ui.gameSettingsGui.Opt("-Caption -Border +AlwaysOnTop  +Owner" ui.MainGui.Hwnd)
+		ui.gameSettingsGui.Opt("-Caption -Border +AlwaysOnTop +ToolWindow +Owner" ui.MainGui.Hwnd)
 		ui.gameSettingsGui.SetFont("s14 c" cfg.ThemeFont1Color,"Calibri")
 		ui.gameTabs := ui.gameSettingsGui.addTab3("x-1 y-5 w497 h181 0x400 bottom c" cfg.themeFont1Color " choose" cfg.activeGameTab,cfg.gameModuleList)
 		ui.gameTabs.choose(cfg.gameModuleList[cfg.activeGameTab])
@@ -138,7 +138,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			ui.d2GameReloadKeyData.redraw()
 			ui.d2IsReloading := true
 			d2ToggleAlwaysRunOff()
-			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2300
+			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2700
 		}	
 		;setTimer () => d2ToggleAlwaysRunOn(), -2600
 	}
@@ -147,9 +147,9 @@ d2EagerEdgeSkate(*) {
 		ui.d2AppEagerEdgeKeyData.opt("c" cfg.themeButtonOnColor)
 		setTimer () => ui.d2AppEagerEdgeKeyData.opt("c" cfg.themeButtonAlertColor)
 		send("!{PgUp}")
-		sleep(350)
+		sleep(450)
 		send("{LButton}")
-		sleep(350)
+		sleep(450)
 		send("!{Insert}")
 		send("{space}")
 }
@@ -366,24 +366,24 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2cleanupNeeded := false
 
 		ui.gameSettingsGui.setFont("s10")
-		ui.gameSettingsGui.addText("x9 y4 w479 h60 background" cfg.themePanel1Color,"")
-		ui.gameSettingsGui.addText("x9 y69 w479 h73 background" cfg.themePanel1Color,"")
+		ui.gameSettingsGui.addText("x7 y4 w481 h63 background" cfg.themePanel1Color,"")
+		ui.gameSettingsGui.addText("x7 y71 w481 h71 background" cfg.themePanel1Color,"")
 
-		ui.gameSettingsGui.addText("x15 y74 w465 h63 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,16,75,465,63,cfg.themeDark2Color,cfg.themeBright2Color,1)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,8,3,482,62,cfg.themeBright2Color,cfg.themeDark2Color,1)
-		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,8,69,482,75,cfg.themeBright2Color,cfg.themeDark2Color,1)
+		ui.gameSettingsGui.addText("x12 y78 w470 h58 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
+		drawOutlineNamed("d2linkPanel",ui.gameSettingsGui,13,79,470,57,cfg.themeDark2Color,cfg.themeBright2Color,1)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,484,66,cfg.themeBright2Color,cfg.themeDark2Color,1)
+		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,71,484,73,cfg.themeBright2Color,cfg.themeDark2Color,1)
 
 
-		ui.gameSettingsGui.addText("hidden x21 y18 section")
-		ui.gameSettingsGui.addText("x42 y10 w260 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")
-		drawOutlineNamed("gameSettings",ui.gameSettingsGui,42,11,260,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
-		ui.gameSettingsGui.addText("x308 y10 w177 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
-		drawOutlineNamed("appSettings",ui.gameSettingsGui,309,11,176,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
+		ui.gameSettingsGui.addText("hidden x19 y18 section")
+		ui.gameSettingsGui.addText("x38 y10 w260 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")
+		drawOutlineNamed("gameSettings",ui.gameSettingsGui,38,11,260,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
+		ui.gameSettingsGui.addText("x304 y10 w177 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
+		drawOutlineNamed("appSettings",ui.gameSettingsGui,305,11,176,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
 	
 
 
-		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x47 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x45 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-24 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppToggleSprintKey),1,8))
 		ui.d2AppToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-34 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Always Sprint")
 		ui.d2AppLoadoutKey				:= ui.gameSettingsGui.addPicture("x+2 ys w80  h30 section backgroundTrans","./img/keyboard_key_up.png")
@@ -393,7 +393,7 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2AppEagerEdgeKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppEagerEdgeKey),1,8))
 		ui.d2AppEagerEdgeKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-34 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","EagerEdge")
 		
-		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x314 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x312 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-24 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
 		ui.d2GameToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-34 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
 		ui.d2GameReloadKey				:= ui.gameSettingsGui.addPicture("x+2 ys w82 h30 section backgroundTrans","./img/keyboard_key_up.png")
@@ -403,7 +403,7 @@ d2LoadoutModifier(hotKeyName) {
 		; ui.d2AppEagerEdgeKeyData 				:= ui.gameSettingsGui.addText("xs y+-23 w84  h21 center c" cfg.themeButtonAlertColor " hidden backgroundTrans",subStr(strUpper(cfg.d2AppEagerEdgeKey),1,8))
 		; ui.d2AppEagerEdgeKeyLabel 			:= ui.gameSettingsGui.addText("xs-1 y+-20 w84  h20 hidden center c" cfg.themeFont1Color " backgroundTrans","Mount EagerEdge")
 			
-		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x27 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
+		ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+52 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
 		ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
 		ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
 		ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
@@ -413,12 +413,12 @@ d2LoadoutModifier(hotKeyName) {
 		;ui.d2LoadoutTimingBg				:= ui.gameSettingsGui.addText("x125 y33 w70 h10 background" cfg.themePanel1Color)
 		;ui.d2LoadoutTiming					:= ui.gameSettingsGui.addSlider("x204 y18 w10 h30  altSubmit vertical tickInterval5 range1-5 thick10 vD2loadoutTiming c" cfg.themeFont2Color " background" cfg.themePanel1Color)
 
-		drawPanelLabel(ui.gameSettingsGui,172,45,130,17,"Desired Bindings",cfg.themePanel2Color,cfg.themeBright2Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,168,45,130,17,"Desired Bindings",cfg.themePanel2Color,cfg.themeBright2Color,cfg.themeFont1Color)
 		
-		drawPanelLabel(ui.gameSettingsGui,309,45,130,17,"As Bound in-Game",cfg.themePanel2Color,cfg.themeBright2Color,cfg.themeFont1Color)
+		drawPanelLabel(ui.gameSettingsGui,305,45,130,17,"As Bound in-Game",cfg.themePanel2Color,cfg.themeBright2Color,cfg.themeFont1Color)
 		
-		ui.gameSettingsGui.addText("x308 y45 w1 h18 background" cfg.themePanel2Color)
-		ui.gameSettingsGui.addText("x309 y45 w1 h18 background" cfg.themeDark2Color)
+		ui.gameSettingsGui.addText("x304 y45 w1 h18 background" cfg.themePanel2Color)
+		ui.gameSettingsGui.addText("x305 y45 w1 h18 background" cfg.themeDark2Color)
 
 		drawPanelLabel(guiName,labelX,labelY,labelW := 100,labelH := 20,labelText := "needs value",backColor := "gray",outlineColor := "white",fontColor := "white") {
 			static labelName := array()
@@ -457,7 +457,7 @@ d2LoadoutModifier(hotKeyName) {
 		; ui.d2AppSetupLabelInfo.toolTip 		:= "Bind these to what you'd`nlike to use when playing."
 		; ui.d2DestinySetupLabelInfo.toolTip	:= "Bind these to whatever they're set to in Destiny 2."
 		
-		ui.d2AlwaysSprint := ui.gameSettingsGui.addPicture("x15 y7 w28 h49 section "
+		ui.d2AlwaysSprint := ui.gameSettingsGui.addPicture("x13 y9 w28 h46 section "
 		((cfg.d2AlwaysRunEnabled) 
 			? ("Background" cfg.ThemeButtonOnColor) 
 				: ("Background" cfg.themeButtonReadyColor)),

@@ -16,7 +16,7 @@ initGui(&cfg, &ui) {
 	
 	ui.MainGui := Gui()
 	ui.MainGui.Name := "cacheApp"
-	ui.mainGui.Title	:= "cacheApp Top Dock"
+	ui.mainGui.Title	:= "CacheApp D2ool"
 	ui.TaskbarHeight := GetTaskBarHeight()
 	ui.MainGui.BackColor := ui.TransparentColor
 	ui.MainGui.Color := ui.TransparentColor
@@ -78,7 +78,7 @@ initGui(&cfg, &ui) {
 
 
 	ui.titleBarButtonGui := Gui()
-	ui.titleBarButtonGui.Opt("-Caption -Border AlwaysOnTop owner" ui.mainGui.hwnd)
+	ui.titleBarButtonGui.Opt("-Caption -Border AlwaysOnTop +ToolWindow owner" ui.mainGui.hwnd)
 	ui.titleBarButtonGui.BackColor := ui.TransparentColor
 	ui.titleBarButtonGui.Color := ui.TransparentColor
 	ui.DownButton := ui.titleBarButtonGui.AddPicture("x0 y0 w36 h35 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
@@ -149,7 +149,7 @@ initOSDGui() {
 
 	ui.AfkGui := Gui()
 	winSetTransparent(0,ui.afkGui)
-	ui.AfkGui.Name := "cacheAppMain"
+	ui.AfkGui.Name := "CacheApp D2ool"
 	ui.AfkGui.BackColor := cfg.ThemeBackgroundColor
 	ui.AfkGui.Color := ui.TransparentColor
 	ui.AfkGui.MarginX := 5
