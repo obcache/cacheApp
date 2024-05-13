@@ -30,8 +30,8 @@ ui.themeEditorTitlebar.onEvent("click",wm_lButtonDown_callback)
 
 guiVis(ui.themeEditorGui,false)
 ui.themeEditorGui.show("w320 h215 noActivate")
-drawOutlineNamed("themeOutline",ui.themeEditorGui,0,0,320,215,cfg.ThemeBorderDarkColor,cfg.ThemeBorderLightColor,1)
-drawOutlineNamed("themeOutline",ui.themeEditorGui,0,0,320,25,cfg.ThemeBorderDarkColor,cfg.ThemeBorderLightColor,1)
+drawOutlineNamed("themeOutline",ui.themeEditorGui,0,0,320,215,cfg.ThemeBorderDarkColor,cfg.ThemeBorderLightColor,3)
+drawOutlineNamed("themeOutline",ui.themeEditorGui,1,0,320,25,cfg.ThemeBorderDarkColor,cfg.ThemeBorderLightColor,2)
 ui.ColorSelectorLabel2 := ui.themeEditorGui.AddText("x11 y34 h23 section w75 BackgroundTrans c"
 	((cfg.ColorPickerEnabled) 
 		? cfg.ThemeFont3Color " background" cfg.themePanel3Color 
@@ -46,7 +46,7 @@ ui.ColorSelectorLabel2.setFont("s13","calibri bold")
 drawOutlineNamed("ThemeOutlineShadow",ui.themeEditorGui,86,32,60,26,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,2)
 
 
-ui.toggleColorSelector := ui.themeEditorGui.AddPicture("ys-2 x+-61 section w60 h26 background" cfg.themeBackgroundColor, (cfg.ColorPickerEnabled) ? ("./Img/toggle_on.png") : ("./Img/toggle_off.png"))
+ui.toggleColorSelector := ui.themeEditorGui.AddPicture("ys-2 x+-61 section w60 h27 background" cfg.themeBackgroundColor, (cfg.ColorPickerEnabled) ? ("./Img/toggle_on.png") : ("./Img/toggle_off.png"))
 ui.toggleColorSelector.OnEvent("Click", ToggleColorSelector)
 ui.toggleColorSelector.ToolTip := "Select color picking method for theming features"
 
@@ -64,7 +64,7 @@ ToggleColorSelector(*) {
 
 ui.buttonNewTheme := ui.themeEditorGui.AddPicture("x+0 ys+1  section w23 h22 Background" cfg.ThemeButtonReadyColor,"./Img/button_plus_ready.png")
 ui.buttonNewTheme.OnEvent("Click",addTheme)
-ui.ThemeDDL := ui.themeEditorGui.AddDDL("ys+0 x+1 w120 section center Background" cfg.ThemeEditboxColor,cfg.ThemeList)
+ui.ThemeDDL := ui.themeEditorGui.AddDDL("ys+0 x+1 w120 section center c" cfg.themeFont1Color " Background" cfg.ThemeEditboxColor,cfg.ThemeList)
 
 ;
 ui.ThemeDDL.OnEvent("Change",ThemeChanged)
@@ -128,8 +128,8 @@ PickColor(Obj,msg,Info*)
 
 RepaintThemeDDL(*) {
 	ui.themeDDL.choose(ui.themeDDL.value)
-	drawOutlineNamed("ThemeOutline",ui.themeEditorGui,10,34,222,27,cfg.ThemeBorderLightColor,cfg.ThemeBorderLightColor,3)
-	drawOutlineNamed("ThemeOutlineShadow",ui.themeEditorGui,10,34,222,27,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,2)
+	; drawOutlineNamed("ThemeOutline",ui.themeEditorGui,10,34,222,27,cfg.ThemeBorderLightColor,cfg.ThemeBorderLightColor,3)
+	; drawOutlineNamed("ThemeOutlineShadow",ui.themeEditorGui,10,34,222,27,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,2)
 }
 
 ThemeChanged(*) {

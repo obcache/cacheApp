@@ -94,23 +94,70 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	; }
 	;msgBox(audioListStr)
 
-audioOutputDevices := ["S2MASTER (Traktor Kontrol S2 MK3 WDM Audio)","Speakers (Logitech G432 Gaming Headset)","Realtek HD Audio 2nd output (Realtek(R) Audio)","Speakers (Yeti Classic)","Headphones (Tango TRX)"]
 
-audioDeviceName := regRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render\{e4301939-df7b-41b3-81d5-a8930d8b94aa}\Properties","{b3f8fa53-0004-438e-9003-51a46e139bfc},6")
+regAudioDevices := "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render\"
+allowedDevices := ["S2MASTER","G432","2nd Output","Yeti Classic","Tango"]
+; currDev := ""
+; loop reg regAudioDevices,"K" {
+	; loop reg a_loopRegKey "\" a_loopRegName "\Properties\" {
+		; currDev := regRead(a_loopRegKey,"{a45c254e-df1c-4efd-8020-67d146a850e0},2") " (" regRead(a_loopRegKey,"{b3f8fa53-0004-438e-9003-51a46e139bfc},6") ")"
+		; loop allowedDevices.length {
+			; if inStr(currDev,allowedDevices[A_Index]) {
+				; isDupe := false
+				; for dev in ui.audioDevices {
+					; if dev == currDev	
+						; isDupe := true
+				; }
+				; if !isDupe {
+					; ui.audioDevices.push(currDev)
+		
+				; }
+			; }	
+		; }
+	; }
+; }
 
 
-Run("./Redist/nircmd.exe setdefaultsounddevice " audioOutputDevices[currOutputDeviceNum])
-debugLog("setting audio device: " audioOutputDevices[currOutputDeviceNum])
-
-
-if currOutputDeviceNum == 5
-	currOutputDeviceNum := 1
-else
-	currOutputDeviceNum += 1
-
+RunWait('.\redist\SoundVolumeView.exe /scomma .tmp /columns "Device Name,Type,Name,Direction" | .\redist\GetNir.exe ""')
+loop read, ".\.tmp" {
+	;msgBox(a_loopReadLine)
+	lineArr := strSplit(a_loopReadLine,",")
+	if lineArr[2] == "Device" && lineArr[4] == "Render" && !inStr(lineArr[1],"VB-Audio") && !inStr(lineArr[1],"NVIDIA") && lineArr[3] != "Monitor"
+	ui.audioDevices.push(lineArr[1] "\" lineArr[2] "\" lineArr[3] "\" lineArr[4])
+	;ui.audioDevices.push(lineArr[1])
 }
 
-::><::sendEvent(")
+tmpStr := ""
+loop ui.audioDevices.length {
+	tmpStr .= ui.audioDevices[A_Index] "`n"
+}
+	
+;msgBox(tmpStr)
+
+
+
+if currOutputDeviceNum == ui.audioDevices.length
+	currOutputDeviceNum := 1
+else
+	currOutputDeviceNum += 1	
+Run('.\Redist\soundVolumeView.exe /SetDefault "' ui.audioDevices[currOutputDeviceNum] '" "all"')
+TrayTip("Audio Changed:`n " strSplit(ui.audioDevices[currOutputDeviceNum],"\")[1],"CacheApp Audio Mgr","Iconi Mute")
+;Run("./Redist/nircmd.exe setdefaultsounddevice " ui.audioDevices[currOutputDeviceNum])
+;TrayTip("setting audio device: " ui.audioDevices[currOutputDeviceNum])
+
+
+
+; if currOutputDeviceNum > ui.audioDevices.length
+	; currOutputDeviceNum := 1
+; else
+	; currOutputDeviceNum += 1	
+; Run("./Redist/nircmd.exe setdefaultsounddevice " ui.audioDevices[currOutputDeviceNum])
+; TrayTip("setting audio device: " ui.audioDevices[currOutputDeviceNum])
+
+
+
+
+}
 
 ; ^Enter::
 ; {

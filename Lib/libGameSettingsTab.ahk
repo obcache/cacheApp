@@ -74,8 +74,14 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			" x+0 w110 section center background" 
 			((tabNum == 1) ? cfg.themeBackgroundColor : cfg.themePanel4Color) 
 			" c" ((tabNum == 1) ? cfg.themeFont1Color : cfg.themeFont4Color)
+			,"")
+		ui.gameTab1Skin.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
+		ui.gameTab1Label := ui.gameTabGui.addText(
+			((tabNum == 1) ? "ys+0 h27" : "ys+0 h26")
+			" x+-110 w110 section center backgroundTrans c" 
+			((tabNum == 1) ? cfg.themeFont1Color : cfg.themeFont4Color)
 			,"Destiny 2")
-		ui.gameTab1Skin.setFont((tabNum == 1 ? "s14" : "s11"),"Impact")
+		ui.gameTab1Label.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
 		ui.gameTabGui.addText("ys x+0  w2 h27 section background" cfg.themeBright1Color,"")
 		ui.gameTab2Skin := ui.gameTabGui.addText(
 			((tabNum == 2) 
@@ -88,11 +94,25 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			" c" ((tabNum == 2)
 				? cfg.themeFont1Color 
 				: cfg.themeFont4Color)
-			,"World//Zero")
+			,"")
 		ui.gameTab2Skin.setFont(
 			((tabNum == 2)
 				? "s14" 
-				: "s11")
+				: "s12")
+			,"Impact")
+		ui.gameTab2Label := ui.gameTabGui.addText(
+			((tabNum == 2) 
+				? "ys+0 h27" 
+				: "ys+0 h27")
+			" x+-112 w112 section center backgroundTrans c" 
+			((tabNum == 2)
+				? cfg.themeFont1Color 
+				: cfg.themeFont4Color)
+			,"World//Zero")
+		ui.gameTab2Label.setFont(
+			((tabNum == 2)
+				? "s14" 
+				: "s12")
 			,"Impact")
 		ui.gameTabGui.addText("ys+0 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,"")
 	
