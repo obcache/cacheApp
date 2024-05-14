@@ -507,6 +507,7 @@ cfgLoad(&cfg, &ui) {
 	ui.clearClockAlert			:= false
 	ui.themeEditorVisible		:= false
 	ui.dividerGui				:= gui()
+	cfg.forcedTooltipControls	:= "Win1,Win2,Win3"
 	cfg.gameModuleList			:= strSplit(iniRead(cfg.file,"Game","GameModuleList","Destiny2,World//Zero"),",")
 	cfg.GameList				:= StrSplit(IniRead(cfg.file,"Game","GameList","Roblox,Rocket League"),",")
 	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Editor,Setup"),",")
@@ -901,6 +902,7 @@ DialogBoxClose(*)
 	Try
 		ui.notifyGui.Destroy()
 	guiVis("all",true)
+	tabsChanged()
 }
 
 NotifyOSD(NotifyMsg,Duration := 10,Alignment := "Left",YN := "")

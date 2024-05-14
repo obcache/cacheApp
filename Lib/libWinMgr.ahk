@@ -97,8 +97,9 @@ wm_mouseMove(wParam, lParam, msg, hwnd) {
 	static prevHwnd := 0
     if (hwnd != prevHwnd) {
 		toolTip()
-		if cfg.toolTipsEnabled && guiCtrlFromHwnd(Hwnd).hasProp("ToolTip") {
-			setTimer () => toolTipDelayStart(guiCtrlFromHwnd(hwnd)), -850
+		this_control := guiCtrlFromHwnd(hwnd)
+		if (this_control.hasProp("ToolTip") && cfg.toolTipsEnabled) || this_control.hasProp("ToolTipData") {
+			setTimer () => toolTipDelayStart(this_control), -850
 		}
 		prevHwnd := Hwnd
 	}
@@ -108,15 +109,17 @@ toolTipDelayStart(origGuiCtrl) {
 	mouseGetPos(,,&currCtrlWin,&currCtrlClass)
 	try {
 		if origGuiCtrl.hwnd == controlGetHwnd(currCtrlClass,currCtrlWin) {
-			toolTip(origGuiCtrl.toolTip)
-			setTimer () => toolTip(), -2500
+			if origGuiCtrl.hasProp("ToolTipData")
+				toolTip(origGuiCtrl.toolTipData)
+			else
+				toolTip(origGuiCtrl.toolTip)
+			setTimer () => toolTip(), -10000
 		}
 	}
 }
 
 
 } ;end mouse EVENTS##############
-
 ;end modal guis
 	
 { ;window utilities

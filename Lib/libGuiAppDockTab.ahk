@@ -9,6 +9,10 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	Return
 }
 	
+win1 := object()
+win2 := object()
+win3 := object()
+
 
 if !(StrCompare(A_LineFile,A_ScriptFullPath)) {
 	InstallDir 		:= IniRead("./cacheApp.ini","System","InstallDir",A_MyDocuments "\cacheApp")
@@ -52,6 +56,22 @@ launchApp(appName) {
 			notifyOSD("Problems launching Foobar2000",2000)
 			Return
 		}
+		case "obsstudio":
+			run('C:\Program Files\obs-studio\bin\64bit\obs64.exe','C:\Program Files\obs-studio\bin\64bit\')
+			launchSuccessful := false
+			timeoutCount := 0
+			while !launchSuccessful and timeoutCount < 60 {
+				timeoutCount += 1
+				sleep(1000)
+				if winExist("ahk_exe obs64.exe") {
+					launchSuccessful := true
+				}	
+			}
+			if (launchSuccessful) {
+				winActivate("ahk_exe obs64.exe")
+			} else {
+				notifyOSD("Problems launching OBS")
+			}
 	}
 }
 
@@ -63,12 +83,20 @@ GuiDockTab(&ui) {
 	ui.appDockTopPanel := ui.mainGui.addText("x41 y37 w386 h40 background" cfg.themePanel4color,"")
 	ui.appDockBottomPanel := ui.mainGui.addText("x41 y84 w386 h124 background" cfg.themePanel4color,"")
 	ui.appDockRightPanel := ui.mainGui.addText("x435 y37 w91 h171 background" cfg.themePanel4Color,"")
+	ui.appDockButtons1Panel := ui.mainGui.addText("x250 y38 w175 h36 background" cfg.themeBackgroundColor,"")
+	ui.appDockRightPanelHeader := ui.mainGui.addText("x437 y39 w86 h17 background" cfg.themeBackgroundColor,"")
+	ui.appDockRightPanelBody := ui.mainGui.addText("x437 y58 w86 h77 background" cfg.themeBackgroundColor,"")
+	ui.appDockRightPanelFooter := ui.mainGui.addText("x437 y137 w86 h25 background" cfg.themeBackgroundColor,"")
 	drawOutlineNamed("appDockTopPanel",ui.mainGui,39,35,389,42,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	drawOutlineNamed("appDockRightPanel",ui.mainGui,433,35,94,173,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	drawOutlineNamed("appDockBottomPanel",ui.mainGui,39,82,389,126,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
+	drawOutlineNamed("appDockButtons1Panel",ui.mainGui,251,39,173,34,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
+	drawOutlineNamed("appDockButtons1Panel",ui.mainGui,438,40,84,15,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
+	drawOutlineNamed("appDockButtons1Panel",ui.mainGui,438,59,84,75,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
+	drawOutlineNamed("appDockButtons1Panel",ui.mainGui,438,138,84,23,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	ui.MainGui.SetFont("s16 c" cfg.ThemeFont4Color,"Calibri")
 	drawOutlineNamed("MonitorLabel",ui.mainGui,115,44,80,23,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
-ui.SetMonitorButton := ui.MainGui.AddPicture("x43 y38 w82 h35 section backgroundTrans backgroundTrans","./Img/Button_Change.png")
+	ui.SetMonitorButton := ui.MainGui.AddPicture("x43 y38 w82 h35 section backgroundTrans backgroundTrans","./Img/Button_Change.png")
 	ui.SetMonitorButton.OnEvent("Click", SetMonitorButtonPush)
 	ui.SetMonitorButton.ToolTip := "Selects secondary monitor to display docked apps while gaming"
 	ui.MainGui.SetFont("s16 c" cfg.ThemeFont4Color,"Calibri Bold")
@@ -114,19 +142,71 @@ ui.SetMonitorButton := ui.MainGui.AddPicture("x43 y38 w82 h35 section background
 	ui.app2path := ui.MainGui.AddText("x84 ys+0 w334 h22 Background" cfg.ThemeEditboxColor,"")
 	drawOutlineMainGui(82,175,338,24,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	TextDockApps := ui.MainGui.AddText("x412 y47 w80 Right section backgroundTrans backgroundTrans","Dock ")
-	ui.ButtonDockApps := ui.MainGui.AddPicture("ys+1 w30 h20 section backgroundTrans background" cfg.themeDisabledColor,"./Img/button_down.png")
+	TextDockAppsPlaceHolder := ui.MainGui.AddText("x442 y37 section backgroundTrans backgroundTrans","Set Position")
+	ui.MainGui.AddText("xs-25 y+4 section backgroundTrans w60 Right backgroundTrans","Win1")
+	ui.getWin1Pos := ui.MainGui.AddPicture("x+10 ys+1 w30 h20 vWin1 background" cfg.themeDisabledColor,"")
+	ui.getWin1Pos.OnEvent("Click",getWinPos)
+	ui.getWin1Pos.Value := "./Img/button_down.png"
+	cfg.Win1Coords := strSplit(iniRead(cfg.file,"AppDock","Win1Coords"),",")
+	ui.getWin1Pos.toolTipData := "Current Position:`nx: " cfg.win1coords[1] ", y: " cfg.win1coords[2] ", w: " cfg.win1coords[3] ", h: " cfg.win1coords[4] "`nClick to change"
+	ui.MainGui.AddText("xs+0 y+4 section backgroundTrans w60 Right backgroundTrans","Win2")
+	ui.getWin2Pos := ui.MainGui.AddPicture("x+10 ys+1 w30 h20 vWin2 background" cfg.themeDisabledColor,"")
+	ui.getWin2Pos.OnEvent("Click",getWinPos)
+	ui.getWin2Pos.Value := "./Img/button_down.png"
+	cfg.Win2Coords := strSplit(iniRead(cfg.file,"AppDock","Win2Coords"),",")
+	ui.getWin2Pos.toolTipData := "Current Position:`nx: " cfg.win2coords[1] ", y: " cfg.win2coords[2] ", w: " cfg.win2coords[3] ", h: " cfg.win2coords[4] "`nClick to change"
+	ui.MainGui.AddText("xs+0 y+4 section backgroundTrans w60 Right backgroundTrans","Win3")
+	ui.getWin3Pos := ui.MainGui.AddPicture("x+10 ys+1 w30 h20 vWin3 background" cfg.themeDisabledColor,"")
+	ui.getWin3Pos.OnEvent("Click",getWinPos)
+	ui.getWin3Pos.Value := "./Img/button_down.png"
+	cfg.Win3Coords := strSplit(iniRead(cfg.file,"AppDock","Win3Coords"),",")
+	ui.getWin3Pos.toolTipData := "Current Position:`nx: " cfg.win3coords[1] ", y: " cfg.win3coords[2] ", w: " cfg.win3coords[3] ", h: " cfg.win3coords[4] "`nClick to change"
+	ui.RestoreWinPosLabel := ui.mainGui.addText("xs+25 y+8 w60 section backgroundTrans","Apply")
+	ui.restoreWinPosButton := ui.mainGui.addPicture("x+-15 ys+0 w30 h20 background" cfg.themeDisabledColor,"./img/button_down.png")
+	ui.restoreWinPosButton.onEvent("click",applyWinPos)
+	applyWinPos(*) {
+		keyWait("F")
+	if getKeyState("D") {
+		launchApp("foobar2000")
+	} else {
+		launchApp("discord")
+	}
+	if !winExist("ahk_exe discord.exe")
+		setTimer () => launchApp("discord"),-100
+	if !winExist("ahk_exe foobar2000.exe")
+		setTimer () => launchapp("foobar2000"),-100
+	if !winExist("obs64.exe")
+		setTimer () => launchApp("obsstudio"),-100
+		
+		winMove(cfg.win1coords[1],cfg.win1coords[2],cfg.win1coords[3],cfg.win1coords[4],"ahk_exe " cfg.win1coords[5])
+		winMove(cfg.win2coords[1],cfg.win2coords[2],cfg.win2coords[3],cfg.win2coords[4],"ahk_exe " cfg.win2coords[5])
+		winMove(cfg.win3coords[1],cfg.win3coords[2],cfg.win3coords[3],cfg.win3coords[4],"ahk_exe " cfg.win3coords[5])
+	}
+	ui.MainGui.SetFont("s10 c" cfg.ThemeFont1Color,"Calibri")
+	DockAppsLabel := ui.MainGui.AddText("x221 y37 w80 Right section backgroundTrans backgroundTrans","Dock ")
+	ui.ButtonDockApps := ui.MainGui.AddPicture("xs+44 w40 h20 backgroundTrans background" cfg.themeDisabledColor,"./Img/button_down.png")
 	ui.ButtonDockApps.OnEvent("Click",DockApps)
-	ui.MainGui.AddText("xs-60 y+3 section backgroundTrans w60 Right backgroundTrans","Titlebar ")
-	ui.toggleCaption := ui.MainGui.AddPicture("ys+1 w30 h20","./Img/button_down.png")
+	ui.MainGui.AddText("x+-2 ys section backgroundTrans w60 Right backgroundTrans","Titlebar ")
+	ui.toggleCaption := ui.MainGui.AddPicture("xs+15 w40 h20","./Img/button_down.png")
 	ui.toggleCaption.toolTip := "Enable/Disable the caption bar on any window."
 	ui.toggleCaption.OnEvent("Click",toggleCaption)
-	ui.MainGui.AddText("xs y+4 section backgroundTrans w60 Right backgroundTrans","OnTop ")
-	ui.universalOnTop := ui.MainGui.AddPicture("ys+1 w30 h20 background" cfg.themeDisabledColor,"")
+	ui.MainGui.AddText("x+-5 ys section backgroundTrans w60 Right backgroundTrans","OnTop ")
+	ui.universalOnTop := ui.MainGui.AddPicture("xs+20 w40 h20 background" cfg.themeDisabledColor,"")
 	ui.universalOnTop.OnEvent("Click",universalOnTop)
 	ui.universalOnTop.Value := "./Img/button_down.png"
 	ui.universalOnTop.toolTip := "Set any window to AlwaysOnTop"
-	;ui.bottomBar := ui.mainGui.addText("x39 y204 w488 h8 background" cfg.themeBright2Color)
+
+	getWinPos(this_button,*) {
+		DialogBox("Click a window to`nRecord its position.")
+		keyWait("LButton","D")
+		mouseGetPos(,,&winClicked)
+		winGetPos(&remWinX,&remWinY,&remWinW,&remWinH,winClicked)
+		iniWrite(%this_button.name%.x := remWinX "," %this_button.name%.y := remWinY "," %this_button.name%.w := remWinW "," %this_button.name%.h := remWinH "," winGetProcessName(winClicked),cfg.file,"AppDock",this_button.name "Coords")
+		DialogBoxClose()
+		ui.get%this_button.name%Pos.toolTipData := "Current Position:`nx: " remWinX ", y: " remWinY ", w: " remWinW ", h: " remWinH "`nClick to change" 
+	}
+
+;ui.bottomBar := ui.mainGui.addText("x39 y204 w488 h8 background" cfg.themeBright2Color)
 	;ui.bottomBar2 := ui.mainGui.addText("x40 y205 w486 h6 background" cfg.themePanel2Color)
 	ui.app1filename.text := " " cfg.app1filename
 	ui.app2filename.text := " " cfg.app2filename
