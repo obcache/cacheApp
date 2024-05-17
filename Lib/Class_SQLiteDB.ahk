@@ -1,4 +1,13 @@
-#Requires AutoHotkey v2.0.0
+#SingleInstance
+#Requires AutoHotKey v2.0+
+#Warn All, Off
+
+if (InStr(A_LineFile,A_ScriptFullPath))
+{
+	Run(A_ScriptDir "/../cacheApp.ahk")
+	ExitApp
+	Return
+}
 ; ======================================================================================================================
 ; Function:         Class definitions as wrappers for redist\SQLite3.dll to work with SQLite DBs.
 ; AHK version:      AHK 2.0.2 (U32/U64)
@@ -871,4 +880,65 @@ SQLiteDB_RegExp(Context, ArgC, Values) {
       Result := RegExMatch(StrGet(AddrH, "UTF-8"), StrGet(AddrN, "UTF-8"))
    }
    DllCall("redist\SQLite3.dll\sqlite3_result_int", "Ptr", Context, "Int", !!Result, "Cdecl") ; 0 = false, 1 = trus
+}
+; ======================================================================================================================
+; Function:       Sample script for Class_SQLiteDB.ahk
+; AHK version:    AHK 2.0.6
+; Tested on:      Win 10 Pro (x64)
+; Author:         just me
+; Version:        2.0.4 - 20230831
+; ======================================================================================================================
+; AHK Settings
+; ======================================================================================================================
+
+
+; ======================================================================================================================
+; Includes
+; ==============================================================================================
+; ======================================================================================================================
+; Start & GUI
+; ======================================================================================================================
+
+sqliteQuery(dbFilename,sql,&sqlResult) {
+	db := SQLiteDB()
+
+	if !db.openDb(dbFileName) {
+		msgBox("Msg:`t" . db.errorMsg . "`nCode:`t" . db.errorCode, "SQLite Error", 16)
+	} else
+		if !db.getTable(sql, &sqlResult)
+			msgBox("Msg:`t" . db.errorMsg . "`nCode:`t" . db.errorCode, "SQLite Error", 16)
+}
+
+sqliteExec(dbFilename,sql,&sqlResult) {
+	db := SQLiteDB()
+
+	if !db.openDb(dbFileName) {
+		msgBox("Msg:`t" . db.errorMsg . "`nCode:`t" . db.errorCode, "SQLite Error", 16)
+	}
+	
+	if !db.exec(sql)
+		msgBox("Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode, "SQLite Error", 16)
+	else {
+		db.exec("COMMIT TRANSACTION;")
+		trayTip("SQLiteExec Successful:`n" sql,"iconi mute") 
+		result := "SQLiteExec Successful: " sql
+	}
+}
+
+sqliteShowResult(lv, sqlResult) {
+   lv.opt("-reDraw")
+   lv.delete()
+   loop lv.getCount("col")
+	  lv.deleteCol(1)
+   if (sqlResult.hasNames) {
+	  loop sqlResult.columnCount
+		 lv.insertCol(a_index, "", sqlResult.columnNames[a_index])
+	  If (sqlResult.hasRows) {
+		 loop sqlResult.rows.length
+			lv.add("", sqlResult.rows[a_index]*)
+	  }
+	  loop sqlResult.columnCount
+		 lv.modifyCol(a_index, "autoHdr")
+   }
+   lv.opt("+Redraw")
 }

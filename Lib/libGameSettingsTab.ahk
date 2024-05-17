@@ -31,7 +31,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.gameTabs.setFont("s10")
 		ui.gameTabs.onEvent("Change",gameTabChanged)
 		ui.MainGui.GetPos(&winX,&winY,,)
-
+		
 	 Loop cfg.gameList.length {
 			try {
 				runWait("./lib/lib" cfg.gameList[a_index])

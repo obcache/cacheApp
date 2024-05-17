@@ -15,7 +15,6 @@ initTrayMenu(*) {
 	A_TrayMenu.Add("Show Window", ShowGui)
 	A_TrayMenu.Add("Hide Window", HideGui)
 	A_TrayMenu.Add("Reset Window Position",ResetWindowPosition)
-	A_TrayMenu.Add("Toggle Dock", DockApps)
 	A_TrayMenu.Add()
 	A_TrayMenu.Add("Toggle Log Window",toggleConsole)
 	A_TrayMenu.Add()
@@ -30,7 +29,9 @@ preAutoExec(InstallDir,ConfigFileName) {
 	Global
 	cfg				:= object()
 	ui 				:= object()
+	data			:= object()
 	afk				:= object()
+	
 	if (A_IsCompiled)
 	{
 		; if !(FileExist("./cacheApp.ini"))
@@ -306,7 +307,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
 			fileInstall("./redist/soundVolumeView.exe",installDir "/redist/soundVolumeView.exe",1)
-			
+			fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)
+			fileInstall("./redist/sqlite3.dll",installDir "/redist/sqlite3.dll",1)
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			installLog("Copied Assets to: " InstallDir)
 			sleep(4500)
@@ -449,10 +451,12 @@ CheckForUpdates(msg,*) {
 
 cfgLoad(&cfg, &ui) {
 	global
+	cfg.dbFileName := A_ScriptDir . "\cacheApp.DB"
+	data.queryResult		:= array()
 	ui.guiH					:= 220  	;430 for Console Mode
 
 
-		
+	cfg.topDockEnabled 		:= false	
 	ui.gameWindowsList 		:= array()
 	cfg.gameWindowsList 	:= array()
 	ui.d2AlwaysSprintPaused 	:= false
@@ -542,7 +546,7 @@ cfgLoad(&cfg, &ui) {
 
 	cfg.gamingStartProc	:= strSplit(iniRead(cfg.file,"System","GamingStartProcesses",'"C:\Program Files (x86)\Steam\steam.exe","C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe","C:\Program Files\BakkesMod\BakkesMod.exe","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Medal.lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\2) Video\OBS Studio (64bit).lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\7) System\Logitech G HUB.lnk"'),",")
 
-
+	
 
 
 	;MonitorGet(MonitorGetPrimary(),&L,&T,&R,&B)
@@ -555,7 +559,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.AfkY					:= IniRead(cfg.file,"Interface","AfkY",cfg.GuiY+35)
 	cfg.AfkSnapEnabled			:= IniRead(cfg.file,"Interface","AfkSnapEnabled",false)
 	cfg.GuiSnapEnabled			:= IniRead(cfg.file,"Interface","GuiSnapEnabled",true)
-	cfg.topDockEnabled 			:= iniRead(cfg.file,"Interface","TopDockEnabled",false)
+	; cfg.topDockEnabled 			:= iniRead(cfg.file,"Interface","TopDockEnabled",false)
 				
 	cfg.displaySizeAuto			:= iniRead(cfg.file,"Game","DisplaySizeAuto",true)
 	cfg.AutoDetectGame			:= IniRead(cfg.file,"Game","AutoDetectGame",true)
@@ -678,11 +682,6 @@ WriteConfig() {
 	IniWrite(cfg.undockedY,cfg.file,"AppDock","UndockedY")
 	IniWrite(cfg.undockedW,cfg.file,"AppDock","UndockedW")
 	IniWrite(cfg.undockedH,cfg.file,"AppDock","UndockedH")
-
-	IniWrite(ui.app2path.text,cfg.file,"AppDock","app2path")
-	IniWrite(ui.app2filename.text,cfg.file,"AppDock","app2filename")
-	IniWrite(ui.app1path.text,cfg.file,"AppDock","app1path")
-	IniWrite(ui.app1filename.text,cfg.file,"AppDock","app1filename")
 
 	IniWrite(cfg.gameAudioEnabled,cfg.file,"Audio","gameAudioEnabled")
 	IniWrite(cfg.micName,cfg.file,"Audio","Mic")
@@ -907,6 +906,7 @@ DialogBoxClose(*)
 
 NotifyOSD(NotifyMsg,Duration := 10,Alignment := "Left",YN := "")
 {
+	Global
 	if !InStr("LeftRightCenter",Alignment)
 		Alignment := "Left"
 		
@@ -976,6 +976,7 @@ fadeOSD() {
 
 pbNotify(NotifyMsg,Duration := 10,YN := "")
 {
+	global
 	Transparent := 250
 	ui.notifyGui			:= Gui()
 	ui.notifyGui.Title 		:= "Notify"

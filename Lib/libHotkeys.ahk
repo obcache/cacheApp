@@ -44,7 +44,7 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	; send("{LShift}")
 	; Sleep(400)
 	; MouseMove(-100,0,30,"R")
-	; MouseMove(100,0,30,"R")
+	; MouseMove(100,0,30,"R")
 	; send("{Space}")
 	; sleep(300)
 	; while getKeyState("W") {
@@ -158,14 +158,6 @@ TrayTip("Audio Changed:`n " strSplit(ui.audioDevices[currOutputDeviceNum],"\")[1
 
 
 }
-
-; ^Enter::
-; {
-	
-		; togglePip()
-	
-	; }
-
 ; !^m::
 ; {
 	; getClick(&clickX,&clickY,&activeWindow)

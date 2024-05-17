@@ -25,7 +25,7 @@ ui.themeEditorGui.color := cfg.themeBackgroundColor
 ui.themeEditorTitlebar := ui.themeEditorGui.addText("x0 y0 w295 h25 background" cfg.themePanel1Color " c" cfg.themeFont1Color,"")
 ui.themeEditorTitlebarText := ui.themeEditorGui.addText("x5 y3 w100 h25 backgroundTrans c" cfg.themeFont1Color,"Theme Editor" )
 ui.themeEditorTitlebarText.setFont("s13","calibri bold")
-ui.themeEditorTitlebar.onEvent("click",wm_lButtonDown_callback)
+ui.themeEditorTitlebar.onEvent("click",wm_LButtonDown)
 
 
 guiVis(ui.themeEditorGui,false)

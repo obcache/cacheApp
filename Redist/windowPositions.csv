@@ -1,0 +1,4 @@
+rowID,workspace,Name,winPosX,winPosY,winPosW,winPosH,onTop,titleBar,processPath
+1,gaming1,Discord,1920,216,1421,1080,FALSE,TRUE,./redist/discord.exe
+2,gaming1,Foobar2000,506,216,513,482,FALSE,TRUE,e:\music\library\foobar2000\foobar2000.exe
+3,gaming1,OBS,506,691,513,612,FALSE,TRUE,c:\program files(x86)\obsstudio\obs64.exe

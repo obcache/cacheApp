@@ -16,48 +16,54 @@
 SQLiteDLL := "./redist/sqlite3.dll"
 
 SQLiteSelectData(&resultArray, query, dbName) {
-    sqlite3 := DllCall("LoadLibrary", Str, "sqlite3.dll", "Ptr")
-    VarSetCapacity(db, 4)
-    DllCall("sqlite3_open", Str, dbName, PtrP, &db)
+    sqlite3 := DllCall("LoadLibrary", "str", "./redist/sqlite3.dll", "Ptr")
+    db := 0
+	DllCall(".\redist\sqlite3.dll\sqlite3_open", "str",dbname,"PtrP", &db)
     stmt := 0
-    DllCall("sqlite3_prepare_v2", Ptr, &db, Str, query, Int, -1, PtrP, &stmt, Ptr, 0)
+
+    err := DllCall(".\redist\sqlite3.dll\sqlite3_prepare_v2", "ptrP", db, "str", query, "Int", -1, "PtrP", &stmt, "ptr",  0)
+		msgBox(db "`n" stmt)
     resultArray := []
     Loop {
-        DllCall("sqlite3_step", Ptr, stmt, "Int")
-        if (ErrorLevel != 100)  ; SQLITE_ROW
+        err := DllCall(".\redist\sqlite3.dll\sqlite3_step", "ptr", stmt, "Int")
+       msgBox(stmt)
+	   if (err != 100)  ; SQLITE_ROW
             break
         row := []
-        cols := DllCall("sqlite3_column_count", Ptr, stmt, "Int")
-        Loop cols {
-            colType := DllCall("sqlite3_column_type", Ptr, stmt, "Int", A_Index - 1, "Int")
+        cols := DllCall(".\redist\sqlite3.dll\sqlite3_column_count", "ptr", stmt, "Int")
+      				msgBox(db "`n" cols "`n" stmt)
+					Loop cols {
+            colType := DllCall(".\redist\sqlite3.dll\sqlite3_column_type", "ptr", stmt, "Int", A_Index - 1, "Int")
             if (colType = 1)  ; SQLITE_INTEGER
-                value := DllCall("sqlite3_column_int", Ptr, stmt, "Int", A_Index - 1, "Int")
+                value := DllCall(".\redist\sqlite3.dll\sqlite3_column_int", "ptr", stmt, "Int", A_Index - 1, "Int")
             else if (colType = 2)  ; SQLITE_FLOAT
-                value := DllCall("sqlite3_column_double", Ptr, stmt, "Int", A_Index - 1, "CDouble")
+                value := DllCall(".\redist\sqlite3.dll\sqlite3_column_double", "ptr", stmt, "Int", A_Index - 1, "CDouble")
             else
-                value := DllCall("sqlite3_column_text", Ptr, stmt, "Int", A_Index - 1, PtrP, 0, PtrP, 0)
-            row.Push(value)
+                value := DllCall(".\redist\sqlite3.dll\sqlite3_column_text", "ptr", stmt, "Int", A_Index - 1, "PtrP", 0, "PtrP", 0)
+				row.Push(value)
+
         }
         resultArray.Push(row)
+		
     }
-    DllCall("sqlite3_finalize", Ptr, stmt)
-    DllCall("sqlite3_close", Ptr, &db)
-    DllCall("FreeLibrary", Ptr, sqlite3)
+    DllCall(".\redist\sqlite3.dll\sqlite3_finalize", "ptr", stmt)
+    DllCall(".\redist\sqlite3.dll\sqlite3_close", "ptrP", &db)
+    DllCall("FreeLibrary", "ptr", sqlite3)
 }
 
 SQLiteQuery(dataArray, query, dbName) {
-    sqlite3 := DllCall("LoadLibrary", Str, "sqlite3.dll", "Ptr")
+    sqlite3 := DllCall("LoadLibrary", "str", "sqlite3.dll", "Ptr")
     VarSetCapacity(db, 4)
-    DllCall("sqlite3_open", Str, dbName, PtrP, &db)
-    DllCall("sqlite3_exec", Ptr, &db, Str, query, Ptr, 0, Ptr, 0, PtrP, 0)
-    DllCall("sqlite3_close", Ptr, &db)
-    DllCall("FreeLibrary", Ptr, sqlite3)
+    DllCall(".\redist\sqlite3.dll\sqlite3_open", "str", dbName, "PtrP", &db)
+    DllCall(".\redist\sqlite3.dll\sqlite3_exec", "ptr", &db, "str", query, "ptr", 0, "ptr", 0, "PtrP", 0)
+    DllCall(".\redist\sqlite3.dll\sqlite3_close", "ptr", &db)
+    DllCall("FreeLibrary", "ptr", sqlite3)
 }
 
 SQLiteInsertData(dataArray, tableName, dbName) {
-    sqlite3 := DllCall("LoadLibrary", Str, "sqlite3.dll", "Ptr")
+    sqlite3 := DllCall("LoadLibrary", "str", "sqlite3.dll", "Ptr")
     VarSetCapacity(db, 4)
-    DllCall("sqlite3_open", Str, dbName, PtrP, &db)
+    DllCall(".\redist\sqlite3.dll\sqlite3_open", "str", dbName, "PtrP", &db)
     query := "INSERT INTO " . tableName . " VALUES ("
     Loop dataArray.MaxIndex() {
         value := dataArray[A_Index]
@@ -66,15 +72,15 @@ SQLiteInsertData(dataArray, tableName, dbName) {
         query .= (A_Index > 1 ? ", " : "") . (IsObject(value) ? "'" . value . "'" : value)
     }
     query .= ")"
-    DllCall("sqlite3_exec", Ptr, &db, Str, query, Ptr, 0, Ptr, 0, PtrP, 0)
-    DllCall("sqlite3_close", Ptr, &db)
-    DllCall("FreeLibrary", Ptr, sqlite3)
+    DllCall(".\redist\sqlite3.dll\sqlite3_exec", "ptr", &db, "str", query, "ptr", 0, "ptr", 0, "PtrP", 0)
+    DllCall(".\redist\sqlite3.dll\sqlite3_close", "ptr", &db)
+    DllCall("FreeLibrary", "ptr", sqlite3)
 }
 
 SQLiteUpdateData(dataArray, tableName, condition, dbName) {
-    sqlite3 := DllCall("LoadLibrary", Str, "sqlite3.dll", "Ptr")
+    sqlite3 := DllCall("LoadLibrary", "str", "sqlite3.dll", "Ptr")
     VarSetCapacity(db, 4)
-    DllCall("sqlite3_open", Str, dbName, PtrP, &db)
+    DllCall(".\redist\sqlite3.dll\sqlite3_open", "str", dbName, "PtrP", &db)
     query := "UPDATE " . tableName . " SET "
     Loop dataArray.MaxIndex() {
         col := dataArray[A_Index]
@@ -85,9 +91,9 @@ SQLiteUpdateData(dataArray, tableName, condition, dbName) {
         }
     }
     query .= " WHERE " . condition
-    DllCall("sqlite3_exec", Ptr, &db, Str, query, Ptr, 0, Ptr, 0, PtrP, 0)
-    DllCall("sqlite3_close", Ptr, &db)
-    DllCall("FreeLibrary", Ptr, sqlite3)
+    DllCall(".\redist\sqlite3.dll\sqlite3_exec", "ptr", &db, "str", query, "ptr", 0, "ptr", 0, "PtrP", 0)
+    DllCall(".\redist\sqlite3.dll\sqlite3_close", "ptr", &db)
+    DllCall("FreeLibrary", "ptr", sqlite3)
 }
 
 SelectDataFromJSON(&resultArray, filePath) {
