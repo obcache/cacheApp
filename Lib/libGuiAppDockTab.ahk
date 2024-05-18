@@ -126,16 +126,29 @@ GuiDockTab(&ui) {
 	ui.restoreWinPosButton := ui.mainGui.addPicture("x+5 ys+1 w30 h20 background" cfg.themeDisabledColor,"./img/button_down.png")
 	ui.restoreWinPosButton.onEvent("click",applyWinPos)
 	applyWinPos(*) {
-		if !winExist("ahk_exe discord.exe")
-			setTimer () => launchApp("discord"),-100
-		if !winExist("ahk_exe foobar2000.exe")
-			setTimer () => launchapp("foobar2000"),-100
-		if !winExist("obs64.exe")
-			setTimer () => launchApp("obsstudio"),-100
 		
-		winMove(cfg.win1coords[1],cfg.win1coords[2],cfg.win1coords[3],cfg.win1coords[4],"ahk_exe " cfg.win1coords[5])
-		winMove(cfg.win2coords[1],cfg.win2coords[2],cfg.win2coords[3],cfg.win2coords[4],"ahk_exe " cfg.win2coords[5])
-		winMove(cfg.win3coords[1],cfg.win3coords[2],cfg.win3coords[3],cfg.win3coords[4],"ahk_exe " cfg.win3coords[5])
+		sqliteQuery(cfg.dbFilename,"SELECT * FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
+		
+		if (sqlResult.hasRows) {
+			loop sqlResult.rows.length {
+				winNum := a_index
+				processPath := sqlResult.rows[winNum][8]
+				splitPath(processPath,&processName,&processDir)
+				processRunning := false
+				timeoutCounter := 0
+				while (processRunning == false) || (timeoutCounter < 15) {
+					timeoutCounter += 1
+					if !(processExist(processName)) {
+						run(processPath,processDir)
+						sleep(2000)
+					} else {
+						processRunning := true
+					}
+				}
+				this_win := winGetTitle("ahk_exe " processName)
+				winMove(sqlResult.rows[winNum][3],sqlResult.rows[winNum][4],sqlResult.rows[winNum][5],sqlResult.rows[winNum][6],this_win)
+			}
+		}
 	}
 	ui.MainGui.SetFont("s9 c" cfg.ThemeFont1Color,"Calibri")
 	ui.MainGui.AddText("xs+0 y+4 section backgroundTrans w60 Right backgroundTrans","Caption")
