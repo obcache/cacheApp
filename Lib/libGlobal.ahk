@@ -15,6 +15,7 @@ initTrayMenu(*) {
 	A_TrayMenu.Add("Show Window", ShowGui)
 	A_TrayMenu.Add("Hide Window", HideGui)
 	A_TrayMenu.Add("Reset Window Position",ResetWindowPosition)
+	; A_TrayMenu.Add("Toggle Dock", DockApps)
 	A_TrayMenu.Add()
 	A_TrayMenu.Add("Toggle Log Window",toggleConsole)
 	A_TrayMenu.Add()
@@ -27,11 +28,10 @@ initTrayMenu(*) {
 	
 preAutoExec(InstallDir,ConfigFileName) {
 	Global
+	data			:= object()
 	cfg				:= object()
 	ui 				:= object()
-	data			:= object()
 	afk				:= object()
-	
 	if (A_IsCompiled)
 	{
 		; if !(FileExist("./cacheApp.ini"))
@@ -165,7 +165,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			; }
 		
 			; FileInstall("./cacheApp.ini",InstallDir "./cacheApp.ini",1)
-			; FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
+			; FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
 			; FileInstall("./AfkData.csv",InstallDir "/afkData.csv",1)
 			FileInstall("./Img/button_update.png",InstallDir "/img/button_update.png",1)
 			FileInstall("./Img/button_exit_gaming.png",InstallDir "/img/button_exit_gaming.png",1)
@@ -307,8 +307,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
 			fileInstall("./redist/soundVolumeView.exe",installDir "/redist/soundVolumeView.exe",1)
-			fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)
-			fileInstall("./redist/sqlite3.dll",installDir "/redist/sqlite3.dll",1)
+			
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			installLog("Copied Assets to: " InstallDir)
 			sleep(4500)
@@ -456,7 +455,7 @@ cfgLoad(&cfg, &ui) {
 	ui.guiH					:= 220  	;430 for Console Mode
 
 
-	cfg.topDockEnabled 		:= false	
+		
 	ui.gameWindowsList 		:= array()
 	cfg.gameWindowsList 	:= array()
 	ui.d2AlwaysSprintPaused 	:= false
@@ -546,7 +545,7 @@ cfgLoad(&cfg, &ui) {
 
 	cfg.gamingStartProc	:= strSplit(iniRead(cfg.file,"System","GamingStartProcesses",'"C:\Program Files (x86)\Steam\steam.exe","C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe","C:\Program Files\BakkesMod\BakkesMod.exe","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Medal.lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\2) Video\OBS Studio (64bit).lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\7) System\Logitech G HUB.lnk"'),",")
 
-	
+
 
 
 	;MonitorGet(MonitorGetPrimary(),&L,&T,&R,&B)
@@ -559,7 +558,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.AfkY					:= IniRead(cfg.file,"Interface","AfkY",cfg.GuiY+35)
 	cfg.AfkSnapEnabled			:= IniRead(cfg.file,"Interface","AfkSnapEnabled",false)
 	cfg.GuiSnapEnabled			:= IniRead(cfg.file,"Interface","GuiSnapEnabled",true)
-	; cfg.topDockEnabled 			:= iniRead(cfg.file,"Interface","TopDockEnabled",false)
+	cfg.topDockEnabled 			:= iniRead(cfg.file,"Interface","TopDockEnabled",false)
 				
 	cfg.displaySizeAuto			:= iniRead(cfg.file,"Game","DisplaySizeAuto",true)
 	cfg.AutoDetectGame			:= IniRead(cfg.file,"Game","AutoDetectGame",true)
@@ -906,7 +905,6 @@ DialogBoxClose(*)
 
 NotifyOSD(NotifyMsg,Duration := 10,Alignment := "Left",YN := "")
 {
-	Global
 	if !InStr("LeftRightCenter",Alignment)
 		Alignment := "Left"
 		
@@ -976,7 +974,6 @@ fadeOSD() {
 
 pbNotify(NotifyMsg,Duration := 10,YN := "")
 {
-	global
 	Transparent := 250
 	ui.notifyGui			:= Gui()
 	ui.notifyGui.Title 		:= "Notify"
@@ -1072,6 +1069,9 @@ exitFunc(ExitReason,ExitCode) {
 	winGetPos(&winX,&winY,,,ui.mainGui.hwnd)
 	cfg.guiX := winX
 	cfg.guiY := winY
+	
+	if fileExist("/.tmp")
+		fileDelete("/.tmp")
 	WriteConfig()
 }
 

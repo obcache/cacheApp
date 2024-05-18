@@ -222,5 +222,5 @@ ReturnToWorld(*) {
 	if (ui.towerEnabled)
 	{
 		ToggleTower()
-	}
+		}
 }

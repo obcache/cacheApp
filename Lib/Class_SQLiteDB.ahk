@@ -863,15 +863,8 @@ Class SQLiteDB {
       }
    }
 }
-; ======================================================================================================================
-; Exemplary custom callback function regexp()
-; Parameters:        Context  -  handle to a sqlite3_context object
-;                    ArgC     -  number of elements passed in Values (must be 2 for this function)
-;                    Values   -  pointer to an array of pointers which can be passed to sqlite3_value_text():
-;                                1. Needle
-;                                2. Haystack
-; Return values:     Call sqlite3_result_int() passing 1 (True) for a match, otherwise pass 0 (False).
-; ======================================================================================================================
+
+
 SQLiteDB_RegExp(Context, ArgC, Values) {
    Local AddrH, AddrN, Result := 0
    If (ArgC = 2) {
@@ -881,23 +874,7 @@ SQLiteDB_RegExp(Context, ArgC, Values) {
    }
    DllCall("redist\SQLite3.dll\sqlite3_result_int", "Ptr", Context, "Int", !!Result, "Cdecl") ; 0 = false, 1 = trus
 }
-; ======================================================================================================================
-; Function:       Sample script for Class_SQLiteDB.ahk
-; AHK version:    AHK 2.0.6
-; Tested on:      Win 10 Pro (x64)
-; Author:         just me
-; Version:        2.0.4 - 20230831
-; ======================================================================================================================
-; AHK Settings
-; ======================================================================================================================
 
-
-; ======================================================================================================================
-; Includes
-; ==============================================================================================
-; ======================================================================================================================
-; Start & GUI
-; ======================================================================================================================
 
 sqliteQuery(dbFilename,sql,&sqlResult) {
 	db := SQLiteDB()

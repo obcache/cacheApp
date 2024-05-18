@@ -2,8 +2,7 @@
 #Requires AutoHotKey v2.0+
 #Warn All, Off
 
-if (InStr(A_LineFile,A_ScriptFullPath))
-{
+if (InStr(A_LineFile,A_ScriptFullPath)) {
 	Run(A_ScriptDir "/../cacheApp.ahk")
 	ExitApp
 	Return
@@ -13,13 +12,13 @@ win1 := object()
 win2 := object()
 win3 := object()
 
-
 if !(StrCompare(A_LineFile,A_ScriptFullPath)) {
 	InstallDir 		:= IniRead("./cacheApp.ini","System","InstallDir",A_MyDocuments "\cacheApp")
 	MainScriptName 	:= IniRead("./cacheApp.ini","System","MainScriptName","cacheApp")
 	Run(A_ScriptDir "/../" MainScriptName ".ahk")
 	ExitApp
 }
+
 launchApp(processPath) {
 	switch appName {
 		case "discord":
@@ -74,7 +73,6 @@ launchApp(processPath) {
 			}
 	}
 }
-
 
 workspaceChanged(*) {
 	iniWrite(ui.workspaceDDL.value,cfg.file,"AppDock","SelectedWorkspace")
@@ -203,7 +201,6 @@ universalOnTop(*) {
 	}
 }
 	
-
 drawDivider(DockY) { 
 	MonitorGetWorkArea(cfg.AppDockMonitor, &Left, &Top, &Right, &Bottom)
 	WorkAreaHeightWhenDocked :=  (Bottom - Top - cfg.DockHeight)

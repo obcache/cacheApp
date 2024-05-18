@@ -17,7 +17,7 @@ initGui(&cfg, &ui) {
 	ui.MainGui := Gui()
 	ui.MainGui.Name := "cacheApp"
 	ui.mainGui.Title	:= "CacheApp D2ool"
-	;ui.TaskbarHeight := GetTaskBarHeight()
+	ui.TaskbarHeight := GetTaskBarHeight()
 	ui.MainGui.BackColor := ui.TransparentColor
 	ui.MainGui.Color := ui.TransparentColor
 	ui.MainGui.Opt("-Caption -Border")
@@ -43,8 +43,8 @@ initGui(&cfg, &ui) {
 
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
-	ui.handleBarImage.OnEvent("Click",wm_LButtonDown)
-	ui.rightHandleBarImage2.OnEvent("Click",wm_LButtonDown)
+	ui.handleBarImage.OnEvent("Click",WM_LBUTTONDOWN_callback)
+	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x0 y0 w34 h32 background" cfg.themeDark2Color)
 	ui.gameTabTopDockButton := ui.mainGui.addPicture("x2 y1 w32 h30 background" cfg.themeButtonReadyColor,"./img/button_dockUp_ready.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
@@ -260,7 +260,7 @@ toggleChange(name,onOff := "",toggleOnImg := cfg.toggleOn,toggleOffImg := cfg.to
 }
 	
 fadeIn() {
-	global
+
 	if (cfg.AnimationsEnabled) {
 		;guiVis(ui.titleBarButtonGui,false)
 		; guiVis(ui.gameSettingsGui,false)
@@ -853,9 +853,7 @@ tabsChanged(*) {
 			ui.mainGuiTabs.useTab("")
 			controlFocus(ui.d2AlwaysSprint,ui.gameSettingsGui)
 			ui.previousTab := ui.activeTab
-			case "AppDock":
-				workspaceChanged()
-	 		case "Editor":
+		case "Editor":
 			if tabDisabled()
 				Return
 			guiVis(ui.mainGui,true)

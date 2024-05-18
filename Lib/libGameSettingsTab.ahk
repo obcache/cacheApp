@@ -8,7 +8,6 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	Return
 }
 
-
 { ;global UI
 	inputHookAllowedKeys := "{All}{LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{Left}{Right}{Up}{Down}{BS}{CapsLock}{NumLock}{PrintScreen}{Pause}{Tab}{Enter}{ScrollLock}{LButton}{MButton}{RButton}"	
 
@@ -31,7 +30,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.gameTabs.setFont("s10")
 		ui.gameTabs.onEvent("Change",gameTabChanged)
 		ui.MainGui.GetPos(&winX,&winY,,)
-		
+
 	 Loop cfg.gameList.length {
 			try {
 				runWait("./lib/lib" cfg.gameList[a_index])
