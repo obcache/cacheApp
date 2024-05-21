@@ -225,11 +225,11 @@ setGlass(accent_state, rgb_in:=0x0, alpha_in:=0xFF, hwnd:=0) {
 }
 
 
-GetTaskbarHeight() {
+getTaskbarHeight() {
 	MonitorGet(MonitorGetPrimary(),,,,&TaskbarBottom)
 	MonitorGetWorkArea(MonitorGetPrimary(),,,,&TaskbarTop)
 	TaskbarHeight := TaskbarBottom - TaskbarTop
-	Return TaskbarHeight
+	Return taskbarHeight
 }
 
 

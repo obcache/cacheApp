@@ -902,20 +902,39 @@ sqliteExec(dbFilename,sql,&sqlResult) {
 	}
 }
 
-sqliteShowResult(lv, sqlResult) {
-   lv.opt("-reDraw")
-   lv.delete()
-   loop lv.getCount("col")
-	  lv.deleteCol(1)
-   if (sqlResult.hasNames) {
-	  loop sqlResult.columnCount
-		 lv.insertCol(a_index, "", sqlResult.columnNames[a_index])
-	  If (sqlResult.hasRows) {
-		 loop sqlResult.rows.length
-			lv.add("", sqlResult.rows[a_index]*)
-	  }
-	  loop sqlResult.columnCount
-		 lv.modifyCol(a_index, "autoHdr")
-   }
-   lv.opt("+Redraw")
+sqliteShowResult(lv,sqlResult,lvColNames := false,lvColSizes := false) {
+	; lv.opt("-reDraw")
+	lv.delete()
+	loop lv.getCount("col") 
+		lv.deleteCol(1)
+	if !(lvColNames) {
+		if (sqlResult.hasNames) {
+			loop sqlResult.columnCount {
+				lv.insertCol(a_index, "", sqlResult.columnNames[a_index])
+				if (sqlResult.hasRows) {
+					loop sqlResult.rows.length
+						lv.add("", sqlResult.rows[a_index]*)
+			}
+		}	
+	} else {
+		loop ui.lvColNames.length {
+			lv.insertCol(A_Index,"",ui.lvColNames[a_index])
+		}
+		loop sqlResult.rows.length {
+			sqlRowNum := a_index
+			loop lvColumnNames.length {
+				lvColNum := a_index
+				loop sqlResult.columnCount
+					if sqlResult.rows[sqlRowNum][a_index] = columnNames[lvColNum]
+						lv.add("",sqlResult.rows[a_index])
+			}	
+		}
+	
+	}
+	
+		if (ui.lvColSizes) 
+			loop sqlResult.columnCount 
+				lv.modifyCol(a_index, ui.lvColSizes[A_Index])
+				lv.opt("+Redraw")
+	}
 }

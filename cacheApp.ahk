@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.7.8"
+A_FileVersion := "1.1.8.0"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -32,26 +32,12 @@ installKeybdHook()
 keyHistory(10)
 setWorkingDir(a_scriptDir)
 
-;SQLite Functions
-;SQLiteSelectData(<byRef Array for Return Data>,<SQLite3 Query>,<SQLite3 Database Path+Filename>)
-;SQLiteInsertData(<Array of Data to Insert>,<Table Name>,<SQLite3 Database Path+Filename>)
-;SQLiteUpdateData(<Array of Updated Data>,<Table Name>,<Condition>,<SQLite3 Database Path+Filename>)
-
-;JSON Functions
-;SelectDataFromJSON(<byRef Array for Return Data>,<JSON Path+Filename>)
-;InsertDataIntoJSON(<Array of Data to Insert>,<JSON Path+Filename>)
-;UpdateDataInJSON(<Array of Updated Data>,<IndeX>,<JSON Path+Filename>)
-
-
-
 	
 a_restarted := 
 	(inStr(dllCall("GetCommandLine","Str"),"/restart"))
 		? true
 		: false
-
-
-
+		
 installDir 		:= a_myDocuments "\cacheApp"
 configFileName 	:= "cacheApp.ini"
 themeFileName	:= "cacheApp.themes"
@@ -67,7 +53,6 @@ cfg.ThemeFile	:= "./" ThemeFileName
 ui.pinned 		:= 0
 ui.hidden 		:= 0
 ui.hwndAfkGui 	:= ""
-logData 		:= ""
 ui.AfkHeight 	:= 170
 ui.latestVersion := ""
 ui.installedVersion := ""
@@ -85,9 +70,6 @@ MonitorGetWorkArea(MonitorGetprimary(),
 	&primaryWorkAreaTop,
 	&primaryWorkAreaRight,
 	&primaryWorkAreaBottom)
-
-ui.taskbarHeight := primaryMonitorBottom - primaryWorkAreaBottom
-
 
 cfgLoad(&cfg, &ui)
 initGui(&cfg, &ui)

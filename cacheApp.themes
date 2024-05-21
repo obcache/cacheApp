@@ -127,15 +127,15 @@ ThemeProgressColor=FFFF01
 [Custom]
 ThemeBright2Color=A8A8A8
 ThemeBright1Color=E4E4E4
-ThemeDark2Color=141414
+ThemeDark2Color=727272
 ThemeDark1Color=272727
 ThemeBorderDarkColor=9E9E9E
-ThemeBorderLightColor=727272
+ThemeBorderLightColor=303030
 ThemeBackgroundColor=3C3C3C
 ThemeFont1Color=D6D6D6
 ThemeFont3Color=333333
 ThemeFont3Color=2D2D2D
-ThemeFont2Color=C0C0C0
+ThemeFont2Color=9F9F9F
 ThemePanel1Color=1B1B1B
 ThemePanel4Color=5C5C5C
 ThemePanel3Color=61823A
@@ -161,15 +161,15 @@ ThemeButtonAlertColor=FF8001
 ThemePanel2Color=515151
 ThemeBackgroundColor=3C3C3C
 ThemeBorderDarkColor=9E9E9E
-ThemeBorderLightColor=727272
+ThemeBorderLightColor=303030
 ThemeEditboxColor=404040
 ThemeProgressColor=9ED1E0
 ThemeBright1Color=E4E4E4
 ThemeDark1Color=272727
 ThemeDisabledColor=292929
 ThemeBright2Color=A8A8A8
-ThemeDark2Color=141414
-ThemeFont2Color=C0C0C0
+ThemeDark2Color=727272
+ThemeFont2Color=9F9F9F
 
 [tmp]
 ThemeButtonReadyColor=838383

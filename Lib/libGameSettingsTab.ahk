@@ -114,7 +114,6 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				: "s12")
 			,"Impact")
 		ui.gameTabGui.addText("ys+0 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,"")
-	
 		guiVis(ui.gameTabGui,false)
 		
 		winGetPos(&winX,&winY,,,ui.mainGui.hwnd)
