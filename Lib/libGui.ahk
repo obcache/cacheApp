@@ -60,7 +60,7 @@ initGui(&cfg, &ui) {
 
 	GuiDockTab(&ui)
 	GuiSetupTab(&ui,&cfg)
-	GuiEditorTab()
+	GuiListsTab(&ui,&cfg)
 	GuiGameTab()
 		OnMessage(0x0200, WM_MOUSEMOVE)
 	OnMessage(0x0202, WM_LBUTTONDOWN)
@@ -576,14 +576,33 @@ stopGaming(*) {
 	
 	exitApp()
 }
-	
+quickOSD()
+quickOSD(*) {
+	ui.quickOSD := gui()
+	ui.quickOSD.opt("-caption toolWindow -border")
+	ui.quickOSD.backColor := "010203"
+	winSetTransColor("010203",ui.quickOSD.hwnd)
+	ui.msgLog := ui.quickOSD.AddText("x0 y0 w800 h600 backgroundTrans cLime","")
+	ui.msgLog.setFont("s18")
+	ui.quickOSD.show("x5 y200 w810 h610 noActivate")
+}
+
+osdLog(msg) {
+	if cfg.debugEnabled
+		ui.quickOSD.show("x5 y200 w810 h610 noActivate")
+
+	else
+		ui.quickOSD.hide()
+	ui.msgLog.text := msg "`n" ui.msgLog.text
+}
+
 startGaming(*) {
 	; msgBox(cfg.gamingStartProc.length)
-	loop cfg.gamingStartProc.length {
-		if inStr(cfg.gamingStartProc[a_index],"discord") 
-			run("./redist/discord.exe")
-		else
-			run(cfg.gamingStartProc[a_index])
+	sqliteQuery(cfg.dbFilename,"SELECT action from listActions where listName='Gaming Start' and type='Application'",&sqlResult)
+	for row in sqlResult.rows {
+		osdLog(row[1])
+		splitPath(row[1],&processName,&processDir)
+		run(row[1],processDir)
 	}
 }
 exitMenuShow() {
@@ -836,7 +855,6 @@ tabsChanged(*) {
 			guiVis(ui.mainGui,true)
 			guiVis(ui.afkGui,true)
 			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.editorGui,false)
 			guiVis(ui.gameTabGui,false)
 			controlFocus(ui.buttonTower,ui.afkGui)
 			ui.previousTab := ui.activeTab			
@@ -846,26 +864,23 @@ tabsChanged(*) {
 			guiVis(ui.mainGui,true)
 			guiVis(ui.gameSettingsGui,true)
 			guiVis(ui.afkGui,false)
-			guiVis(ui.editorGui,false)
 			guiVis(ui.gameTabGui,true)
 			ui.mainGuiTabs.useTab("Game")
 			;ui.mainGui.addPicture("x0 y-25","./img2/gameScreenPic.png")
 			ui.mainGuiTabs.useTab("")
 			controlFocus(ui.d2AlwaysSprint,ui.gameSettingsGui)
 			ui.previousTab := ui.activeTab
-		case "Editor":
+		case "Lists":
 			if tabDisabled()
 				Return
 			guiVis(ui.mainGui,true)
 			guiVis(ui.afkGui,false)
 			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.editorGui,true)
 			guiVis(ui.gameTabGui,false)
 		default:
 			guiVis(ui.gameSettingsGui,false)
 			guiVis(ui.afkGui,false)
 			; guiVis(ui.mainGui,true)
-			guiVis(ui.editorGui,false)
 			guiVis(ui.gameTabGui,false)
 			controlFocus(ui.mainGuiTabs,ui.mainGui)
 			ui.previousTab := ui.activeTab

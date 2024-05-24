@@ -2,130 +2,222 @@
 #Requires AutoHotKey v2.0+
 #Warn All, Off
 
-if (InStr(A_LineFile,A_ScriptFullPath))
-{
-	Run(A_ScriptDir "/../cacheApp.ahk")
+if !(StrCompare(A_LineFile,A_ScriptFullPath)) {
+	InstallDir 		:= IniRead("./cacheApp.ini","System","InstallDir",A_MyDocuments "\cacheApp")
+	MainScriptName 	:= IniRead("./cacheApp.ini","System","MainScriptName","cacheApp")
+	
+	Run(a_scriptdir "/../" MainScriptName ".ahk")
 	ExitApp
-	Return
 }
 
-;libGuiSetupTab
+
+listChanged(*) {
+	lvColSizes := [65,70,70,200]
+	lvColNames := ["ListName","Action","Type","Options"]
+
+	iniWrite(ui.listDDL.value,cfg.file,"System","SelectedList")
+	sqliteQuery(cfg.dbFilename,"SELECT * FROM listActions WHERE listName='" ui.listDDL.text "'",&sqlResult)
+	;sqliteShowResult(ui.ListsLV,sqlResult,lvColNames,lvColSizes)
+	ui.ListsLV.delete()
+	loop ui.ListsLV.getCount("col") 
+		ui.ListsLV.deleteCol(1)
+	loop lvColNames.length {
+		ui.ListsLV.insertCol(a_index, "", lvColNames[a_index])
+		if a_index == 1
+			ui.ListsLV.modifyCol(a_index,lvColSizes[a_index]-1)
+		else
+			ui.ListsLV.modifyCol(a_index,lvColSizes[a_index]+1)
+			
+	}
+	if (sqlResult.hasRows) {
+		ui.mainGui.setFont("s8","Arial")
+		loop sqlResult.rows.length {
+			ui.ListsLV.add("", sqlResult.rows[a_index]*)
+		drawGridLines()
+		}
+	}	
+}
+
+GuiListsTab(&ui,&cfg) {
+	selectedRow := ""
+	ui.MainGuiTabs.UseTab("Lists")
+	ui.mainGui.setFont("s10")
+	lvColSizes := [65,70,70,178]
+	lvColNames := ["List","Action","Type","Options"]
+	ui.mainGui.setFont("s10")
+	drawPanel(ui.mainGui,40,40,400,170,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,.75,85,"Window Sets","Arial Slim",cfg.themeFont1Color )
+	ui.mainGui.setFont("s10")
+	drawPanel(ui.mainGui,442,40,85,170,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,1.75,40,"Actions","Arial Slim",cfg.themeFont1Color)
+
+	workspaceArr := array()
+
+	ui.SelectedList := iniRead(cfg.file,"Lists","SelectedList",1)
+	sqliteQuery(cfg.dbFilename,"SELECT listName FROM lists",&sqlResult)
 	
-inputHookAllowedKeys := "{All}{LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{Left}{Right}{Up}{Down}{BS}{CapsLock}{NumLock}{PrintScreen}{Pause}{Tab}{Enter}{ScrollLock}"	
+	if (sqlResult.hasRows) {
+		rowNum := a_index
+		loop sqlResult.rows.length {
+			workspaceArr.push(sqlResult.rows[a_index][1])
+		}
+	}
+	
+	ui.listDDL := ui.mainGui.addComboBox("x45 y45 w150 r6 section altSubmit choose" ui.SelectedList " c" cfg.themeFont1Color " background" cfg.themePanel1Color,workspaceArr) 
+	ui.listDDL.setFont("s9","arial")
+drawOutlineNamed("AppListView",ui.mainGui,45,73,390,19,cfg.themeBright2Color,cfg.themeBorderDarkColor,2)
+	drawOutlineNamed("AppListView",ui.mainGui,46,74,388,17,cfg.themeBorderLightColor,cfg.themeDark1Color,1)
 
-GuiEditorTab() {
-	ui.editorGui := Gui()
-	ui.editorGui.Name := "cacheApp Game Settings"
-; ui.editorGui.BackColor := cfg.themeBackgroundColor
-	; ui.editorGui.Color := cfg.themeBackgroundColor
-	; ui.editorGui.MarginX := 5
-	; ui.editorGui.Opt("-Caption -Border +AlwaysOnTop +ToolWindow +Owner" ui.MainGui.Hwnd)
-	; ui.editorGui.SetFont("s14 c" cfg.ThemeFont1Color,"Calibri")
-	; cfg.activeEditorTab := iniRead(cfg.file,"Interface","ActiveEditorTab","Hotkeys")
-	; ui.editorTabs := ui.editorGui.addTab3("x-1 y-5 w497 h181 altSubmit bottom c" cfg.themeFont1Color " choose" cfg.activeEditorTab,["Hotkeys","Keybinds","Macros"])
-	; drawOutlineNamed("gameSettingsOutline",ui.editorGui,0,0,488,180,cfg.themeBorderDarkColor,cfg.themeBorderLightColor,0)
-	; ui.editorTabs.value := cfg.activeEditorTab
-	; ui.editorTabs.setFont("s14")
-	; ui.editorTabs.onEvent("Change",editorTabChanged)
+	ui.listDDL.onEvent("change",listChanged)
+	
+	ui.mainGui.AddText("xs-8 y+-17 section hidden")
+	ui.mainGui.setFont("s10 bold")
+	for width in lvColSizes {
+		ui.mainGui.AddText("x+0 ys+0 w" width " h18 center c" cfg.themeFont2Color " background" cfg.themePanel2Color, lvColNames[a_index])
+		if a_index < lvColSizes.length 
+			ui.mainGui.AddText("x+0 ys+0 w1 h18 background" cfg.themeBright2Color,"")
+	}
+	ui.mainGui.setFont("s8","Calibri Light")
+	ui.ListsLV := ui.mainGui.addListView("x45 y92 w390 h114 0x3 0x2000 -Hdr c" cfg.themeFont2Color " background" cfg.themePanel2Color)
+	ui.ListsLV.setFont("s9","Calibri")
+	ui.ListsLV.onEvent("itemFocus",changeWinSelected)
+		ui.mainGui.setFont("s9","calibri")
+
+	ui.MainGui.AddText("x428 y50 section backgroundTrans w60 Right backgroundTrans","Add")
+	ui.ListsAdd := ui.MainGui.AddPicture("x+5 ys+1 w30 h20 background" cfg.themeButtonReadyColor,"")
+	ui.ListsAdd.OnEvent("Click",ListsAdd)
+	ui.ListsAdd.Value := "./Img/button_down.png"
+	ui.ListsAdd.toolTipData := "Add window to current workspace" 
+	ui.MainGui.AddText("xs+0 y+0 section backgroundTrans w60 Right backgroundTrans","Delete")
+	ui.ListsDelete := ui.MainGui.AddPicture("x+5 ys+0 w30 h20 background" cfg.themeButtonReadyColor,"")
+	ui.ListsDelete.OnEvent("Click",ListsDelete)
+	ui.ListsDelete.Value := "./Img/button_down.png"
+	ui.ListsDelete.toolTip := "Delete selected window from current workspace"
+	ui.RestoreWinPosLabel := ui.mainGui.addText("xs+0 y+20 w60 right section backgroundTrans","Apply")
+	ui.restoreWinPosButton := ui.mainGui.addPicture("x+5 ys+1 w30 h20 background" cfg.themeButtonAlertColor,"./img/button_down.png")
+	ui.restoreWinPosButton.onEvent("click",applyWinPos)
+	ui.MainGui.SetFont("s9 c" cfg.ThemeFont1Color,"Calibri")
+
+	changeWinSelected(*) {
+		drawGridlines()
+		this_winTitle := ui.ListsLV.getText(ui.ListsLV.GetNext(0, "F"),1)
+		if (getWinOption(this_winTitle,"caption")) {
+			ui.toggleCaption.opt("background" cfg.themeButtonOnColor)
+		} else {
+			ui.toggleCaption.opt("background" cfg.themeDisabledColor)
+		}
+		if (getWinOption(this_winTitle,"alwaysOnTop")) {
+			ui.toggleOnTop.opt("background" cfg.themeButtonOnColor)
+		} else {
+			ui.toggleOnTop.opt("background" cfg.themeButtonAlertColor)
+		}
+
+		sqliteQuery(cfg.dbFilename,"SELECT processPath from winPositions where title='" this_winTitle "'",&this_processPath)
+		if this_processPath.hasRows
+			toolTip("Process Path: " this_processPath.rows[1][1])
+	}
 	
 	
+	drawGridLines(*) {
+		ui.mainGui.setFont("s8","Arial")
+		ui.mainGui.AddText("x45 y80 hidden section")
+		loop sqlResult.rows.length
+			ui.mainGui.addText("x46 y+17 w390 h1 background" cfg.themeFont2Color)
+	}
 
-	; ui.editorTabs.useTab("Hotkeys") 
-
-	; ui.editorGui.setFont("s10")
-	; ui.editorGui.addText("x5 y5 w480 h130 background" cfg.themePanel1Color,"")
-	; drawOutlineNamed("d2AlwaysRunOutline",ui.editorGui,5,4,480,132,cfg.themeBright2Color,cfg.themeDark2Color,1)
-	; drawOutlineNamed("d2AlwaysRunOutline",ui.editorGui,15,4,93,1,cfg.themeBackgroundColor,cfg.themeBackgroundColor,2)
-	; drawOutlineNamed("d2AlwaysRunOutline",ui.editorGui,15,4,93,7,cfg.themeBackgroundColor,cfg.themeBright2Color,1)
-	; ui.editorGui.addText("x16 y-4 w91 h14 c" cfg.themeFont1Color " background" cfg.themeBackgroundColor,"  App Shortcuts")
-	; drawOutlineNamed("d2AlwaysRunOutline",ui.editorGui,15,4,1,7,cfg.themeDark1Color,cfg.themeBright2Color,1)
-	; ui.listList := ui.editorGui.addListBox("background" cfg.themeBackgroundColor)
-
-	; guiVis(ui.editorGui,false)
-	; ui.editorGui.show("w485 h175 noActivate")
-
+	cfg.winOptionList := ["caption","alwaysOnTop","transparent","autoStart","autoStop"]
+	getWinOption(winTitle,winOption) {
+		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] from [winOptions] WHERE [window]='" winTitle "' AND [option]= '" winOption "'",&tblWinOptions)
 		
-		
+		if tblWinOptions.hasRows
+			return tblWinOptions.rows[1][1]
+		else {
+			setWinOption(winTitle,winOption,false)
+			return false
+		}
+	}
+	
+	setWinOption(this_winTitle,winOption,isEnabled) {
+		sqliteExec(cfg.dbFilename,"DELETE FROM winOptions WHERE [Window]='" this_winTitle "' and [Option]= '" winOption "'",&result)
+		sqliteExec(cfg.dbFilename,"INSERT INTO winOptions VALUES ('" this_winTitle "','" winOption "','" isEnabled "')",&result)
+		;trayTip("Win: " this_winTitle "`nOption: " winOption "`nValue: " ((isEnabled) ? "On" : "Off"))
+	}
+	
+	ListsAdd(*) {
+		DialogBox("Click Any Window`nTo Add Current Positioning`nTo Workspace " ui.listDDL.text)
+		keyWait("LButton","D")
+		mouseGetPos(,,&winClicked)
+		splitPath(winGetProcessPath(winClicked),,,,&winName)
+		winGetPos(&currWinX,&currWinY,&currWinW,&currWinH,winClicked)
+		sqliteExec(cfg.dbFilename,"INSERT into winPositions VALUES ('" ui.listDDL.text "','" winName "','" currWinX "','" currWiny "','" currWinW "','" currWinH "','','" winGetProcessPath(winClicked) "')",&insertResult)
+		listChanged(lvColNames,lvColSizes)
+		drawGridlines()
+		DialogBoxClose()
+	}
+	
+	winPosUpdate(*) {
+	
+	}
+	
+	ListsDelete(*) {
+			sqliteExec(cfg.dbFilename,"DELETE from winPositions WHERE [Title]='" ui.ListsLV.getText(ui.ListsLV.GetNext(0, "F"),1) "'",&sqlExecResult)
+			listChanged()
+			setTimer () => drawGridLines(),-300
+	}
+	
 
-		
-; editorTabChanged(*) {
-	; cfg.activeEditorTab := ui.editorTabs.value
-	; iniWrite(cfg.activeEditorTab,cfg.file,"Interface","ActiveEditorTab")
-	; controlFocus(ui.editorTabs)
-; }	
 
-; readListFile()
-; readListFile() {
-	; cfg.listIndex	:= strSplit(iniRead(cfg.listDataFile,"ReadOnly","ListIndex","0:ListIndex,1:ExcludedApps,2:AutoStartApps,3:AutoStopApps,4:Hotkeys,5:KeyBinds"),":")
-	; for line in cfg.listIndex {
-		; ui.listList.add([line[1],line[2]])
+	applyWinPos(*) {
+		sqliteQuery(cfg.dbFilename,"SELECT * FROM winPositions WHERE workspace='" ui.listDDL.text "'",&sqlResult)
+		
+		if (sqlResult.hasRows) {
+			loop sqlResult.rows.length {
+				winNum := a_index
+				processPath := sqlResult.rows[winNum][8]
+				splitPath(processPath,&processName,&processDir)
+				processRunning := false
+				timeoutCounter := 0
+				while (processRunning == false) || (timeoutCounter < 15) {
+					timeoutCounter += 1
+					if !(processExist(processName)) {
+						run(processPath,processDir)
+						sleep(2000)
+					} else {
+						processRunning := true
+					}
+				}
+				this_win := winGetTitle("ahk_exe " processName)
+				winMove(sqlResult.rows[winNum][3],sqlResult.rows[winNum][4],sqlResult.rows[winNum][5],sqlResult.rows[winNum][6],this_win)		
+			}
+		}
+	}
+	
+	; toggleCaption(*) {
+		; if (ui.toggleCaption.value == "./img/button_down.png")
+			; setWinOption(winTitle,winOption,false)
+		; else
+			; setWinOption(winTitle,winOption,true)
 	; }
-; }
 
-; getValue(&key,&value,arrayData) {
-	; key 	:= strSplit(arrayData,":")[1]
-	; value	:= strSplit(arrayData,":")[2]
-; }
-; writeListFile() {
-	; iniWrite(cfg.listIndex,cfg.listDataFile,"ReadOnly","ListIndex")
-; }
+	listChanged(lvColNames,lvColSizes)
 
-}	; ui.keyInputGui	:= gui()
-	; ui.keyInputGui.opt("-caption toolWindow owner" ui.editorGui.hwnd)
-	; ui.keyInputPanelColoring			:= ui.keyInputGui.addText("x11 y70 w475 h65 background" cfg.themePanel1Color,"")
-		; drawOutlineNamed("gameSettingsD2Panel",ui.keyInputGui,10,69,475,65,cfg.themeDark1Color,cfg.themeDark2Color,1)
-		; ui.d2SprintKey				:= ui.keyInputGui.AddPicture("xs+38 ys-1 w100 h33 section backgroundTrans","./img/keyboard_key_up.png")
-		; ui.d2SprintKeyData 			:= ui.keyInputGui.addText("xs y+-28 w100 h25 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2SprintKey),1,8))
-		; ui.d2SprintKeyLabel			:= ui.keyInputGui.addText("xs-1 y+0 w100 h20 center c" cfg.themeFont1Color " backgroundTrans","Sprint")
-		; ui.d2CrouchKey				:= ui.keyInputGui.addPicture("x+8 ys w100 h33 section backgroundTrans","./img/keyboard_key_up.png")
-		; ui.d2CrouchKeyData 			:= ui.keyInputGui.addText("xs y+-28 w100 h25 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2CrouchKey),1,8))
-		; ui.d2CrouchKeyLabel 		:= ui.keyInputGui.addText("xs-1 y+0 w100 h20 center c" cfg.themeFont1Color " backgroundTrans","Crouch")
-		; ui.d2ToggleWalkKey			:= ui.keyInputGui.addPicture("x+8 ys w100 h33 section backgroundTrans","./img/keyboard_key_up.png")
-		; ui.d2ToggleWalkKeyData 		:= ui.keyInputGui.addText("xs y+-28 w100 h25 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2ToggleWalkKey),1,8))
-		; ui.d2ToggleWalkKeyLabel		:= ui.keyInputGui.addText("xs-1 y+0 w100 h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Walk")
-		; ui.d2HoldWalkKey			:= ui.keyInputGui.addPicture("x+8 ys w100 h33 section backgroundTrans","./img/keyboard_key_up.png")
-		; ui.d2HoldWalkKeyData 		:= ui.keyInputGui.addText("xs y+-28 w100 h25 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2HoldWalkKey),1,8))
-		; ui.d2HoldWalkKeyLabel		:= ui.keyInputGui.addText("xs-1 y+0 w100 h20 center c" cfg.themeFont1Color " backgroundTrans","Hold to Walk")
-		; ui.d2LaunchDIMbutton		:= ui.keyInputGui.addPicture("xs-368 y+5 section w160 h60 backgroundTrans","./Img/button_launchDIM.png")
-		; ui.d2LaunchLightGGbutton	:= ui.keyInputGui.addPicture("x+-4 ys w160 h60 backgroundTrans","./Img/button_launchLightGG.png")
-		; ui.d2LaunchBlueberriesButton := ui.keyInputGui.addPicture("x+-4 ys w160 h60 backgroundTrans","./Img/button_launchBlueberries.png")
-		
+	; getWinPos(this_button,*) {
+			; DialogBox("Click a window to`nRecord its position.")
+			; keyWait("LButton","D")
+			; mouseGetPos(,,&winClicked)
+			; winGetPos(&remWinX,&remWinY,&remWinW,&remWinH,winClicked)
+			; iniWrite(%this_button.name%.x := remWinX "," %this_button.name%.y := remWinY "," %this_button.name%.w := remWinW "," %this_button.name%.h := remWinH "," winGetProcessName(winClicked),cfg.file,"AppDock",this_button.name "Coords")
+			; iniWrite(%this_button.name%.winGetProcessPath(winClicked),cfg.file,"AppDock",this_button_name "ProcessPath")
+			; DialogBoxClose()
+			; ui.get%this_button.name%Pos.toolTipData := "Current Position:`nx: " remWinX ", y: " remWinY ", w: " remWinW ", h: " remWinH "`nClick to change" 
+	; }
 
-		; ui.d2AlwaysRun.ToolTip := "Toggles holdToCrouch"
-		; ui.d2SprintKey.ToolTip 		:= "Click to Assign"
-		; ui.d2SprintKeyData.ToolTip  := "Click to Assign"
-		; ui.d2SprintKeyLabel.ToolTip	:= "Click to Assign"
-		; ui.d2CrouchKey.ToolTip		:= "Click to Assign"
-		; ui.d2CrouchKeyData.ToolTip  := "Click to Assign"
-		; ui.d2CrouchKeyLabel.ToolTip	:= "Click to Assign"
-		; ui.d2ToggleWalkKey.ToolTip		:= "Click to Assign"
-		; ui.d2ToggleWalkKeyData.ToolTip  := "Click to Assign"
-		; ui.d2ToggleWalkKeyLabel.ToolTip	:= "Click to Assign"
-		; ui.d2HoldWalkKey.ToolTip		:= "Click to Assign"
-		; ui.d2HoldWalkKeyData.ToolTip  := "Click to Assign"
-		; ui.d2HoldWalkKeyLabel.ToolTip	:= "Click to Assign"
-		; ui.d2LaunchDIMbutton.ToolTip	:= "Launch DIM in Browser"
-		; ui.d2LaunchLightGGbutton.toolTip := "Launch Light.gg in Browser"
-		; ui.d2LaunchBlueberriesButton.toolTip	:= "Launch Blueberries.gg in Browser"
-
-		; ui.d2CrouchKeyData.setFont("s13")
-		; ui.d2SprintKeyData.setFont("s13")
-		; ui.d2ToggleWalkKeyData.setFont("s13")
-		; ui.d2HoldWalkKeyData.setFont("s13")
-		; ui.d2CrouchKeyLabel.setFont("s11")
-		; ui.d2SprintKeyLabel.setFont("s11")
-		; ui.d2ToggleWalkKeyLabel.setFont("s11")
-		; ui.d2HoldWalkKeyLabel.setFont("s11")
-		
-		; ui.d2AlwaysRun.OnEvent("Click", toggleAlwaysRun)
-		; ui.d2CrouchKey.onEvent("click",d2CrouchKeyClicked)
-		; ui.d2SprintKey.onEvent("click",d2SprintKeyClicked)
-		; ui.d2ToggleWalkKey.onEvent("click",d2ToggleWalkKeyClicked)
-		; ui.d2HoldWalkKey.onEvent("click",d2HoldWalkKeyClicked)
-		; ui.d2CrouchKeyData.onEvent("click",d2CrouchKeyClicked)
-		; ui.d2SprintKeyData.onEvent("click",d2SprintKeyClicked)
-		; ui.d2ToggleWalkKeyData.onEvent("click",d2ToggleWalkKeyClicked)
-		; ui.d2HoldWalkKeyData.onEvent("click",d2HoldWalkKeyClicked)
-		; ui.d2LaunchDIMbutton.onEvent("click",d2launchDIMbuttonClicked)
-		; ui.d2LaunchLightGGbutton.onEvent("click",d2launchLightGGbuttonClicked)
-		; ui.d2LaunchBlueberriesButton.onEvent("click",d2LaunchBlueBerriesButtonClicked)
+	
+	
+	drawDivider(DockY) { 
+		MonitorGetWorkArea(cfg.AppDockMonitor, &Left, &Top, &Right, &Bottom)
+		WorkAreaHeightWhenDocked :=  (Bottom - Top - cfg.DockHeight)
+		ui.dividerGui.opt("-caption +alwaysOnTop +ToolWindow +0x4000000")
+		ui.dividerGui.backColor := cfg.themeBright1Color
+		ui.dividerGui.show("x" Left " y" DockY-8 " w" Right-Left " h12 NoActivate")
+		winSetTransparent(255,ui.dividerGui)
+	}
+}

@@ -105,7 +105,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				: "ys+0 h27")
 			" x+-112 w112 section center backgroundTrans c" 
 			((tabNum == 2)
-				? cfg.themeFont1Color 
+			? cfg.themeFont1Color 
 				: cfg.themeFont4Color)
 			,"World//Zero")
 		ui.gameTab2Label.setFont(

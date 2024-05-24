@@ -897,7 +897,7 @@ sqliteExec(dbFilename,sql,&sqlResult) {
 		msgBox("Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode, "SQLite Error", 16)
 	else {
 		db.exec("COMMIT TRANSACTION;")
-		trayTip("SQLiteExec Successful:`n" sql,"iconi mute") 
+		debugLog("SQLiteExec Successful:`n" sql) 
 		result := "SQLiteExec Successful: " sql
 	}
 }

@@ -318,15 +318,15 @@ restartTower(*) {
 			
 				CoordMode("Mouse","Client")
 				WinGetPos(&WinX,&WinY,&WinW,&WinH,this_window)
-				InfTowerButtonX := (WinW*.43)
+				InfTowerButtonX := (WinW*.6)
 				InfTowerButtonY := (WinH*.675)
-				CelestialTowerX := (WinW*.6)
+				CelestialTowerX := (WinW*.5)
 				CelestialTowerY := (WinH*.675)
 				
 				; StartButtonX 	:= (WinW/2)+240
 				; StartButtonY 	:= (WinH/2)+130
 							
-				StartButtonX 	:= (WinW*.59)
+				StartButtonX 	:= (WinW*.5)
 				StartButtonY 	:= (WinH*.72)
 				
 				if (WinGetProcessName(this_window) == "ApplicationFrameHost.exe")

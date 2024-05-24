@@ -513,7 +513,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.forcedTooltipControls	:= "Win1,Win2,Win3"
 	cfg.gameModuleList			:= strSplit(iniRead(cfg.file,"Game","GameModuleList","Destiny2,World//Zero"),",")
 	cfg.GameList				:= StrSplit(IniRead(cfg.file,"Game","GameList","Roblox,Rocket League"),",")
-	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Editor,Setup"),",")
+	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Lists,Setup"),",")
 	cfg.mainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
 	cfg.startMinimizedEnabled	:= iniRead(cfg.file,"System","StartMinimizedEnabled",false)
 	cfg.confirmExitEnabled		:= iniRead(cfg.file,"System","ConfirmExit",false)

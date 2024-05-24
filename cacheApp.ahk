@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.8.0"
+A_FileVersion := "1.1.8.1"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -75,6 +75,7 @@ cfgLoad(&cfg, &ui)
 initGui(&cfg, &ui)
 initConsole(&ui)
 #include <class_sqliteDb>
+#include <class_lv_colors>
 #include <libGui>
 #include <libWinMgr>
 #include <libGlobal>
