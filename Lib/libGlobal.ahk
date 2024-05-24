@@ -85,6 +85,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 						FileInstall("./cacheApp.ini",InstallDir "/cacheApp.ini",1)
 						FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
 						FileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
+						fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)
 					} 
 					case "Yes": 
 					{
@@ -96,6 +97,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 							FileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
 						if !(FileExist(InstallDir "/cacheApp.themes"))
 							FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
+						if !(fileExist(installDir "/cacheApp.db"))
+							fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)
 					}
 					case "Timeout":
 					{
@@ -106,6 +109,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 							FileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
 						if !(FileExist(InstallDir "/cacheApp.themes"))
 							FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
+						if !(fileExist(installDir "/cacheApp.db"))
+							fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)	
 					}
 				}
 			} else {
@@ -116,6 +121,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 						FileInstall("./cacheApp.ini",InstallDir "/cacheApp.ini",1)
 						FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
 						FileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
+						fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)
 
 			}
 			if !(DirExist(InstallDir "\lib"))
