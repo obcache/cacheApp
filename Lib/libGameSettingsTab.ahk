@@ -124,6 +124,40 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 }
 
 { ;d2 Logic
+	setTimer(incursionNotice,15000)
+	incursionNotice(*) {
+		whr := ComObject("WinHttp.WinHttpRequest.5.1")
+		whr.Open("GET", "http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)
+		whr.Send()
+		whr.WaitForResponse()
+		ui.latestIncursion := whr.ResponseText
+		cfg.lastIncursion := iniRead(cfg.file,"Game","LastIncursion")
+		if ui.latestIncursion != cfg.lastIncursion {
+			ui.incursionGui := gui()
+			ui.incursionGui.opt("-caption -border alwaysOnTop")
+			ui.incursionGui.backColor := "010203"
+			winSetTransColor("010203",ui.incursionGui)
+			ui.incursionGui.addText("x3 y3 w350 h70 background" cfg.themePanel3Color)
+			drawOutlineNamed("notice",ui.incursionGui,2,2,348,148,cfg.themeBright2Color,cfg.themeDark2Color,1)
+			drawPanelLabel(ui.incursionGui,20,-5,100,17,"Destiny2 Event","010203",cfg.themeBright2Color,"AAAAAA")
+			ui.incursionNotice := ui.incursionGui.addText("x10 y32 w340 h70 backgroundTrans c" cfg.themeFont3Color,"Vex Incursion Coming!")
+			ui.incursionGui.setFont("s12 c" cfg.themeFont3Color,"Courier Bold")
+			ui.incursionGui.addText("x138 y8 w160 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy@hh:mm:ss"))
+			ui.incursionClose := ui.incursionGui.addPicture("x320 y5 w25 h25 background" cfg.themeButtonAlertColor,"./img/button_quit.png")
+			ui.incursionClose.onEvent("click", closeIncursionNotice)
+			closeIncursionNotice(*) {
+				ui.incursionGui.destroy()
+			}
+			ui.incursionNotice.setFont("s20 c" cfg.themeFont3Color,"Courier")
+			ui.incursionGui.show("y150 w350 h70 noActivate")
+		}
+		
+		cfg.lastIncursion := ui.latestIncursion
+		iniWrite(cfg.lastIncursion,cfg.file,"Game","LastIncursion")
+		
+		
+		cfg.lastIncursion := ui.latestIncursion
+	}
 	ui.d2IsReloading := false
 	ui.d2IsSprinting := false
 

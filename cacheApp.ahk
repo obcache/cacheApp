@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.8.2"
+A_FileVersion := "1.1.8.3"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -124,5 +124,6 @@ if !cfg.topDockEnabled
 else
 ui.topDockPrevTab := ui.mainGuiTabs.text
 monitorResChanged()
+
 
 OnMessage(0x0201, wm_lButtonDown)
