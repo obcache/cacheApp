@@ -24,6 +24,7 @@ WM_WINDOWPOSCHANGED(wParam, lParam, msg, Hwnd) {
 
 					ui.titleBarButtonGui.Move((mainGuiX+456)*(A_ScreenDPI/96),(mainGuiY-3)*(a_screenDpi/96))
 					ui.gameSettingsGui.move((mainGuiX+35)*(A_ScreenDPI/96),(mainGuiY+32)*(A_ScreenDPI/96))
+					ui.gameSettingsLinkGui.move((mainGuiX+35+12)*(A_ScreenDPI/96),(mainGuiY+32+79)*(A_ScreenDPI/96))
 					; ui.editorGui.move((mainGuiX+35)*(A_ScreenDPI/96),(mainGuiY+32)*(A_ScreenDPI/96))
 					ui.gameTabGui.move((mainGuiX+35)*(A_ScreenDPI/96),(mainGuiY+184)*(A_ScreenDPI/96))
 				}
