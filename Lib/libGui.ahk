@@ -95,23 +95,7 @@ initGui(&cfg, &ui) {
 	ui.buttonUndockAfk.ToolTip := "Undocks AFK Window"
 
 
-	WinSetTransparent(0,ui.MainGui)
-	WinSetTransparent(0,ui.titleBarButtonGui)
-	winSetTransparent(0,ui.gameSettingsGui)
-	
-	try
-	guiVis(ui.mainGui,false)
-	try
-	guiVis(ui.titleBarButtonGui,false)
-	try
-	guiVis(ui.gameSettingsGui,false)
-
 	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h38 background" cfg.themeBorderDarkColor," ")
-	ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
-	ui.titleBarButtonGui.Show("w75 h36 NoActivate")
-	
-	
-	ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 
 	InitOSDGui()
 

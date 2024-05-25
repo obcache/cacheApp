@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.8.4"
+A_FileVersion := "1.1.8.5"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -115,9 +115,23 @@ winSetTransparent(0,ui.gameSettingsGui)
 winSetTransparent(0,ui.afkGui)
 
 drawAfkOutlines()
-ui.gameSettingsGui.show("x" mainGuiX+35 " y" mainGuiY+32 " w495 h180 noActivate")
+
+try
+	guiVis(ui.mainGui,false)
+try
+	guiVis(ui.titleBarButtonGui,false)
+try
+	guiVis(ui.gameSettingsGui,false)
+		
+		
 ui.afkGui.show("x" mainGuiX+45 " y" mainGuiY+50 " w270 h140 noActivate")
+ui.gameSettingsGui.show("x" mainGuiX+35 " y" mainGuiY+32 " w495 h180 noActivate")
+ui.titleBarButtonGui.Show("w75 h36 NoActivate")
+ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
+	
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
+
+
 fadeIn()
 if !cfg.topDockEnabled
 	tabsChanged()
@@ -125,5 +139,12 @@ else
 ui.topDockPrevTab := ui.mainGuiTabs.text
 monitorResChanged()
 
+try {
+	whr := ComObject("WinHttp.WinHttpRequest.5.1")
+	whr.Open("GET", "http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)
+	whr.Send()
+	whr.WaitForResponse()
+	iniWrite(whr.ResponseText,cfg.file,"Game","LastIncursion")
+}
 
-OnMessage(0x0201, wm_lButtonDown)
+;OnMessage(0x0201, wm_lButtonDown)

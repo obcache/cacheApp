@@ -115,14 +115,13 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			,"Impact")
 		ui.gameTabGui.addText("ys+0 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,"")
 		guiVis(ui.gameTabGui,false)
-		
-		winGetPos(&winX,&winY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w228 h29 x" winX+35 " y" winY+184 " noActivate") 
+		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
+		ui.gameTabGui.show("w228 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate") 
 		;setTimer () => ui.gameTabGui.move(winX+35,winY+184,495,29),-3000
 
 	}
 }
-
+			
 { ;d2 Logic
 	setTimer(incursionNotice,15000)
 	incursionNotice(*) {
@@ -145,8 +144,8 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				drawOutlineNamed("notice",ui.incursionGui,2,2,345,148,cfg.themeBright2Color,cfg.themeDark2Color,1)
 				drawPanelLabel(ui.incursionGui,20,-5,100,17,"Destiny2 Event","010203",cfg.themeBright2Color,cfg.themePanel3Color)
 				ui.incursionNotice := ui.incursionGui.addText("x10 y32 w340 h70 backgroundTrans c" cfg.themeFont3Color,"Vex Incursion Coming!")
-				ui.incursionGui.setFont("s12 c" cfg.themeFont3Color,"Courier Bold")
-				ui.incursionTime := ui.incursionGui.addText("x138 y8 w160 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy@hh:mm:ss"))
+				ui.incursionGui.setFont("s12 c" cfg.themeFont3Color,"Cascadia Code")
+				ui.incursionTime := ui.incursionGui.addText("x138 y8 w160 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy @ hh:mm:ss"))
 				ui.incursionClose := ui.incursionGui.addPicture("x328 y1 w22 h22 background" cfg.themeButtonAlertColor,"./img/button_quit.png")
 				ui.incursionClose.onEvent("click", closeIncursionNotice)
 				closeIncursionNotice(*) {
