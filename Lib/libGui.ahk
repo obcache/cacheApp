@@ -248,7 +248,7 @@ fadeIn() {
 	if (cfg.AnimationsEnabled) {
 		;guiVis(ui.titleBarButtonGui,false)
 		; guiVis(ui.gameSettingsGui,false)
-		; guiVis(ui.afkGui,false)e
+		; guiVis(ui.afkGui,false)
 		;winSetTransparent(0,ui.titleBarButtonGui)
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui)
 		;ui.titleBarButtonGui.Move(mainGuiX,mainGuiY-4)
@@ -256,6 +256,8 @@ fadeIn() {
 		transparency := 0
 
 		if cfg.topDockEnabled {
+			guiVis(ui.mainGui,false)
+			guiVis(ui.titleBarButtonGui,false)
 			showDockBar()
 			while transparency < 253 {
 				transparency += 2.5
@@ -284,8 +286,10 @@ fadeIn() {
 							winSetTransparent(round(transparency)+50,ui.gameTabGui)
 						sleep(1)
 					}
+					ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
 					guiVis(ui.gameSettingsGui,true)
 					guiVis(ui.gameTabGui,true)
+					
 				default:
 				while transparency < 253 {
 					transparency += 2.5
@@ -293,17 +297,17 @@ fadeIn() {
 					winSetTransparent(round(transparency),ui.titleBarButtonGui)
 					sleep(1)
 				}
-			}
 
+			}
+		guiVis(ui.mainGui,true)
+		guiVis(ui.titleBarButtonGui,true)
 		}
 	
 	}
 
-			guiVis(ui.titleBarButtonGui,true)
-			guiVis(ui.mainGui,true)
-						ui.mainGuiTabs.useTab("Game")
-			;ui.mainGui.addPicture("x0 y-5","./img2/gameScreenPic.png")
-			ui.mainGuiTabs.useTab("")
+	ui.mainGuiTabs.useTab("Game")
+	;ui.mainGui.addPicture("x0 y-5","./img2/gameScreenPic.png")
+	ui.mainGuiTabs.useTab("")
 }
 autoFireButtonClicked(*) {
 	ToggleAutoFire()
@@ -931,7 +935,11 @@ createDockBar() {
 	guiVis(ui.dockBarGui,false)
 	ui.dockBarWidth := 0
 	ui.dockBarGui.SetFont("s14","Calibri Thin")
-	ui.docktopDockButton := ui.dockBarGui.addPicture("x1 y0 w32 h33 section background" cfg.themeButtonOnColor,"./img/button_dockDown_ready.png")
+	ui.docktopMoveButton := ui.dockBarGui.addPicture("x1 y0 w32 h33 section background" cfg.themeButtonOnColor,"./img/button_dockLeft_ready.png")
+	ui.docktopMoveButton.onEvent("click",topDockMove)
+	ui.docktopMoveButton.toolTip := "Dock to top of screen"
+	ui.dockBarWidth += 32
+	ui.docktopDockButton := ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonOnColor,"./img/button_dockDown_ready.png")
 	ui.docktopDockButton.onEvent("click",topDockOff)
 	ui.docktopDockButton.toolTip := "Dock to top of screen"
 	ui.dockBarWidth += 32
@@ -985,14 +993,27 @@ createDockBar() {
 	ui.dockBarExitButton.onEvent("click",topDockPowerButtonPushed)
 	ui.dockBarExitButton.toolTip := "Close cacheApp App"
 	
+	topDockMove(*) {
+		postMessage("0xA1",2,,,"A")
+		keyWait("LButton")
+		winGetPos(&dockBarx,&dockbarY,,,ui.dockBarGui)
+		loop monitorGetCount() {
+			monitorGet(a_index,&monLeft,,&monRight,)
+			if dockbarx > monLeft && dockbarx < monRight {
+				cfg.dockbarMon := a_index
+				iniWrite(cfg.dockBarMon,cfg.file,"Interface","DockbarMonitor")
+				break
+			}
+		}
+		showDockBar()
+	}
+
 	topDockPowerButtonPushed(this,*) {
 		this.value := "./img2/button_power_down.png"
 		setTimer () => (this.value := "./img2/button_power.png",exitAppCallback()),-400
 		;setTimer () => exitAppCallback(),-100
 	}
 }
-
-
 
 dockBarIcons(game,operation := "") {
 	if (operation == "Add") {
@@ -1085,7 +1106,11 @@ dockBarIcons(game,operation := "") {
 }
 
 showDockBar() {
-	ui.dockBarGui.show("x" (a_ScreenWidth/2)-(ui.dockBarWidth/2) " y0 w" ui.dockBarWidth " h34 noActivate")
+	cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
+	monitorGet(cfg.dockbarMonitor,&dockbarMonitorx,,&dockbarMonitorY,,)
+	dockbarPosx := ((dockbarMonitorx + dockbarMonitorY)/2)-(ui.dockbarWidth/2)
+	
+	ui.dockBarGui.show("x" dockbarPosx " y0 w" ui.dockBarWidth " h34 noActivate")
 	drawOutlineNamed("dockBarOutline2",ui.dockBarGui,1,0,ui.dockBarWidth,34,cfg.themeDark1Color,cfg.themeBright2Color,2)
 	drawOutlineNamed("dockBarOutline",ui.dockBarGui,0,0,ui.dockBarWidth,35,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
 }

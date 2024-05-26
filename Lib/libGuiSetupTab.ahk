@@ -51,7 +51,7 @@ GuiSetupTab(&ui,&cfg) {
 		ui.toggleAfkSnap.Redraw()
 	}
 	
-	ui.toggleAfkSnap := ui.MainGui.AddPicture("x64 y22 w60 h1 section hidden vAfkSnap " (cfg.AfkSnapEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AfkSnapEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleAfkSnap := ui.MainGui.AddPicture("x59 y22 w60 h1 section hidden vAfkSnap " (cfg.AfkSnapEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AfkSnapEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAfkSnap.OnEvent("Click", toggleChanged)
 	ui.toggleAfkSnap.ToolTip := "Toggles Afk Screen Snapping"
 	ui.labelAfkSnap:= ui.MainGui.AddText("x+2 ys+3 hidden backgroundTrans","AFK Snapping")
@@ -60,7 +60,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleToolTips := ui.MainGui.AddPicture("xs w60 h25 section vToolTips " ((cfg.ToolTipsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ToolTipsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleToolTips.OnEvent("Click", toggleChanged)
 	ui.toggleToolTips.ToolTip := "Toggles ToolTips"
-	ui.labelToolTips := ui.MainGui.AddText("x+8 ys+1 BackgroundTrans","ToolTips")
+	ui.labelToolTips := ui.MainGui.AddText("x+5 ys+2 BackgroundTrans","ToolTips")
 
 
 	ToggleAlwaysOnTop(*)
@@ -71,7 +71,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleAlwaysOnTop := ui.MainGui.AddPicture("xs y+3 w60 h25 section vAlwaysOnTop " (cfg.AlwaysOnTopEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AlwaysOnTopEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAlwaysOnTop.OnEvent("Click", ToggleChanged)
 	ui.toggleAlwaysOnTop.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelAlwaysOnTop:= ui.MainGui.AddText("x+8 ys+1 backgroundTrans","AlwaysOnTop")	
+	ui.labelAlwaysOnTop:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","AlwaysOnTop")	
 	
 
 	
@@ -83,7 +83,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleAnimations := ui.MainGui.AddPicture("xs w60 y+3 h25 section vAnimations " (cfg.AnimationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AnimationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAnimations.OnEvent("Click", toggleChanged)
 	ui.toggleAnimations.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelAnimations:= ui.MainGui.AddText("x+8 ys+1 backgroundTrans","Animations")
+	ui.labelAnimations:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Animations")
 	
 	ToggleStartMinimized(*)
 	{
@@ -93,27 +93,27 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleStartMinimized := ui.MainGui.AddPicture("xs y+3 w60 h25 section vStartMinimized " (cfg.StartMinimizedEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.StartMinimizedEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleStartMinimized.OnEvent("Click", toggleChanged)
 	ui.toggleStartMinimized.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelStartMinimized:= ui.MainGui.AddText("x+8 ys+1 backgroundTrans","Start Minimized")
+	ui.labelStartMinimized:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Start Minimized")
 	
 
-	ui.toggleconfirmExit := ui.MainGui.AddPicture("xs y+3 w60 h25 section vConfirmExit " (cfg.ConfirmExitEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ConfirmExitEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleconfirmExit := ui.MainGui.AddPicture("xs y+2 w60 h25 section vConfirmExit " (cfg.ConfirmExitEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ConfirmExitEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleConfirmExit.OnEvent("Click", toggleChanged)
 	ui.toggleConfirmExit.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelConfirmExit:= ui.MainGui.AddText("x+8 ys+1 backgroundTrans","Confirm Exit")
+	ui.labelConfirmExit:= ui.MainGui.AddText("x+5 ys+1 backgroundTrans","Confirm Exit")
 	
 	ToggleDebug(*)
 	{
 		ui.toggleDebug.Opt((cfg.DebugEnabled := !cfg.DebugEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
 		ui.toggleDebug.Redraw()
 	}
-	ui.toggleDebug := ui.MainGui.AddPicture("xs y+3 w60 h25 section vDebug " (cfg.DebugEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.DebugEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleDebug := ui.MainGui.AddPicture("xs y+2 w60 h25 section vDebug " (cfg.DebugEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.DebugEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleDebug.OnEvent("Click", toggleChanged)
 	ui.toggleDebug.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelDebug:= ui.MainGui.AddText("x+8 ys+1 backgroundTrans","Debug")
+	ui.labelDebug:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Debug")
 
-	drawOutlineNamed("toggleBlock",ui.mainGui,65,45,58,152,cfg.themeDark1Color,cfg.themeDark1Color,1)
-	drawOutlineNamed("toggleBlock",ui.mainGui,63,43,62,154,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
-	drawOutlineNamed("toggleBlock",ui.mainGui,64,44,60,152,cfg.themePanel2Color,cfg.themePanel2Color,1)
+	drawOutlineNamed("toggleBlock",ui.mainGui,60,45,58,139,cfg.themeDark1Color,cfg.themeDark1Color,1)
+	drawOutlineNamed("toggleBlock",ui.mainGui,58,43,62,141,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
+	drawOutlineNamed("toggleBlock",ui.mainGui,59,44,60,139,cfg.themePanel2Color,cfg.themePanel2Color,1)
 
 	ui.checkForUpdatesLabel := ui.mainGui.addtext("x275 y42 w160 h30 section backgroundTrans c" cfg.themeFont1Color,"Check For Updates")
 	ui.checkForUpdatesLabel.SetFont("s12")
@@ -126,13 +126,13 @@ GuiSetupTab(&ui,&cfg) {
 
 	ui.monitorResDDL := ui.mainGui.AddDDL("xs-35 y+5 w110 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,ui.monitorResList)
 	ui.monitorResDDL.onEvent("change",monitorResChanged)
-	ui.monitorResLabel := ui.mainGui.AddText("x+5 y+-27 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
+	ui.monitorResLabel := ui.mainGui.AddText("x+3 y+-27 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
 	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")
 	ui.monitorResLabel.setFont("s8")
 	ui.monitorResLabel2.setFont("s8")
-	ui.monitorAuto := ui.mainGui.addCheckbox("x+-14 y+-22 w15 h15",cfg.displaySizeAuto)
+	ui.monitorAuto := ui.mainGui.addCheckbox("x+-22 y+-22 w15 h15",cfg.displaySizeAuto)
 	ui.monitorAuto.onEvent("Click",toggleAutoDisplaySize)
-	ui.monitorAutoLabel := ui.mainGui.addText("x+-20 y+-30 w22 h12 c" cfg.themeFont1Color " backgroundTrans","Auto")
+	ui.monitorAutoLabel := ui.mainGui.addText("x+-22 y+-30 w25 h12 c" cfg.themeFont1Color " backgroundTrans","Auto")
 	ui.monitorAutoLabel.setFont("s8")
 	ui.installedVersionText.setFont("s10")
 	ui.latestVersionText.setFont("s10")

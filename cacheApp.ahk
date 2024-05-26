@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.8.5"
+A_FileVersion := "1.1.8.6"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -111,32 +111,26 @@ if cfg.startMinimizedEnabled
 createDockBar()
 changeGameDDL()
 
-winSetTransparent(0,ui.gameSettingsGui)
-winSetTransparent(0,ui.afkGui)
+
 
 drawAfkOutlines()
 
 try
-	guiVis(ui.mainGui,false)
-try
-	guiVis(ui.titleBarButtonGui,false)
-try
-	guiVis(ui.gameSettingsGui,false)
-		
+	guiVis("all",false)
 		
 ui.afkGui.show("x" mainGuiX+45 " y" mainGuiY+50 " w270 h140 noActivate")
 ui.gameSettingsGui.show("x" mainGuiX+35 " y" mainGuiY+32 " w495 h180 noActivate")
 ui.titleBarButtonGui.Show("w75 h36 NoActivate")
 ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
-	
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
-
-
 fadeIn()
+
+
 if !cfg.topDockEnabled
 	tabsChanged()
 else
-ui.topDockPrevTab := ui.mainGuiTabs.text
+	ui.topDockPrevTab := ui.mainGuiTabs.text
+	
 monitorResChanged()
 
 try {

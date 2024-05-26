@@ -197,7 +197,7 @@ GuiDockTab(&ui) {
 		
 	applyWinPos(*) {
 		sqliteQuery(cfg.dbFilename,"SELECT ProcessPath,winX,winY,winW,winH FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
-		msgBoX('here')
+		;msgBoX('here')
 		if (sqlResult.hasRows) {
 			for row in sqlResult.rows {
 				winNum := a_index

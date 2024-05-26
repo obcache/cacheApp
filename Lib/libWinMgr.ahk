@@ -40,10 +40,9 @@ WM_WINDOWPOSCHANGED(wParam, lParam, msg, Hwnd) {
 
 WM_LBUTTONDOWN_callback(thisControl,info) {
 	postMessage("0xA1",2,,,"A")
-	;WM_LBUTTONDOWN(0,0,0,thisControl)
-	
-	
+	;WM_LBUTTONDOWN(0,0,0,thisControl)	
 }
+
 
 WM_LBUTTONDOWN_pBcallback(*) {
 	WM_LBUTTONDOWN(0,0,0,ui.pbConsole.Hwnd)

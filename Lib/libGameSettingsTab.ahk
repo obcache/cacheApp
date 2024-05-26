@@ -57,7 +57,8 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		controlFocus(ui.buttonDockAfk)
 	}
 
-	drawGameTabs(tabNum := 1) {	
+	drawGameTabs(tabNum := 1) {
+		ui.gameTabWidth := 0
 		try	 
 			ui.gameTabGui.destroy()
 		ui.gameTabGui := gui()
@@ -76,12 +77,15 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			,"")
 		ui.gameTab1Skin.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
 		ui.gameTab1Label := ui.gameTabGui.addText(
-			((tabNum == 1) ? "ys+0 h27" : "ys+0 h26")
+			((tabNum == 1) ? "ys+0 h27" : "ys+1 h26")
 			" x+-110 w110 section center backgroundTrans c" 
 			((tabNum == 1) ? cfg.themeFont1Color : cfg.themeFont4Color)
 			,"Destiny 2")
 		ui.gameTab1Label.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
-		ui.gameTabGui.addText("ys x+0  w2 h27 section background" cfg.themeBright1Color,"")
+		ui.gameTabWidth += 113
+		((tabNum == 1)
+			? ui.gameTabGui.addText("ys x+0  w2 h27 section background" cfg.themeBright1Color,"")
+			: ui.gameTabGui.addText("ys-1 x+0  w2 h27 section background" cfg.themeBright1Color,""))
 		ui.gameTab2Skin := ui.gameTabGui.addText(
 			((tabNum == 2) 
 				? "ys-1 h27" 
@@ -113,10 +117,20 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				? "s14" 
 				: "s12")
 			,"Impact")
-		ui.gameTabGui.addText("ys+0 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,"")
+		ui.gameTabWidth += 113
+		((tabNum == 1)
+			? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,"")
+			: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,""))
 		guiVis(ui.gameTabGui,false)
-		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w228 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate") 
+		if (winGetTransparent(ui.gameTabGui)) == 0 {
+			ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h27 background" cfg.themePanel1Color)
+			drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+3,4,498-ui.gameTabWidth-6,25,cfg.themeDark1Color,cfg.themeDark1Color,1)
+			winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
+			ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
+		} else {
+			winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
+			ui.gameTabGui.show("w228 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate") 
+		}
 		;setTimer () => ui.gameTabGui.move(winX+35,winY+184,495,29),-3000
 
 	}
@@ -144,7 +158,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				drawOutlineNamed("notice",ui.incursionGui,2,2,345,148,cfg.themeBright2Color,cfg.themeDark2Color,1)
 				drawPanelLabel(ui.incursionGui,20,-5,100,17,"Destiny2 Event","010203",cfg.themeBright2Color,cfg.themePanel3Color)
 				ui.incursionNotice := ui.incursionGui.addText("x10 y32 w340 h70 backgroundTrans c" cfg.themeFont3Color,"Vex Incursion Coming!")
-				ui.incursionGui.setFont("s12 c" cfg.themeFont3Color,"Cascadia Code")
+				ui.incursionGui.setFont("s11 c" cfg.themeFont3Color,"Cascadia Code")
 				ui.incursionTime := ui.incursionGui.addText("x138 y8 w160 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy @ hh:mm:ss"))
 				ui.incursionClose := ui.incursionGui.addPicture("x328 y1 w22 h22 background" cfg.themeButtonAlertColor,"./img/button_quit.png")
 				ui.incursionClose.onEvent("click", closeIncursionNotice)
