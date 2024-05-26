@@ -146,6 +146,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			whr.WaitForResponse()
 			ui.latestIncursion := whr.ResponseText
 			cfg.lastIncursion := iniRead(cfg.file,"Game","LastIncursion")
+			
 			if ui.latestIncursion != cfg.lastIncursion {
 				try {
 					ui.incursionGui.destroy()
@@ -157,9 +158,11 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				ui.incursionGui.addText("x3 y3 w344 h70 background" cfg.themePanel3Color)
 				drawOutlineNamed("notice",ui.incursionGui,2,2,345,148,cfg.themeBright2Color,cfg.themeDark2Color,1)
 				drawPanelLabel(ui.incursionGui,20,-5,100,17,"Destiny2 Event",cfg.themeFont3Color,cfg.themeBright2Color,cfg.themePanel3Color)
-				ui.incursionNotice := ui.incursionGui.addText("x10 y32 w340 h70 backgroundTrans c" cfg.themeFont3Color,"Vex Incursion Coming!")
-				ui.incursionGui.setFont("s10 c" cfg.themeFont3Color,"Cascadia Code")
-				ui.incursionTime := ui.incursionGui.addText("x134 y8 w160 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy@hh:mm:ss"))
+				ui.incursionNoticeBorder 	:= ui.incursionGui.addText("x130 y7 w180 h20 background000000")
+				ui.incursionNoticeBorder2 	:= ui.incursionGui.addText("x131 y8 w178 h18 background" cfg.themeDark1Color)
+				ui.incursionNotice := ui.incursionGui.addText("x10 y29 w340 h70 backgroundTrans c" cfg.themeFont3Color,"Vex Incursion Coming!")
+				ui.incursionGui.setFont("s10 c" cfg.themePanel3Color,"Cascadia Code")
+				ui.incursionTime := ui.incursionGui.addText("x136 y8 w180 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy @ hh:mm:ss"))
 				ui.incursionClose := ui.incursionGui.addPicture("x328 y1 w22 h22 background" cfg.themeButtonAlertColor,"./img/button_quit.png")
 				ui.incursionClose.onEvent("click", closeIncursionNotice)
 				closeIncursionNotice(*) {
