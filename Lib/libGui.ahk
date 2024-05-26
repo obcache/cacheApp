@@ -935,7 +935,7 @@ createDockBar() {
 	guiVis(ui.dockBarGui,false)
 	ui.dockBarWidth := 0
 	ui.dockBarGui.SetFont("s14","Calibri Thin")
-	ui.docktopMoveButton := ui.dockBarGui.addPicture("x1 y0 w32 h33 section background" cfg.themeButtonOnColor,"./img/button_dockLeft_ready.png")
+	ui.docktopMoveButton := ui.dockBarGui.addPicture("x1 y0 w32 h33 section background" cfg.themeButtonOnColor,"./img2/button_dockLeftRight.png")
 	ui.docktopMoveButton.onEvent("click",topDockMove)
 	ui.docktopMoveButton.toolTip := "Dock to top of screen"
 	ui.dockBarWidth += 32
@@ -987,7 +987,7 @@ createDockBar() {
 			dockBarIcons("World//Zero","Add")
 	}
 	ui.dockBarGui.addText("x+-3 ys-2 w2 h30 section background" cfg.themeBright2Color,"")
-	ui.dockBarWidth -= 4
+	ui.dockBarWidth -= 3
 	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+1 ys+2 w30 h31 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
 	ui.dockBarWidth += 32
 	ui.dockBarExitButton.onEvent("click",topDockPowerButtonPushed)
