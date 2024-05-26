@@ -10,31 +10,25 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 }
 
 
-
-{ ;window events
 WM_WINDOWPOSCHANGED(wParam, lParam, msg, Hwnd) {
 	try {
 		switch hwnd {
 			case ui.mainGui.hwnd:
 				if (!ui.afkDocked) {
 					winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui)
-
 					ui.AfkGui.Move((mainGuiX+45),(mainGuiY+50),270,)
 					ui.titleBarButtonGui.Move((mainGuiX+456)*(A_ScreenDPI/96),(mainGuiY-3)*(a_screenDpi/96))
 					ui.gameSettingsGui.move((mainGuiX+35)*(A_ScreenDPI/96),(mainGuiY+32)*(A_ScreenDPI/96))
 					ui.gameTabGui.move((mainGuiX+35)*(A_ScreenDPI/96),(mainGuiY+184)*(A_ScreenDPI/96))
 					ui.gameSettingsLinkGui.move((mainGuiX+35+12)*(A_ScreenDPI/96),(mainGuiY+32+79)*(A_ScreenDPI/96))
 				}
-				
-
-
 			case ui.pbConsoleBg.hwnd:
 				winGetPos(&winX,&winY,,,ui.pbConsoleBg.hwnd)
 				ui.pbConsole.move(winX,winY)
 		} 
 	}
 }
-} ;end window events
+
 
 { ;mouse events
 
