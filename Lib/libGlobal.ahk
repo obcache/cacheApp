@@ -174,6 +174,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			; FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
 			; FileInstall("./AfkData.csv",InstallDir "/afkData.csv",1)
 			FileInstall("./Img/button_update.png",InstallDir "/img/button_update.png",1)
+			fileInstall("./img2/button_dockLeftRight.png",installDir "/img2/button_dockLeftRight.png",1)
 			FileInstall("./Img/button_exit_gaming.png",InstallDir "/img/button_exit_gaming.png",1)
 			FileInstall("./Img/keyboard_key_up.png",InstallDir "/img/keyboard_key_up.png",1)
 			FileInstall("./Img/keyboard_key_down.png",InstallDir "/img/keyboard_key_down.png",1)

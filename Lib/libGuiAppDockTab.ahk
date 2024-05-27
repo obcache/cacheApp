@@ -183,7 +183,7 @@ GuiDockTab(&ui) {
 		splitPath(winGetProcessPath(winClicked),,,,&winName)
 		winGetPos(&currWinX,&currWinY,&currWinW,&currWinH,winClicked)
 		sqliteExec(cfg.dbFilename,"INSERT into winPositions VALUES ('" ui.workspaceDDL.text "','" winName "','" currWinX "','" currWiny "','" currWinW "','" currWinH "','','" winGetProcessPath(winClicked) "')",&insertResult)
-		workspaceChanged(lvColNames,lvColSizes)
+		workspaceChanged()
 		drawGridlines()
 		DialogBoxClose()
 		workspaceChanged()
