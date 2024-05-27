@@ -187,7 +187,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf()
 
 	hotIf(d2HoldToCrouchReady)
-		hotKey(cfg.d2AppHoldToCrouchKey,d2HoldToCrouchSkate)
+		hotKey(cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
 	hotIf()
 
 	hotIf(d2ReadyToReload)
@@ -203,7 +203,6 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 
 	d2reload(*) {
-		
 		if cfg.d2AlwaysRunEnabled {
 			ui.d2GameReloadKeyData.opt("c" cfg.themeButtonOnColor)
 			ui.d2GameReloadKeyData.redraw()
@@ -214,16 +213,10 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		;setTimer () => d2ToggleAlwaysRunOn(), -2600
 	}
 
-	d2HoldToCrouchSkate(*) {
+	d2HoldToCrouch(*) {
 		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
 		setTimer () => ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
-		send("!{PgUp}")
-		sleep(450)
-		send("{LButton}")
-		sleep(450)
-		send("!{Insert}")
-		send("{space}")
-}
+	}
 
 	d2HoldToCrouchReady(*) {
 		if winActive("ahk_exe destiny2.exe") 
@@ -295,7 +288,6 @@ d2CreateLoadoutKeys(*) {
 	loop cfg.d2LoadoutCoords.length {
 		d2LoadOutCoordsStr .= cfg.d2LoadoutCoords[a_index] ","
 	}	
-
 
 		hotIfWinActive("ahk_exe destiny2.exe")
 			loop cfg.d2LoadoutCoords.length {
@@ -381,11 +373,9 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2AlwaysSprint.Opt("Background" cfg.ThemeButtonOnColor)
 		ui.d2AlwaysSprint.value := "./img/toggle_vertical_trans_on.png"
 		try {
-			ui
-			.dockBarD2AlwaysRun.Opt("Background" cfg.ThemeButtonOnColor)
+			ui.dockBarD2AlwaysRun.Opt("Background" cfg.ThemeButtonOnColor)
 			ui.dockBarD2AlwaysRun.value := "./img/toggle_vertical_trans_on.png"
 		}
-	
 	}
 
 	d2ToggleAlwaysRunOff() {
@@ -409,10 +399,6 @@ d2LoadoutModifier(hotKeyName) {
 		}
 	}
 
-	
-	
-	
-	
 	keyCleanUp(this,*) {
 		for keyForCleanup in 
 					[cfg.d2GameToggleSprintKey
@@ -445,15 +431,12 @@ d2LoadoutModifier(hotKeyName) {
 		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,484,66,cfg.themeBright2Color,cfg.themeDark2Color,1)
 		drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,71,484,73,cfg.themeBright2Color,cfg.themeDark2Color,1)
 
-
 		ui.gameSettingsGui.addText("hidden x19 y18 section")
 		ui.gameSettingsGui.addText("x38 y10 w260 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")
 		drawOutlineNamed("gameSettings",ui.gameSettingsGui,38,11,260,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
 		ui.gameSettingsGui.addText("x304 y10 w177 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
 		drawOutlineNamed("appSettings",ui.gameSettingsGui,305,11,176,42,cfg.themeDark1Color,cfg.themeBright2Color,1)
 	
-
-
 		ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x45 y17 w84  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2GameToggleSprintKeyData 		:= ui.gameSettingsGui.addText("xs-3 y+-24 w84  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
 		ui.d2GameToggleSprintKeyLabel		:= ui.gameSettingsGui.addText("xs-1 y+-34 w84  h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
@@ -602,20 +585,19 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2AlwaysSprint.OnEvent("Click", d2ToggleAlwaysRun)
 		
 		ui.d2AppLoadoutKey.onEvent("click",d2AppLoadoutKeyClicked)
-		ui.d2AppHoldToCrouchKey.onEvent("click",d2AppHoldToCrouchKeyClicked)
-		ui.d2gameToggleSprintKey.onEvent("click",d2gameToggleSprintKeyClicked)
-		
 		ui.d2AppLoadoutKeyData.onEvent("click",d2AppLoadoutKeyClicked)
-		ui.d2AppHoldToCrouchKeyData.onEvent("click",d2AppHoldToCrouchKeyClicked)
-		ui.d2gameToggleSprintKeyData.onEvent("click",d2gameToggleSprintKeyClicked)
 		
 		ui.d2AppHoldToCrouchKey.onEvent("click",d2AppHoldToCrouchKeyClicked)
-		ui.d2GameReloadKey.onEvent("click",d2GameReloadKeyClicked)
-		ui.d2AppToggleSprintKey.onEvent("click",d2AppToggleSprintKeyClicked)
-		
 		ui.d2AppHoldToCrouchKeyData.onEvent("click",d2AppHoldToCrouchKeyClicked)
+		
+		ui.d2GameReloadKey.onEvent("click",d2GameReloadKeyClicked)
 		ui.d2GameReloadKeyData.onEvent("click",d2GameReloadKeyClicked)
+		
+		ui.d2AppToggleSprintKey.onEvent("click",d2AppToggleSprintKeyClicked)
 		ui.d2AppToggleSprintKeyData.onEvent("click",d2AppToggleSprintKeyClicked)
+		
+		ui.d2gameToggleSprintKey.onEvent("click",d2gameToggleSprintKeyClicked)
+		ui.d2gameToggleSprintKeyData.onEvent("click",d2gameToggleSprintKeyClicked)
 		
 		; buttonBar1 := ["DIhttps://cashmantree-my.sharepoint.com/:x:/g/personal/cashman_omnibros_net/Ef1lAG_rWYdHqsOd5RkIkwYBgQF6Tn2KdOZLj_Y6AuNc9w?e=nF3YBZM:./img2/d2_button_DIM.png:./img2/d2_button_DIM_down.png:launchURL("Wishlist Mgr:./img2/d2_button_wishlistMgr.png:./img2/d2_button_wishlistMgr_down.png:launchURL('https://wishlists.littlelight.club'):Launch LittleLight WishList Mgr in Browser","Light.GG:./img2/d2_button_lightgg.png:./img2/d2_button_lightgg_down.png:launchURL('https://light.gg'):Launch Light.GG in browser","Roll Appraiser:./img2/d2_button_lightggAppraiser.png:./img2/d2_button_lightgg_appraiser_down.png:launchURL('light.gg/god-roll-appraiser'):Light.gg Build Popularity  Classifier)]
 		; createButtonBar

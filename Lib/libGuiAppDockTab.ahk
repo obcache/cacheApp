@@ -122,7 +122,6 @@ GuiDockTab(&ui) {
 		} else
 			sqliteExec(cfg.dbFilename,"INSERT INTO [winOptions] VALUES ('" this_winTitle "','caption',false)",&sqlResult)
 		
-		
 		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] from [winOptions] WHERE [window]='" this_winTitle "' AND [option]='alwaysOnTop'",&tblWinOptions)
 		if tblWinOptions.hasRows {
 			;msgBoX(this_winTitle "`nonTop: " tblWinOptions.rows[1][1])
@@ -192,16 +191,27 @@ GuiDockTab(&ui) {
 	}
 		
 	applyWinPos(*) {
-		sqliteQuery(cfg.dbFilename,"SELECT ProcessPath,winX,winY,winW,winH FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
+		sqliteQuery(cfg.dbFilename,"SELECT title,ProcessPath,winX,winY,winW,winH FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
 		;msgBoX('here')
 		if (sqlResult.hasRows) {
 			for row in sqlResult.rows {
 				winNum := a_index
-				processPath := row[1]
+				this_winTitle := row[1]
+				processPath := row[2]
 				splitPath(processPath,&processName,&processDir)
 				if (launchapp(processPath,processName,processDir)) {
-					this_win := winGetTitle("ahk_exe " processName)
-					winMove(sqlResult.rows[winNum][2],sqlResult.rows[winNum][3],sqlResult.rows[winNum][4],sqlResult.rows[winNum][5],this_win)		
+					winMove(sqlResult.rows[winNum][3],sqlResult.rows[winNum][4],sqlResult.rows[winNum][5],sqlResult.rows[winNum][6],"ahk_exe " processName)		
+					sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='alwaysOnTop'",&optionEnabled)
+					if optionEnabled.rows[1][1] == true
+						winSetTransparent(1,"ahk_exe " processName)
+					else
+						winSetTransparent(1,"ahk_exe " processName)
+					
+					sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='caption'",&optionEnabled)
+					if optionEnabled.rows[1][1] == true
+						WinSetStyle("+0xC00000", "ahk_exe " processName)
+					else
+						WinSetStyle("-0xC00000","ahk_exe " processName)
 				}
 			}
 		}
@@ -240,14 +250,18 @@ GuiDockTab(&ui) {
 	toggleAlwaysOnTop(*) {
 		this_winTitle := ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
 		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='alwaysOnTop'",&optionEnabled)
+		sqliteQuery(cfg.dbFilename,"SELECT [processPath] FROM [winPositions] WHERE [title]='" this_winTitle "'",&processPath)
+		splitPath(processPath.rows[1][1],&processName,&processDir)
 		if (optionEnabled.hasRows) {
 			if (optionEnabled.rows[1][1] == true) {
 				setWinOption(this_winTitle,"alwaysOnTop",false)
+				winSetAlwaysOnTop(0,"ahk_exe " processName)
 				ui.toggleOnTop.opt("background" cfg.themeDisabledColor)
 				ui.toggleOnTop.value := "./img/button_down.png"
 				ui.toggleOnTop.redraw()
 			} else {
 				setWinOption(this_winTitle,"alwaysOnTop",true)
+				winSetAlwaysOnTop(1,"ahk_exe " processName)
 				ui.toggleOnTop.opt("background" cfg.themeButtonOnColor)
 				ui.toggleOnTop.value := "./img/button_down.png"
 				ui.toggleOnTop.redraw()
@@ -264,14 +278,18 @@ GuiDockTab(&ui) {
 	toggleCaption(*) {
 		this_winTitle := ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
 		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='caption'",&optionEnabled)
+		sqliteQuery(cfg.dbFilename,"SELECT [processPath] FROM [winPositions] WHERE [title]='" this_winTitle "'",&processPath)
+		splitPath(processPath.rows[1][1],&processName,&processDir)
 		if (optionEnabled.hasRows) {
 			if (optionEnabled.rows[1][1] == false) {
 				setWinOption(this_winTitle,"caption",false)
+				WinSetStyle("-0xC00000","ahk_exe " processName)
 				ui.toggleCaption.opt("background" cfg.themeDisabledColor)
 				ui.toggleCaption.value := "./img/button_down.png"
 				ui.toggleCaption.redraw()
 			} else {
 				setWinOption(this_winTitle,"caption",true)
+				WinSetStyle("+0xC00000","ahk_exe " processName)
 				ui.toggleCaption.opt("background" cfg.themeButtonOnColor)
 				ui.toggleCaption.value := "./img/button_down.png"
 				ui.toggleCaption.redraw()
