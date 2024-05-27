@@ -11,7 +11,6 @@ if !(StrCompare(A_LineFile,A_ScriptFullPath)) {
 }
 
 workspaceChanged(*) {
-
 	iniWrite(ui.workspaceDDL.value,cfg.file,"AppDock","SelectedWorkspace")
 	sqliteQuery(cfg.dbFilename,"SELECT '',Title,winX,winY,winW,winH,ProcessPath FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
 	;sqliteShowResult(ui.winPosLV,sqlResult,lvColNames,lvColSizes)
@@ -23,9 +22,9 @@ workspaceChanged(*) {
 		if a_index == 1
 			ui.winPoslv.modifyCol(a_index,strSplit(colDef,":")[3] " " strSplit(colDef,":")[2]-1)
 		else
-			ui.winPoslv.modifyCol(a_index,strSplit(colDef,":")[3] " " strSplit(colDef,":")[2]+1)
-			
+			ui.winPoslv.modifyCol(a_index,strSplit(colDef,":")[3] " " strSplit(colDef,":")[2]+1)		
 	}
+	
 	if (sqlResult.hasRows) {
 		ui.mainGui.setFont("s8","Arial")
 		loop sqlResult.rows.length {
@@ -134,8 +133,6 @@ GuiDockTab(&ui) {
 		} else
 			sqliteExec(cfg.dbFilename,"INSERT INTO [winOptions] VALUES ('" this_winTitle "','alwaysOnTop',false)",&sqlResult)
 		
-
-
 		ui.toggleCaption.redraw()
 		ui.toggleOnTop.redraw()
 		
@@ -178,13 +175,12 @@ GuiDockTab(&ui) {
 	
 	winPosAdd(*) {
 		DialogBox("Click Any Window`nTo Add Current Positioning`nTo Workspace " ui.workspaceDDL.text)
+		sleep(500)
 		keyWait("LButton","D")
 		mouseGetPos(,,&winClicked)
 		splitPath(winGetProcessPath(winClicked),,,,&winName)
 		winGetPos(&currWinX,&currWinY,&currWinW,&currWinH,winClicked)
 		sqliteExec(cfg.dbFilename,"INSERT into winPositions VALUES ('" ui.workspaceDDL.text "','" winName "','" currWinX "','" currWiny "','" currWinW "','" currWinH "','','" winGetProcessPath(winClicked) "')",&insertResult)
-		workspaceChanged()
-		drawGridlines()
 		DialogBoxClose()
 		workspaceChanged()
 	}
