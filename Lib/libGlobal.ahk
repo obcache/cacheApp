@@ -640,6 +640,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.d2AppToggleSprintKey	:= IniRead(cfg.file,"Game","d2AppToggleSprintKey","<UNSET>")
 	cfg.d2GameReloadKey			:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
 	cfg.d2AppHoldToCrouchKey		:= IniRead(cfg.file,"Game","d2AppHoldToCrouchKey","<UNSET>")
+	cfg.d2GameHoldToCrouchKey		:= iniRead(cfg.file,"Game","d2GameHoldToCrouchKey","LControl")
 	cfg.d2AppLoadoutKey			:= IniRead(cfg.file,"Game","d2AppLoadoutKey","<UNSET>")
 	cfg.d2AppLoadoutMultiplier	:= iniRead(cfg.file,"Game","d2AppLoadoutMultiplier",1)
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
@@ -1077,8 +1078,8 @@ exitFunc(ExitReason,ExitCode) {
 	cfg.guiX := winX
 	cfg.guiY := winY
 	
-	if fileExist("/.tmp")
-		fileDelete("/.tmp")
+	if fileExist("./.tmp")
+		fileDelete("./.tmp")
 	WriteConfig()
 }
 

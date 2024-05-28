@@ -183,13 +183,12 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	
 	hotIfWinActive("ahk_exe destiny2.exe")
 		hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysRun)
-
 	hotIf()
 
-	hotIf(d2HoldToCrouchReady)
-		hotKey(cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
+	hotIf(d2RemapCrouchEnabled)
+		hotkey(cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
 	hotIf()
-
+	
 	hotIf(d2ReadyToReload)
 		hotKey("~*r",d2reload)
 	hotIf()
@@ -197,10 +196,15 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf(d2ReadyToSprint)
 		hotKey("~*w",d2StartSprinting)
 	hotIf()
-
-
-
-
+	
+	d2RemapCrouchEnabled(*) {
+		return ((winActive("ahk_exe destiny2.exe"))
+			? cfg.d2AlwaysRunEnabled
+				? 1
+				: 0
+			: 0)
+	}
+			
 
 	d2reload(*) {
 		if cfg.d2AlwaysRunEnabled {
@@ -215,15 +219,17 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 	d2HoldToCrouch(*) {
 		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
-		setTimer () => ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
+		;setTimer () => ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor),800
+		send("{" cfg.d2gameHoldToCrouchKey " down}")
+		keywait(cfg.d2appHoldToCrouchKey)
+		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
+		send("{" cfg.d2gameHoldToCrouchKey " up}"),600
+		if getKeyState("w") {
+			d2StartSprinting()
+			}
 	}
 
-	d2HoldToCrouchReady(*) {
-		if winActive("ahk_exe destiny2.exe") 
-			return 1
-		else
-			return 0
-}
+
 
 	
 	d2FireButtonClicked(*) {
@@ -232,7 +238,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 		send("{LButton Up}")
 		if ui.d2IsSprinting
-			se13nd("{" cfg.d2GameToggleSprintKey "}")
+			send("{" cfg.d2GameToggleSprintKey "}")
 	}
 	
 	d2ReadyToReload(*) {
@@ -517,7 +523,7 @@ d2LoadoutModifier(hotKeyName) {
 			
 		; }
 
-		; drawOutlineNamed("d2AlwaysRunOutline3",ui.gameSettingsGui,349,47,85,5,cfg.themeBright1Color,cfg.themeBackgroundColor,1)		
+; drawOutlineNamed("d2AlwaysRunOutline3",ui.gameSettingsGui,349,47,85,5,cfg.themeBright1Color,cfg.themeBackgroundColor,1)		
 		; ui.gameSettingsGui.addText("x350 y48 w83 h15 c" cfg.themeFont1Color " background" cfg.themePanel1Color,"   App Settings")
 		; drawOutlineNamed("d2AlwaysRunOutline4",ui.gameSettingsGui,433,47,1,6,cfg.themeBright1Color,cfg.themeBright1Color,1)	
 ; ui.d2DestinySetupLabel 		:= ui.gameSettingsGui.addText("x15 y18 w84  h20  right section backgroundTrans","D2 Setup")
@@ -692,7 +698,10 @@ keyBindDialogBox(Msg,Alignment := "Center") {
 	drawOutlineNotifyGui(2,2,w-4,h-4,cfg.ThemeBright2Color,cfg.ThemeBright2Color,1)
 	
 	Transparency := 0
-	guiVis("all",false)	
+	guiVis(ui.mainGui,false)
+	guiVis(ui.titleBarButtonGui,false)
+	guiVis(ui.gameSettingsGui,false)
+	guiVis(ui.gameTabGui,false)
 	While Transparency < 253 {
 		Transparency += 5
 		WinSetTransparent(Round(Transparency),ui.notifyGui)
@@ -705,7 +714,10 @@ keyBindDialogBoxClose(*)
 	Global
 	Try
 		ui.notifyGui.Destroy()
-	guiVis("all",true)
+	guiVis(ui.mainGui,true)
+	guiVis(ui.titleBarButtonGui,true)
+	guiVis(ui.gameSettingsGui,true)
+	guiVis(ui.gameTabGui,true)
 }
 
 
@@ -721,14 +733,31 @@ keyBindDialogBoxClose(*)
 		} else {
 			if (d2AppHoldToCrouchKeyInput.input)
 			{
-				cfg.d2AppHoldToCrouchKey := d2AppHoldToCrouchKeyInput.input
+				tmpCrouchKey := d2AppHoldToCrouchKeyInput.input
 			} else {
-				cfg.d2AppHoldToCrouchKey := d2AppHoldToCrouchKeyInput.endKey
+				tmpCrouchKey := d2AppHoldToCrouchKeyInput.endKey
 			}
-			ui.d2AppHoldToCrouchKeyData.text := subStr(strUpper(cfg.d2AppHoldToCrouchKey),1,8)
 		}
-
 		keyBindDialogBoxClose()
+		; keyBindDialogBox('Crouch (No AutoSprint)',"Center")
+				; Sleep(100)
+		; d2AppHoldToCrouchKeyInput := InputHook("L1 T6",inputHookAllowedKeys,"+V")
+		; d2AppHoldToCrouchKeyInput.start()
+		; d2AppHoldToCrouchKeyInput.wait()
+		; if (d2AppHoldToCrouchKeyInput.endKey == "" && d2AppHoldToCrouchKeyInput.input =="") {
+			; keyBindDialogBoxClose()
+			; notifyOSD('No Key Detected.`nPlease Try Again.',2000,"Center")
+		; } else {
+			; if (d2AppHoldToCrouchKeyInput.input)
+			; {
+				; tmpCrouchKey .= "|" d2AppHoldToCrouchKeyInput.input
+			; } else {
+				; tmpCrouchKey .= "|" d2AppHoldToCrouchKeyInput.endKey
+			; }
+		; }
+		; keyBindDialogBoxClose()
+		cfg.d2AppHoldToCrouchKey := tmpCrouchKey
+		ui.d2AppHoldToCrouchKeyData.text := subStr(strUpper(cfg.d2AppHoldToCrouchKey),1,8)
 		d2RedrawUI()
 	}
 
