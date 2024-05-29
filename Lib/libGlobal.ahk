@@ -314,6 +314,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
 			fileInstall("./redist/soundVolumeView.exe",installDir "/redist/soundVolumeView.exe",1)
+			fileInstall("./redist/sqlite3.dll",installDir "/redist/sqlite3.dll",1)
+			
 			
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			installLog("Copied Assets to: " InstallDir)
