@@ -9,8 +9,15 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	Return
 }
 
+hotif(noDestiny)
++pause::x
+!pause::X
+hotif()
 
-
+noDestiny(*) {
+	if !winActive("ahk_exe destiny2.exe")
+		return 1
+}
 ; ^+/::
 ; {
 	; mx := 0

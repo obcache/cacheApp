@@ -72,21 +72,24 @@ GuiDockTab(&ui) {
 	ui.winPosLV.onEvent("itemFocus",changeWinSelected)
 		ui.mainGui.setFont("s9","calibri")
 
-	ui.MainGui.AddText("x428 y50 section backgroundTrans w60 Right backgroundTrans","Add")
-	ui.winPosAdd := ui.MainGui.AddPicture("x+5 ys+1 w30 h20 vWin1 background" cfg.themeButtonReadyColor,"")
+	ui.MainGui.AddText("x426 y50 section backgroundTrans w60 Right backgroundTrans","Add")
+	ui.winPosAdd := ui.MainGui.AddPicture("x+5 ys-1 w30 h20 vWin1 background" cfg.themePanel3Color,"")
 	ui.winPosAdd.OnEvent("Click",winPosAdd)
 	ui.winPosAdd.Value := "./Img/button_down.png"
 	ui.winPosAdd.toolTipData := "Add window to current workspace" 
 	ui.MainGui.AddText("xs+0 y+0 section backgroundTrans w60 Right backgroundTrans","Delete")
-	ui.winPosDelete := ui.MainGui.AddPicture("x+5 ys+0 w30 h20 vWin3 background" cfg.themeButtonReadyColor,"")
+	ui.winPosDelete := ui.MainGui.AddPicture("x+5 ys+0 w30 h20 vWin3 background" cfg.themePanel3Color,"")
 	ui.winPosDelete.OnEvent("Click",winPosDelete)
 	ui.winPosDelete.Value := "./Img/button_down.png"
 	ui.winPosDelete.toolTip := "Delete selected window from current workspace"
-	ui.RestoreWinPosLabel := ui.mainGui.addText("xs+0 y+20 w60 right section backgroundTrans","Apply")
-	ui.restoreWinPosButton := ui.mainGui.addPicture("x+5 ys+1 w30 h20 background" cfg.themeButtonAlertColor,"./img/button_down.png")
+	ui.RestoreWinPosLabel := ui.mainGui.addText("xs+0 y+15 w60 right section backgroundTrans","Apply")
+	ui.restoreWinPosButton := ui.mainGui.addPicture("x+5 ys+1 w30 h20 background" cfg.themePanel3Color,"./img/button_down.png")
 	ui.restoreWinPosButton.onEvent("click",applyWinPos)
+	ui.winCloseLabel := ui.mainGui.addText("xs+0 y+0 w60 right section backgroundTrans","Close")
+	ui.winCloseButton := ui.mainGui.addPicture("x+5 ys+1 w30 h20 background" cfg.themePanel3Color,"./img/button_down.png")
+	ui.winCloseButton.onEvent("click",winCloseAll)
 	ui.MainGui.SetFont("s9 c" cfg.ThemeFont1Color,"Calibri")
-	ui.MainGui.AddText("xs+0 y+27 section background w60 Right backgroundTrans","Caption")
+	ui.MainGui.AddText("xs+0 y+15 section background w60 Right backgroundTrans","Caption")
 	ui.toggleCaption := ui.MainGui.AddPicture("x+5 ys+0 w30 h20 background" cfg.themeDisabledColor,"./Img/button_down.png")
 	ui.toggleCaption.toolTip := "Enable/Disable the caption bar on any window."
 	ui.toggleCaption.OnEvent("Click",toggleCaption)
@@ -107,37 +110,28 @@ GuiDockTab(&ui) {
 	GuiCtrlFromHwnd(lvHdr).opt("background" cfg.themeDark2Color " c" cfg.themeFont1Color)
 	
 	workspaceChanged()
+
 	changeWinSelected(*) {
 		drawGridlines()
 	
 		this_winTitle := ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
-		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] from [winOptions] WHERE [window]='" this_winTitle "' AND [option]='caption'",&tblWinOptions)
+		sqliteQuery(cfg.dbFilename,"SELECT [caption],[AlwaysOnTop] FROM [winPositions] WHERE [title] = '" this_winTitle "'",&sqlResult)
+		this_caption := sqlResult.rows[1][1]
+		this_alwaysOnTop := sqlResult.rows[1][2]
 		
-		if tblWinOptions.hasRows {
-			;msgBoX(this_winTitle "`ncaption: " tblWinOptions.rows[1][1])
-			if tblWinOptions.rows[1][1] == false 
+		if sqlResult.hasRows {
+			if this_caption == true 
 				ui.toggleCaption.opt("background" cfg.themeButtonOnColor)
 			else
 				ui.toggleCaption.opt("background" cfg.themeDisabledColor)
-		} else
-			sqliteExec(cfg.dbFilename,"INSERT INTO [winOptions] VALUES ('" this_winTitle "','caption',false)",&sqlResult)
 		
-		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] from [winOptions] WHERE [window]='" this_winTitle "' AND [option]='alwaysOnTop'",&tblWinOptions)
-		if tblWinOptions.hasRows {
-			;msgBoX(this_winTitle "`nonTop: " tblWinOptions.rows[1][1])
-			if tblWinOptions.rows[1][1] == true 
+			if this_alwaysOnTop == true 
 				ui.toggleOnTop.opt("background" cfg.themeButtonOnColor)
 			else
 				ui.toggleOnTop.opt("background" cfg.themeDisabledColor)
-		} else
-			sqliteExec(cfg.dbFilename,"INSERT INTO [winOptions] VALUES ('" this_winTitle "','alwaysOnTop',false)",&sqlResult)
-		
+		}
 		ui.toggleCaption.redraw()
 		ui.toggleOnTop.redraw()
-		
-		sqliteQuery(cfg.dbFilename,"SELECT processPath from winPositions where title='" this_winTitle "'",&this_processPath)
-		if this_processPath.hasRows
-			toolTip("Process Path: " this_processPath.rows[1][1])
 	}
 		
 	drawGridLines(*) {
@@ -148,75 +142,102 @@ GuiDockTab(&ui) {
 	}
 
 	getWinOption(winTitle,winOption) {
-		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] from [winOptions] WHERE [window]='" winTitle "' AND [option]= '" winOption "'",&tblWinOptions)
-		
-		if tblWinOptions.hasRows {
-			if winOption = 'caption'
-				tblWinOptions.rows[1][1] != tblWinOptions.rows[1][1]
-			return tblWinOptions.rows[1][1]
-		} else {
+		sqliteQuery(cfg.dbFilename,"SELECT [" winOption "] from [winPositions] WHERE [title]='" winTitle "'",&sqlResult)
+		if sqlResult.hasRows
+			return sqlResult.rows[1][1]
+		else {
 			setWinOption(winTitle,winOption,false)
 			return false
 		}
 	}
 	
 	setWinOption(this_winTitle,winOption,isEnabled) {
-		if winOption == 'caption'
-			if isEnabled == true
-				isEnabled := false
-			else 
-				isEnabled := true
-				
-		sqliteExec(cfg.dbFilename,"DELETE FROM winOptions WHERE [Window]='" this_winTitle "' and [Option]= '" winOption "'",&result)
-		sqliteExec(cfg.dbFilename,"INSERT INTO winOptions VALUES ('" this_winTitle "','" winOption "','" isEnabled "')",&result)
+		sqliteExec(cfg.dbFilename,"UPDATE [winPositions] SET [" winOption "] = " isEnabled " WHERE [title] = '" this_winTitle "'",&sqlResult)		
 		;trayTip("Win: " this_winTitle "`nOption: " winOption "`nValue: " ((isEnabled) ? "On" : "Off"))
 	}
 	
+	
 	winPosAdd(*) {
+		ui.winPosAdd.opt("background" cfg.themeButtonOnColor)
 		DialogBox("Click Any Window`nTo Add Current Positioning`nTo Workspace " ui.workspaceDDL.text)
 		sleep(500)
 		keyWait("LButton","D")
 		mouseGetPos(,,&winClicked)
 		splitPath(winGetProcessPath(winClicked),,,,&winName)
 		winGetPos(&currWinX,&currWinY,&currWinW,&currWinH,winClicked)
-		sqliteExec(cfg.dbFilename,"INSERT into winPositions VALUES ('" ui.workspaceDDL.text "','" winName "','" currWinX "','" currWiny "','" currWinW "','" currWinH "','','" winGetProcessPath(winClicked) "')",&insertResult)
+		sqliteExec(cfg.dbFilename,"INSERT into winPositions VALUES ('" ui.workspaceDDL.text "','" winName "','" currWinX "','" currWiny "','" currWinW "','" currWinH "','','" winGetProcessPath(winClicked) "',true,false)",&insertResult)
 		DialogBoxClose()
 		workspaceChanged()
+		ui.winPosAdd.opt("background" cfg.themePanel3Color)
 	}
 	
 	winPosDelete(*) {
+			ui.winPosDelete.opt("background" cfg.themeButtonOnColor)
 			sqliteExec(cfg.dbFilename,"DELETE from winPositions WHERE [Title]='" ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2) "'",&sqlExecResult)
 			workspaceChanged()
 			setTimer () => drawGridLines(),-300
+			setTimer () => ui.winPosDelete.opt("background" cfg.themePanel3Color),-400
 	}
 		
 	applyWinPos(*) {
-		sqliteQuery(cfg.dbFilename,"SELECT title,ProcessPath,winX,winY,winW,winH FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
+		ui.restoreWinPosButton.opt("background" cfg.themeButtonOnColor)
+		ui.restoreWinPosButton.redraw()
+		sqliteQuery(cfg.dbFilename,"SELECT title,ProcessPath,winX,winY,winW,winH,caption,alwaysOnTop FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
 		;msgBoX('here')
 		if (sqlResult.hasRows) {
 			for row in sqlResult.rows {
 				winNum := a_index
 				this_winTitle := row[1]
-				processPath := row[2]
+				processPath 	:= row[2]
+				this_coordX		:= row[3]
+				this_coordY		:= row[4]
+				this_coordW		:= row[5]
+				this_coordH		:= row[6]
+				this_Caption	:= row[7]
+				this_onTop 		:= row[8]
 				splitPath(processPath,&processName,&processDir)
-				if (launchapp(processPath,processName,processDir)) {
-					winMove(sqlResult.rows[winNum][3],sqlResult.rows[winNum][4],sqlResult.rows[winNum][5],sqlResult.rows[winNum][6],"ahk_exe " processName)		
-					sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='alwaysOnTop'",&optionEnabled)
-					if optionEnabled.rows[1][1] == true
-						winSetTransparent(1,"ahk_exe " processName)
+				 launchapp(processPath,processName,processDir) 
+				 try {
+					osdLog("positioning " processName) 
+					winMove(this_coordX,this_coordY,this_coordW,this_coordH,"ahk_exe " processName)		
+					osdLog("setting onTop for " processName)
+					if this_onTop == true
+						winSetAlwaysOnTop(1,"ahk_exe " processName)
 					else
-						winSetTransparent(1,"ahk_exe " processName)
-					
-					sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='caption'",&optionEnabled)
-					if optionEnabled.rows[1][1] == true
+						winSetAlwaysOnTop(0,"ahk_exe " processName)
+						osdLog("setting caption for " processName)
+					if this_caption == true
 						WinSetStyle("+0xC00000", "ahk_exe " processName)
 					else
 						WinSetStyle("-0xC00000","ahk_exe " processName)
-				}
+					}
+			
 			}
 		}
+	ui.restoreWinPosButton.opt("background" cfg.themePanel3Color)
+	ui.restoreWinPosButton.redraw()
 	}
-
+	
+	winCloseAll(*) {
+		try 
+			sqliteQuery(cfg.dbFilename,"SELECT [processPath] from [winPositions] where [workspace] = '" ui.workspaceDDL.text "'",&sqlResult)
+	
+		if sqlResult.hasRows {
+			for row in sqlResult.rows {
+				splitPath(row[1],&processName)
+				try
+					winClose("ahk_exe " processName)
+			}
+			sleep(2000)
+			for row in sqlResult.rows {
+				splitPath(row[1],&processName)
+				try
+					processClose(processName)
+			}
+		}
+	}	
+	
+	
 	launchApp(processPath,processName,processDir) {
 		processRunning := false
 		rerun_timeout := 0
@@ -225,43 +246,47 @@ GuiDockTab(&ui) {
 			rerun_timeout += 1
 			if !processExist(processName)
 				run(processPath,processDir)
+				osdLog("launching " processName ": attempt " a_index)
 			while processRunning == false && winWait_timeout < 5 {
 				winWait_timeout += 1
 				if processExist(processName)
 					processRunning := true
 					sleep(1000)
+					osdLog("waitig for: " processName)
 			}
 		}
 		
-		if winExist("ahk_exe " processName) {
-			winMaximize("ahk_exe " processName)
-			sleep(350)
-			winRestore("ahk_exe " processName)
-			return 1
-		} else { 
-			return 0
-		}
-		
-
+		; if winExist("ahk_exe " processName) {
+			; winMaximize("ahk_exe " processName)
+			; sleep(350)
+			;winRestore("ahk_exe " processName)
+			; return 1
+		; } else { 
+			; return 0
+		; }
 	}	
 	
 	
 
 	toggleAlwaysOnTop(*) {
 		this_winTitle := ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
-		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='alwaysOnTop'",&optionEnabled)
-		sqliteQuery(cfg.dbFilename,"SELECT [processPath] FROM [winPositions] WHERE [title]='" this_winTitle "'",&processPath)
-		splitPath(processPath.rows[1][1],&processName,&processDir)
-		if (optionEnabled.hasRows) {
-			if (optionEnabled.rows[1][1] == true) {
+		sqliteQuery(cfg.dbFilename,"SELECT [processPath],[alwaysOnTop] FROM [winPositions] WHERE [title]='" this_winTitle "'",&sqlResult)
+		this_processPath := sqlResult.rows[1][1]
+		this_alwaysOnTop		:= sqlResult.rows[1][2]
+		
+		splitPath(this_ProcessPath,&this_processName,&this_processDir)
+		if (sqlResult.hasRows) {
+			if (this_alwaysOnTop == true) {
 				setWinOption(this_winTitle,"alwaysOnTop",false)
-				winSetAlwaysOnTop(0,"ahk_exe " processName)
+				if winExist("ahk_exe " this_processName)
+					winSetAlwaysOnTop(0,"ahk_exe " this_processName)
 				ui.toggleOnTop.opt("background" cfg.themeDisabledColor)
 				ui.toggleOnTop.value := "./img/button_down.png"
 				ui.toggleOnTop.redraw()
 			} else {
 				setWinOption(this_winTitle,"alwaysOnTop",true)
-				winSetAlwaysOnTop(1,"ahk_exe " processName)
+				if winExist("ahk_exe " this_processName)
+					winSetAlwaysOnTop(1,"ahk_exe " this_processName)
 				ui.toggleOnTop.opt("background" cfg.themeButtonOnColor)
 				ui.toggleOnTop.value := "./img/button_down.png"
 				ui.toggleOnTop.redraw()
@@ -277,19 +302,22 @@ GuiDockTab(&ui) {
 		
 	toggleCaption(*) {
 		this_winTitle := ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
-		sqliteQuery(cfg.dbFilename,"SELECT [optionEnabled] FROM [winOptions] WHERE [window]='" this_winTitle "' AND [option]='caption'",&optionEnabled)
-		sqliteQuery(cfg.dbFilename,"SELECT [processPath] FROM [winPositions] WHERE [title]='" this_winTitle "'",&processPath)
-		splitPath(processPath.rows[1][1],&processName,&processDir)
-		if (optionEnabled.hasRows) {
-			if (optionEnabled.rows[1][1] == false) {
+		sqliteQuery(cfg.dbFilename,"SELECT [processPath],[caption] FROM [winPositions] WHERE [title]='" this_winTitle "'",&sqlResult)
+		this_processPath 	:= sqlResult.rows[1][1]
+		this_caption		:= sqlResult.rows[1][2]
+		splitPath(this_processPath,&this_processName,&this_processDir)
+		if (sqlResult.hasRows) {
+			if (this_caption == true) {
 				setWinOption(this_winTitle,"caption",false)
-				WinSetStyle("-0xC00000","ahk_exe " processName)
+				if winExist("ahk_exe " this_processName)
+					WinSetStyle("-0xC00000","ahk_exe " this_processName)
 				ui.toggleCaption.opt("background" cfg.themeDisabledColor)
 				ui.toggleCaption.value := "./img/button_down.png"
 				ui.toggleCaption.redraw()
 			} else {
 				setWinOption(this_winTitle,"caption",true)
-				WinSetStyle("+0xC00000","ahk_exe " processName)
+				if winExist("ahk_exe " this_processName)
+					WinSetStyle("+0xC00000","ahk_exe " this_processName)
 				ui.toggleCaption.opt("background" cfg.themeButtonOnColor)
 				ui.toggleCaption.value := "./img/button_down.png"
 				ui.toggleCaption.redraw()
