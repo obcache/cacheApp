@@ -57,7 +57,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.labelAfkSnap:= ui.MainGui.AddText("x+2 ys+3 hidden backgroundTrans","AFK Snapping")
 
 
-	ui.toggleToolTips := ui.MainGui.AddPicture("xs w60 h25 section vToolTips " ((cfg.ToolTipsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ToolTipsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleToolTips := ui.MainGui.AddPicture("xs w60 h23 section vToolTips " ((cfg.ToolTipsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ToolTipsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleToolTips.OnEvent("Click", toggleChanged)
 	ui.toggleToolTips.ToolTip := "Toggles ToolTips"
 	ui.labelToolTips := ui.MainGui.AddText("x+5 ys+2 BackgroundTrans","ToolTips")
@@ -68,7 +68,7 @@ GuiSetupTab(&ui,&cfg) {
 		ui.toggleAlwaysOnTop.Opt((cfg.AlwaysOnTopEnabled := !cfg.AlwaysOnTopEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
 		ui.toggleAlwaysOnTop.Redraw()
 	}
-	ui.toggleAlwaysOnTop := ui.MainGui.AddPicture("xs y+3 w60 h25 section vAlwaysOnTop " (cfg.AlwaysOnTopEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AlwaysOnTopEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleAlwaysOnTop := ui.MainGui.AddPicture("xs y+3 w60 h23 section vAlwaysOnTop " (cfg.AlwaysOnTopEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AlwaysOnTopEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAlwaysOnTop.OnEvent("Click", ToggleChanged)
 	ui.toggleAlwaysOnTop.ToolTip := "Keeps this app on top of all other windows."
 	ui.labelAlwaysOnTop:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","AlwaysOnTop")	
@@ -80,27 +80,52 @@ GuiSetupTab(&ui,&cfg) {
 		ui.toggleAnimations.Opt((cfg.AnimationsEnabled := !cfg.AnimationsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
 		ui.toggleAnimations.Redraw()
 	}
-	ui.toggleAnimations := ui.MainGui.AddPicture("xs w60 y+3 h25 section vAnimations " (cfg.AnimationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AnimationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleAnimations := ui.MainGui.AddPicture("xs w60 y+3 h23 section vAnimations " (cfg.AnimationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AnimationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAnimations.OnEvent("Click", toggleChanged)
 	ui.toggleAnimations.ToolTip := "Keeps this app on top of all other windows."
 	ui.labelAnimations:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Animations")
+
+
+	cfg.autoStartEnabled := iniRead(cfg.file,"System","AutoStart",false)
+	ui.toggleAutoStart := ui.MainGui.AddPicture("xs y+2 w60 h23 section vAutoStart " (cfg.autoStartEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.autoStartEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleAutoStart.OnEvent("Click", toggleChangedAutoStart)
+	ui.toggleAutoStart.ToolTip := "Keeps this app on top of all other windows."
+	ui.labelAutoStart:= ui.MainGui.AddText("x+5 ys+1 backgroundTrans","AutoStart")
+	
+	toggleChangedAutoStart(toggleControl,*) {
+		toggleControl.value := 
+		(cfg.%toggleControl.name%Enabled := !cfg.%toggleControl.name%Enabled)
+			? (toggleControl.Opt("Background" cfg.ThemeButtonOnColor),cfg.toggleOn)
+			: (toggleControl.Opt("Background" cfg.ThemeButtonReadyColor),cfg.toggleOff)
+			
+		if cfg.%toggleControl.name%Enabled {
+			try
+				fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\Startup\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
+				trayTip("CacheApp now set to Autostart","CacheApp Config Change","Iconi Mute")
+		} else {
+			try
+				fileDelete(A_StartMenu "\Programs\Startup\cacheApp.lnk")
+				trayTip("CacheApp Autostart Disabled","CacheApp Config Change","Iconi Mute")
+		}
+	}
 	
 	ToggleStartMinimized(*)
 	{
 		ui.toggleStartMinimized.Opt((cfg.StartMinimizedEnabled := !cfg.StartMinimizedEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
 		ui.toggleStartMinimized.Redraw()
 	}
-	ui.toggleStartMinimized := ui.MainGui.AddPicture("xs y+3 w60 h25 section vStartMinimized " (cfg.StartMinimizedEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.StartMinimizedEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleStartMinimized := ui.MainGui.AddPicture("xs y+3 w60 h23 section vStartMinimized " (cfg.StartMinimizedEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.StartMinimizedEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleStartMinimized.OnEvent("Click", toggleChanged)
 	ui.toggleStartMinimized.ToolTip := "Keeps this app on top of all other windows."
 	ui.labelStartMinimized:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Start Minimized")
 	
 
-	ui.toggleconfirmExit := ui.MainGui.AddPicture("xs y+2 w60 h25 section vConfirmExit " (cfg.ConfirmExitEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ConfirmExitEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleconfirmExit := ui.MainGui.AddPicture("xs y+2 w60 h23 section vConfirmExit " (cfg.ConfirmExitEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ConfirmExitEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleConfirmExit.OnEvent("Click", toggleChanged)
 	ui.toggleConfirmExit.ToolTip := "Keeps this app on top of all other windows."
 	ui.labelConfirmExit:= ui.MainGui.AddText("x+5 ys+1 backgroundTrans","Confirm Exit")
-	
+
+
 	ToggleDebug(*)
 	{
 		ui.toggleDebug.Opt((cfg.DebugEnabled := !cfg.DebugEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
