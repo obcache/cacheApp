@@ -8,11 +8,14 @@ if (InStr(A_LineFile,A_ScriptFullPath)){
 	Return
 }
 
+restoreWin(*) {
+	winRestore(ui.mainGui.hwnd)
+}
 
 initTrayMenu(*) {
 	A_TrayMenu.Delete
 	A_TrayMenu.Add
-	A_TrayMenu.Add("Show Window", ShowGui)
+	A_TrayMenu.Add("Show Window", restoreWin)
 	A_TrayMenu.Add("Hide Window", HideGui)
 	A_TrayMenu.Add("Reset Window Position",ResetWindowPosition)
 	; A_TrayMenu.Add("Toggle Dock", DockApps)
@@ -25,7 +28,6 @@ initTrayMenu(*) {
 		installLog("Tray Initialized")
 }
 
-	
 preAutoExec(InstallDir,ConfigFileName) {
 	Global
 	data			:= object()
@@ -525,6 +527,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Lists,Setup"),",")
 	cfg.mainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
 	cfg.startMinimizedEnabled	:= iniRead(cfg.file,"System","StartMinimizedEnabled",false)
+	cfg.autoStartEnabled := iniRead(cfg.file,"System","AutoStartEnabled",false)
 	cfg.confirmExitEnabled		:= iniRead(cfg.file,"System","ConfirmExit",false)
 	cfg.excludedApps			:= IniRead(cfg.file,"System","ExcludedApps","Windows10Universal.exe,explorer.exe,RobloxPlayerInstaller.exe,RobloxPlayerLauncher.exe,Chrome.exe,msedge.exe")
 	cfg.MainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
@@ -555,14 +558,16 @@ cfgLoad(&cfg, &ui) {
 	cfg.gamingStartProc	:= strSplit(iniRead(cfg.file,"System","GamingStartProcesses",'"C:\Program Files (x86)\Steam\steam.exe","C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe","C:\Program Files\BakkesMod\BakkesMod.exe","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Medal.lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\2) Video\OBS Studio (64bit).lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\7) System\Logitech G HUB.lnk"'),",")
 
 
-
+;msgBox("1: " cfg.guix "`n" cfg.guiy)
 
 	;MonitorGet(MonitorGetPrimary(),&L,&T,&R,&B)
 	if (cfg.GuiX < primaryMonitorLeft)
 		cfg.GuiX := 200
 	if (cfg.GuiY > primaryMonitorBottom)
 		cfg.GuiY := 200
-		
+	
+	;MsgBox("2: " cfg.guix "`n" cfg.guiy)
+	
 	cfg.AfkX					:= IniRead(cfg.file,"Interface","AfkX",cfg.GuiX+10)
 	cfg.AfkY					:= IniRead(cfg.file,"Interface","AfkY",cfg.GuiY+35)
 	cfg.AfkSnapEnabled			:= IniRead(cfg.file,"Interface","AfkSnapEnabled",false)
@@ -782,18 +787,20 @@ WriteConfig() {
 		IniWrite(rtrim(ui.mainTabListString,","),cfg.file,"Interface","MainTabList")
 	}
 	
-	saveGuiPos()
-	try {
-			if (ui.AfkDocked)
-			{
-				cfg.GuiX := ui.GuiPrevX
-				cfg.GuiY := ui.GuiPrevY
-			} 
+		if (ui.AfkDocked) {
+			cfg.GuiX := ui.GuiPrevX
+			cfg.GuiY := ui.GuiPrevY
+		} 
+		
+		try {
+			winGetPos(&guiX,&guiY,,,ui.mainGui.hwnd)
+			cfg.guiX := guiX
+			cfg.guiY := GuiY
 		} catch {
 			cfg.GuiX := 200
 			cfg.GuiY := 200
 		}
-		
+
 	IniWrite(cfg.GuiX,cfg.file,"Interface","GuiX")
 	IniWrite(cfg.GuiY,cfg.file,"Interface","GuiY")
 	IniWrite(cfg.AfkX,cfg.file,"Interface","AfkX")
@@ -808,7 +815,7 @@ WriteConfig() {
 	IniWrite(cfg.AlwaysOnTopEnabled,cfg.file,"Interface","AlwaysOnTopEnabled")
 	IniWrite(cfg.AnimationsEnabled,cfg.file,"Interface","AnimationsEnabled")
 	IniWrite(cfg.ColorPickerEnabled,cfg.file,"Interface","ColorPickerEnabled")
-
+	iniWrite(cfg.autoStartEnabled,cfg.file,"System","AutoStartEnabled")
 	IniWrite(cfg.AfkDataFile,cfg.file,"AFK","AfkDataFile")
 	IniWrite(cfg.SilentIdleEnabled,cfg.file,"AFK","SilentIdleEnabled")
 	iniWrite(cfg.towerInterval,cfg.file,"AFK","TowerInterval")
@@ -1157,3 +1164,4 @@ appChangeTrans(transLevel) {
 newGuid(*) {
 	return ComObjCreate("Scriptlet.TypeLib").GUID
 }
+

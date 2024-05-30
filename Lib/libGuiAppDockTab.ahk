@@ -26,12 +26,12 @@ workspaceChanged(*) {
 			ui.winPoslv.modifyCol(a_index,strSplit(colDef,":")[3] " " strSplit(colDef,":")[2]+1)		
 	}
 	
-	lvDrawGridlines(sqlResult)
+	lvDrawGridlines()
 	if (sqlResult.hasRows) {
 		ui.mainGui.setFont("s8","Arial")
 		loop sqlResult.rows.length {
 			ui.winPoslv.add("", sqlResult.rows[a_index]*)
-		lvDrawGridlines(sqlResult)
+		lvDrawGridlines()
 		}
 	}
 }
@@ -123,7 +123,7 @@ GuiDockTab(&ui) {
 		if sqlResult.hasRows {
 			if this_caption == true 
 				ui.toggleCaption.opt("background" cfg.themeButtonOnColor)
-			else
+				else
 				ui.toggleCaption.opt("background" cfg.themeDisabledColor)
 		
 			if this_alwaysOnTop == true 
@@ -133,12 +133,14 @@ GuiDockTab(&ui) {
 		}
 		ui.toggleCaption.redraw()
 		ui.toggleOnTop.redraw()
+		lvDrawGridlines()
 	}
 		
-	lvDrawGridlines(sqlResult) {
+	lvDrawGridlines() {
 		ui.mainGuiTabs.useTab("AppDock")
 		ui.mainGui.setFont("s8","Arial")
 		ui.mainGui.AddText("x45 y80 hidden section")
+		sqliteQuery(cfg.dbFilename,"SELECT title FROM winPositions WHERE workspace = '" ui.workspaceDDL.text "'",&sqlResult)
 		loop sqlResult.rows.length
 			ui.mainGui.addText("x46 y+17 w390 h1 background" cfg.themeFont2Color)
 	}
@@ -148,7 +150,7 @@ GuiDockTab(&ui) {
 		if sqlResult.hasRows
 			return sqlResult.rows[1][1]
 		else {
-			setWinOption(winTitle,winOption,false)
+			setWinOption(winTitle,winOpti on,false)
 			return false
 		}
 	}
@@ -177,7 +179,7 @@ GuiDockTab(&ui) {
 			ui.winPosDelete.opt("background" cfg.themeButtonOnColor)
 			sqliteExec(cfg.dbFilename,"DELETE from winPositions WHERE [Title]='" ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2) "'",&sqlExecResult)
 			workspaceChanged()
-			setTimer () => lvDrawGridlines(sqlResult),-300
+			setTimer () => lvDrawGridlines(),-300
 			setTimer () => ui.winPosDelete.opt("background" cfg.themePanel3Color),-400
 	}
 	

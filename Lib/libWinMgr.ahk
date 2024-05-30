@@ -11,6 +11,11 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 
 
 WM_WINDOWPOSCHANGED(wParam, lParam, msg, Hwnd) {
+	try
+		collateGuis(hwnd)
+}
+
+collateGuis(hwnd) {
 	try {
 		switch hwnd {
 			case ui.mainGui.hwnd:
@@ -28,6 +33,7 @@ WM_WINDOWPOSCHANGED(wParam, lParam, msg, Hwnd) {
 		} 
 	}
 }
+
 
 
 { ;mouse events
@@ -119,7 +125,7 @@ toolTipDelayStart(origGuiCtrl) {
 togglePIP() {
 	if (!WinExist("ahk_id " ui.Win2Hwnd) 
 		|| !WinExist("ahk_id " ui.Win1Hwnd)) {
-		debugLog("PiP: Can't find 2 Game Windows.")
+			debugLog("PiP: Can't find 2 Game Windows.")
 		try {
 		stopPip()
 		}

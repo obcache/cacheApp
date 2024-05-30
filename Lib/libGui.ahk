@@ -127,8 +127,6 @@ initOSDGui() {
 	MsgString := ""
 	ui.afkEnabled := false
 	TimerEnabled := false
-	GuiX := IniRead(cfg.file,"AFK","GuiX",A_ScreenWidth*0.3)
-	GuiY := IniRead(cfg.file,"AFK","GuiY",A_ScreenHeight*0.3)
 	RunCount := 0
 
 	ui.AfkGui := Gui()
@@ -257,7 +255,7 @@ fadeIn() {
 
 		if cfg.topDockEnabled {
 			guiVis(ui.mainGui,false)
-			guiVis(ui.titleBarButtonGui,false)
+			guiVis(ui.titleBarButtonGui,true)
 			showDockBar()
 			while transparency < 253 {
 				transparency += 2.5
@@ -286,6 +284,7 @@ fadeIn() {
 							winSetTransparent(round(transparency)+50,ui.gameTabGui)
 						sleep(1)
 					}
+					
 					ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
 					guiVis(ui.gameSettingsGui,true)
 					guiVis(ui.gameTabGui,true)
@@ -378,15 +377,6 @@ UncollapseGui() {
 
 }
 
-mainGuiMove() {
-	winGetPos(&mainX,&mainY,&mainW,&mainH,ui.mainGui)
-	ui.gameSettingsGui.move(mainX+35,mainY+35,495,)
-	ui.afkGui.move(mainX+40,mainY+50,275,)
-	ui.gameSettingsGui.move((winx+35)*(A_ScreenDPI/96),(winy+32)*(A_ScreenDPI/96))
-	ui.gameTabGui.move((mainX+35)*(A_ScreenDPI/96),(mainY+184)*(A_ScreenDPI/96))
-	guiVis(ui.titleBarButtonGui,true)
-	tabsChanged()
-}
 
 toggleAfkDock(*) {
 	(ui.AfkDocked := !ui.AfkDocked) 
@@ -611,6 +601,7 @@ startGaming(*) {
 	; }
 }
 exitMenuShow() {
+	
 	winGetPos(&tbX,&tbY,,,ui.titleBarButtonGui)
 	ui.exitMenuGui := gui()
 	ui.exitMenuGui.Opt("-caption -border AlwaysOnTop Owner" ui.mainGui.hwnd)
@@ -626,7 +617,7 @@ exitMenuShow() {
 	ui.startGamingButton.onEvent("Click",stopGaming)
 	WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
 	drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
-	ui.exitMenuGui.show("x" tbX " y" tbY " AutoSize noActivate")
+	ui.exitMenuGui.show("x" tbX " y" tbY-70 " AutoSize noActivate")
 	
 	loop 70 {
 		ui.exitMenuGui.move(tbX,tbY-a_index)
@@ -638,8 +629,10 @@ exitAppCallback(*) {
 }
 	
 hideGui(*) {
-	saveGuiPos()
-	winMinimize(ui.mainGui)
+	winGetPos(&GuiX,&GuiY,,,ui.MainGui.hwnd)
+	cfg.guix := guiX
+	cfg.guiy := guiy
+	winMinimize(ui.mainGui.hwnd)
 	debugLog("Hiding Interface")
 }
 
@@ -651,7 +644,7 @@ savePrevGuiPos(*) {
 
 saveGuiPos(*) {
 	Global
-	winGetPos(&GuiX,&GuiY,,,ui.MainGui)
+	winGetPos(&GuiX,&GuiY,,,ui.MainGui.hwnd)
 	cfg.GuiX := GuiX
 	cfg.GuiY := GuiY
 	IniWrite(cfg.GuiX,cfg.file,"Interface","GuiX")
@@ -660,9 +653,7 @@ saveGuiPos(*) {
 }
 
 showGui(*) {
-	detectHiddenWindows(true)
-	winActivate(ui.mainGui)
-	winRestore(ui.mainGui)
+	
 	ui.mainGui.move(cfg.GuiX,cfg.GuiY)	
 	debugLog("Showing Interface")
 }
@@ -1201,7 +1192,7 @@ topDockOn(*) {
 		}
 	guiVis(ui.dockBarGui,true)	
 }
-
+;MsgBox("4: " cfg.guix "`n" cfg.guiy)
 topDockOff(*) {
 	cfg.topDockEnabled := false
 	guiVis(ui.titleBarButtonGui,false)

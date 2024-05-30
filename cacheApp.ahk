@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.1.8"
+A_FileVersion := "1.2.1.9"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -104,9 +104,7 @@ ui.gameTabs.choose(cfg.gameModuleList[cfg.activeGameTab])
 
 autoUpdate()
 
-winGetPos(&MainGuiX,&MainGuiY,,,ui.mainGui)
-if cfg.startMinimizedEnabled
-	hideGui()
+
 
 createDockBar()
 changeGameDDL()
@@ -117,13 +115,17 @@ drawAfkOutlines()
 
 try
 	guiVis("all",false)
-		
-ui.afkGui.show("x" mainGuiX+45 " y" mainGuiY+50 " w270 h140 noActivate")
-ui.gameSettingsGui.show("x" mainGuiX+35 " y" mainGuiY+32 " w495 h180 noActivate")
+	
+ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
+ui.gameSettingsGui.show("x" cfg.guiX+35 " y" cfg.guiY+32 " w495 h180 noActivate")
 ui.titleBarButtonGui.Show("w75 h36 NoActivate")
-ui.MainGui.Show("x" cfg.GuiX " y" cfg.GuiY " w562 h214 NoActivate")
+ui.MainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
+if (cfg.startMinimizedEnabled)
+	 winMinimize(ui.mainGui.hwnd)
+	 
 fadeIn()
+
 
 
 if !cfg.topDockEnabled

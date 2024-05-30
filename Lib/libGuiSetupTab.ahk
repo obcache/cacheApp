@@ -86,7 +86,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.labelAnimations:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Animations")
 
 
-	cfg.autoStartEnabled := iniRead(cfg.file,"System","AutoStart",false)
+
 	ui.toggleAutoStart := ui.MainGui.AddPicture("xs y+2 w60 h23 section vAutoStart " (cfg.autoStartEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.autoStartEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAutoStart.OnEvent("Click", toggleChangedAutoStart)
 	ui.toggleAutoStart.ToolTip := "Keeps this app on top of all other windows."
@@ -97,17 +97,35 @@ GuiSetupTab(&ui,&cfg) {
 		(cfg.%toggleControl.name%Enabled := !cfg.%toggleControl.name%Enabled)
 			? (toggleControl.Opt("Background" cfg.ThemeButtonOnColor),cfg.toggleOn)
 			: (toggleControl.Opt("Background" cfg.ThemeButtonReadyColor),cfg.toggleOff)
-			
-		if cfg.%toggleControl.name%Enabled {
-			try
+
+	if cfg.%toggleControl.name%Enabled 
+		if !(fileExist(A_StartMenu "\Programs\Startup\cacheApp.lnk"))
+			setAutoStart(1)
+	else
+		if (fileExist(A_StartMenu "\Programs\Startup\cacheApp.lnk"))
+			setAutoStart(0)
+	
+}
+	setAutoStart(OnOff) {
+		if (OnOff == "On" || OnOff == true || OnOff == 1) {
+			try {
 				fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\Startup\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
 				trayTip("CacheApp now set to Autostart","CacheApp Config Change","Iconi Mute")
+			} catch {
+				trayTip("Failed to set CacheApp to Autostart","CacheApp Config Change","Iconi Mute")
+				setAutoStart(0)
+			}
 		} else {
-			try
+			try {
 				fileDelete(A_StartMenu "\Programs\Startup\cacheApp.lnk")
 				trayTip("CacheApp Autostart Disabled","CacheApp Config Change","Iconi Mute")
+			} catch {
+				trayTip("Failed to disable Autostart","CacheApp Config Change","Iconi Mute")
+				setAutoStart(1)
+			}
 		}
 	}
+	
 	
 	ToggleStartMinimized(*)
 	{
