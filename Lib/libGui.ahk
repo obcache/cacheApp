@@ -535,33 +535,49 @@ exitButtonPushed(*) {
 	exitMenuShow()
 	keyWait("LButton")
 	mouseGetPos(,,,&ctrlUnderMouse,2)
-	
+	winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)	
 	switch ctrlUnderMouse
 	{
 		case ui.startGamingButton.hwnd:
+			loop 69 {
+				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+			
+			}
 			ui.exitMenuGui.destroy()
 			startGaming()
 		case ui.stopGamingButton.hwnd:
+			loop 69 {
+				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+				
+			}
 			ui.exitMenuGui.destroy()
 			stopGaming()
 		case ui.exitButton.hwnd:
+			loop 69 {
+				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+			
+			}
 			ui.exitMenuGui.destroy()
 			exitApp()
 		default: 
+			loop 69 {
+				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+			
+			}
 			ui.exitMenuGui.destroy()
 	}
 }
 
 stopGaming(*) {
-	ui.dividerGui.hide()
-	while a_index <= cfg.gamingStopProc.length {
-		try	
-			processClose(cfg.gamingStopProc[a_index])
-		processIndex := a_index
-	}
-	try
-		winWaitClose("ahk_exe " cfg.gamingStopProc[processIndex],,5)
-	
+	; ui.dividerGui.hide()
+	; while a_index <= cfg.gamingStopProc.length {
+		; try	
+			; processClose(cfg.gamingStopProc[a_index])
+		; processIndex := a_index
+	; }
+	; try
+		; winWaitClose("ahk_exe " cfg.gamingStopProc[processIndex],,5)
+	winCloseAll("Gaming Mode")
 	exitApp()
 }
 quickOSD()
@@ -586,12 +602,13 @@ osdLog(msg) {
 
 startGaming(*) {
 	; msgBox(cfg.gamingStartProc.length)
-	sqliteQuery(cfg.dbFilename,"SELECT action from listActions where listName='Gaming Start' and type='Application'",&sqlResult)
-	for row in sqlResult.rows {
-		osdLog(row[1])
-		splitPath(row[1],&processName,&processDir)
-		run(row[1],processDir)
-	}
+	applyWinPos("Gaming Mode")
+	; sqliteQuery(cfg.dbFilename,"SELECT action from listActions where listName='Gaming Start' and type='Application'",&sqlResult)
+	; for row in sqlResult.rows {
+		; osdLog(row[1])
+		; splitPath(row[1],&processName,&processDir)
+		; run(row[1],processDir)
+	; }
 }
 exitMenuShow() {
 	winGetPos(&tbX,&tbY,,,ui.titleBarButtonGui)
@@ -599,9 +616,9 @@ exitMenuShow() {
 	ui.exitMenuGui.Opt("-caption -border AlwaysOnTop Owner" ui.mainGui.hwnd)
 	ui.exitMenuGui.BackColor := ui.transparentColor
 
-	ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y2 w72 h15 center background" cfg.themePanel3color " c" cfg.themeFont2Color," Gaming Mode")
+	ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y2 w72 h15 center background" cfg.themePanel3color " c" cfg.themeButtonOnColor," Gaming Mode")
 	ui.gamingModeLabel.setFont("s8")
-	ui.gamingLabels := ui.exitMenuGui.addText("x0 y16 w72 h52 center background" cfg.themePanel3color " c" cfg.themeFont3Color," Stop   Start ")
+	ui.gamingLabels := ui.exitMenuGui.addText("x0 y16 w72 h52 center background" cfg.themePanel3color " c" cfg.themeButtonAlertColor," Stop   Start ")
 	ui.gamingLabels.setFont("s10")
 	ui.stopGamingButton := ui.exitMenuGui.addPicture("x0 y32 section w35 h35 background" cfg.themeFont2Color,"./img/button_quit.png")
 	ui.startGamingButton := ui.exitMenuGui.addPicture("x+2 ys w35 h35 background" cfg.themeFont2Color,"./img/button_exit_gaming.png")
@@ -609,8 +626,11 @@ exitMenuShow() {
 	ui.startGamingButton.onEvent("Click",stopGaming)
 	WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
 	drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
-	ui.exitMenuGui.show("x" tbX " y" tbY-70 " AutoSize noActivate")
+	ui.exitMenuGui.show("x" tbX " y" tbY " AutoSize noActivate")
 	
+	loop 70 {
+		ui.exitMenuGui.move(tbX,tbY-a_index)
+	}
 
 }
 exitAppCallback(*) {

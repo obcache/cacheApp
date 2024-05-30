@@ -2,6 +2,7 @@
 #Requires AutoHotKey v2.0+
 #Warn All, Off
 
+sqlResult := ""
 
 if !(StrCompare(A_LineFile,A_ScriptFullPath)) {
 	InstallDir 		:= IniRead("./cacheApp.ini","System","InstallDir",A_MyDocuments "\cacheApp")
@@ -25,11 +26,12 @@ workspaceChanged(*) {
 			ui.winPoslv.modifyCol(a_index,strSplit(colDef,":")[3] " " strSplit(colDef,":")[2]+1)		
 	}
 	
+	lvDrawGridlines(sqlResult)
 	if (sqlResult.hasRows) {
 		ui.mainGui.setFont("s8","Arial")
 		loop sqlResult.rows.length {
 			ui.winPoslv.add("", sqlResult.rows[a_index]*)
-		drawGridLines()
+		lvDrawGridlines(sqlResult)
 		}
 	}
 }
@@ -53,7 +55,7 @@ GuiDockTab(&ui) {
 	ui.workspaceDDL := ui.mainGui.addComboBox("x45 y45 w150 r6 section altSubmit choose" ui.selectedWorkspace " c" cfg.themeFont1Color " background" cfg.themePanel1Color,workspaceArr)
 	ui.workspaceDDL.setFont("s9","arial")
 	drawOutlineNamed("AppListView",ui.mainGui,41,73,398,19,cfg.themeBright2Color,cfg.themeBorderDarkColor,2)
-	drawOutlineNamed("AppListView",ui.mainGui,42,74,396,17,cfg.themeBorderLightColor,cfg.themeDark1Color,1)
+	drawOutlineNamed("AppListView2",ui.mainGui,42,74,396,17,cfg.themeBorderLightColor,cfg.themeDark1Color,1)
 
 	ui.workspaceDDL.onEvent("change",workspaceChanged)
 	
@@ -67,7 +69,7 @@ GuiDockTab(&ui) {
 			ui.mainGui.AddText("x+0 ys+0 w2 h17 background" cfg.themePanel2Color,"")
 	}
 	ui.mainGui.setFont("s8","Calibri Light")
-	ui.winPosLV := ui.mainGui.addListView("x41 y92 w398 h114 -hdr e0x2000 c" cfg.themeFont2Color " background" cfg.themePanel2Color)
+	ui.winPosLV := ui.mainGui.addListView("x40 y92 w398 h114 -hdr e0x2000 c" cfg.themeBorderDarkColor " background" cfg.themePanel2Color)
 	ui.winPosLV.setFont("s9","Calibri")
 	ui.winPosLV.onEvent("itemFocus",changeWinSelected)
 		ui.mainGui.setFont("s9","calibri")
@@ -84,10 +86,10 @@ GuiDockTab(&ui) {
 	ui.winPosDelete.toolTip := "Delete selected window from current workspace"
 	ui.RestoreWinPosLabel := ui.mainGui.addText("xs+0 y+15 w60 right section backgroundTrans","Apply")
 	ui.restoreWinPosButton := ui.mainGui.addPicture("x+5 ys+1 w30 h20 background" cfg.themePanel3Color,"./img/button_down.png")
-	ui.restoreWinPosButton.onEvent("click",applyWinPos)
+	ui.restoreWinPosButton.onEvent("click",applyWinPos_callback)
 	ui.winCloseLabel := ui.mainGui.addText("xs+0 y+0 w60 right section backgroundTrans","Close")
 	ui.winCloseButton := ui.mainGui.addPicture("x+5 ys+1 w30 h20 background" cfg.themePanel3Color,"./img/button_down.png")
-	ui.winCloseButton.onEvent("click",winCloseAll)
+	ui.winCloseButton.onEvent("click",winCloseAll_callback)
 	ui.MainGui.SetFont("s9 c" cfg.ThemeFont1Color,"Calibri")
 	ui.MainGui.AddText("xs+0 y+15 section background w60 Right backgroundTrans","Caption")
 	ui.toggleCaption := ui.MainGui.AddPicture("x+5 ys+0 w30 h20 background" cfg.themeDisabledColor,"./Img/button_down.png")
@@ -110,9 +112,8 @@ GuiDockTab(&ui) {
 	GuiCtrlFromHwnd(lvHdr).opt("background" cfg.themeDark2Color " c" cfg.themeFont1Color)
 	
 	workspaceChanged()
-
+}
 	changeWinSelected(*) {
-		drawGridlines()
 	
 		this_winTitle := ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
 		sqliteQuery(cfg.dbFilename,"SELECT [caption],[AlwaysOnTop] FROM [winPositions] WHERE [title] = '" this_winTitle "'",&sqlResult)
@@ -134,7 +135,8 @@ GuiDockTab(&ui) {
 		ui.toggleOnTop.redraw()
 	}
 		
-	drawGridLines(*) {
+	lvDrawGridlines(sqlResult) {
+		ui.mainGuiTabs.useTab("AppDock")
 		ui.mainGui.setFont("s8","Arial")
 		ui.mainGui.AddText("x45 y80 hidden section")
 		loop sqlResult.rows.length
@@ -175,14 +177,18 @@ GuiDockTab(&ui) {
 			ui.winPosDelete.opt("background" cfg.themeButtonOnColor)
 			sqliteExec(cfg.dbFilename,"DELETE from winPositions WHERE [Title]='" ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2) "'",&sqlExecResult)
 			workspaceChanged()
-			setTimer () => drawGridLines(),-300
+			setTimer () => lvDrawGridlines(sqlResult),-300
 			setTimer () => ui.winPosDelete.opt("background" cfg.themePanel3Color),-400
 	}
-		
-	applyWinPos(*) {
+	
+	applyWinPos_callback(*) {
+		applyWinPos()
+	}	
+	
+	applyWinPos(workspace := ui.workspaceDDL.text) {
 		ui.restoreWinPosButton.opt("background" cfg.themeButtonOnColor)
 		ui.restoreWinPosButton.redraw()
-		sqliteQuery(cfg.dbFilename,"SELECT title,ProcessPath,winX,winY,winW,winH,caption,alwaysOnTop FROM winPositions WHERE workspace='" ui.workspaceDDL.text "'",&sqlResult)
+		sqliteQuery(cfg.dbFilename,"SELECT title,ProcessPath,winX,winY,winW,winH,caption,alwaysOnTop FROM winPositions WHERE workspace='" workspace "'",&sqlResult)
 		;msgBoX('here')
 		if (sqlResult.hasRows) {
 			for row in sqlResult.rows {
@@ -196,21 +202,19 @@ GuiDockTab(&ui) {
 				this_Caption	:= row[7]
 				this_onTop 		:= row[8]
 				splitPath(processPath,&processName,&processDir)
-				 launchapp(processPath,processName,processDir) 
-				 try {
-					osdLog("positioning " processName) 
+				launchapp(processPath,processName,processDir) 
+				try {
 					winMove(this_coordX,this_coordY,this_coordW,this_coordH,"ahk_exe " processName)		
-					osdLog("setting onTop for " processName)
 					if this_onTop == true
 						winSetAlwaysOnTop(1,"ahk_exe " processName)
 					else
 						winSetAlwaysOnTop(0,"ahk_exe " processName)
-						osdLog("setting caption for " processName)
+
 					if this_caption == true
 						WinSetStyle("+0xC00000", "ahk_exe " processName)
 					else
 						WinSetStyle("-0xC00000","ahk_exe " processName)
-					}
+				}
 			
 			}
 		}
@@ -218,9 +222,12 @@ GuiDockTab(&ui) {
 	ui.restoreWinPosButton.redraw()
 	}
 	
-	winCloseAll(*) {
+	winCloseAll_callback(*) {
+		winCloseAll()
+	}
+	winCloseAll(workspace := ui.workspaceDDL.text) {
 		try 
-			sqliteQuery(cfg.dbFilename,"SELECT [processPath] from [winPositions] where [workspace] = '" ui.workspaceDDL.text "'",&sqlResult)
+			sqliteQuery(cfg.dbFilename,"SELECT [processPath] from [winPositions] where [workspace] = '" workspace "'",&sqlResult)
 	
 		if sqlResult.hasRows {
 			for row in sqlResult.rows {
@@ -228,7 +235,7 @@ GuiDockTab(&ui) {
 				try
 					winClose("ahk_exe " processName)
 			}
-			sleep(2000)
+			sleep(5000)
 			for row in sqlResult.rows {
 				splitPath(row[1],&processName)
 				try
@@ -256,23 +263,32 @@ GuiDockTab(&ui) {
 			}
 		}
 		
-		; if winExist("ahk_exe " processName) {
-			; winMaximize("ahk_exe " processName)
-			; sleep(350)
-			;winRestore("ahk_exe " processName)
-			; return 1
-		; } else { 
-			; return 0
-		; }
+		DetectHiddenWindows(True)
+		if currWin := winExist("ahk_exe " processName) {
+			if winGetMinMax("ahk_id " currWin) != 0
+				try
+					winRestore("ahk_id " currWin)
+			try
+				winShow("ahk_id" currWin)
+		}
+		try 
+			currWinMinMax := winGetMinMax("ahk_id " currWin)
+		catch
+			currWinMinMax := 0
+		
+		if currWinMinMax := 0
+			return 1
+		else 
+			return 0
+			 ; winMa
 	}	
-	
 	
 
 	toggleAlwaysOnTop(*) {
-		this_winTitle := ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
+		this_winTitle 		:= ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)
 		sqliteQuery(cfg.dbFilename,"SELECT [processPath],[alwaysOnTop] FROM [winPositions] WHERE [title]='" this_winTitle "'",&sqlResult)
-		this_processPath := sqlResult.rows[1][1]
-		this_alwaysOnTop		:= sqlResult.rows[1][2]
+		this_processPath 	:= sqlResult.rows[1][1]
+		this_alwaysOnTop	:= sqlResult.rows[1][2]
 		
 		splitPath(this_ProcessPath,&this_processName,&this_processDir)
 		if (sqlResult.hasRows) {
@@ -342,23 +358,5 @@ GuiDockTab(&ui) {
 		winSetTransparent(255,ui.dividerGui)
 	}
 	
-}
-	; launchApp(this_winProcessPath) {
-		; if inStr(this_winProcessPath,"discord")
-			; this_winProcessPath := installDir "\redist\discord.exe"
-		; splitPath(this_winProcessPath,&this_winProcessName,&this_winStartupDir,&this_winProcessExt,&this_winTitle,)
-		; timeoutCounter := 0
-		; retryCounter := 0
-			; while !winExist("ahk_exe " this_winProcessName) && retryCounter < 5 {
-				; run(this_winProcessName,this_winStartupDir)
-				; retryCounter += 1 
-				; while !processExist(this_winProcessName) && timeoutCounter < 5 {
-					; sleep(1000)
-					; timeoutCounter += 1
-				; }
-			; }
-		; if winExist(this_winProcessName)
-			; return 1
-		; else
-			; return 0
-	; }
+
+

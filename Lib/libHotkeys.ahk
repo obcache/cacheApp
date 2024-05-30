@@ -60,16 +60,16 @@ noDestiny(*) {
 	; }
 ; }
 
-!+F:: {
-	keyWait("F")
-	if getKeyState("D") {
-		launchApp("foobar2000")
-	} else {
-		launchApp("discord")
-	}
-	if winExist("ahk_exe discord.exe") && winExist("ahk_exe foobar2000.exe")
-		dockApps()
-}
+; !+F:: {
+	; keyWait("F")
+	; if getKeyState("D") {
+		; launchApp("foobar2000")
+	; } else {
+		; launchApp("discord")
+	; }
+	; if winExist("ahk_exe discord.exe") && winExist("ahk_exe foobar2000.exe")
+		; dockApps()
+; }
 
 
 ; !^Backspace:: {
