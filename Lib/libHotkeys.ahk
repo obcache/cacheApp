@@ -103,13 +103,13 @@ noDestiny(*) {
 
 
 regAudioDevices := "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render\"
-allowedDevices := ["S2MASTER","G432","2nd Output","Yeti Classic","Tango"]
+cfg.allowedAudioOutput := ["S2MASTER","G432","2nd Output","Yeti Classic","Tango"]
 ; currDev := ""
 ; loop reg regAudioDevices,"K" {
 	; loop reg a_loopRegKey "\" a_loopRegName "\Properties\" {
 		; currDev := regRead(a_loopRegKey,"{a45c254e-df1c-4efd-8020-67d146a850e0},2") " (" regRead(a_loopRegKey,"{b3f8fa53-0004-438e-9003-51a46e139bfc},6") ")"
-		; loop allowedDevices.length {
-			; if inStr(currDev,allowedDevices[A_Index]) {
+		; loop cfg.allowedAudioOutput.length {
+			; if inStr(currDev,cfg.allowedAudioOutput[A_Index]) {
 				; isDupe := false
 				; for dev in ui.audioDevices {
 					; if dev == currDev	

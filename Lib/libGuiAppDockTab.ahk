@@ -54,12 +54,12 @@ GuiDockTab(&ui) {
 	}
 	ui.workspaceDDL := ui.mainGui.addComboBox("x45 y45 w150 r6 section altSubmit choose" ui.selectedWorkspace " c" cfg.themeFont1Color " background" cfg.themePanel1Color,workspaceArr)
 	ui.workspaceDDL.setFont("s9","arial")
-	drawOutlineNamed("AppListView",ui.mainGui,41,73,398,19,cfg.themeBright2Color,cfg.themeBorderDarkColor,2)
+	drawOutlineNamed("AppListView",ui.mainGui,41,73,398,20,cfg.themeBright2Color,cfg.themeBorderDarkColor,2)
 	drawOutlineNamed("AppListView2",ui.mainGui,42,74,396,17,cfg.themeBorderLightColor,cfg.themeDark1Color,1)
 
 	ui.workspaceDDL.onEvent("change",workspaceChanged)
 	
-	ui.mainGui.AddText("xs-11 y+-17 section hidden")
+	ui.mainGui.AddText("xs-13 y+-17 section hidden")
 	ui.mainGui.setFont("s10 bold")
 	for colDef in ui.lvColDefs {
 		ui.mainGui.AddText("x+0 ys+0 w" strSplit(colDef,":")[2] " h17 center c" cfg.themeFont1Color " background" cfg.themePanel1Color, strSplit(colDef,":")[1])
@@ -69,7 +69,7 @@ GuiDockTab(&ui) {
 			ui.mainGui.AddText("x+0 ys+0 w2 h17 background" cfg.themePanel2Color,"")
 	}
 	ui.mainGui.setFont("s8","Calibri Light")
-	ui.winPosLV := ui.mainGui.addListView("x40 y92 w398 h114 -hdr e0x2000 c" cfg.themeBorderDarkColor " background" cfg.themePanel2Color)
+	ui.winPosLV := ui.mainGui.addListView("x40 y92 w398 h114 -hdr e0x2000 c" cfg.themeFont2Color " background" cfg.themePanel2Color)
 	ui.winPosLV.setFont("s9","Calibri")
 	ui.winPosLV.onEvent("itemFocus",changeWinSelected)
 		ui.mainGui.setFont("s9","calibri")
@@ -139,7 +139,7 @@ GuiDockTab(&ui) {
 	lvDrawGridlines() {
 		ui.mainGuiTabs.useTab("AppDock")
 		ui.mainGui.setFont("s8","Arial")
-		ui.mainGui.AddText("x45 y80 hidden section")
+		ui.mainGui.AddText("x42 y80 hidden section")
 		sqliteQuery(cfg.dbFilename,"SELECT title FROM winPositions WHERE workspace = '" ui.workspaceDDL.text "'",&sqlResult)
 		loop sqlResult.rows.length
 			ui.mainGui.addText("x46 y+17 w390 h1 background" cfg.themeFont2Color)
@@ -163,16 +163,49 @@ GuiDockTab(&ui) {
 	
 	winPosAdd(*) {
 		ui.winPosAdd.opt("background" cfg.themeButtonOnColor)
-		DialogBox("Click Any Window`nTo Add Current Positioning`nTo Workspace " ui.workspaceDDL.text)
+		DialogBox("Adding window to workspace: " ui.workspaceDDL.text "`nClick any window or to add a window manually,`nCLick Here      to manually add a window.")
+		ui.winManualAdd := ui.notifyGui.addPicture("x150 y65 w30 h30 backgroundTrans","./img2/button_keybindTarget.png")
+		ui.winManualAdd.onEvent("click", (*) => DialogBoxClose)
+		
 		sleep(500)
 		keyWait("LButton","D")
-		mouseGetPos(,,&winClicked)
+		mouseGetPos(,,&winClicked,&ctrlClicked)
+		if ctrlClicked == ui.winManualAdd {
+			ui.winManualAddGui := gui()
+			ui.winManualAddGui.opt("-caption -border +alwaysOnTop +toolWindow")
+			ui.winManualAddGui.backColor := ui.transparentColor
+			winSetTransColor(ui.transparentColor,ui.winManualAddGui.hwnd)
+			ui.winManualAddGui
+			drawPanel2(drawPanelParams)
+			drawPanelParams := [
+				targetGui 	:= ui.notifyGui, 		;gui object the panel will be on
+				panelX		:= 5,			;x coordinate of the panel (in relation to the gui)
+				panelY		:= 5,			;y coordinate of the panel
+				panelW		:= 500,			;width of panel
+				panelH		:= 300,			;height of panel
+				panelColor	:= cfg.themePanel1Color,		;panel background color
+				outlineColor	:= cfg.themeBorderDarkColor,	;panel outlineColor
+				outlineColor2	:= cfg.themeBorderLightColor,	;secondary "3d" effect outline color (not required)
+				labelText		:= "Advanced Add",		;label text (leave blank for no label)
+				labelW			:= 135,			;label width 
+				labelPos		:= 0.65,		;label position (from 0-1 based on length of gui)
+				outlineWidth	:= 1,	;outline width
+				outlineOffset	:= 1,	;outline offset (how many pixels inset the border starts)
+				labelFont, 		;label font
+				labelFontColor]	;label font color
+			ui.winManualAddTitle := ui.notifyGui.addEdit("x10 y10 w120 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<Window TItle>")
+			ui.winManualAddCoords := ui.notifyGui.addEdit("x130 y10 w240 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<x,y,w,h>")
+			ui.winManualAddProcessPath := ui.notifyGui.addEdit("x10 y40 w310 r section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<c:\program files\this program\program.exe>")
+			ui.winManualAddSaveButton := ui.notifyGui.addPicture("x320 y30 w40 h40 backgroundTrans","/img2/button_save.png")
+			ui.winManualAddGui.show("noActivate")
+		} else {
 		splitPath(winGetProcessPath(winClicked),,,,&winName)
 		winGetPos(&currWinX,&currWinY,&currWinW,&currWinH,winClicked)
 		sqliteExec(cfg.dbFilename,"INSERT into winPositions VALUES ('" ui.workspaceDDL.text "','" winName "','" currWinX "','" currWiny "','" currWinW "','" currWinH "','','" winGetProcessPath(winClicked) "',true,false)",&insertResult)
 		DialogBoxClose()
 		workspaceChanged()
 		ui.winPosAdd.opt("background" cfg.themePanel3Color)
+		}
 	}
 	
 	winPosDelete(*) {

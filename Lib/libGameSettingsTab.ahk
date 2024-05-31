@@ -684,7 +684,7 @@ keyBindDialogBox(Msg,Alignment := "Center") {
 	ui.notifyGui.addText("ys-4 x+0 c" cfg.themeButtonAlertColor,Msg)
 	ui.notifyGui.setFont("s11 c" cfg.themeButtonOnColor,"Courier Narrow Bold")
 	ui.notifyGui.addText("xs y+0","Or click target with desired mouse button")  ; XX & YY serve to 00auto-size the window.
-	ui.mouseBindingTarget := ui.notifyGui.addPicture("x+15 y+-18 w25 h25 backgroundTrans","E:\Documents\Resources\AutoHotKey\__cacheApp\img2\button_keyBindTarget.png")
+	ui.mouseBindingTarget := ui.notifyGui.addPicture("x+15 y+-18 w25 h25 backgroundTrans",".\img2\button_keyBindTarget.png")
 
 	ui.notifyGui.AddText("xs hidden")
 	

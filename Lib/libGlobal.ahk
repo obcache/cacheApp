@@ -9,7 +9,15 @@ if (InStr(A_LineFile,A_ScriptFullPath)){
 }
 
 restoreWin(*) {
-	winRestore(ui.mainGui.hwnd)
+	guiVis(ui.mainGui,true)
+	tabsChanged()
+	ui.mainGui.show("x " cfg.guiX " y" cfg.guiY)
+	
+	if (winGetMinMax("ahk_id " ui.mainGui.hwnd) == 0) 
+		winRestore("ahk_id " ui.mainGui.hwnd)
+	winShow("ahk_id " ui.mainGui.hwnd)
+	winActivate("ahk_id " ui.mainGui.hwnd)
+
 }
 
 initTrayMenu(*) {
@@ -293,6 +301,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img/icon_brayTech.png",installDir "/img/icon_brayTech.png",1)
 			fileInstall("./img/icon_steeringwheel.png",installDir "/img/icon_steeringwheel.png",1)
 			fileInstall("./img/button_loadouts_ready.png",installDir "/img/button_loadouts_ready.png",1)
+			fileInstall("./img2/button_keyBindTarget.png",installDir "/img2/button_keybindTarget.png",1)
 			fileInstall("./img2/d2_button_dim.png",installDir "/img2/d2_button_dim.png",1)
 			fileInstall("./img2/d2_button_dim_down.png",installDir "/img2/d2_button_dim_down.png",1)
 			fileInstall("./img2/d2_button_bbgg.png",installDir "/img2/d2_button_bbgg.png",1)
@@ -301,6 +310,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/d2_button_lightgg_down.png",installDir "/img2/d2_button_lightgg_down.png",1)
 			fileInstall("./img2/d2_button_d2Checklist.png",installDir "/img2/d2_button_d2Checklist.png",1)
 			fileInstall("./img2/d2_button_d2Checklist_down.png",installDir "/img2/d2_button_d2Checklist_down.png",1)
+		
 			
 			fileInstall("./img2/d2_button_d2Foundry.png",installDir "/img2/d2_button_d2Foundry.png",1)
 			fileInstall("./img2/d2_button_d2Foundry_down.png",installDir "/img2/d2_button_d2Foundry_down.png",1)
@@ -428,19 +438,28 @@ autoUpdate() {
 		setTimer () => pbNotify("Network Down. Bypassing Auto-Update.",1000),-100
 	}
 	try
-	if fileExist("/.tmp")
-		fileDelete("/.tmp")
+	if fileExist("./.tmp")
+		fileDelete("./.tmp")
 }	
 
 CheckForUpdates(msg,*) {
-		winSetAlwaysOnTop(0,ui.mainGui.hwnd)
+	winSetAlwaysOnTop(0,ui.mainGui.hwnd)
+	ui.installedVersion := fileRead("./cacheApp_currentBuild.dat")
+	ui.installedVersionText.text := "Installed:`t" ui.installedVersion
+	try {
 		whr := ComObject("WinHttp.WinHttpRequest.5.1")
 		whr.Open("GET", "https://raw.githubusercontent.com/obcache/cacheApp/main/cacheApp_currentBuild.dat", true)
-		whr.Send()
-		whr.WaitForResponse()
-		ui.latestVersion := whr.ResponseText
-		ui.installedVersion := fileRead("./cacheApp_currentBuild.dat")
-		ui.installedVersionText.text := "Installed:`t" ui.installedVersion
+			whr.Send()
+			whr.WaitForResponse()
+			ui.latestVersion := whr.ResponseText
+			ui.latestVersionText.text := "Latest:`t*****"
+		} catch {
+			if(msg) {
+				ui.latestVersionText.text := "Latest:`t--No Network--"
+				setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
+				notifyOSD("Network down.`nTry again later.")
+			ui.latestVersion := ui.installedVersion
+		}
 		ui.latestVersionText.text := "Latest:`t*****"
 		if (ui.installedVersion < ui.latestVersion) {
 			try {
@@ -457,7 +476,8 @@ CheckForUpdates(msg,*) {
 			 }
 		}
 		winSetAlwaysOnTop(cfg.AlwaysOnTopEnabled,ui.mainGui.hwnd)
-} 
+	} 
+}
 
 cfgLoad(&cfg, &ui) {
 	global
@@ -608,6 +628,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.UndockedW 				:= IniRead(cfg.file,"AppDock","UndockedW","1600")
 	cfg.UndockedH 				:= IniRead(cfg.file,"AppDock","UndockedH","1000")
 
+	cfg.allowedAudioDevices		:= iniRead(cfg.file,"Audio","AllowedAudioOutput","")
 	cfg.gameAudioEnabled		:= IniRead(cfg.file,"audio","gameAudioEnabled","false")
 	cfg.MicName					:= IniRead(cfg.file,"audio","MicName","Yeti")
 	cfg.SpeakerName				:= IniRead(cfg.file,"audio","SpeakerName","S2MASTER")
@@ -890,7 +911,7 @@ DialogBox(Msg,Alignment := "Center") {
 	ui.notifyGui.Opt("+AlwaysOnTop -Caption +ToolWindow +Owner" ui.mainGui.hwnd)  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
 	ui.notifyGui.BackColor := cfg.ThemePanel1Color  ; Can be any RGB color (it will be made transparent below).
 	ui.notifyGui.SetFont("s16")  ; Set a large font size (32-point).
-	ui.notifyGui.AddText("c" cfg.ThemeFont1Color " " Alignment " BackgroundTrans",Msg)  ; XX & YY serve to 00auto-size the window.
+	ui.notifyMsg := ui.notifyGui.AddText("c" cfg.ThemeFont1Color " " Alignment " BackgroundTrans",Msg)  ; XX & YY serve to 00auto-size the window.
 	ui.notifyGui.AddText("xs hidden")
 	
 	WinSetTransparent(0,ui.notifyGui)
@@ -1165,3 +1186,11 @@ newGuid(*) {
 	return ComObjCreate("Scriptlet.TypeLib").GUID
 }
 
+
+
+; iniEditor(*) {
+	; loop read configFilename {
+	; if substr(a_loopReadline,1,1) = "[" {
+		; this_section := ltrim(rtrim(a_loopReadline,"]"),"[")
+		
+; }

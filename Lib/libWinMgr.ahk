@@ -266,3 +266,98 @@ if (labelPos != "none") {
 	ui.labelBottom%panelId%.setFont("s10")		
 	}
 }
+
+USAGE:
+
+
+
+
+drawPanel2(params) {
+;USAGE:
+;drawPanel(drawPanelParams)
+;drawPanelParams := [
+;	targetGui, 		;gui object the panel will be on
+;	panelX,			;x coordinate of the panel (in relation to the gui)
+;	panelY,			;y coordinate of the panel
+;	panelW,			;width of panel
+;	panelH,			;height of panel
+;	panelColor,		;panel background color
+;	outlineColor,	;panel outlineColor
+;	outlineColor2,	;secondary "3d" effect outline color (not required)
+;	labelText,		;label text (leave blank for no label)
+;	labelW,			;label width 
+;	labelPos,		;label position (from 0-1 based on length of gui)
+;	outlineWidth,	;outline width
+;	outlineOffset,	;outline offset (how many pixels inset the border starts)
+;	labelFont, 		;label font
+;	labelFontColor]	;label font color
+
+	targetGui		:= params[1]
+	panelX			:= params[2]
+	panelY			:= params[3]
+	panelW			:= params[4]
+	panelH			:= params[5]
+	panelColor		:= params[6]
+	outlineColor	:= params[7]
+	outlineColor2	:= params[8]
+	labelText 		:= (params.length >= 9) ? params[9] : ""
+	labelW 			:= (params.length >= 10) ? params[10] : 100
+	labelPos 		:= (params.length >= 11) ? params[11] : .5
+	outlineWidth 	:= (params.length >= 12) ? params[12] : 1
+	outlineOffset 	:= (params.length >= 13) ? params[13] : 0
+	labelFont 		:= (params.length >= 14) ? params[14] : "Calibri"
+	labelFontColor 	:= (params.length >= 15) ? params[15] : "white"
+		
+	labelH := 20
+	static panelId := 0
+	panelId+=1
+	
+	ui.backPanel%panelId% := ui.%targetGui%.addText("x" panelX " y" panelY " w" panelW " h" panelH " background" panelColor)		
+	ui.panelOutline2%panelId% := ui.%targetGui%.addText("x" panelX+outlineOffset " y" panelY+outlineOffset " w" panelW-outlineOffset*2 " h" panelH-outlineOffset*2 " background" outlineColor2)		
+	ui.panelOutline1%panelId% := ui.%targetGui%.addText("x" panelX+outlineOffset " y" panelY+outlineOffset " w" panelW-outlineWidth-outlineOffset*2 " h" panelH-outlineWidth-outlineOffset*2 " background" outlineColor	)
+	ui.panel%panelId% := ui.%targetGui%.addText("x" panelX+outlineWidth+outlineOffset " y" panelY+outlineWidth+outlineOffset " w" panelW-outlineWidth*2-outlineOffset*2 " h" panelH-outlineWidth*2-outlineOffset*2 " background" panelColor)	
+
+	if (labelText != "") {
+		labelBottom := false
+		if (labelPos > 1) {
+			labelBottom := true
+			labelPos -= 1
+			labelY := panelY + panelH - labelH + outlineWidth
+			labelOutlineColor := outlineColor2
+		} else {
+			labelY := panelY
+			labelOutlineColor := outlineColor
+		}
+		labelX := panelX+panelW*labelPos
+		
+
+		ui.labelTop%panelId% := ui.%targetGui%.addText("x" labelX-outlineWidth " y" labelY-outlineOffset " w" labelW+outlineWidth*2 " h" labelH-2 " background" labelOutlineColor " center c" labelFontColor) 
+		
+		ui.labelTop%panelId%.setFont("s10")
+		
+		if (labelBottom) {
+			ui.labelTop%panelId% := ui.%targetGui%.addText("x" labelX-outlineWidth " y" labelY+outlineOffset " w" labelW+outlineWidth*2 " h" labelH-outlineWidth " background" labelOutlineColor " center c" labelFontColor) 
+		
+			ui.labelTop%panelId%.setFont("s10")			
+			ui.label%panelId% := ui.%targetGui%.addText("x" labelX " y" labelY+(outlineWidth) " w" labelW " h" labelH-outlineWidth*2 " background" ui.%targetGui%.backColor,"")
+			ui.label%panelId%.setFont("s10")
+
+			ui.labelBottom%panelId% := ui.%targetGui%.addText("x" labelX+1 " y" labelY+3 " w" labelW-2 " h" labelH " backgroundTrans center c" labelFontColor, labelText) 
+			ui.labelBottom%panelId%.setFont("s10")
+		} else {
+			ui.labelTop%panelId% := ui.%targetGui%.addText("x" labelX-outlineWidth " y" labelY+outlineOffset " w" labelW+outlineWidth*2 " h" labelH-2 " background" labelOutlineColor " center c" labelFontColor) 
+		
+		ui.labelTop%panelId%.setFont("s10")
+			ui.label%panelId% := ui.%targetGui%.addText("x" labelX " y" labelY-1 " w" labelW " h" labelH-outlineWidth*2 " background" ui.%targetGui%.backColor,"")
+		
+		
+			ui.label%panelId%.setFont("s10")
+		
+
+			ui.labelBottom%panelId% := ui.%targetGui%.addText("x" labelX+1 " y" labelY-2 " w" labelW-2 " h" labelH " backgroundTrans center c" labelFontColor, labelText) 
+		
+			ui.labelBottom%panelId%.setFont("s10")
+		}
+				
+	}
+}

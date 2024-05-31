@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.2.0"
+A_FileVersion := "1.2.2.1"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -57,8 +57,6 @@ ui.AfkHeight 	:= 170
 ui.latestVersion := ""
 ui.installedVersion := ""
 
-
-
 MonitorGet(MonitorGetprimary(),
 	&primaryMonitorLeft,
 	&primaryMonitorTop,
@@ -74,6 +72,7 @@ MonitorGetWorkArea(MonitorGetprimary(),
 cfgLoad(&cfg, &ui)
 initGui(&cfg, &ui)
 initConsole(&ui)
+
 #include <class_sqliteDb>
 #include <class_lv_colors>
 #include <libGui>
@@ -86,31 +85,19 @@ initConsole(&ui)
 #include <libGuiAppDockTab>
 #include <libGameSettingsTab>
 #include <libEditorTab>
-
 #include <libGuiSystemTab>
 #include <libHotkeys>
 #include <libRoutines>
 #include <libThemeEditor>
 
-
-
-	debugLog("Interface Initialized")
-
+debugLog("Interface Initialized")
 OnExit(ExitFunc)
-
-	debugLog("Console Initialized")
+debugLog("Console Initialized")
 
 ui.gameTabs.choose(cfg.gameModuleList[cfg.activeGameTab])
 
-autoUpdate()
-
-
-
 createDockBar()
 changeGameDDL()
-
-
-
 drawAfkOutlines()
 
 try
@@ -142,5 +129,6 @@ try {
 	whr.WaitForResponse()
 	iniWrite(whr.ResponseText,cfg.file,"Game","LastIncursion")
 }
+autoUpdate()
 
 ;OnMessage(0x0201, wm_lButtonDown)

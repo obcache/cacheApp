@@ -904,32 +904,54 @@ guiVis(guiName,isVisible:= true) {
 			WinSetTransparent(255,guiName)
 			WinSetTransparent("Off",guiName)
 			WinSetTransColor(ui.TransparentColor,guiName)
+			winSetAlwaysOnTop(cfg.alwaysOnTopEnabled,guiName)
 		} else {
-			try 
+			try {
 				winSetTransparent(255,ui.mainGui)
-			try 
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.mainGui)
+			}
+			try { 
 				winSetTransparent(255,ui.titleBarButtonGui)
-			try 
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
+			}
+			try { 
 				winSetTransparent(255,ui.afkGui)
-			try 
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.afkGui)
+			} 
+			try { 
 				winSetTransparent(255,ui.gameSettingsGui)
-			try
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.gameSettingsGui)
+			}
+			try {
 				winSetTransparent(255,ui.gameTabGui)
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.gameTabGui)
+			}
 		}
 	} else {
 		if guiName != "all" {
 			WinSetTransparent(0,guiName)
+			winSetAlwaysOnTop(cfg.alwaysOnTopEnabled,guiName)
 		} else {
-			try 
+			try {
 				winSetTransparent(0,ui.mainGui)
-			try 
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.mainGui)
+			}
+			try { 
 				winSetTransparent(0,ui.titleBarButtonGui)
-			try 
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
+			}
+			try { 
 				winSetTransparent(0,ui.afkGui)
-			try 
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.afkGui)
+			}
+			try {
 				winSetTransparent(0,ui.gameSettingsGui)
-			try
+				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.gameSettingsGui)
+			}
+			try {
 				winSetTransparent(0,ui.gameTabGui)
+				winSetAlwaysOnTop(cfg.AlwaysOnTopEnabled,ui.gameTabGui)
+			}
 		}
 	}
 }

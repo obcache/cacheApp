@@ -69,17 +69,38 @@ GuiSetupTab(&ui,&cfg) {
 		ui.toggleAlwaysOnTop.Redraw()
 	}
 	ui.toggleAlwaysOnTop := ui.MainGui.AddPicture("xs y+3 w60 h23 section vAlwaysOnTop " (cfg.AlwaysOnTopEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AlwaysOnTopEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
-	ui.toggleAlwaysOnTop.OnEvent("Click", ToggleChanged)
+	ui.toggleAlwaysOnTop.OnEvent("Click", ToggleAlwaysOnTopChanged)
 	ui.toggleAlwaysOnTop.ToolTip := "Keeps this app on top of all other windows."
 	ui.labelAlwaysOnTop:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","AlwaysOnTop")	
 	
 
 	
-	ToggleAnimations(*)
-	{
-		ui.toggleAnimations.Opt((cfg.AnimationsEnabled := !cfg.AnimationsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
-		ui.toggleAnimations.Redraw()
+	ToggleAlwaysOnTopChanged(*) {
+		ui.toggleAlwaysOnTop.value := 
+			((cfg.AlwaysOnTopEnabled := !cfg.AlwaysOnTopEnabled) 
+				? (ui.toggleAlwaysOnTop.opt("Background" cfg.ThemeButtonOnColor),
+					cfg.toggleOn) 
+				: (ui.toggleAlwaysOnTop.opt("Background" cfg.ThemeButtonReadyColor),
+					cfg.toggleOff))
+					
+		ui.toggleAlwaysOnTop.Redraw()
+		try {
+			winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.mainGui)
+		}
+		try { 
+			winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
+		}
+		try { 
+			winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.afkGui)
+		}
+		try {
+			winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.gameSettingsGui)
+		}
+		try {
+			winSetAlwaysOnTop(cfg.AlwaysOnTopEnabled,ui.gameTabGui)
+		}
 	}
+	
 	ui.toggleAnimations := ui.MainGui.AddPicture("xs w60 y+3 h23 section vAnimations " (cfg.AnimationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AnimationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAnimations.OnEvent("Click", toggleChanged)
 	ui.toggleAnimations.ToolTip := "Keeps this app on top of all other windows."
@@ -154,9 +175,9 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleDebug.ToolTip := "Keeps this app on top of all other windows."
 	ui.labelDebug:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Debug")
 
-	drawOutlineNamed("toggleBlock",ui.mainGui,60,45,58,139,cfg.themeDark1Color,cfg.themeDark1Color,1)
-	drawOutlineNamed("toggleBlock",ui.mainGui,58,43,62,141,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
-	drawOutlineNamed("toggleBlock",ui.mainGui,59,44,60,139,cfg.themePanel2Color,cfg.themePanel2Color,1)
+	drawOutlineNamed("toggleBlock",ui.mainGui,60,45,58,159,cfg.themeDark1Color,cfg.themeDark1Color,1)
+	drawOutlineNamed("toggleBlock",ui.mainGui,58,43,62,161,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
+	drawOutlineNamed("toggleBlock",ui.mainGui,59,44,60,159,cfg.themePanel2Color,cfg.themePanel2Color,1)
 
 	ui.checkForUpdatesLabel := ui.mainGui.addtext("x275 y42 w160 h30 section backgroundTrans c" cfg.themeFont1Color,"Check For Updates")
 	ui.checkForUpdatesLabel.SetFont("s12")
