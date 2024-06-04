@@ -16,11 +16,11 @@ initGui(&cfg, &ui) {
 	
 	ui.MainGui := Gui()
 	ui.MainGui.Name := "cacheApp"
-	ui.mainGui.Title	:= "CacheApp D2ool"
+	ui.mainGui.Title	:= "CacheApp"
 	ui.TaskbarHeight := GetTaskBarHeight()
 	ui.MainGui.BackColor := ui.TransparentColor
 	ui.MainGui.Color := ui.TransparentColor
-	ui.MainGui.Opt("-Caption -Border")
+	ui.MainGui.Opt("-Caption -Border toolWindow ")
 	;ui.mainGui.addPicture("x0 y0 w600	h220","./img/mainBg.png")
 	if (cfg.AlwaysOnTopEnabled)
 	{
@@ -62,7 +62,7 @@ initGui(&cfg, &ui) {
 	GuiSetupTab(&ui,&cfg)
 	GuiListsTab(&ui,&cfg)
 	GuiGameTab()
-		OnMessage(0x0200, WM_MOUSEMOVE)
+	OnMessage(0x0200, WM_MOUSEMOVE)
 	OnMessage(0x0202, WM_LBUTTONDOWN)
 	OnMessage(0x47, WM_WINDOWPOSCHANGED)
 	
@@ -131,7 +131,7 @@ initOSDGui() {
 
 	ui.AfkGui := Gui()
 	winSetTransparent(0,ui.afkGui)
-	ui.AfkGui.Name := "CacheApp D2ool"
+	ui.AfkGui.Name := "CacheApp"
 	ui.AfkGui.BackColor := cfg.ThemeBackgroundColor
 	ui.AfkGui.Color := ui.TransparentColor
 	ui.AfkGui.MarginX := 5
@@ -240,10 +240,21 @@ toggleChange(name,onOff := "",toggleOnImg := cfg.toggleOn,toggleOffImg := cfg.to
 		? (%name%.Opt("Background" toggleOnColor),toggleOnImg) 
 		: (%name%.Opt("Background" toggleOffColor),toggleOffImg)
 }
-	
+ui.isFading := false
+
+hotIf(isFading)
+	hotkey("LButton",(*) => ui.isFading := true)
+hotIf()
+isFading(*) {
+	if ui.isFading
+		return 1
+	else
+		return 0
+}
 fadeIn() {
 
 	if (cfg.AnimationsEnabled) {
+		ui.isFading := true
 		;guiVis(ui.titleBarButtonGui,false)
 		; guiVis(ui.gameSettingsGui,false)
 		; guiVis(ui.afkGui,false)
@@ -255,7 +266,7 @@ fadeIn() {
 
 		if cfg.topDockEnabled {
 			guiVis(ui.mainGui,false)
-			guiVis(ui.titleBarButtonGui,true)
+			guiVis(ui.titleBarButtonGui,false)
 			showDockBar()
 			while transparency < 253 {
 				transparency += 2.5
@@ -298,12 +309,12 @@ fadeIn() {
 				}
 
 			}
-		guiVis(ui.mainGui,true)
-		guiVis(ui.titleBarButtonGui,true)
-		}
-	
-	}
 
+		}
+		ui.isFading := false
+	}
+	guiVis(ui.mainGui,true)
+	guiVis(ui.titleBarButtonGui,true)
 	ui.mainGuiTabs.useTab("Game")
 	;ui.mainGui.addPicture("x0 y-5","./img2/gameScreenPic.png")
 	ui.mainGuiTabs.useTab("")
@@ -573,7 +584,7 @@ stopGaming(*) {
 quickOSD()
 quickOSD(*) {
 	ui.quickOSD := gui()
-	ui.quickOSD.opt("-caption toolWindow -border")
+	ui.quickOSD.opt("-caption -border alwaysOnTop")
 	ui.quickOSD.backColor := "010203"
 	winSetTransColor("010203",ui.quickOSD.hwnd)
 	ui.msgLog := ui.quickOSD.AddText("x0 y0 w800 h600 backgroundTrans cLime","")
@@ -581,10 +592,10 @@ quickOSD(*) {
 	ui.quickOSD.show("x5 y200 w810 h610 noActivate")
 }
 
+
 osdLog(msg) {
 	if cfg.debugEnabled
 		ui.quickOSD.show("x5 y200 w810 h610 noActivate")
-
 	else
 		ui.quickOSD.hide()
 	ui.msgLog.text := msg "`n" ui.msgLog.text
@@ -1019,12 +1030,12 @@ createDockBar() {
 		case "World//Zero":
 			dockBarIcons("World//Zero","Add")
 	}
-	ui.dockBarGui.addText("x+-3 ys-2 w2 h30 section background" cfg.themeBright2Color,"")
-	ui.dockBarWidth -= 3
-	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+1 ys+2 w30 h31 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
+	ui.dockBarGui.addText("x+-3 ys+2 w2 h30 section background" cfg.themeBright2Color,"")
+	ui.dockBarWidth += 0
+	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+0 ys+0 w30 h31 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
 	ui.dockBarWidth += 32
 	ui.dockBarExitButton.onEvent("click",topDockPowerButtonPushed)
-	ui.dockBarExitButton.toolTip := "Close cacheApp App"
+	ui.dockBarExitButton.toolTip := "Exit CacheApp"
 	
 	topDockMove(*) {
 		postMessage("0xA1",2,,,"A")
@@ -1144,6 +1155,7 @@ showDockBar() {
 	dockbarPosx := ((dockbarMonitorx + dockbarMonitorY)/2)-(ui.dockbarWidth/2)
 	
 	ui.dockBarGui.show("x" dockbarPosx " y0 w" ui.dockBarWidth " h34 noActivate")
+	guiVis(ui.titleBarButtonGui,false)
 	drawOutlineNamed("dockBarOutline2",ui.dockBarGui,1,0,ui.dockBarWidth,34,cfg.themeDark1Color,cfg.themeBright2Color,2)
 	drawOutlineNamed("dockBarOutline",ui.dockBarGui,0,0,ui.dockBarWidth,35,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
 }
@@ -1183,6 +1195,7 @@ topDockOn(*) {
 		
 	}
 	guiVis(ui.mainGui,false)
+	guiVis(ui.titleBarButtonGui,false)
 	showDockBar()
 	
 	try {	

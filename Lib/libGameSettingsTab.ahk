@@ -19,7 +19,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		}
 
 		ui.gameSettingsGui := Gui()
-		ui.gameSettingsGui.Name := "CacheApp D2ool"
+		ui.gameSettingsGui.Name := "CacheApp"
 		ui.gameSettingsGui.BackColor := cfg.themeBackgroundColor
 		ui.gameSettingsGui.Color := cfg.themeBackgroundColor
 		ui.gameSettingsGui.MarginX := 5
@@ -141,7 +141,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	incursionNotice(*) {
 		try {
 			whr := ComObject("WinHttp.WinHttpRequest.5.1")
-			whr.Open("GET", "http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)
+			whr.Open("GET","http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)
 			whr.Send()
 			whr.WaitForResponse()
 			ui.latestIncursion := whr.ResponseText
@@ -186,7 +186,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf()
 
 	hotIf(d2RemapCrouchEnabled)
-		hotkey(cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
+		hotkey("~*$" cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
 	hotIf()
 	
 	hotIf(d2ReadyToReload)
@@ -218,12 +218,12 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	}
 
 	d2HoldToCrouch(*) {
-		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
-		;setTimer () => ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor),800
-		send("{" cfg.d2gameHoldToCrouchKey " down}")
-		keywait(cfg.d2appHoldToCrouchKey)
-		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
-		send("{" cfg.d2gameHoldToCrouchKey " up}"),600
+		; ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
+		setTimer () => ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor),800
+		; send("{" cfg.d2gameHoldToCrouchKey " down}")
+		; keywait(cfg.d2appHoldToCrouchKey)
+		; ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
+		; send("{" cfg.d2gameHoldToCrouchKey " up}"),600
 		if getKeyState("w") {
 			d2StartSprinting()
 			}

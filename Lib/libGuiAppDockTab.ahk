@@ -224,6 +224,7 @@ GuiDockTab(&ui) {
 		ui.restoreWinPosButton.opt("background" cfg.themeButtonOnColor)
 		ui.restoreWinPosButton.redraw()
 		sqliteQuery(cfg.dbFilename,"SELECT title,ProcessPath,winX,winY,winW,winH,caption,alwaysOnTop FROM winPositions WHERE workspace='" workspace "'",&sqlResult)
+		sleep(1000)
 		;msgBoX('here')
 		if (sqlResult.hasRows) {
 			for row in sqlResult.rows {
@@ -239,6 +240,7 @@ GuiDockTab(&ui) {
 				splitPath(processPath,&processName,&processDir)
 				launchapp(processPath,processName,processDir) 
 				try {
+					osdLog("Moving to: " this_coordX "," this_coordY "," this_coordW "," this_coordH)
 					winMove(this_coordX,this_coordY,this_coordW,this_coordH,"ahk_exe " processName)		
 					if this_onTop == true
 						winSetAlwaysOnTop(1,"ahk_exe " processName)
@@ -281,43 +283,40 @@ GuiDockTab(&ui) {
 	
 	
 	launchApp(processPath,processName,processDir) {
+		if inStr(processPath,"discord") {
+			processPath := a_scriptdir "\redist\discord.exe"
+			splitPath(processPath,&processName,&processDir)
+		}
+		osdLog(processPath)
 		processRunning := false
 		rerun_timeout := 0
 		winWait_timeout := 0
 		while processRunning == false && rerun_timeOut < 5  {
 			rerun_timeout += 1
-			if !processExist(processName)
+			if !processExist(processName) {
 				run(processPath,processDir)
 				osdLog("launching " processName ": attempt " a_index)
+			} 
+				
+				
 			while processRunning == false && winWait_timeout < 5 {
 				winWait_timeout += 1
-				if processExist(processName)
+				if processExist(processName) {
 					processRunning := true
-					sleep(1000)
-					osdLog("waitig for: " processName)
+					osdLog(processName ": Started")
+					
+				sleep(1000)
+				osdLog("waiting for: " processName)
+				}
 			}
-		}
 		
-		DetectHiddenWindows(True)
-		if currWin := winExist("ahk_exe " processName) {
-			if winGetMinMax("ahk_id " currWin) != 0
-				try
-					winRestore("ahk_id " currWin)
-			try
-				winShow("ahk_id" currWin)
-		}
-		try 
-			currWinMinMax := winGetMinMax("ahk_id " currWin)
-		catch
-			currWinMinMax := 0
-		
-		if currWinMinMax := 0
-			return 1
-		else 
-			return 0
+			if currWin := winExist("ahk_exe " processName) {
+				winShow("ahk_id " currWin)
+				winActivate("ahk_id " currWin)
+			}
 			 ; winMa
-	}	
-	
+		}	
+	}
 
 	toggleAlwaysOnTop(*) {
 		this_winTitle 		:= ui.winPosLV.getText(ui.winPosLV.GetNext(0, "F"),2)

@@ -9,15 +9,16 @@ if (InStr(A_LineFile,A_ScriptFullPath)){
 }
 
 restoreWin(*) {
-	guiVis(ui.mainGui,true)
-	tabsChanged()
-	ui.mainGui.show("x " cfg.guiX " y" cfg.guiY)
+	if !cfg.topDockEnabled {
+		guiVis(ui.mainGui,true)
+		tabsChanged()
+		ui.mainGui.show("x " cfg.guiX " y" cfg.guiY)
 	
-	if (winGetMinMax("ahk_id " ui.mainGui.hwnd) == 0) 
-		winRestore("ahk_id " ui.mainGui.hwnd)
-	winShow("ahk_id " ui.mainGui.hwnd)
-	winActivate("ahk_id " ui.mainGui.hwnd)
-
+		if (winGetMinMax("ahk_id " ui.mainGui.hwnd) == 0) 
+			winRestore("ahk_id " ui.mainGui.hwnd)
+		winShow("ahk_id " ui.mainGui.hwnd)
+		winActivate("ahk_id " ui.mainGui.hwnd)
+	}
 }
 
 initTrayMenu(*) {
