@@ -223,9 +223,9 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		keywait(cfg.d2appHoldToCrouchKey)
 		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
 		send("{" cfg.d2gameHoldToCrouchKey " up}"),600
-		if getKeyState("w") {
-			d2StartSprinting()
-			}
+		; if getKeyState("w") {
+			; sendInput("{Blind}{w down}")
+	; }
 	}
 
 
