@@ -186,9 +186,9 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf()
 
 	hotIf(d2RemapCrouchEnabled)
-		hotkey("~*$" cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
+		hotkey(cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
 	hotIf()
-	
+
 	hotIf(d2ReadyToReload)
 		hotKey("~*r",d2reload)
 	hotIf()
@@ -203,9 +203,8 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 				? 1
 				: 0
 			: 0)
-	}
-			
-
+	}	
+	
 	d2reload(*) {
 		if cfg.d2AlwaysRunEnabled {
 			ui.d2GameReloadKeyData.opt("c" cfg.themeButtonOnColor)
@@ -218,12 +217,12 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	}
 
 	d2HoldToCrouch(*) {
-		; ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
+		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
 		setTimer () => ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor),800
-		; send("{" cfg.d2gameHoldToCrouchKey " down}")
-		; keywait(cfg.d2appHoldToCrouchKey)
-		; ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
-		; send("{" cfg.d2gameHoldToCrouchKey " up}"),600
+		send("{" cfg.d2gameHoldToCrouchKey " down}")
+		keywait(cfg.d2appHoldToCrouchKey)
+		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
+		send("{" cfg.d2gameHoldToCrouchKey " up}"),600
 		if getKeyState("w") {
 			d2StartSprinting()
 			}
@@ -275,7 +274,7 @@ cfg.d2LoadoutCoords1920x1200 := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoord
 	
 cfg.d2LoadoutCoords2560x1440 := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoords2560x1440","636:512,760:512,636:640,760:640,636:770,760:770,636:900,760:900,636:1030,760:1030"),",")	
 
-cfg.d2LoadoutCoords3440x1440 := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoords3440x1440","636:512,760:512,636:640,760:640,636:770,760:770,636:900,760:900,636:1030,760:1030"),",")	
+cfg.d2LoadoutCoords3440x1440 := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoords3440x1440","636:460,760:460,636:590,760:590,636:720,760:720,636:850,760:850,636:980,760:980"),",")	
 				
 cfg.d2LoadoutCoordsCustom := strSplit(iniRead(cfg.file,"Game","d2LoadoutCoordsCustom","636:512,760:512,636:640,760:640,636:770,760:770,636:900,760:900,636:1030,760:1030"),
 ",")

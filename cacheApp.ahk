@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.2.3"
+A_FileVersion := "1.2.2.4"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -108,20 +108,20 @@ ui.gameSettingsGui.show("x" cfg.guiX+35 " y" cfg.guiY+32 " w495 h180 noActivate"
 ui.titleBarButtonGui.Show("w75 h36 NoActivate")
 ui.MainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
-if (cfg.startMinimizedEnabled)
-	 winMinimize(ui.mainGui.hwnd)
-	 
+
+;if (cfg.startMinimizedEnabled)
+;winMinimize(ui.mainGui.hwnd)
+
+monitorResChanged()
+
+
 fadeIn()
-
-
 
 if !cfg.topDockEnabled
 	tabsChanged()
 else
 	ui.topDockPrevTab := ui.mainGuiTabs.text
-	
-monitorResChanged()
-
+	 
 try {
 	whr := ComObject("WinHttp.WinHttpRequest.5.1")
 	whr.Open("GET", "http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)

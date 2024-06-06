@@ -13,7 +13,6 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 initGui(&cfg, &ui) {
 	ui.TransparentColor := "010203"
 
-	
 	ui.MainGui := Gui()
 	ui.MainGui.Name := "cacheApp"
 	ui.mainGui.Title	:= "CacheApp"
@@ -245,6 +244,7 @@ ui.isFading := false
 hotIf(isFading)
 	hotkey("LButton",(*) => ui.isFading := true)
 hotIf()
+
 isFading(*) {
 	if ui.isFading
 		return 1
@@ -255,13 +255,7 @@ fadeIn() {
 
 	if (cfg.AnimationsEnabled) {
 		ui.isFading := true
-		;guiVis(ui.titleBarButtonGui,false)
-		; guiVis(ui.gameSettingsGui,false)
-		; guiVis(ui.afkGui,false)
-		;winSetTransparent(0,ui.titleBarButtonGui)
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui)
-		;ui.titleBarButtonGui.Move(mainGuiX,mainGuiY-4)
-		
 		transparency := 0
 
 		if cfg.topDockEnabled {
@@ -281,23 +275,24 @@ fadeIn() {
 						transparency += 2.5
 						winSetTransparent(round(transparency),ui.mainGui)			
 						winSetTransparent(round(transparency),ui.afkGui)
+						winSetTransparent(round(transparency),ui.titleBarButtonGui)
 						sleep(1)
 					}
 					guiVis(ui.afkGui,true)
 				case "Game":
+					guiVis(ui.gameTabGui,true)
+					
 					while transparency < 223 {
-						transparency += 2.5
+						transparency += 4
+						winSetTransparent(min(round(transparency)+60,255),	ui.gameTabGui)
 						winSetTransparent(round(transparency),ui.titleBarButtonGui)
 						winSetTransparent(round(transparency),ui.mainGui)	
-						if transparency-20 > 0
-							winSetTransparent(round(transparency)-20,ui.gameSettingsGui)
-						if transparency+80 < 255
-							winSetTransparent(round(transparency)+50,ui.gameTabGui)
+						winSetTransparent(round(transparency),ui.gameSettingsGui)
 						sleep(1)
 					}
 					
-					ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
-					guiVis(ui.gameSettingsGui,true)
+					;ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
+					;guiVis(ui.gameSettingsGui,true)
 					guiVis(ui.gameTabGui,true)
 					
 				default:
@@ -315,10 +310,9 @@ fadeIn() {
 	}
 	guiVis(ui.mainGui,true)
 	guiVis(ui.titleBarButtonGui,true)
-	ui.mainGuiTabs.useTab("Game")
-	;ui.mainGui.addPicture("x0 y-5","./img2/gameScreenPic.png")
 	ui.mainGuiTabs.useTab("")
 }
+
 autoFireButtonClicked(*) {
 	ToggleAutoFire()
 }
@@ -1155,7 +1149,7 @@ showDockBar() {
 	dockbarPosx := ((dockbarMonitorx + dockbarMonitorY)/2)-(ui.dockbarWidth/2)
 	
 	ui.dockBarGui.show("x" dockbarPosx " y0 w" ui.dockBarWidth " h34 noActivate")
-	guiVis(ui.titleBarButtonGui,false)
+	
 	drawOutlineNamed("dockBarOutline2",ui.dockBarGui,1,0,ui.dockBarWidth,34,cfg.themeDark1Color,cfg.themeBright2Color,2)
 	drawOutlineNamed("dockBarOutline",ui.dockBarGui,0,0,ui.dockBarWidth,35,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
 }
@@ -1171,25 +1165,41 @@ toggleTopDock(*) {
 	
 topDockOn(*) {
 	createDockBar()
+	tabGui := ""
 	
+	switch ui.mainGUiTabs.text {
+		case "Game":
+			tabGui := ui.gameSettingsGui
+		case "AFK":
+			tabGui := ui.afkGui
+		default:
+			tabGui := ""
+	}	
 	cfg.topDockEnabled := true
 	saveGuiPos()
-	guiVis(ui.titleBarButtonGui,false)
+	;guiVis(ui.titleBarButtonGui,false)
 	if cfg.AnimationsEnabled {
 		transparent := 255
 		while transparent > 120 {
 			transparent -= 10
 			winSetTransparent(transparent,ui.mainGui)
+			winSetTransparent(transparent,ui.titleBarButtonGui)
+			if (tabGui)
+				winSetTransparent(transparent-80,tabGui)
 			sleep(10)
 		}
 	}
+		
 	guiVis(ui.gameSettingsGui,false)
 	guiVis(ui.gameTabGui,false)
 	guiVis(ui.afkGui,false)
+	
 	if cfg.AnimationsEnabled {
 		while transparent > 20 {
 			transparent -= 10
 			winSetTransparent(transparent,ui.mainGui)
+			sleep(10)
+			winSetTransparent(transparent,ui.titleBarButtonGui)
 			sleep(10)
 		}
 		
@@ -1230,6 +1240,16 @@ topDockOn(*) {
 ;MsgBox("4: " cfg.guix "`n" cfg.guiy)
 topDockOff(*) {
 	cfg.topDockEnabled := false
+		tabGui := ""
+	switch ui.mainGUiTabs.text {
+		case "Game":
+			tabGui := ui.gameSettingsGui
+		case "AFK":
+			tabGui := ui.afkGui
+		default:
+			tabGui := ""
+	}
+	
 	guiVis(ui.titleBarButtonGui,false)
 	transparent := 255
 	if (cfg.AnimationsEnabled) {
