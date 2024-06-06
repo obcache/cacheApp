@@ -465,21 +465,22 @@ CheckForUpdates(msg,*) {
 		}
 	}
 		;ui.latestVersionText.text := "Available:`t#.#.#.#"
-		if (ui.installedVersion < ui.latestVersion) {
-			try {
-				winMinimize("ahk_id ui.mainGui.hwnd")
-			} 
+	;MsgBox(ui.installedVersion "`n" ui.latestVersion)
+	if (ui.installedVersion < ui.latestVersion) {
+		try {
+			winSetAlwaysOnTop(0,"ahk_id ui.mainGui.hwnd")
+		} 
 				
-			sleep(1500)
-			run("./cacheApp_updater.exe")
-		} else {
-			 if(msg != 0) {
-				ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
-				notifyOSD("No upgraded needed.`nInstalled: " substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1) "`nAvailable: " substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1),2500)
+		sleep(1500)
+		run("./cacheApp_updater.exe")
+	} else {
+		if(msg != 0) {
+			ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
+			notifyOSD("No upgraded needed.`nInstalled: " substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1) "`nAvailable: " substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1),2500)
 				;setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
-			 }
-		}
-		winSetAlwaysOnTop(cfg.AlwaysOnTopEnabled,ui.mainGui.hwnd)
+		 }
+	}
+	winSetAlwaysOnTop(cfg.AlwaysOnTopEnabled,ui.mainGui.hwnd)
 }
 
 cfgLoad(&cfg, &ui) {
