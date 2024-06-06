@@ -16,8 +16,8 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		loop cfg.gameModuleList.length {
 			if fileExist("./lib/lib" cfg.gameModuleList[A_Index])
 				runWait("./lib/lib" cfg.gameModuleList[A_Index])
-		}
-
+			}
+	
 		ui.gameSettingsGui := Gui()
 		ui.gameSettingsGui.Name := "CacheApp"
 		ui.gameSettingsGui.BackColor := cfg.themeBackgroundColor
@@ -30,6 +30,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.gameTabs.setFont("s10")
 		ui.gameTabs.onEvent("Change",gameTabChanged)
 		ui.MainGui.GetPos(&winX,&winY,,)
+
 
 	 Loop cfg.gameList.length {
 			try {
@@ -152,7 +153,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 					ui.incursionGui.destroy()
 				}
 				ui.incursionGui := gui()
-				ui.incursionGui.opt("-caption -border alwaysOnTop")
+				ui.incursionGui.opt("-caption -border toolWindow alwaysOnTop")
 				ui.incursionGui.backColor := "010203"
 				winSetTransColor("010203",ui.incursionGui)
 				ui.incursionGui.addText("x3 y3 w344 h70 background" cfg.themePanel3Color)

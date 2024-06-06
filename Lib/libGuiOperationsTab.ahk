@@ -251,7 +251,7 @@ ToggleHelp(*) {
 ShowHelp() {
 	ui.MainGui.GetPos(&GuiX,&GuiY,&GuiW,&GuiH)
 	ui.DisableGui := Gui()
-	ui.DisableGui.Opt("-Caption AlwaysOnTop Owner" ui.MainGui.Hwnd)
+	ui.DisableGui.Opt("-Caption AlwaysOnTop toolWindow Owner" ui.MainGui.Hwnd)
 	ui.DisableGui.Color := "303030"
 	ui.DisableGui.BackColor := "303030"
 	ui.CloseHelp := ui.DisableGui.AddPicture("x40 y173 w40 h40 Background" cfg.ThemeButtonReadyColor,"./Img/button_help_ready.png")

@@ -158,7 +158,7 @@ ChooseColor(ColorType,prev_color)
 	} else {
 		winGetPos(&DialogX,&DialogY,&DialogW,&DialogH,ui.themeEditorGui)
 		ui.colorGui := Gui()
-		ui.colorGui.Opt("+AlwaysOnTop -Caption +Owner" ui.themeEditorGui.Hwnd)
+		ui.colorGui.Opt("+AlwaysOnTop -Caption toolWindow +Owner" ui.themeEditorGui.Hwnd)
 		ui.ColorPicker := ui.colorGui.AddPicture("w515 h1000","./Img/color_swatches.png")
 		ui.colorGui.Show("x" DialogX " y" DialogY+DialogH " NoActivate")
 		Sleep(1000)

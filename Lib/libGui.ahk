@@ -20,7 +20,6 @@ initGui(&cfg, &ui) {
 	ui.MainGui.BackColor := ui.TransparentColor
 	ui.MainGui.Color := ui.TransparentColor
 	ui.MainGui.Opt("-Caption -Border")
-	;ui.mainGui.addPicture("x0 y0 w600	h220","./img/mainBg.png")
 	if (cfg.AlwaysOnTopEnabled)
 	{
 		ui.MainGui.Opt("+AlwaysOnTop 0x4000000")
@@ -287,7 +286,7 @@ fadeIn() {
 						winSetTransparent(min(round(transparency)+60,255),	ui.gameTabGui)
 						winSetTransparent(round(transparency),ui.titleBarButtonGui)
 						winSetTransparent(round(transparency),ui.mainGui)	
-						winSetTransparent(round(transparency),ui.gameSettingsGui)
+						winSetTransparent(min(round(transparency)+0,255),ui.gameSettingsGui)
 						sleep(1)
 					}
 					
@@ -579,7 +578,7 @@ stopGaming(*) {
 quickOSD()
 quickOSD(*) {
 	ui.quickOSD := gui()
-	ui.quickOSD.opt("-caption -border alwaysOnTop")
+	ui.quickOSD.opt("-caption -border toolWindow alwaysOnTop")
 	ui.quickOSD.backColor := "010203"
 	winSetTransColor("010203",ui.quickOSD.hwnd)
 	ui.msgLog := ui.quickOSD.AddText("x0 y0 w800 h600 backgroundTrans cLime","")
@@ -610,7 +609,7 @@ exitMenuShow() {
 	
 	winGetPos(&tbX,&tbY,,,ui.titleBarButtonGui)
 	ui.exitMenuGui := gui()
-	ui.exitMenuGui.Opt("-caption -border AlwaysOnTop Owner" ui.mainGui.hwnd)
+	ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.mainGui.hwnd)
 	ui.exitMenuGui.BackColor := ui.transparentColor
 
 	ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y2 w72 h15 center background" cfg.themePanel3color " c" cfg.themeButtonOnColor," Gaming Mode")
@@ -712,7 +711,7 @@ toggleConsole(*) {
 
 initConsole(&ui) {
 	ui.gvMonitorSelectGui := Gui()
-	ui.gvMonitorSelectGui.Opt("-Theme -Border -Caption +AlwaysOnTop +Parent" ui.MainGui.Hwnd " +Owner" ui.MainGui.Hwnd)
+	ui.gvMonitorSelectGui.Opt("-Theme -Border -Caption toolWindow +AlwaysOnTop +Parent" ui.MainGui.Hwnd " +Owner" ui.MainGui.Hwnd)
 	ui.gvMonitorSelectGui.BackColor := "212121"
 	ui.gvMonitorSelectGui.SetFont("s16 c00FFFF","Calibri Bold")
 	ui.gvMonitorSelectGui.Add("Text",,"Click anywhere on the screen`nyou'd like your cacheAppDock on.")
@@ -861,6 +860,8 @@ tabsChanged(*) {
 			guiVis(ui.afkGui,true)
 			guiVis(ui.gameSettingsGui,false)
 			guiVis(ui.gameTabGui,false)
+			ui.afkGui.opt("-toolWindow")
+			ui.mainGui.opt("+toolWindow")
 			controlFocus(ui.buttonTower,ui.afkGui)
 			ui.previousTab := ui.activeTab			
 		case "Game":
@@ -871,6 +872,8 @@ tabsChanged(*) {
 			guiVis(ui.afkGui,false)
 			guiVis(ui.gameTabGui,true)
 			ui.mainGuiTabs.useTab("Game")
+			ui.gameSettingsGui.opt("-toolWindow")
+			ui.mainGui.opt("toolWindow")
 			;ui.mainGui.addPicture("x0 y-25","./img2/gameScreenPic.png")
 			ui.mainGuiTabs.useTab("")
 			controlFocus(ui.d2AlwaysSprint,ui.gameSettingsGui)
@@ -887,6 +890,9 @@ tabsChanged(*) {
 			guiVis(ui.afkGui,false)
 			; guiVis(ui.mainGui,true)
 			guiVis(ui.gameTabGui,false)
+			ui.afkGui.opt("toolWindow")
+			ui.gameSettingsGui.opt("toolWindow")
+			ui.mainGui.opt("-toolWindow")
 			controlFocus(ui.mainGuiTabs,ui.mainGui)
 			ui.previousTab := ui.activeTab
 	}
