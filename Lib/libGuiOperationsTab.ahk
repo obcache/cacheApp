@@ -182,7 +182,7 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 		ui.Win1ClassDDL.OnEvent("Change",opsWin1ClassChange)
 		PostMessage("0x153", -1, 20,, "AHK_ID " ui.Win1ClassDDL.Hwnd ) ; CB_SETITEMHEIGHT = 0x153
 		PostMessage("0x153", 0, 23,, "AHK_ID " ui.Win1ClassDDL.Hwnd ) ; CB_SETITEMHEIGHT = 0x153	
-		ui.OpsAfkButton := ui.MainGui.AddPicture("ys+0 x+1 w47 h48 section Background" cfg.ThemeButtonReadyColor,"./Img/button_afk_ready.png")
+		ui.OpsAfkButton := ui.MainGui.AddPicture("ys+0 x+1 w47 h48 section Background" cfg.ThemeButtonReadyColor,"./img2/button_afk_ready.png")
 		ui.OpsAfkButton.OnEvent("Click",ToggleAFK)
 		ui.OpsAfkButton.ToolTip := "Toggle AFK"
 	

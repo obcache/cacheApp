@@ -144,7 +144,7 @@ initOSDGui() {
 	ui.buttonDockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonDockAfk.ToolTip := "Dock AFK Panel"	
 	
-	ui.buttonStartAFK := ui.AfkGui.AddPicture("x+0 y2 section w32 h32 Background" cfg.ThemeButtonReadyColor,"./Img/button_afk_ready.png")
+	ui.buttonStartAFK := ui.AfkGui.AddPicture("x+0 y2 section w32 h32 Background" cfg.ThemeButtonReadyColor,"./img2/button_afk_ready.png")
 	ui.buttonStartAFK.OnEvent("Click",ToggleAFK)
 	ui.buttonStartAFK.ToolTip := "Toggle AFK"
 	
@@ -304,12 +304,13 @@ fadeIn() {
 				}
 
 			}
-
+			guiVis(ui.mainGui,true)
+			guiVis(ui.titleBarButtonGui,true)
 		}
 		ui.isFading := false
+
 	}
-	guiVis(ui.mainGui,true)
-	guiVis(ui.titleBarButtonGui,true)
+
 	ui.mainGuiTabs.useTab("")
 }
 
@@ -1015,7 +1016,7 @@ createDockBar() {
 	ui.dockBarWin2Cmd		:= ui.dockBarGui.addText("x+0 ys w32 h33 section center background" cfg.themePanel3Color " c" cfg.themeFont3Color,"--")
 	ui.dockBarWin2Cmd.setFont("s20")
 	ui.dockBarWidth += 32
-	; ui.dockBarGui.addText("x+0 ys w1 h33 section background" cfg.themeBright1Color,"")
+	ui.dockBarGui.addText("x+0 ys+1 w0 h33 section background" cfg.themeBright1Color,"")
 	; ui.dockBarWidth += 1
 	
 		switch ui.dockGameDDL.text {
@@ -1024,8 +1025,8 @@ createDockBar() {
 		case "World//Zero":
 			dockBarIcons("World//Zero","Add")
 	}
-	ui.dockBarGui.addText("x+-3 ys+2 w2 h30 section background" cfg.themeBright2Color,"")
-	ui.dockBarWidth += 0
+	ui.dockBarGui.addText("x+-3 ys+0 w2 h30 section background" cfg.themeBright2Color,"")
+	ui.dockBarWidth -= 0
 	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+0 ys+0 w30 h31 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
 	ui.dockBarWidth += 32
 	ui.dockBarExitButton.onEvent("click",topDockPowerButtonPushed)
@@ -1065,12 +1066,12 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarWidth 		+= 32
 		 		ui.topDocklightGGbutton		:= ui.dockBarGui.addPicture("x+2 ys-2 w28 h28 section backgroundTrans","./img/icon_lightGG.png")
 				ui.topDockBBGGbutton		:= ui.dockBarGui.addPicture("x+0 ys w28 h28 section backgroundTrans","./img/icon_blueberries.png")
-				ui.dockBarWidth 		+= 32
-				ui.dockBarWidth 		+= 32
+				ui.dockBarWidth 		+= 30
+				ui.dockBarWidth 		+= 28
 				ui.topDockBrayTechbutton		:= ui.dockBarGui.addPicture("x+0  ys w28 h28 section backgroundTrans","./img/icon_braytech.png")
-				 ui.dockBarWidth 		+= 32
+				 ui.dockBarWidth 		+= 28
 				ui.topDockd2Checklistbutton		:= ui.dockBarGui.addPicture("x+0  ys w28 h28 section backgroundTrans","./img/icon_d2Checklist.png")
-				 ui.dockBarWidth 		+= 32
+				 ui.dockBarWidth 		+= 28
 				ui.topDockDIMbutton.onEvent("click",d2LaunchDIMButtonClicked)
 				ui.topDockLightGGbutton.onEvent("click",d2LaunchLightGGButtonClicked)
 				ui.topDockBBGGbutton.onEvent("click",d2LaunchBlueBerriesButtonClicked)
@@ -1082,21 +1083,24 @@ dockBarIcons(game,operation := "") {
 				ui.topDockd2Checklistbutton.toolTip := "Launch D2 Checklist"
 				ui.topDockBrayTechbutton.toolTip := "Launch Bray.Tech"
 				; ui.dockBarWidth 		+= 32
-				; ui.dockBarGui.addText("x+5 ys-2 w1 h32 section background" cfg.themeBright1Color,"")
+				 ui.dockBarGui.addText("x+5 ys-2 w1 h32 section background" cfg.themeBright1Color,"")
 				
 
-				ui.dockBarGui.addText("x+5 ys-2 w1 h32 section background" cfg.themeBright1Color,"")
-				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+-2 ys-1 w32 h33 section background" cfg.themeButtonReadyColor,ui.buttonStartAfk.value)
-				ui.dockBarWidth 		+= 32
-				ui.dockBarD2HoldToCrouch 	:= ui.dockBarGui.addPicture("x+-1 ys-1 w32 h33 section background" cfg.ThemeButtonReadyColor,"./img/icon_steeringwheel.png")	
-				ui.dockBarWidth 		+= 32
+				ui.dockBarGui.addText("x+0 ys+0 w1 h32 section background" cfg.themeBright1Color,"")
+				ui.dockBarWidth			+= 6
+				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+-2 ys-1 w32 h32 section background" cfg.themeButtonReadyColor,ui.buttonStartAfk.value)
+				ui.dockBarWidth 		+= 30
+				ui.dockBarGui.addText("x+0 ys+0 w1 h32 section background" cfg.themeBright1Color,"")
+				
+				ui.dockBarD2HoldToCrouch 	:= ui.dockBarGui.addPicture("x+-2 ys+0 w32 h32 section background" cfg.ThemeButtonOnColor,"./img2/button_crouch.png")	
+				ui.dockBarWidth 		+= 30
 				ui.dockBarD2HoldToCrouch.onEvent("click",d2AppHoldToCrouchKeyClicked)				
-				ui.dockBarLoadouts		:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,"./img/button_loadouts_ready.png")
-				ui.dockBarWidth			+= 32
-				ui.dockBarRunIcon 		:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeDisabledColor, "./img/icon_running.png")
-				ui.dockBarWidth 		+= 32
+				ui.dockBarLoadouts		:= ui.dockBarGui.addPicture("x+-2 ys+0 w32 h32 section background" cfg.themeButtonOnColor,"./img2/button_loadouts_ready.png")
+				ui.dockBarWidth			+= 30
+				ui.dockBarRunIcon 		:= ui.dockBarGui.addPicture("x+-2 ys+0 w28 h32 section background" cfg.themeDisabledColor, "./img/icon_running.png")
+				ui.dockBarWidth 		+= 30
 				ui.dockBarRunIcon.opt("Background" cfg.ThemeButtonOnColor)
-				ui.dockBarD2AlwaysRun 	:= ui.dockBarGui.addPicture("x+-1 ys-1 w25 h33 section " 
+				ui.dockBarD2AlwaysRun 	:= ui.dockBarGui.addPicture("x+0 ys+1 w22 h28 section " 
 				((cfg.d2AlwaysRunEnabled) 
 					? ("Background" cfg.ThemeButtonOnColor) 
 						: ("Background" cfg.themeButtonReadyColor)),
@@ -1111,14 +1115,15 @@ dockBarIcons(game,operation := "") {
 
 
 				ui.dockBarAfkButton.onEvent("click",dockToggleAfk)
-				ui.dockBarGui.addText("x+1 ys+3 w0 h33 section background" cfg.themeBright1Color,"")
-				ui.dockBarWidth -= 5
+				ui.dockBarGui.addText("x+1 ys-1 w1 h33 section background" cfg.themeBright1Color,"")
+				ui.dockBarWidth -= 2
 				
 		case "World//Zero":
 				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,ui.buttonStartAfk.value)
 				ui.dockBarWidth 		+= 32
 				ui.dockBarTowerButton	:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,ui.buttonTower.value)
 				ui.dockBarWidth 		+= 32
+				ui.dockBarGui.AddText("x+0 ys+0 w0 h32 background" cfg.themeBright1Color)
 				((ui.towerEnabled) 
 					? ("Background" cfg.Them eButtonOnColor) 
 						: ("Background" cfg.themeButtonReadyColor),

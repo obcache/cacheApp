@@ -223,7 +223,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			FileInstall("./Img/button_tower_ready.png",InstallDir "/Img/button_tower_ready.png",true)
 			FileInstall("./Img/button_tower_on.png",InstallDir "/Img/button_tower_on.png",true)
 			FileInstall("./Img/button_dockright.png",InstallDir "/Img/button_dockright.png",true)
-			FileInstall("./Img/button_afk_ready.png",InstallDir "/Img/button_afk_ready.png",true)
+			FileInstall("./img2/button_afk_ready.png",InstallDir "/img2/button_afk_ready.png",true)
 			FileInstall("./Img/button_afk_on.png",InstallDir "/Img/button_afk_on.png",true)
 			FileInstall("./Img/button_antiIdle_ready.png",InstallDir "/Img/button_antiIdle_ready.png",true)
 			FileInstall("./Img/button_antiIdle_on.png",InstallDir "/Img/button_antiIdle_on.png",true)
@@ -301,7 +301,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img/icon_d2Checklist.png",installDir "/img/icon_d2Checklist.png",1)
 			fileInstall("./img/icon_brayTech.png",installDir "/img/icon_brayTech.png",1)
 			fileInstall("./img/icon_steeringwheel.png",installDir "/img/icon_steeringwheel.png",1)
-			fileInstall("./img/button_loadouts_ready.png",installDir "/img/button_loadouts_ready.png",1)
+			fileInstall("./img2/button_loadouts_ready.png",installDir "/img2/button_loadouts_ready.png",1)
 			fileInstall("./img2/button_keyBindTarget.png",installDir "/img2/button_keybindTarget.png",1)
 			fileInstall("./img2/d2_button_dim.png",installDir "/img2/d2_button_dim.png",1)
 			fileInstall("./img2/d2_button_dim_down.png",installDir "/img2/d2_button_dim_down.png",1)
@@ -324,6 +324,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/button_power.png",installDir "/img2/button_power.png",1)
 			fileInstall("./img2/button_power_down.png",installDir "/img2/button_power_down.png",1)
 			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
+			fileInstall("./img2/button_crouch.png",installDir "/img2/button_crouch.png",1)
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
 			fileInstall("./redist/soundVolumeView.exe",installDir "/redist/soundVolumeView.exe",1)
@@ -444,17 +445,19 @@ autoUpdate() {
 }	
 
 CheckForUpdates(msg,*) {
+	
 	winSetAlwaysOnTop(0,ui.mainGui.hwnd)
 	ui.installedVersion := fileRead("./cacheApp_currentBuild.dat")
-	ui.installedVersionText.text := "Installed:`t" ui.installedVersion
+	ui.installedVersionText.text := "Installed: " ui.installedVersion
+	ui.installedVersionText.redraw()
 	try {
 		whr := ComObject("WinHttp.WinHttpRequest.5.1")
 		whr.Open("GET", "https://raw.githubusercontent.com/obcache/cacheApp/main/cacheApp_currentBuild.dat", true)
 			whr.Send()
 			whr.WaitForResponse()
 			ui.latestVersion := whr.ResponseText
-			ui.latestVersionText.text := "Latest:`t*****"
-		} catch {
+			ui.latestVersionText.text := "Latest:`t" ui.latestVersion
+	} catch {
 			if(msg) {
 				ui.latestVersionText.text := "Latest:`t--No Network--"
 				setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
@@ -471,6 +474,7 @@ CheckForUpdates(msg,*) {
 			run("./cacheApp_updater.exe")
 		} else {
 			 if(msg) {
+			 MsgBox(ui.latestVersion)
 				ui.latestVersionText.text := "Latest:`t" ui.latestVersion
 				notifyOSD("No upgraded needed`nCurrent Version: " ui.installedVersion "`nLatest Version: " ui.latestVersion)
 				setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000

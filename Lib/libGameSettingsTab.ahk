@@ -218,14 +218,18 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 	d2HoldToCrouch(*) {
 		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
-		setTimer () => ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor),800
+		ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonAlertColor)
+		ui.dockBarD2HoldToCrouch.redraw()
 		send("{" cfg.d2gameHoldToCrouchKey " down}")
 		keywait(cfg.d2appHoldToCrouchKey)
 		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
+		ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonOnColor)
+		ui.dockBarD2HoldToCrouch.redraw()
+		
 		send("{" cfg.d2gameHoldToCrouchKey " up}"),600
 		; if getKeyState("w") {
 			; sendInput("{Blind}{w down}")
-	; }
+		; }
 	}
 
 
@@ -356,7 +360,7 @@ d2LoadoutModifier(hotKeyName) {
 		sleep(100*cfg.d2AppLoadoutMultiplier)
 		send("{F1}")
 		try {
-			ui.dockBarLoadouts.opt("background" cfg.themeButtonReadyColor)
+			ui.dockBarLoadouts.opt("background" cfg.themeButtonOnColor)
 			ui.dockBarLoadouts.redraw()
 		}
 	}
@@ -396,10 +400,13 @@ d2LoadoutModifier(hotKeyName) {
 		
 
 		;ui.d2Log.text := " stop: SPRINT`n rcvd: " strUpper(subStr(cfg.d2AppToggleSprintKey,1,8)) "`n" ui.d2Log.text
-		ui.d2AlwaysSprint.opt("background" cfg.ThemeButtonReadyColor)
+		ui.d2AlwaysSprint.opt("background" cfg.ThemeButtonOnColor)
 		ui.d2AlwaysSprint.value := "./img/toggle_vertical_trans_off.png"
+		ui.d2AlwaysSprint.redraw()
 		try {
-			ui.dockBarD2AlwaysRun.opt("background" cfg.ThemeButtonReadyColor)
+			ui.dockBarD2AlwaysRun.opt("background" cfg.ThemeButtonOnColor)
+			ui.dockBarRunIcon.opt("background" cfg.themeButtonOnColor)
+			ui.dockBarRunIcon.redraw()
 			ui.dockBarD2AlwaysRun.value := "./img/toggle_vertical_trans_off.png"
 		}
 	}

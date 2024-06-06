@@ -60,7 +60,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleToolTips := ui.MainGui.AddPicture("xs w50 h22 section vToolTips " ((cfg.ToolTipsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ToolTipsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleToolTips.OnEvent("Click", toggleChanged)
 	ui.toggleToolTips.ToolTip := "Toggles ToolTips"
-	ui.labelToolTips := ui.MainGui.AddText("x+5 ys+2 Background" cfg.themePanel2Color " c" cfg.themeFont2Color,"ToolTips")
+	ui.labelToolTips := ui.MainGui.AddText("x+5 ys+2 BackgroundTrans c" cfg.themeFont2Color,"ToolTips")
 
 
 	ToggleAlwaysOnTop(*)
