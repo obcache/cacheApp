@@ -445,10 +445,9 @@ autoUpdate() {
 }	
 
 CheckForUpdates(msg,*) {
-	
 	winSetAlwaysOnTop(0,ui.mainGui.hwnd)
 	ui.installedVersion := fileRead("./cacheApp_currentBuild.dat")
-	ui.installedVersionText.text := "Installed: " ui.installedVersion
+	ui.installedVersionText.text := "Installed:`t" substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1)
 	ui.installedVersionText.redraw()
 	try {
 		whr := ComObject("WinHttp.WinHttpRequest.5.1")
@@ -456,15 +455,16 @@ CheckForUpdates(msg,*) {
 			whr.Send()
 			whr.WaitForResponse()
 			ui.latestVersion := whr.ResponseText
-			ui.latestVersionText.text := "Latest:`t" ui.latestVersion
+			ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
 	} catch {
-			if(msg) {
-				ui.latestVersionText.text := "Latest:`t--No Network--"
-				setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
-				notifyOSD("Network down.`nTry again later.")
+			if(msg != 0) {
+				ui.latestVersionText.text := "Available:`t--No Network--"
+				;setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
+				notifyOSD("Network down.`nTry again later.",3000)
 			ui.latestVersion := ui.installedVersion
 		}
-		ui.latestVersionText.text := "Latest:`t*****"
+	}
+		;ui.latestVersionText.text := "Available:`t#.#.#.#"
 		if (ui.installedVersion < ui.latestVersion) {
 			try {
 				winMinimize("ahk_id ui.mainGui.hwnd")
@@ -473,15 +473,13 @@ CheckForUpdates(msg,*) {
 			sleep(1500)
 			run("./cacheApp_updater.exe")
 		} else {
-			 if(msg) {
-			 MsgBox(ui.latestVersion)
-				ui.latestVersionText.text := "Latest:`t" ui.latestVersion
-				notifyOSD("No upgraded needed`nCurrent Version: " ui.installedVersion "`nLatest Version: " ui.latestVersion)
-				setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
+			 if(msg != 0) {
+				ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
+				notifyOSD("No upgraded needed.`nInstalled: " substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1) "`nAvailable: " substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1),2500)
+				;setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
 			 }
 		}
 		winSetAlwaysOnTop(cfg.AlwaysOnTopEnabled,ui.mainGui.hwnd)
-	} 
 }
 
 cfgLoad(&cfg, &ui) {

@@ -19,7 +19,7 @@ initGui(&cfg, &ui) {
 	ui.TaskbarHeight := GetTaskBarHeight()
 	ui.MainGui.BackColor := ui.TransparentColor
 	ui.MainGui.Color := ui.TransparentColor
-	ui.MainGui.Opt("-Caption -Border toolWindow ")
+	ui.MainGui.Opt("-Caption -Border")
 	;ui.mainGui.addPicture("x0 y0 w600	h220","./img/mainBg.png")
 	if (cfg.AlwaysOnTopEnabled)
 	{
