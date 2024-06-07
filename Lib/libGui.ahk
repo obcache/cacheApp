@@ -852,50 +852,48 @@ tabsChanged(*) {
 	ui.topDockPrevTab := ui.activeTab
 	cfg.activeMainTab := ui.mainGuiTabs.value
 
+	ui.mainGui.opt("toolWindow")
+	ui.titleBarButtonGui.opt("toolWindow")
+	ui.afkGui.opt("toolWindow")
+	ui.gameSettingsGui.opt("toolWindow")
+	ui.gameTabGui.opt("toolWindow")
+	guiVis(ui.titleBarButtonGui,true)
+	guiVis(ui.mainGui,true)
+	
 	switch ui.activeTab {
 		case "AFK":
 			if tabDisabled()
 				Return
-			guiVis(ui.mainGui,true)
+			ui.afkGui.opt("-toolWindow")
 			guiVis(ui.afkGui,true)
 			guiVis(ui.gameSettingsGui,false)
 			guiVis(ui.gameTabGui,false)
-			ui.afkGui.opt("-toolWindow")
-			ui.mainGui.opt("+toolWindow")
-			controlFocus(ui.buttonTower,ui.afkGui)
-			ui.previousTab := ui.activeTab			
+	
 		case "Game":
 			if tabDisabled()
 				return
-			guiVis(ui.mainGui,true)
-			guiVis(ui.gameSettingsGui,true)
 			guiVis(ui.afkGui,false)
+			guiVis(ui.gameSettingsGui,true)
 			guiVis(ui.gameTabGui,true)
-			ui.mainGuiTabs.useTab("Game")
 			ui.gameSettingsGui.opt("-toolWindow")
-			ui.mainGui.opt("toolWindow")
-			;ui.mainGui.addPicture("x0 y-25","./img2/gameScreenPic.png")
-			ui.mainGuiTabs.useTab("")
-			controlFocus(ui.d2AlwaysSprint,ui.gameSettingsGui)
-			ui.previousTab := ui.activeTab
+
 		case "Lists":
 			if tabDisabled()
 				Return
-			guiVis(ui.mainGui,true)
 			guiVis(ui.afkGui,false)
 			guiVis(ui.gameSettingsGui,false)
 			guiVis(ui.gameTabGui,false)
 		default:
 			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.afkGui,false)
-			; guiVis(ui.mainGui,true)
 			guiVis(ui.gameTabGui,false)
-			ui.afkGui.opt("toolWindow")
-			ui.gameSettingsGui.opt("toolWindow")
+			guiVis(ui.afkGui,false)
 			ui.mainGui.opt("-toolWindow")
-			controlFocus(ui.mainGuiTabs,ui.mainGui)
-			ui.previousTab := ui.activeTab
 	}
+	
+	controlFocus(ui.mainGuiTabs,ui.mainGui)
+	controlFocus(ui.d2AlwaysSprint,ui.gameSettingsGui)
+	controlFocus(ui.buttonTower,ui.afkGui)
+	ui.previousTab := ui.activeTab
 }
 
 tabDisabled() {
@@ -1173,50 +1171,86 @@ toggleTopDock(*) {
 			? topDockOn()
 			: topDockOff()
 }
-	
+
+fadeOut(*) {
+	if (cfg.AnimationsEnabled) {
+		ui.disableMouseClick := true
+		activeTab := ui.mainGuiTabs.text
+		transValue := 255
+		switch activeTab {
+			case "AFK":
+				while (transValue > 20) {
+					transValue -= 10
+					winSetTransparent(transValue,ui.titleBarButtonGui)
+					winSetTransparent(transValue,ui.afkGui)
+					winSetTransparent(transValue,ui.mainGui)
+					sleep(10)
+				}
+
+				guiVis(ui.afkGui,false)
+			case "Game":
+				while(transValue > 20) {
+					transValue -= 10
+					winSetTransparent(transValue,ui.titleBarButtonGui)
+					winSetTransparent(transValue,ui.mainGui)
+					winSetTransparent(transValue,ui.gameSettingsGui)
+					winSetTransparent(transValue,ui.gameTabGui)
+					sleep(10)
+				}
+				guiVis(ui.gameSettingsGui,false)
+				guiVis(ui.gameTabGui,false)
+				
+			default:
+				while(transValue > 20) {
+					transValue -= 10
+					winSetTransparent(transValue,ui.mainGui)
+					winSetTransparent(transValue,ui.titleBarButtonGui)
+					sleep(10)
+				}
+		}	
+	}
+	guiVis("all",false)
+	ui.disableMouseClick := false
+
+}
+
 topDockOn(*) {
 	createDockBar()
-	tabGui := ""
-	
-	switch ui.mainGUiTabs.text {
-		case "Game":
-			tabGui := ui.gameSettingsGui
-		case "AFK":
-			tabGui := ui.afkGui
-		default:
-			tabGui := ""
-	}	
 	cfg.topDockEnabled := true
 	saveGuiPos()
+	fadeOut()
 	;guiVis(ui.titleBarButtonGui,false)
-	if cfg.AnimationsEnabled {
-		transparent := 255
-		while transparent > 120 {
-			transparent -= 10
-			winSetTransparent(transparent,ui.mainGui)
-			winSetTransparent(transparent,ui.titleBarButtonGui)
-			if (tabGui)
-				winSetTransparent(transparent-80,tabGui)
-			sleep(10)
-		}
-	}
+	; if cfg.AnimationsEnabled {
+		; ui.disableMouseClick := true
+		; transparent := 255
+		; while transparent > 120 {
+			; transparent -= 10
+			; winSetTransparent(transparent,ui.mainGui)
+			; winSetTransparent(transparent,ui.titleBarButtonGui)
+			; if (tabGui)
+				; winSetTransparent(min(transparent + 60,255),tabGui)
+			; sleep(10)
+		; }
+		; ui.disableMouseClick := false
+	; }
 		
-	guiVis(ui.gameSettingsGui,false)
-	guiVis(ui.gameTabGui,false)
-	guiVis(ui.afkGui,false)
+	; guiVis(ui.gameSettingsGui,false)
+	; guiVis(ui.gameTabGui,false)
+	; guiVis(ui.afkGui,false)
 	
-	if cfg.AnimationsEnabled {
-		while transparent > 20 {
-			transparent -= 10
-			winSetTransparent(transparent,ui.mainGui)
-			sleep(10)
-			winSetTransparent(transparent,ui.titleBarButtonGui)
-			sleep(10)
-		}
+	; if cfg.AnimationsEnabled {
+	
+		; while transparent > 20 {
+			; transparent -= 10
+			; winSetTransparent(transparent,ui.mainGui)
+			; sleep(10)
+			; winSetTransparent(transparent,ui.titleBarButtonGui)
+			; sleep(10)
+		; }
 		
-	}
-	guiVis(ui.mainGui,false)
-	guiVis(ui.titleBarButtonGui,false)
+	; }
+	; guiVis(ui.mainGui,false)
+	; guiVis(ui.titleBarButtonGui,false)
 	showDockBar()
 	
 	try {	
@@ -1226,11 +1260,11 @@ topDockOn(*) {
 		ui.prevGuiW := vW
 		ui.prevGuiH := vH
 	}
-
+	transValue := 0
 	if cfg.AnimationsEnabled {
-		while transparent < 245 {
-			transparent += 10
-			winSetTransparent(transparent, ui.dockBarGui)
+		while transValue < 245 {
+			transValue += 10
+			winSetTransparent(transValue, ui.dockBarGui)
 			sleep(10)
 		}
 	}
@@ -1291,3 +1325,18 @@ topDockOff(*) {
 }
 
 
+initGuiState(*) {
+	uiStates := ["main","afk","game"]
+	for uiState in uiStates {
+		groupAdd(uiState,ui.mainGui.hwnd)
+		groupAdd(uiState,ui.titleBarButtonGui.hwnd)
+		switch uiState {
+			case "afk":
+				groupAdd(uiState,ui.afkGui.hwnd)
+			case "game":
+				groupAdd(uiState,ui.gameSettingsGui.hwnd)
+				groupAdd(uiState,ui.gameTabGui.hwnd)
+		}
+	}
+	ui.winGroup := "game"
+}

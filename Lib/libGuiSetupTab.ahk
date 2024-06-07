@@ -60,7 +60,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleToolTips := ui.MainGui.AddPicture("xs w50 h22 section vToolTips " ((cfg.ToolTipsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ToolTipsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleToolTips.OnEvent("Click", toggleChanged)
 	ui.toggleToolTips.ToolTip := "Toggles ToolTips"
-	ui.labelToolTips := ui.MainGui.AddText("x+5 ys+2 BackgroundTrans c" cfg.themeFont2Color,"ToolTips")
+	ui.labelToolTips := ui.MainGui.AddText("x+5 ys+2 BackgroundTrans","  ToolTips")
 
 
 	ToggleAlwaysOnTop(*)
@@ -71,7 +71,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleAlwaysOnTop := ui.MainGui.AddPicture("xs y+2 w50 h22 section vAlwaysOnTop " (cfg.AlwaysOnTopEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AlwaysOnTopEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAlwaysOnTop.OnEvent("Click", ToggleAlwaysOnTopChanged)
 	ui.toggleAlwaysOnTop.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelAlwaysOnTop:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","AlwaysOnTop")	
+	ui.labelAlwaysOnTop:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  AlwaysOnTop")	
 	
 
 	
@@ -104,14 +104,14 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleAnimations := ui.MainGui.AddPicture("xs w50 y+2 h22 section vAnimations " (cfg.AnimationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AnimationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAnimations.OnEvent("Click", toggleChanged)
 	ui.toggleAnimations.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelAnimations:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Animations")
+	ui.labelAnimations:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Animations")
 
 
 
 	ui.toggleAutoStart := ui.MainGui.AddPicture("xs y+2 w50 h22 section vAutoStart " (cfg.autoStartEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.autoStartEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAutoStart.OnEvent("Click", toggleChangedAutoStart)
 	ui.toggleAutoStart.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelAutoStart:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","AutoStart")
+	ui.labelAutoStart:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  AutoStart")
 	
 	toggleChangedAutoStart(toggleControl,*) {
 		toggleControl.value := 
@@ -156,13 +156,13 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleStartMinimized := ui.MainGui.AddPicture("xs y+2 w50 h22 section vStartMinimized " (cfg.StartMinimizedEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.StartMinimizedEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleStartMinimized.OnEvent("Click", toggleChanged)
 	ui.toggleStartMinimized.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelStartMinimized:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Start Minimized")
+	ui.labelStartMinimized:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Start Minimized")
 	  
 
 	ui.toggleconfirmExit := ui.MainGui.AddPicture("xs y+2 w50 h22 section vConfirmExit " (cfg.ConfirmExitEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ConfirmExitEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleConfirmExit.OnEvent("Click", toggleChanged)
 	ui.toggleConfirmExit.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelConfirmExit:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Confirm Exit")
+	ui.labelConfirmExit:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Confirm Exit")
 
 
 	ToggleDebug(*)
@@ -173,7 +173,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleDebug := ui.MainGui.AddPicture("xs y+2 w50 h22 section vDebug " (cfg.DebugEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.DebugEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleDebug.OnEvent("Click", toggleChanged)
 	ui.toggleDebug.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelDebug:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","Debug")
+	ui.labelDebug:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Debug")
 
 	drawOutlineNamed("toggleBlock",ui.mainGui,49,39,52,160,cfg.themePanel2Color,cfg.themePanel2Color,1)
 	drawOutlineNamed("toggleBlock",ui.mainGui,48,38,51,159,cfg.themeDark1Color,cfg.themeDark1Color,1)

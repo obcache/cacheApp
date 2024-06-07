@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.3.8"
+A_FileVersion := "1.2.3.9"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -115,13 +115,15 @@ ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 monitorResChanged()
 
 
+initGuiState()
 fadeIn()
 
 if !cfg.topDockEnabled
 	tabsChanged()
 else
 	ui.topDockPrevTab := ui.mainGuiTabs.text
-	 
+
+
 try {
 	whr := ComObject("WinHttp.WinHttpRequest.5.1")
 	whr.Open("GET", "http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)

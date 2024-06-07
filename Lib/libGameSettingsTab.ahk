@@ -46,7 +46,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 { ;Global UI Logic
 	
 	drawGameTabs(cfg.activeGameTab)
-	;gameTabChanged()
+
 
 
 	createButtonBar(*) {
