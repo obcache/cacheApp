@@ -197,7 +197,21 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf(d2ReadyToSprint)
 		hotKey("~*w",d2StartSprinting)
 	hotIf()
-	
+
+
+
+	togglePrismatic(*) {
+		send("{F1}")
+		sleep(550)
+		mouseGetPos(&mouseX,&mouseY)
+		click(1300,315,0)
+		sleep(250)
+		send("{LButton}")
+		click(mouseX,mouseY,0)
+		sleep(300)
+		send("{F1}")
+	}
+		
 	d2RemapCrouchEnabled(*) {
 		return ((winActive("ahk_exe destiny2.exe"))
 			? cfg.d2AlwaysRunEnabled
@@ -300,6 +314,7 @@ d2CreateLoadoutKeys(*) {
 	}	
 
 		hotIfWinActive("ahk_exe destiny2.exe")
+			hotkey(cfg.d2AppLoadoutKey,d2LoadoutModifier)
 			loop cfg.d2LoadoutCoords.length {
 				if a_index == 10 {
 					hotkey(cfg.d2AppLoadoutKey " & 0",d2LoadoutModifier)
@@ -328,7 +343,13 @@ d2CreateLoadoutKeys()
 
 d2LoadoutModifier(hotKeyName) {
 	d2LoadoutCoordsStr := ""
-
+	if (hotkeyName == "``") {
+		if (A_PriorHotkey == "``") And (A_TimeSincePriorHotkey < 200) {
+			togglePrismatic()
+		}
+		return
+	}
+	
 	loop cfg.d2LoadoutCoords.length {
 		d2LoadoutCoordsStr .= cfg.d2LoadoutCoords[a_index] ","
 	}
