@@ -464,15 +464,25 @@ CheckForUpdates(msg,*) {
 			ui.latestVersion := ui.installedVersion
 		}
 	}
-		;ui.latestVersionText.text := "Available:`t#.#.#.#"
-	;MsgBox(ui.installedVersion "`n" ui.latestVersion)
+
 	if (ui.installedVersion < ui.latestVersion) {
 		try {
 			winSetAlwaysOnTop(0,"ahk_id ui.mainGui.hwnd")
 		} 
-				
+		try {
+			winSetAlwaysOnTop(0,"ahk_id ui.titleBarButtonGui.hwnd")
+		} 
+		try {
+			winSetAlwaysOnTop(0,"ahk_id ui.afkGui.hwnd")
+		} 
+		try {
+			winSetAlwaysOnTop(0,"ahk_id ui.gameSettingsGui.hwnd")
+		} 
+		try {
+			winSetAlwaysOnTop(0,"ahk_id ui.gameTabGui.hwnd")
+		} 
 		sleep(1500)
-		run("./cacheApp_updater.exe")
+		runWait("./cacheApp_updater.exe")
 	} else {
 		if(msg != 0) {
 			ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
@@ -480,7 +490,7 @@ CheckForUpdates(msg,*) {
 				;setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
 		 }
 	}
-	winSetAlwaysOnTop(cfg.AlwaysOnTopEnabled,ui.mainGui.hwnd)
+	
 }
 
 cfgLoad(&cfg, &ui) {
