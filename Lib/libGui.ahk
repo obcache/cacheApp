@@ -63,7 +63,7 @@ initGui(&cfg, &ui) {
 	OnMessage(0x0200, WM_MOUSEMOVE)
 	OnMessage(0x0202, WM_LBUTTONDOWN)
 	OnMessage(0x47, WM_WINDOWPOSCHANGED)
-	
+	; onMessage(0x0006, wm_winActivated)
 	if (FileExist("./Logs/persist.log"))
 	{
 		try
@@ -279,8 +279,6 @@ fadeIn() {
 					}
 					guiVis(ui.afkGui,true)
 				case "Game":
-					guiVis(ui.gameTabGui,true)
-					
 					while transparency < 223 {
 						transparency += 4
 						winSetTransparent(min(round(transparency)+60,255),	ui.gameTabGui)
@@ -637,7 +635,13 @@ hideGui(*) {
 	winGetPos(&GuiX,&GuiY,,,ui.MainGui.hwnd)
 	cfg.guix := guiX
 	cfg.guiy := guiy
-	winMinimize(ui.mainGui.hwnd)
+	ui.mainGui.opt("toolWindow")
+	guiVis(ui.mainGui,false)
+	guiVis(ui.titleBarButtonGui,false)
+	guiVis(ui.afkGui,false)
+	guiVis(ui.gameSettingsGui,false)
+	guiVis(ui.gameTabGui,false)
+	guiVis(ui.dockBarGui,false)
 	debugLog("Hiding Interface")
 }
 
@@ -1302,11 +1306,15 @@ topDockOff(*) {
 			transparent -= 10
 			winSetTransparent(transparent,ui.dockBarGui)
 			sleep(10)
+
 		}
 	}
 	guiVis(ui.dockBarGui,false)
 	guiVis(ui.mainGui,false)
 	guiVis(ui.titleBarButtonGui,false)
+	guiVis(ui.afkGui,false)
+	guiVis(ui.gameSettingsGui,false)
+	guiVis(ui.gameTabGui,false)
 	fadeIn()
 	; winSetTransparent(0,ui.mainGui)
 	; if (cfg.AnimationsEnabled) {
@@ -1322,21 +1330,4 @@ topDockOff(*) {
 	; guivis(ui.titleBarbuttonGui,true)
 	ui.opsDockButton.opt("background" cfg.themeButtonReadyColor)
 
-}
-
-
-initGuiState(*) {
-	uiStates := ["main","afk","game"]
-	for uiState in uiStates {
-		groupAdd(uiState,ui.mainGui.hwnd)
-		groupAdd(uiState,ui.titleBarButtonGui.hwnd)
-		switch uiState {
-			case "afk":
-				groupAdd(uiState,ui.afkGui.hwnd)
-			case "game":
-				groupAdd(uiState,ui.gameSettingsGui.hwnd)
-				groupAdd(uiState,ui.gameTabGui.hwnd)
-		}
-	}
-	ui.winGroup := "game"
 }

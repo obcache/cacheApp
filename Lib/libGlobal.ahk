@@ -12,12 +12,7 @@ restoreWin(*) {
 	if !cfg.topDockEnabled {
 		guiVis(ui.mainGui,true)
 		tabsChanged()
-		ui.mainGui.show("x " cfg.guiX " y" cfg.guiY)
-	
-		if (winGetMinMax("ahk_id " ui.mainGui.hwnd) == 0) 
-			winRestore("ahk_id " ui.mainGui.hwnd)
-		winShow("ahk_id " ui.mainGui.hwnd)
-		winActivate("ahk_id " ui.mainGui.hwnd)
+		ui.mainGui.opt("-toolWindow")
 	}
 }
 

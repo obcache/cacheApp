@@ -35,8 +35,14 @@ collateGuis(hwnd) {
 }
 
 
-
 { ;mouse events
+wm_winActivated(this_control,info,msg,hwnd) {
+	static prev_hwnd := hwnd
+	if hwnd == ui.mainGui.hwnd && prev_hwnd != hwnd {
+		restoreWin()
+		ui.prevHwnd := hwnd
+	}
+}
 
 WM_LBUTTONDOWN_callback(thisControl,info) {
 	postMessage("0xA1",2,,,"A")
@@ -154,7 +160,7 @@ togglePIP() {
 			WinSetStyle("-0xC00000","ahk_id " ui.Win1Hwnd)
 			WinSetTransparent(125,"ahk_id " ui.Win1Hwnd)
 		}
-	} else {
+		} else {
 			WinMove(0,0,A_ScreenWidth,A_ScreenHeight,"ahk_id " ui.Win1Hwnd)
 			WinSetAlwaysOnTop(0,"ahk_id " ui.Win1Hwnd)
 			WinSetStyle("+0xC00000","ahk_id " ui.Win1Hwnd)

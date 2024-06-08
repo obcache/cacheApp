@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.4.1"
+A_FileVersion := "1.2.4.2"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -102,7 +102,7 @@ drawAfkOutlines()
 
 try
 	guiVis("all",false)
-	
+
 ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
 ui.gameSettingsGui.show("x" cfg.guiX+35 " y" cfg.guiY+32 " w495 h180 noActivate")
 ui.titleBarButtonGui.Show("w75 h36 NoActivate")
@@ -115,13 +115,8 @@ ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 monitorResChanged()
 
 
-initGuiState()
+; initGuiState()
 fadeIn()
-
-if !cfg.topDockEnabled
-	tabsChanged()
-else
-	ui.topDockPrevTab := ui.mainGuiTabs.text
 
 
 try {
@@ -132,5 +127,7 @@ try {
 	iniWrite(whr.ResponseText,cfg.file,"Game","LastIncursion")
 }
 autoUpdate()
+if cfg.topDockEnabled
+	ui.topDockPrevTab := ui.mainGuiTabs.text
 
 ;OnMessage(0x0201, wm_lButtonDown)
