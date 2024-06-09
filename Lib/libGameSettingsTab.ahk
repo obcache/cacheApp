@@ -403,7 +403,7 @@ d2LoadoutModifier(hotKeyName) {
 		;ui.d2Log.text := " start: SPRINT`n rcvd: " strUpper(subStr(cfg.d2AppToggleSprintKey,1,8)) "`n" ui.d2Log.text
 		ui.d2AlwaysSprint.Opt("Background" cfg.ThemeButtonOnColor)
 		ui.d2AlwaysSprint.value := "./img/toggle_vertical_trans_on.png"
-		try {
+		try {				
 			ui.dockBarD2AlwaysRun.Opt("Background" cfg.ThemeButtonOnColor)
 			ui.dockBarD2AlwaysRun.value := "./img/toggle_vertical_trans_on.png"
 		}
@@ -426,7 +426,7 @@ d2LoadoutModifier(hotKeyName) {
 		ui.d2AlwaysSprint.value := "./img/toggle_vertical_trans_off.png"
 		ui.d2AlwaysSprint.redraw()
 		try {
-			ui.dockBarD2AlwaysRun.opt("background" cfg.ThemeButtonOnColor)
+			ui.dockBarD2AlwaysRun.opt("background" cfg.ThemeButtonAlertColor)
 			ui.dockBarRunIcon.opt("background" cfg.themeButtonOnColor)
 			ui.dockBarRunIcon.redraw()
 			ui.dockBarD2AlwaysRun.value := "./img/toggle_vertical_trans_off.png"
@@ -713,9 +713,15 @@ keyBindDialogBox(Msg,Alignment := "Center") {
 	ui.notifyGui.setFont("s11 c" cfg.themeButtonOnColor,"Courier Narrow Bold")
 	ui.notifyGui.addText("xs y+0","Or click target with desired mouse button")  ; XX & YY serve to 00auto-size the window.
 	ui.mouseBindingTarget := ui.notifyGui.addPicture("x+15 y+-18 w25 h25 backgroundTrans",".\img2\button_keyBindTarget.png")
-
+	ui.mouseBindingTarget.onEvent("click",keybindMouseButtonClicked)
+	;ui.mouseBindingTarget.onEvent("rightClick",keybindMouseButtonClicked)
+	;ui.mouseBindingTarget.onEvent("middleClick",keybindMouseButtonClicked)
+	ui.mouseBindingTarget.onEvent("doubleClick",keybindMouseButtonClicked)
 	ui.notifyGui.AddText("xs hidden")
 	
+	keybindMouseButtonClicked(obj,msg*) {
+		msgBox(obj.id "`n" msg[1])
+	}
 	WinSetTransparent(0,ui.notifyGui)
 	ui.notifyGui.Show("NoActivate Autosize")  ; NoActivate avoids deactivating the currently active window.
 	ui.notifyGui.GetPos(&x,&y,&w,&h)
@@ -753,7 +759,7 @@ keyBindDialogBoxClose(*)
 		tmpCrouchKey := ""
 		keyBindDialogBox('HoldToCrouch',"Center")
 		Sleep(100)
-		d2AppHoldToCrouchKeyInput := InputHook("L1 T6",inputHookAllowedKeys,"+V")
+		global d2AppHoldToCrouchKeyInput := InputHook("L1 T6",inputHookAllowedKeys,"+V")
 		d2AppHoldToCrouchKeyInput.start()
 		d2AppHoldToCrouchKeyInput.wait()
 		if (d2AppHoldToCrouchKeyInput.endKey == "" && d2AppHoldToCrouchKeyInput.input =="") {

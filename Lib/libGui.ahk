@@ -1133,7 +1133,7 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarWidth 		+= 32
 				ui.dockBarGui.AddText("x+0 ys+0 w0 h32 background" cfg.themeBright1Color)
 				((ui.towerEnabled) 
-					? ("Background" cfg.Them eButtonOnColor) 
+					? ("Background" cfg.ThemeButtonOnColor) 
 						: ("Background" cfg.themeButtonReadyColor),
 				((ui.towerEnabled) 
 					? ("./img/toggle_vertical_trans_on.png") 
@@ -1158,10 +1158,10 @@ dockBarIcons(game,operation := "") {
 
 showDockBar() {
 	cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
-	monitorGet(cfg.dockbarMonitor,&dockbarMonitorx,,&dockbarMonitorY,,)
-	dockbarPosx := ((dockbarMonitorx + dockbarMonitorY)/2)-(ui.dockbarWidth/2)
-	
-	ui.dockBarGui.show("x" dockbarPosx " y0 w" ui.dockBarWidth " h34 noActivate")
+	monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
+	dockbarPosx := ((dockbarMonitorL + dockbarMonitorR)/2)-(ui.dockbarWidth/2)
+	dockbarPosY := dockbarMonitorT
+	ui.dockBarGui.show("x" dockbarPosx " y" dockbarPosY " w" ui.dockBarWidth " h34 noActivate")
 	
 	drawOutlineNamed("dockBarOutline2",ui.dockBarGui,1,0,ui.dockBarWidth,34,cfg.themeDark1Color,cfg.themeBright2Color,2)
 	drawOutlineNamed("dockBarOutline",ui.dockBarGui,0,0,ui.dockBarWidth,35,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)

@@ -15,7 +15,7 @@ WM_WINDOWPOSCHANGED(wParam, lParam, msg, Hwnd) {
 		collateGuis(hwnd)
 }
 
-collateGuis(hwnd) {
+collateGuis(hwnd := ui.mainGui.hwnd) {
 	try {
 		switch hwnd {
 			case ui.mainGui.hwnd:
