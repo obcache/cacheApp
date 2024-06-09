@@ -1326,8 +1326,11 @@ topDockOff(*) {
 		; }
 	; }
 	; guiVis(ui.mainGui,true)
-	ui.mainGuiTabs.choose(ui.topDockPrevTab)
-	; guivis(ui.titleBarbuttonGui,true)
-	ui.opsDockButton.opt("background" cfg.themeButtonReadyColor)
-
+	try {
+		ui.mainGuiTabs.choose(ui.topDockPrevTab)
+	}
+	;guivis(ui.titleBarbuttonGui,true)
+	try {
+		ui.opsDockButton.opt("background" cfg.themeButtonReadyColor)
+	}
 }
