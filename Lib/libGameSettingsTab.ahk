@@ -198,8 +198,6 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		hotKey("~*w",d2StartSprinting)
 	hotIf()
 
-
-
 	togglePrismatic(*) {
 		send("{F1}")
 		sleep(550)
@@ -327,23 +325,47 @@ d2CreateLoadoutKeys(*) {
 }
 d2CreateLoadoutKeys()
 
+joy12::
+{
+	joyx := "center"
+	joyy := "center"
+	while getKeyState("joy12") {
+		if getKeyState("JoyX") < 20 
+			joyx := "left" 
+		if getKeyState("JoyX") > 80
+			joyx := "right"
+		if getKeyState("JoyX") == 50
+			joyx := "center"
+		if getKeyState("JoyY") < 35 
+			joyy := "up"
+		if getKeyState("JoyY") > 75
+			joyy := "down"
+		if getKeyState("JoyY") == 50
+			joyy := "center"
+	}
 
-; joy13::
-; {
-	; sleep(50)
-	; switch getKeyState("JoyPOV") {
-		; case 0:sendEvent("{` down}{2}{` up}")
-		; case 9000: sendEvent("{` down}{3}{` up}")
-		; case 18000: sendEvent("{` down}{4}{` up}")
-		; case 27000: sendEvent("{` down}{1}{` up}")
-		; default: Return
-	; }
-; }		
+	switch {
+		case joyy == "up" && joyx == "center":d2LoadoutModifier("prismatic",true)
+		case joyx == "right" && joyy == "center":d2LoadoutModifier("`3",true)
+		case joyy == "down" && joyx == "center":d2LoadoutModifier("`2",true) 
+		case joyx == "left" && joyy == "center":d2LoadoutModifier("`1",true)
+		default:return
+	}
+}		
 
 
-d2LoadoutModifier(hotKeyName) {
+d2LoadoutModifier(hotKeyName,isController := false) {
 	d2LoadoutCoordsStr := ""
-	if (hotkeyName == "``") {
+	if (hotKeyName == "prismatic") {
+		cfg.d2AppLoadoutMultiplier := 1.5
+		sleep(550*cfg.d2AppLoadoutMultiplier)
+		keyWait("joy12")
+		send("{F1}")
+		togglePrismatic()
+		return
+	} 
+	
+	if (hotkeyName == "``" ) {
 		if (A_PriorHotkey == "``") And (A_TimeSincePriorHotkey < 200) {
 			togglePrismatic()
 		}
@@ -371,12 +393,21 @@ d2LoadoutModifier(hotKeyName) {
 		if !(loadoutX || loadoutY)
 			return
 		
+		if isController {
+			cfg.d2AppLoadoutMultiplier := 1.5
+			sleep(550*cfg.d2AppLoadoutMultiplier)
+			keyWait("joy12")
+		}
 		send("{F1}")
 		sleep(550*cfg.d2AppLoadoutMultiplier)
 		send("{Left}")
 		sleep(150*cfg.d2AppLoadoutMultiplier)
 		coordMode("mouse","client")
-		click(loadoutX,loadoutY,0)
+		if isController {
+			click(loadoutX+30,loadoutY+30,0)
+			click(loadoutX,loadoutY,0)
+		} else
+			click(loadoutX,loadoutY,0)
 		sleep(250*cfg.d2AppLoadoutMultiplier)
 		send("{LButton}")
 		sleep(100*cfg.d2AppLoadoutMultiplier)
