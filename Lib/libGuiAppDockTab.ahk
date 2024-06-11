@@ -179,11 +179,11 @@ GuiDockTab(&ui) {
 			drawPanel2(drawPanelParams)
 			drawPanelParams := [
 				targetGui 	:= ui.notifyGui, 		;gui object the panel will be on
-				panelX		:= 5,			;x coordinate of the panel (in relation to the gui)
-				panelY		:= 5,			;y coordinate of the panel
-				panelW		:= 500,			;width of panel
-				panelH		:= 300,			;height of panel
-				panelColor	:= cfg.themePanel1Color,		;panel background color
+				panelX		:= 5,								;x coordinate of the panel (in relation to the gui)
+				panelY		:= 5,								;y coordinate of the panel
+				panelW		:= 500,								;width of panel
+				panelH		:= 300,								;height of panel
+				panelColor	:= cfg.themePanel1Color,			;panel background color
 				outlineColor	:= cfg.themeBorderDarkColor,	;panel outlineColor
 				outlineColor2	:= cfg.themeBorderLightColor,	;secondary "3d" effect outline color (not required)
 				labelText		:= "Advanced Add",		;label text (leave blank for no label)

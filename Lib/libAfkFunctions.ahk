@@ -252,8 +252,16 @@ toggleTower(*) {
 					,ui.opsTowerButton.value := "./img/button_tower_on.png"
 					,ui.buttonTower.opt("Background" cfg.ThemeButtonOnColor)
 					,ui.buttonTower.value := "./img/button_tower_on.png"
-					,(cfg.topDockEnabled) ? ui.dockBarTowerButton.opt("background" cfg.themeButtonOnColor) : 0
-					,(cfg.topDockEnabled) ? ui.dockBarTowerButton.value := "./img/button_tower_on.png" : 0
+					,(cfg.topDockEnabled) 
+						? (ui.dockBarTowerButton) 
+							? ui.dockBarTowerButton.opt("background" cfg.themeButtonOnColor)
+							: 0 
+						: 0
+					,(cfg.topDockEnabled) 
+						? (ui.dockBarTowerbutton) 
+							? ui.dockBarTowerButton.value := "./img/button_tower_on.png" 
+							: 0
+						: 0 
 					,restartTower()
 				) : (
 					ui.afkStatus1.value		:= "./Img/label_infinite_tower.png"
@@ -265,8 +273,16 @@ toggleTower(*) {
 					,ui.buttonTower.value		:= "./img/button_tower_on.png"
 					,ui.opsTowerButton.opt("Background" cfg.ThemeButtonOnColor)
 					,ui.buttonTower.Opt("Background" cfg.ThemeButtonOnColor)
-					,(cfg.topDockEnabled) ? ui.dockBarTowerButton.opt("background" cfg.themeButtonOnColor) : 0
-					,(cfg.topDockEnabled) ? ui.dockBarTowerButton.value := "./img/button_tower_on.png" : 0
+					,(cfg.topDockEnabled) 
+						? (ui.dockBarTowerButton)
+							? ui.dockBarTowerButton.opt("background" cfg.themeButtonOnColor) 
+							: 0
+						: 0
+					,(cfg.topDockEnabled) 
+						? (ui.dockBarTowerbutton)
+							? ui.dockBarTowerButton.value := "./img/button_tower_on.png" 
+							: 0
+						: 0
 					,restartTower()
 				)			
 			) : (
@@ -293,7 +309,11 @@ toggleTower(*) {
 			,ui.opsStatus2.value 		:= "./Img/label_timer_off.png"
 			,ui.opsTowerButton.Value	:= "./img/button_tower_ready.png"
 			,ui.buttonTower.Value		:= "./img/button_tower_ready.png"				
-			,(cfg.topDockEnabled) ? ui.dockBarTowerButton.opt("background" cfg.themeButtonReadyColor) : 0
+			,(cfg.topDockEnabled) 
+				? (ui.dockBarTowerButton)
+					? ui.dockBarTowerButton.opt("background" cfg.themeButtonReadyColor) 
+					: 0
+				: 0
 			,(cfg.topDockEnabled) ? ui.dockBarTowerButton.value := "./img/button_tower_ready.png" : 0			
 			,debugLog("AutoTower: Failed to start. No game windows found.")
 			,notifyOSD("AutoTower Failed: No valid game windows found.",3000)
@@ -418,29 +438,52 @@ stopAFK(*) {
 }
 	
 
-
 runAfkRoutine(*) {
+	afkStart("autoFireEnabled")
+}
+
+afkStart(autoFireEnabled := "") {
 	global
 	if !(ui.afkEnabled) 
 		return
 	
 	stepCount :=  (ui.win1steps.length > ui.win2steps.length) ? ui.win1steps.length : ui.win2steps.length
-
-	loop stepCount {
-		if WinExist("ahk_id " ui.win1Hwnd) && (ui.win2steps.length >= A_Index) {	
-			attackWin(1,StrSplit(ui.win1steps[A_Index],',')[3])
-			Sleep(strSplit(ui.win1steps[A_Index],',')[4])
+	
+	static win1stepNum := 0
+	static win2stepNum := 0
+	
+	loop {
+		if ui.win1steps.length < win1stepNum {
+			win1stepNum := 0
 		}
-		if !(ui.afkEnabled) 
-			return
-			
-		if WinExist("ahk_id " ui.win2Hwnd) && (ui.win2steps.length >= A_Index) {
-			attackWin(2,strSplit(ui.win2steps[A_Index],',')[3])
-			sleep(strSplit(ui.win2steps[A_Index],',')[4])
+		
+		if WinExist("ahk_id " ui.win1Hwnd) && (ui.afkEnabled) {	
+			if (autoFireEnabled)
+				attackWin(1,StrSplit(ui.win1steps[win1stepNum],',')[3])
+			else {
+				winActivate("ahk_id " ui.win1hwnd)
+				send("{" strSplit(ui.win1steps[win1stepNum],',')[3] "}")
+			}
+			sleep(strSplit(ui.win1steps[win1stepNum],',')[4])
+		} else {
+			return 
 		}
 			
-		if !(ui.afkEnabled) 
+		if ui.win2steps.length < win2stepNum {
+			win2steps.length := 0
+		}
+		
+		if WinExist("ahk_id " ui.win2Hwnd) && (ui.afkEnabled) {
+			if (autoFireEnabled)
+				attackWin(2,strSplit(ui.win2steps[win2stepNum],',')[3])
+			else {
+				winActivate("ahk_id " ui.win2hwnd)
+				send("{" strSplit(ui.win2steps[win2stepNum],',')[3] "}")
+			}
+			sleep(strSplit(ui.win2steps[win2stepNum],',')[4])
+		} else {
 			return
+		}
 	}	
 }
 

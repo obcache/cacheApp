@@ -187,7 +187,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	hotIf()
 
 	hotIf(d2RemapCrouchEnabled)
-		hotkey(cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
+		hotkey("~*$" cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
 	hotIf()
 
 	hotIf(d2ReadyToReload)
@@ -241,7 +241,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonOnColor)
 		ui.dockBarD2HoldToCrouch.redraw()
 		
-		send("{" cfg.d2gameHoldToCrouchKey " up}"),600
+		send("{" cfg.d2gameHoldToCrouchKey " Up}")
 		; if getKeyState("w") {
 			; sendInput("{Blind}{w down}")
 		; }
@@ -793,6 +793,7 @@ keyBindDialogBoxClose(*)
 		; keyBindDialogBoxClose()
 		cfg.d2AppHoldToCrouchKey := tmpCrouchKey
 		ui.d2AppHoldToCrouchKeyData.text := subStr(strUpper(cfg.d2AppHoldToCrouchKey),1,8)
+		d2CreateLoadoutKeys()
 		d2RedrawUI()
 	}
 
@@ -815,6 +816,7 @@ keyBindDialogBoxClose(*)
 			ui.d2AppLoadoutKeyData.text := subStr(strUpper(cfg.d2AppLoadoutKey),1,8)
 		}
 		keyBindDialogBoxClose()
+		d2CreateLoadoutKeys()
 		d2RedrawUI()
 	}
 
@@ -839,6 +841,7 @@ keyBindDialogBoxClose(*)
 			ui.d2GameToggleSprintKeyData.text := subStr(strUpper(cfg.d2GameToggleSprintKey),1,8)
 		}
 		keyBindDialogBoxClose()
+		d2CreateLoadoutKeys()
 		d2RedrawUI()
 	}
 
@@ -861,6 +864,7 @@ keyBindDialogBoxClose(*)
 			ui.d2AppToggleSprintKeyData.text := subStr(strUpper(cfg.d2AppToggleSprintKey),1,8)
 		}
 		keyBindDialogBoxClose()
+		d2CreateLoadoutKeys()
 		d2RedrawUI()
 	}
 
@@ -905,6 +909,7 @@ keyBindDialogBoxClose(*)
 			ui.d2GameReloadKeyData.text := subStr(strUpper(cfg.d2GameReloadKey),1,8)
 		}
 		DialogBoxClose()
+		d2CreateLoadoutKeys()
 		d2RedrawUI()
 	}
 
