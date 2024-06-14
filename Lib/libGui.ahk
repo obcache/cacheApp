@@ -524,40 +524,124 @@ afkPopoutButtonPushed(*) {
 }
 
 
+exitMenuShow() {
+	if cfg.topDockEnabled {
+		winGetPos(&dbX,&dbY,&dbW,&dbH,ui.dockBarGui)
+		ui.exitMenuGui := gui()
+		ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.dockBarGui.hwnd)
+		ui.exitMenuGui.BackColor := ui.transparentColor
+
+
+		ui.stopGamingButton := ui.exitMenuGui.addPicture("x0 y2 section w35 h35 background" cfg.themeFont2Color,"./img/button_quit.png")
+		ui.startGamingButton := ui.exitMenuGui.addPicture("x+2 ys w35 h35 background" cfg.themeFont2Color,"./img/button_exit_gaming.png")
+		ui.stopGamingButton.toolTip := "Shut down all apps defined in the Gaming Mode AppDock list"
+		ui.startGamingButton.toolTip := "Start apps defined in the Gaming Mode AppDock list"
+		ui.stopGamingButton.onEvent("Click",exitAppCallback)
+		ui.startGamingButton.onEvent("Click",stopGaming)
+		; ui.gamingLabels := ui.exitMenuGui.addText("x0 y40 w80 h52 center background" cfg.themePanel3color " c" cfg.themeButtonOnColor,"Stop Start ")
+		; ui.gamingLabels.setFont("s10 bold")	
+		WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
+		ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y37 w72 h15 center background" cfg.themePanel3color " c" cfg.themeFont3Color," Gaming Mode")
+		ui.gamingModeLabel.setFont("s8")
+		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,52,cfg.themeFont3Color,cfg.themeFont3Color,1)
+		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,1,1,72,50,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
+		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,2,2,72,50,cfg.themeDark1Color,cfg.themeDark2Color,1)
+		ui.exitMenuGui.show("x" dbX+dbW-71 " y" dbY+dbH-37 " w74 h52 noActivate")
+		
+		loop 75 {
+			ui.exitMenuGui.move(dbX+dbW-71+a_index,dbY+dbH-37)
+		}
+	} else {
+		winGetPos(&tbX,&tbY,,,ui.titleBarButtonGui)
+		ui.exitMenuGui := gui()
+		ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.mainGui.hwnd)
+		ui.exitMenuGui.BackColor := ui.transparentColor
+
+		ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y2 w72 h15 center background" cfg.themePanel3color " c" cfg.themeButtonOnColor," Gaming Mode")
+		ui.gamingModeLabel.setFont("s8")
+		ui.gamingLabels := ui.exitMenuGui.addText("x0 y16 w72 h52 center background" cfg.themePanel3color " c" cfg.themeButtonAlertColor," Stop   Start ")
+		ui.gamingLabels.setFont("s10")
+		ui.stopGamingButton := ui.exitMenuGui.addPicture("x0 y32 section w35 h35 background" cfg.themeFont2Color,"./img/button_quit.png")
+		ui.startGamingButton := ui.exitMenuGui.addPicture("x+2 ys w35 h35 background" cfg.themeFont2Color,"./img/button_exit_gaming.png")
+		ui.stopGamingButton.onEvent("Click",exitAppCallback)
+		ui.startGamingButton.onEvent("Click",stopGaming)
+		WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
+		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
+		ui.exitMenuGui.show("x" tbX " y" tbY-70 " AutoSize noActivate")
+		
+		loop 70 {
+			ui.exitMenuGui.move(tbX,tbY-a_index)
+		}
+	}
+}
+
 exitButtonPushed(*) {
 	exitMenuShow()
 	keyWait("LButton")
-	mouseGetPos(,,,&ctrlUnderMouse,2)
-	winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)	
-	switch ctrlUnderMouse
-	{
-		case ui.startGamingButton.hwnd:
-			loop 69 {
-				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-			
-			}
-			ui.exitMenuGui.destroy()
-			startGaming()
-		case ui.stopGamingButton.hwnd:
-			loop 69 {
-				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+	if cfg.topDockEnabled {
+		mouseGetPos(,,,&ctrlUnderMouse,2)
+		winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)
+		switch ctrlUnderMouse {
+			case ui.startGamingButton.hwnd:
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
 				
-			}
-			ui.exitMenuGui.destroy()
-			stopGaming()
-		case ui.exitButton.hwnd:
-			loop 69 {
-				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-			
-			}
-			ui.exitMenuGui.destroy()
-			exitApp()
-		default: 
-			loop 69 {
-				ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-			
-			}
-			ui.exitMenuGui.destroy()
+				}
+				ui.exitMenuGui.destroy()
+				startGaming()
+			case ui.stopGamingButton.hwnd:
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					
+				}
+				ui.exitMenuGui.destroy()
+				stopGaming()
+			case ui.exitButton.hwnd:
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+				
+				}
+				ui.exitMenuGui.destroy()
+				exitApp()
+			default: 
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+				}
+				ui.exitMenuGui.destroy()
+		}
+	} else {
+		mouseGetPos(,,,&ctrlUnderMouse,2)
+		winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)	
+		switch ctrlUnderMouse
+		{
+			case ui.startGamingButton.hwnd:
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+				
+				}
+				ui.exitMenuGui.destroy()
+				startGaming()
+			case ui.stopGamingButton.hwnd:
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					
+				}
+				ui.exitMenuGui.destroy()
+				stopGaming()
+			case ui.exitButton.hwnd:
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+				
+				}
+				ui.exitMenuGui.destroy()
+				exitApp()
+			default: 
+				loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+				
+				}
+				ui.exitMenuGui.destroy()
+		}
 	}
 }
 
@@ -573,6 +657,19 @@ stopGaming(*) {
 	winCloseAll("Gaming Mode")
 	exitApp()
 }
+
+
+startGaming(*) {
+	; msgBox(cfg.gamingStartProc.length)
+	applyWinPos("Gaming Mode")
+	; sqliteQuery(cfg.dbFilename,"SELECT action from listActions where listName='Gaming Start' and type='Application'",&sqlResult)
+	; for row in sqlResult.rows {
+		; osdLog(row[1])
+		; splitPath(row[1],&processName,&processDir)
+		; run(row[1],processDir)
+	; }
+}
+
 quickOSD()
 quickOSD(*) {
 	ui.quickOSD := gui()
@@ -593,40 +690,6 @@ osdLog(msg) {
 	ui.msgLog.text := msg "`n" ui.msgLog.text
 }
 
-startGaming(*) {
-	; msgBox(cfg.gamingStartProc.length)
-	applyWinPos("Gaming Mode")
-	; sqliteQuery(cfg.dbFilename,"SELECT action from listActions where listName='Gaming Start' and type='Application'",&sqlResult)
-	; for row in sqlResult.rows {
-		; osdLog(row[1])
-		; splitPath(row[1],&processName,&processDir)
-		; run(row[1],processDir)
-	; }
-}
-exitMenuShow() {
-	
-	winGetPos(&tbX,&tbY,,,ui.titleBarButtonGui)
-	ui.exitMenuGui := gui()
-	ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.mainGui.hwnd)
-	ui.exitMenuGui.BackColor := ui.transparentColor
-
-	ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y2 w72 h15 center background" cfg.themePanel3color " c" cfg.themeButtonOnColor," Gaming Mode")
-	ui.gamingModeLabel.setFont("s8")
-	ui.gamingLabels := ui.exitMenuGui.addText("x0 y16 w72 h52 center background" cfg.themePanel3color " c" cfg.themeButtonAlertColor," Stop   Start ")
-	ui.gamingLabels.setFont("s10")
-	ui.stopGamingButton := ui.exitMenuGui.addPicture("x0 y32 section w35 h35 background" cfg.themeFont2Color,"./img/button_quit.png")
-	ui.startGamingButton := ui.exitMenuGui.addPicture("x+2 ys w35 h35 background" cfg.themeFont2Color,"./img/button_exit_gaming.png")
-	ui.stopGamingButton.onEvent("Click",exitAppCallback)
-	ui.startGamingButton.onEvent("Click",stopGaming)
-	WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
-	drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
-	ui.exitMenuGui.show("x" tbX " y" tbY-70 " AutoSize noActivate")
-	
-	loop 70 {
-		ui.exitMenuGui.move(tbX,tbY-a_index)
-	}
-
-}
 exitAppCallback(*) {
 	ExitApp
 }
@@ -1037,7 +1100,7 @@ createDockBar() {
 	ui.dockBarWidth -= 0
 	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+0 ys+0 w30 h31 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
 	ui.dockBarWidth += 32
-	ui.dockBarExitButton.onEvent("click",topDockPowerButtonPushed)
+	ui.dockBarExitButton.onEvent("click",ExitButtonPushed)
 	ui.dockBarExitButton.toolTip := "Exit CacheApp"
 	
 	topDockMove(*) {

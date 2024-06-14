@@ -287,6 +287,9 @@ GuiDockTab(&ui) {
 			processPath := a_scriptdir "\redist\discord.exe"
 			splitPath(processPath,&processName,&processDir)
 		}
+		if inStr(processName,"obs64.exe") {
+				processPath .= " --disable-shutdown-check --disable-missing-files-check -m"
+		}
 		osdLog(processPath)
 		processRunning := false
 		rerun_timeout := 0
@@ -296,9 +299,7 @@ GuiDockTab(&ui) {
 			if !processExist(processName) {
 				run(processPath,processDir)
 				osdLog("launching " processName ": attempt " a_index)
-			} 
-				
-				
+			} 	
 			while processRunning == false && winWait_timeout < 5 {
 				winWait_timeout += 1
 				if processExist(processName) {
