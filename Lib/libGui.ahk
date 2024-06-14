@@ -524,8 +524,8 @@ afkPopoutButtonPushed(*) {
 }
 
 
-exitMenuShow() {
-	if cfg.topDockEnabled {
+exitMenuShow(this_button) {
+	if this_button == ui.dockBarExitButton {
 		winGetPos(&dbX,&dbY,&dbW,&dbH,ui.dockBarGui)
 		ui.exitMenuGui := gui()
 		ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.dockBarGui.hwnd)
@@ -567,6 +567,7 @@ exitMenuShow() {
 		ui.startGamingButton.onEvent("Click",stopGaming)
 		WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
 		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
+		;msgBox(tbx "`n" tby)
 		ui.exitMenuGui.show("x" tbX " y" tbY-70 " AutoSize noActivate")
 		
 		loop 70 {
@@ -575,10 +576,10 @@ exitMenuShow() {
 	}
 }
 
-exitButtonPushed(*) {
-	exitMenuShow()
+exitButtonPushed(this_button,*) {
+	exitMenuShow(this_button)
 	keyWait("LButton")
-	if cfg.topDockEnabled {
+	if this_button == ui.dockBarExitButton {
 		mouseGetPos(,,,&ctrlUnderMouse,2)
 		winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)
 		switch ctrlUnderMouse {
@@ -1378,7 +1379,12 @@ topDockOff(*) {
 	guiVis(ui.afkGui,false)
 	guiVis(ui.gameSettingsGui,false)
 	guiVis(ui.gameTabGui,false)
-	fadeIn()
+	if (cfg.animationsEnabled) {
+		fadeIn()
+	}
+	guiVis(ui.titleBarButtonGui,true)
+	guiVis(ui.mainGui,true)
+	tabsChanged()
 	; winSetTransparent(0,ui.mainGui)
 	; if (cfg.AnimationsEnabled) {
 		; while transparent < 245 {

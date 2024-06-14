@@ -495,7 +495,7 @@ cfgLoad(&cfg, &ui) {
 	ui.guiH					:= 220  	;430 for Console Mode
 
 
-		
+	ui.exitMenuGui := gui()
 	ui.gameWindowsList 		:= array()
 	cfg.gameWindowsList 	:= array()
 	ui.d2AlwaysSprintPaused 	:= false

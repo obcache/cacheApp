@@ -101,9 +101,21 @@ wm_mouseMove(wParam, lParam, msg, hwnd) {
     if (hwnd != prevHwnd) {
 		toolTip()
 		this_control := guiCtrlFromHwnd(hwnd)
+		; try {
+			; if WinExist(ui.exitMenuGui) {
+			; msgbox('here')
+				; if (this_control == ui.startGamingButton || this_control == ui.stopGamingButton) {
+					; this_control.opt("background" cfg.themeButtonOnColor)
+				; }
+				; if (guiCtrlFromHwnd(prevHwnd) == ui.startGamingButton || guiCtrlFromHwnd(prevHwnd) == ui.stopGamingButton) {
+					; guiCtrlFromHwnd(prevHwnd).opt("background" cfg.themeButtonReadyColor)
+				; }
+			; }
+		; }
 		if (this_control.hasProp("ToolTip") && cfg.toolTipsEnabled) || this_control.hasProp("ToolTipData") {
 			setTimer () => toolTipDelayStart(this_control), -850
 		}
+		
 		prevHwnd := Hwnd
 	}
 }
