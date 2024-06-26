@@ -107,10 +107,14 @@ initGui(&cfg, &ui) {
 		ui.MainGui.Opt("+AlwaysOnTop")
 		ui.titleBarButtonGui.Opt("+AlwaysOnTop")
 		ui.AfkGui.Opt("+AlwaysOnTop")
+		try
+			ui.dockBarGui.opt("+alwaysOnTop")
 	} else {
 		ui.MainGui.Opt("-AlwaysOnTop")
 		ui.titleBarButtonGui.Opt("-AlwaysOnTop")
 		ui.AfkGui.Opt("-AlwaysOnTop")	
+		try
+			ui.dockBarGui.opt("+alwaysOnTop")
 	}
 	
 	debugLog("Interface Initialized")
@@ -277,7 +281,7 @@ fadeIn() {
 						winSetTransparent(round(transparency),ui.titleBarButtonGui)
 						sleep(1)
 					}
-					guiVis(ui.afkGui,true)
+				
 				case "Game":
 					while transparency < 223 {
 						transparency += 4
@@ -654,7 +658,7 @@ stopGaming(*) {
 		; processIndex := a_index
 	; }
 	; try
-		; winWaitClose("ahk_exe " cfg.gamingStopProc[processIndex],,5)
+	; winWaitClose("ahk_exe " cfg.gamingStopProc[processIndex],,5)
 	winCloseAll("Gaming Mode")
 	exitApp()
 }
@@ -1040,7 +1044,7 @@ createDockBar() {
 	try
 		ui.dockBarGui.destroy()
 	ui.dockBarGui := gui()
-	ui.dockBarGui.opt("alwaysOnTop +toolWindow -caption +owner" ui.mainGui.hwnd)
+	ui.dockBarGui.opt("alwaysOnTop +toolWindow -caption")
 	ui.dockBarGui.backColor := cfg.themeBackgroundColor
 	ui.dockBarGui.color := cfg.themeBackgroundColor
 	guiVis(ui.dockBarGui,false)
@@ -1225,8 +1229,12 @@ showDockBar() {
 	monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
 	dockbarPosx := ((dockbarMonitorL + dockbarMonitorR)/2)-(ui.dockbarWidth/2)
 	dockbarPosY := dockbarMonitorT
+	if cfg.alwaysOnTopEnabled {
+		ui.dockBarGui.opt("+alwaysOnTop")
+	} else {
+		ui.dockBarGui.opt("-alwaysOnTop")
+	}
 	ui.dockBarGui.show("x" dockbarPosx " y" dockbarPosY " w" ui.dockBarWidth " h34 noActivate")
-	
 	drawOutlineNamed("dockBarOutline2",ui.dockBarGui,1,0,ui.dockBarWidth,34,cfg.themeDark1Color,cfg.themeBright2Color,2)
 	drawOutlineNamed("dockBarOutline",ui.dockBarGui,0,0,ui.dockBarWidth,35,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,2)
 }

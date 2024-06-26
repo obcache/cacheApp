@@ -40,7 +40,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.MainGui.SetFont("s10 c" cfg.themeFont1Color)
 	drawOutlineMainGui(36,30,494,183,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,1)
 
-	ui.MainGui.SetFont("s13")
+	ui.MainGui.SetFont("s10")
 	
 	
 
@@ -57,7 +57,7 @@ GuiSetupTab(&ui,&cfg) {
 	ui.labelAfkSnap:= ui.MainGui.AddText("x+2 ys+3 hidden background" cfg.themePanel3Color,"AFK Snapping")
 
 
-	ui.toggleToolTips := ui.MainGui.AddPicture("xs w50 h22 section vToolTips " ((cfg.ToolTipsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ToolTipsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.toggleToolTips := ui.MainGui.AddPicture("xs y+3 w50 h22 section vToolTips " ((cfg.ToolTipsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ToolTipsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleToolTips.OnEvent("Click", toggleChanged)
 	ui.toggleToolTips.ToolTip := "Toggles ToolTips"
 	ui.labelToolTips := ui.MainGui.AddText("x+5 ys+2 BackgroundTrans","  ToolTips")
@@ -67,6 +67,13 @@ GuiSetupTab(&ui,&cfg) {
 	{
 		ui.toggleAlwaysOnTop.Opt((cfg.AlwaysOnTopEnabled := !cfg.AlwaysOnTopEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
 		ui.toggleAlwaysOnTop.Redraw()
+	}
+	
+	if cfg.AlwaysOnTopEnabled {
+		if cfg.topDockEnabled
+			try
+				ui.dockBarGui.opt("alwaysOnTop")
+		ui.mainGui.opt("alwaysOnTop")
 	}
 	ui.toggleAlwaysOnTop := ui.MainGui.AddPicture("xs y+2 w50 h22 section vAlwaysOnTop " (cfg.AlwaysOnTopEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AlwaysOnTopEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAlwaysOnTop.OnEvent("Click", ToggleAlwaysOnTopChanged)
@@ -165,6 +172,16 @@ GuiSetupTab(&ui,&cfg) {
 	ui.labelConfirmExit:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Confirm Exit")
 
 
+	TogglePushNotifications(*)
+	{
+		ui.togglePushNotifications.Opt((cfg.PushNotificationsEnabled := !cfg.PushNotificationsEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
+		ui.togglePushNotifications.Redraw()
+	}
+	ui.togglePushNotifications := ui.MainGui.AddPicture("xs y+2 w50 h22 section vPushNotifications " (cfg.PushNotificationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.PushNotificationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
+	ui.togglePushNotifications.OnEvent("Click", toggleChanged)
+	ui.togglePushNotifications.ToolTip := "Keeps this app on top of all other windows."
+	ui.labelPushNotifications:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  PushNotifications")
+
 	ToggleDebug(*)
 	{
 		ui.toggleDebug.Opt((cfg.DebugEnabled := !cfg.DebugEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
@@ -175,9 +192,9 @@ GuiSetupTab(&ui,&cfg) {
 	ui.toggleDebug.ToolTip := "Keeps this app on top of all other windows."
 	ui.labelDebug:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Debug")
 
-	drawOutlineNamed("toggleBlock",ui.mainGui,49,39,52,160,cfg.themePanel2Color,cfg.themePanel2Color,1)
-	drawOutlineNamed("toggleBlock",ui.mainGui,48,38,51,159,cfg.themeDark1Color,cfg.themeDark1Color,1)
-	drawOutlineNamed("toggleBlock",ui.mainGui,48,39,52,161,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,1)
+	drawOutlineNamed("toggleBlock",ui.mainGui,49,39,52,162,cfg.themePanel2Color,cfg.themePanel2Color,1)
+	drawOutlineNamed("toggleBlock",ui.mainGui,48,38,51,161,cfg.themeDark1Color,cfg.themeDark1Color,1)
+	drawOutlineNamed("toggleBlock",ui.mainGui,48,39,52,163,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,1)
 	ui.mainGui.addText("x270 y42 w197 h62 background" cfg.themePanel3Color)
 	ui.mainGui.addText("x271 y43 w195 h60 background" cfg.themeBorderDarkColor)
 	ui.mainGui.addText("x272 y44 w193 h58 background" cfg.themeBorderLightColor)
@@ -191,13 +208,13 @@ GuiSetupTab(&ui,&cfg) {
 	ui.latestVersionText := ui.mainGui.addText("xs y+-4 w140 backgroundTrans c" cfg.themeFont3Color,"Available:`t#.#.#.#")
 	ui.monitorResList := ["1920x1080","1920x1200","2560x1440","3440x1440","Custom"]
 
-	ui.monitorResDDL := ui.mainGui.AddDDL("xs-43 y+-9 w110 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,ui.monitorResList)
+	ui.monitorResDDL := ui.mainGui.AddDDL("xs-42 y+15 w110 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,ui.monitorResList)
 	ui.monitorResDDL.onEvent("change",monitorResChanged)
-	ui.monitorResLabel := ui.mainGui.AddText("x+3 y+-27 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
+	ui.monitorResLabel := ui.mainGui.AddText("x+3 y+-23 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
 	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")
-	ui.monitorResLabel.setFont("s8")
-	ui.monitorResLabel2.setFont("s8")
-	ui.monitorAuto := ui.mainGui.addCheckbox("x+-20 y+-20 w15 h15",cfg.displaySizeAuto)
+	ui.monitorResLabel.setFont("s7")
+	ui.monitorResLabel2.setFont("s7")
+	ui.monitorAuto := ui.mainGui.addCheckbox("x+-8 y+-18 w15 h15",cfg.displaySizeAuto)
 	ui.monitorAuto.onEvent("Click",toggleAutoDisplaySize)
 	ui.monitorAutoLabel := ui.mainGui.addText("x+-21 y+-28 w25 h12 c" cfg.themeFont1Color " backgroundTrans","Auto")
 	ui.monitorAutoLabel.setFont("s8")

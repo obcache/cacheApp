@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.5.1"
+A_FileVersion := "1.2.5.2"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -56,6 +56,7 @@ ui.hwndAfkGui 	:= ""
 ui.AfkHeight 	:= 170
 ui.latestVersion := ""
 ui.installedVersion := ""
+ui.incursionDebug := false
 
 MonitorGet(MonitorGetprimary(),
 	&primaryMonitorLeft,
@@ -130,4 +131,7 @@ autoUpdate()
 if cfg.topDockEnabled
 	ui.topDockPrevTab := ui.mainGuiTabs.text
 
+
+if ui.incursionDebug
+	incursionNotice()
 ;OnMessage(0x0201, wm_lButtonDown)
