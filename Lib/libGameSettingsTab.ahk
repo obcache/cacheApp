@@ -280,14 +280,17 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 	d2HoldToCrouch(*) {
 		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonOnColor)
-		ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonAlertColor)
-		ui.dockBarD2HoldToCrouch.redraw()
+		if (cfg.topDockEnabled) {
+			ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonAlertColor)
+			ui.dockBarD2HoldToCrouch.redraw()
+		}
 		send("{" cfg.d2gameHoldToCrouchKey " down}")
 		keywait(cfg.d2appHoldToCrouchKey)
 		ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
-		ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonOnColor)
-		ui.dockBarD2HoldToCrouch.redraw()
-		
+		if (cfg.topDockEnabled) {
+			ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonOnColor)
+			ui.dockBarD2HoldToCrouch.redraw()
+		}
 		send("{" cfg.d2gameHoldToCrouchKey " Up}")
 		; if getKeyState("w") {
 			; sendInput("{Blind}{w down}")
