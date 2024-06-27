@@ -298,6 +298,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img/icon_steeringwheel.png",installDir "/img/icon_steeringwheel.png",1)
 			fileInstall("./img2/button_loadouts_ready.png",installDir "/img2/button_loadouts_ready.png",1)
 			fileInstall("./img2/button_keyBindTarget.png",installDir "/img2/button_keybindTarget.png",1)
+			fileInstall("./img2/checkbox_true.png",installDir "/img2/checkbox_true.png",1)
+			fileInstall("./img2/checkbox_false.png",installDir "/img2/checkbox_false.png",1)
 			fileInstall("./img2/d2_button_dim.png",installDir "/img2/d2_button_dim.png",1)
 			fileInstall("./img2/d2_button_dim_down.png",installDir "/img2/d2_button_dim_down.png",1)
 			fileInstall("./img2/d2_button_bbgg.png",installDir "/img2/d2_button_bbgg.png",1)
