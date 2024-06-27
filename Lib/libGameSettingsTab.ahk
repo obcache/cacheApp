@@ -160,65 +160,66 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 			whr := ComObject("WinHttp.WinHttpRequest.5.1")
 			whr.Open("GET","http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)
 			whr.Send()
-			whr.WaitForResponse()
-			ui.latestIncursion := whr.ResponseText
-			cfg.lastIncursion := iniRead(cfg.file,"Game","LastIncursion")
+			try {
+				whr.WaitForResponse()
+				ui.latestIncursion := whr.ResponseText
+				cfg.lastIncursion := iniRead(cfg.file,"Game","LastIncursion")
 			
-			if ((ui.latestIncursion != cfg.lastIncursion) && cfg.pushNotificationsEnabled) || (ui.incursionDebug == true) {
-				try {
-					ui.incursionGui.destroy()
-				}
-				ui.incursionGui := gui()
-				ui.incursionGui.opt("-caption -border toolWindow alwaysOnTop owner" ui.mainGui.hwnd)
-				ui.incursionGui.backColor := "010203"
-				
-				ui.incursionGui.addText("x3 y3 w343 h65 background" cfg.themePanel3Color)
-				drawOutlineNamed("notice",ui.incursionGui,1,1,347,68,cfg.themeBright2Color,cfg.themeBright2Color,1)
-				drawPanelLabel(ui.incursionGui,28,-5,100,17,"Destiny2 Event",cfg.themeFont3Color,cfg.themeBright2Color,cfg.themePanel3Color)
-				ui.incursionNoticeBorder 	:= ui.incursionGui.addText("x132 y7 w190 h26 background" cfg.themeBorderDarkColor)
-				ui.incursionNoticeBorder2 	:= ui.incursionGui.addText("x133 y8 w190 h24 background" cfg.themeDark1Color)
-				ui.incursionNotice := ui.incursionGui.addText("x9 y38 w339 h70 backgroundTrans c" cfg.themeFont3Color,"Vex Incursion Coming!")
-				ui.incursionGui.setFont("s10 c" cfg.themePanel3Color,"Cascadia Code")
-				ui.incursionTime := ui.incursionGui.addText("x144 y12 w180 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy @ hh:mm:ss"))
-				ui.incursionClose := ui.incursionGui.addPicture("x329 y0 w22 h22 background" cfg.themeButtonAlertColor,"./img/button_quit.png")
-				ui.incursionOptOut := ui.incursionGui.addPicture("x9 y19 w13 h13 section backgroundTrans c" cfg.themeFont3Color,)
-				if cfg.pushNotificationsEnabled	== true {
-					ui.incursionOptOut.value := "./img2/checkbox_false.png"
-				} else {
-					ui.incursionOptOut.value := "./img2/checkbox_true.png"
-				}
-				ui.incursionOptOutLabel := ui.incursionGui.addText("x+3 ys+0 w359 backgroundTrans c" cfg.themeFont3Color," Dont Show Again")
-				ui.incursionOptOutLabel.setFont("s8","Arial")
-				ui.incursionClose.onEvent("click", closeIncursionNotice)
-				ui.incursionOptOut.onEvent("click",toggleIncursionNotice)
+				if ((ui.latestIncursion != cfg.lastIncursion) && cfg.pushNotificationsEnabled) || (ui.incursionDebug == true) {
+					try {
+						ui.incursionGui.destroy()
+					}
+					ui.incursionGui := gui()
+					ui.incursionGui.opt("-caption -border toolWindow alwaysOnTop owner" ui.mainGui.hwnd)
+					ui.incursionGui.backColor := "010203"
+					
+					ui.incursionGui.addText("x3 y3 w343 h65 background" cfg.themePanel3Color)
+					drawOutlineNamed("notice",ui.incursionGui,1,1,347,68,cfg.themeBright2Color,cfg.themeBright2Color,1)
+					drawPanelLabel(ui.incursionGui,28,-5,100,17,"Destiny2 Event",cfg.themeFont3Color,cfg.themeBright2Color,cfg.themePanel3Color)
+					ui.incursionNoticeBorder 	:= ui.incursionGui.addText("x132 y7 w190 h26 background" cfg.themeBorderDarkColor)
+					ui.incursionNoticeBorder2 	:= ui.incursionGui.addText("x133 y8 w190 h24 background" cfg.themeDark1Color)
+					ui.incursionNotice := ui.incursionGui.addText("x9 y38 w339 h70 backgroundTrans c" cfg.themeFont3Color,"Vex Incursion Coming!")
+					ui.incursionGui.setFont("s10 c" cfg.themePanel3Color,"Cascadia Code")
+					ui.incursionTime := ui.incursionGui.addText("x144 y12 w180 h50 backgroundTrans",formatTime("T12","MM-dd-yyyy @ hh:mm:ss"))
+					ui.incursionClose := ui.incursionGui.addPicture("x329 y0 w22 h22 background" cfg.themeButtonAlertColor,"./img/button_quit.png")
+					ui.incursionOptOut := ui.incursionGui.addPicture("x9 y19 w13 h13 section backgroundTrans c" cfg.themeFont3Color,)
+					if cfg.pushNotificationsEnabled	== true {
+						ui.incursionOptOut.value := "./img2/checkbox_false.png"
+					} else {
+						ui.incursionOptOut.value := "./img2/checkbox_true.png"
+					}
+					ui.incursionOptOutLabel := ui.incursionGui.addText("x+3 ys+0 w359 backgroundTrans c" cfg.themeFont3Color," Dont Show Again")
+					ui.incursionOptOutLabel.setFont("s8","Arial")
+					ui.incursionClose.onEvent("click", closeIncursionNotice)
+					ui.incursionOptOut.onEvent("click",toggleIncursionNotice)
 				
 
-				ui.incursionNotice.setFont("s20 c" cfg.themeFont3Color,"Courier")
-				if cfg.topDockEnabled {
-					cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
-					monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
-					incursionGuix := ((dockbarMonitorL + dockbarMonitorR)/2)-175
-					dockbarPosY := dockbarMonitorT
-					if cfg.animationsEnabled {
-						ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+35 " w350 h0 noActivate")
-						posH := 0
-						while posH < 70 {
-							posH += 10
-							ui.incursionGui.move(incursionGuix,dockbarPosY+35,,posH)
-							sleep(1)
-						}
-					} 
-					ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+35 " w350 h70 noActivate")
-				} else {
-					transLevel := 0
-					if cfg.animationsEnabled
-						guiVis(ui.incursionGui,false)
-						ui.incursionGui.show("y150 w350 h70 noActivate")
-						while transLevel < 255 {
-							transLevel += 1 
-							winSetTransparent(transLevel,ui.incursionGui)
-							sleep(1)
-						}
+					ui.incursionNotice.setFont("s20 c" cfg.themeFont3Color,"Courier")
+					if cfg.topDockEnabled {
+						cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
+						monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
+						incursionGuix := ((dockbarMonitorL + dockbarMonitorR)/2)-175
+						dockbarPosY := dockbarMonitorT
+						if cfg.animationsEnabled {
+							ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+35 " w350 h0 noActivate")
+							posH := 0
+							while posH < 70 {
+								posH += 10
+								ui.incursionGui.move(incursionGuix,dockbarPosY+35,,posH)
+								sleep(1)
+							}
+						} 
+						ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+35 " w350 h70 noActivate")
+					} else {
+						transLevel := 0
+						if cfg.animationsEnabled
+							guiVis(ui.incursionGui,false)
+							ui.incursionGui.show("y150 w350 h70 noActivate")
+							while transLevel < 255 {
+								transLevel += 1 
+								winSetTransparent(transLevel,ui.incursionGui)
+								sleep(1)
+							}
 				}
 			winSetTransColor("010203",ui.incursionGui)
 			drawOutlineNamed("incursionClose",ui.incursionGui,329,0,20,21,cfg.themeBorderDarkColor,cfg.themeBorderDarkColor,1)
@@ -226,6 +227,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 		cfg.lastIncursion := ui.latestIncursion
 		iniWrite(cfg.lastIncursion,cfg.file,"Game","LastIncursion")
 		}
+	}
 	
 	ui.d2IsReloading := false
 	ui.d2IsSprinting := false
