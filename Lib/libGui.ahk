@@ -630,7 +630,7 @@ exitButtonPushed(this_button,*) {
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
 					
-				}
+					}
 				ui.exitMenuGui.destroy()
 				stopGaming()
 			case ui.exitButton.hwnd:
@@ -1226,6 +1226,8 @@ dockBarIcons(game,operation := "") {
 
 showDockBar() {
 	cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
+	if cfg.dockBarMonitor > monitorGetCount() 
+		cfg.dockBarMonitor := 1
 	monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
 	dockbarPosx := ((dockbarMonitorL + dockbarMonitorR)/2)-(ui.dockbarWidth/2)
 	dockbarPosY := dockbarMonitorT

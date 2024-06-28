@@ -628,6 +628,8 @@ cfgLoad(&cfg, &ui) {
 	cfg.AutoClickerSpeed 		:= IniRead(cfg.file,"AFK","AutoClickerSpeed",50)
 	cfg.CelestialTowerEnabled	:= IniRead(cfg.file,"AFK","CelestialTowerEnabled",false)
 	cfg.AppDockMonitor 			:= IniRead(cfg.file,"AppDock","AppDockMonitor","1")	
+	if cfg.appDockMonitor > monitorGetCount()
+		cfg.appDockMonitor := 1
 	cfg.app1filename			:= IniRead(cfg.file,"AppDock","app1filename","")
 	cfg.app1path				:= IniRead(cfg.file,"AppDock","app1path","")
 	cfg.app2filename			:= IniRead(cfg.file,"AppDock","app2filename","")
