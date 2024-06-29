@@ -590,7 +590,6 @@ exitButtonPushed(this_button,*) {
 			case ui.startGamingButton.hwnd:
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				
 				}
 				ui.exitMenuGui.destroy()
 				startGaming()
@@ -601,10 +600,16 @@ exitButtonPushed(this_button,*) {
 				}
 				ui.exitMenuGui.destroy()
 				stopGaming()
+			case ui.dockBarExitButton.hwnd:
+			loop 69 {
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+				}
+				ui.exitMenuGui.destroy()
+				exitApp()
+				
 			case ui.exitButton.hwnd:
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				
 				}
 				ui.exitMenuGui.destroy()
 				exitApp()
