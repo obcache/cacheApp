@@ -326,7 +326,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
 			fileInstall("./redist/soundVolumeView.exe",installDir "/redist/soundVolumeView.exe",1)
 			fileInstall("./redist/sqlite3.dll",installDir "/redist/sqlite3.dll",1)
-			
+			fileInstall("./redist/incursionAudio.mp3",installDir "/redist/incursionAudio.mp3",1)
 			
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			installLog("Copied Assets to: " InstallDir)
@@ -496,7 +496,7 @@ cfgLoad(&cfg, &ui) {
 	data.queryResult		:= array()
 	ui.guiH					:= 220  	;430 for Console Mode
 
-
+	ui.incursionNoticeHwnd	:= ""
 	ui.exitMenuGui := gui()
 	ui.gameWindowsList 		:= array()
 	cfg.gameWindowsList 	:= array()
@@ -679,13 +679,15 @@ cfgLoad(&cfg, &ui) {
 	cfg.holdToCrouchEnabled 	:= IniRead(cfg.file,"game","HoldToCrouch",true)
 	cfg.cs2HoldToScopeEnabled	:= IniRead(cfg.file,"game","cs2HoldToScopeEnabled",true)
 	cfg.d2AlwaysRunEnabled		:= iniRead(cfg.file,"Game","d2AlwaysRunEnabled",false)
-	cfg.d2AppToggleSprintKey	:= IniRead(cfg.file,"Game","d2AppToggleSprintKey","<UNSET>")
-	cfg.d2GameReloadKey			:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
-	cfg.d2AppHoldToCrouchKey		:= IniRead(cfg.file,"Game","d2AppHoldToCrouchKey","<UNSET>")
-	cfg.d2GameHoldToCrouchKey		:= iniRead(cfg.file,"Game","d2GameHoldToCrouchKey","LControl")
+	cfg.d2AppSwordFlyKey		:= iniRead(cfg.file,"Game","d2AppSwordFlyKey","<UNSET>")
 	cfg.d2AppLoadoutKey			:= IniRead(cfg.file,"Game","d2AppLoadoutKey","<UNSET>")
 	cfg.d2AppLoadoutMultiplier	:= iniRead(cfg.file,"Game","d2AppLoadoutMultiplier",1)
+	cfg.d2AppToggleSprintKey	:= IniRead(cfg.file,"Game","d2AppToggleSprintKey","<UNSET>")
+	cfg.d2AppReloadKey			:= IniRead(cfg.file,"Game","d2AppReloadKey","<UNSET>")
+	cfg.d2AppHoldToCrouchKey		:= IniRead(cfg.file,"Game","d2AppHoldToCrouchKey","<UNSET>")
+	cfg.d2GameHoldToCrouchKey		:= iniRead(cfg.file,"Game","d2GameHoldToCrouchKey","LControl")
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
+	cfg.d2GameReloadKey			:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
 }
 
@@ -775,13 +777,15 @@ WriteConfig() {
 		iniWrite(cfg.topDockEnabled,cfg.file,"Interface","TopDockEnabled")
 		
 		iniWrite(cfg.SLBHopKey,cfg.file,"Game","ShatterLineBunnyHopKey")
-		IniWrite(cfg.d2GameToggleSprintKey,cfg.file,"Game","d2GameToggleSprintKey")
 		IniWrite(cfg.d2AppHoldToCrouchKey,cfg.file,"Game","d2AppHoldToCrouchKey")
 		IniWrite(cfg.d2AppLoadoutKey,cfg.file,"Game","d2AppLoadoutKey")
+		iniWrite(cfg.d2AppSwordFlyKey,cfg.file,"Game","d2AppSwordFlyKey")
 		iniWrite(cfg.d2AppLoadoutMultiplier,cfg.file,"Game","d2AppLoadoutMultiplier")
 		IniWrite(cfg.d2AppToggleSprintKey,cfg.file,"Game","d2AppToggleSprintKey")
-		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
+		IniWrite(cfg.d2AppReloadKey,cfg.file,"Game","d2AppReloadKey")
 		IniWrite(cfg.d2AppHoldToCrouchKey,cfg.file,"Game","d2AppHoldToCrouchKey")
+		IniWrite(cfg.d2GameToggleSprintKey,cfg.file,"Game","d2GameToggleSprintKey")
+		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
 
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {

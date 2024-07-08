@@ -100,6 +100,13 @@ wm_mouseMove(wParam, lParam, msg, hwnd) {
 	static prevHwnd := 0
     if (hwnd != prevHwnd) {
 		toolTip()
+		if ui.incursionNoticeHwnd && winExist(ui.incursionNoticeHwnd)
+			if (hwnd == ui.incursionGui.hwnd) {
+				setTimer(d2FlashIncursionNoticeA,0)
+				setTimer(d2FlashIncursionNoticeB,0)
+				ui.incursionGuiBg.opt("background" cfg.themeFont3Color)
+				ui.incursionGuiBg.redraw()
+			}
 		this_control := guiCtrlFromHwnd(hwnd)
 		; try {
 			; if WinExist(ui.exitMenuGui) {
@@ -115,11 +122,10 @@ wm_mouseMove(wParam, lParam, msg, hwnd) {
 		if (this_control.hasProp("ToolTip") && cfg.toolTipsEnabled) || this_control.hasProp("ToolTipData") {
 			setTimer () => toolTipDelayStart(this_control), -850
 		}
-		
+		 
 		prevHwnd := Hwnd
 	}
 }
-
 
 toolTipDelayStart(origGuiCtrl) {
 	mouseGetPos(,,&currCtrlWin,&currCtrlClass)

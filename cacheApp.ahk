@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.5.8"
+A_FileVersion := "1.2.6.0"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -44,6 +44,7 @@ themeFileName	:= "cacheApp.themes"
 
 preAutoExec(InstallDir,ConfigFileName)
 initTrayMenu()
+	d2ActivePanel := 1
 
 ; ui.AfkGui 		:= Gui()
 dockApp 		:= Object()
@@ -119,7 +120,6 @@ monitorResChanged()
 ; initGuiState()
 fadeIn()
 
-
 try {
 	whr := ComObject("WinHttp.WinHttpRequest.5.1")
 	whr.Open("GET", "http://sorryneedboost.com/cacheApp/recentIncursion.dat", true)
@@ -130,6 +130,8 @@ try {
 autoUpdate()
 if cfg.topDockEnabled
 	ui.topDockPrevTab := ui.mainGuiTabs.text
+
+
 
 
 if ui.incursionDebug

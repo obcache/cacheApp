@@ -52,7 +52,7 @@ initGui(&cfg, &ui) {
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
 
 	afk 						:= Object()
-
+	
 	GuiAFKTab(&ui,&afk)
 	GuiOperationsTab(&ui,&cfg,&afk)	
 
@@ -1418,3 +1418,5 @@ topDockOff(*) {
 		ui.opsDockButton.opt("background" cfg.themeButtonReadyColor)
 	}
 }
+d2KeybindGameTabClicked()
+d2KeybindAppTabClicked()
