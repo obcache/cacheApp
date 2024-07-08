@@ -682,21 +682,30 @@ startGaming(*) {
 
 quickOSD()
 quickOSD(*) {
+	ui.quickOsdBg := gui()
+	ui.quickOsdBg.opt("-caption -border toolWindow alwaysOnTop")
+	ui.quickOsdBg.backColor := "010203"
+
+
 	ui.quickOSD := gui()
 	ui.quickOSD.opt("-caption -border toolWindow alwaysOnTop")
 	ui.quickOSD.backColor := "010203"
+	ui.msgLog := ui.quickOSD.AddText("x10 y15 w600 h800 backgroundTrans cLime","")
+	ui.msgLog.setFont("s12")
+	winSetTransparent(155,ui.quickOsdBg.hwnd)
 	winSetTransColor("010203",ui.quickOSD.hwnd)
-	ui.msgLog := ui.quickOSD.AddText("x0 y0 w800 h600 backgroundTrans cLime","")
-	ui.msgLog.setFont("s18")
-	ui.quickOSD.show("x5 y200 w810 h610 noActivate")
 }
 
 
 osdLog(msg) {
-	if cfg.debugEnabled
-		ui.quickOSD.show("x5 y200 w810 h610 noActivate")
-	else
+	if cfg.debugEnabled {
+		ui.quickOsdBg.show("x5 y200 w610 h810 noActivate")
+		ui.quickOSD.show("x5 y200 w610 h810 noActivate")
+		setTimer () => (ui.quickOsdBg.hide(),ui.quickOSD.hide()),-5000
+	} else {
+		ui.quickOsdBg.hide()
 		ui.quickOSD.hide()
+	}
 	ui.msgLog.text := msg "`n" ui.msgLog.text
 }
 

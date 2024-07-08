@@ -308,13 +308,17 @@ d2FlashIncursionNoticeB(*) {
 	hotIf()
 
 	hotIf(d2ReadyToReload)
-		hotKey("~*r",d2reload)
+		hotKey("~*" cfg.d2AppReloadKey,d2reload)
 	hotIf()
 	
 	hotIf(d2ReadyToSprint)
 		hotKey("~*w",d2StartSprinting)
 	hotIf()
 
+	hotIf(d2ReadyToSwordFly)
+		hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
+	hotIf()
+	
 	togglePrismatic(*) {
 		send("{F1}")
 		sleep(550)
@@ -335,13 +339,32 @@ d2FlashIncursionNoticeB(*) {
 			: 0)
 	}	
 	
+	d2SwordFly(*) {
+		while getKeyState(cfg.d2AppSwordFlyKey) {
+			send("{LButton Down}")
+			sleep(100)
+			send("{LButton Up}")
+			sleep(800)
+			send("{space down}")
+			sleep(80)
+			send("{space up}")
+			sleep(80)
+			send("{space down}")
+			sleep(80)
+			send("{space up}")
+			sleep(700)
+		}
+	}
+	
 	d2reload(*) {
 		if cfg.d2AlwaysRunEnabled {
 			ui.d2GameReloadKeyData.opt("c" cfg.themeButtonOnColor)
 			ui.d2GameReloadKeyData.redraw()
+			ui.d2AppReloadKeyData.opt("c" cfg.themeButtonOnColor)
+			ui.d2AppReloadKeyData.redraw()
 			ui.d2IsReloading := true
 			d2ToggleAlwaysRunOff()
-			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2700
+			setTimer () => (ui.d2IsReloading := false,d2ToggleAlwaysRunOn(),ui.d2AppReloadKeyData.opt("c" cfg.themeButtonAlertcolor),ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor),ui.d2GameReloadKeyData.redraw()),-2200
 		}	
 		;setTimer () => d2ToggleAlwaysRunOn(), -2600
 	}
@@ -375,6 +398,12 @@ d2FlashIncursionNoticeB(*) {
 		send("{LButton Up}")
 		if ui.d2IsSprinting
 			send("{" cfg.d2GameToggleSprintKey "}")
+	}
+	d2ReadyToSwordFly(*) {
+		if winActive("ahk_exe destiny2.exe") && cfg.d2AlwaysRunEnabled
+			return 1
+		else
+			return 0
 	}
 	
 	d2ReadyToReload(*) {
@@ -574,7 +603,7 @@ d2LoadoutModifier(hotKeyName,isController := false) {
 		
 
 		;ui.d2Log.text := " stop: SPRINT`n rcvd: " strUpper(subStr(cfg.d2AppToggleSprintKey,1,8)) "`n" ui.d2Log.text
-		ui.d2AlwaysSprint.opt("background" cfg.ThemeButtonOnColor)
+		ui.d2AlwaysSprint.opt("background" cfg.ThemeButtonReadyColor)
 		ui.d2AlwaysSprint.value := "./img/toggle_vertical_trans_off.png"
 		ui.d2AlwaysSprint.redraw()
 		try {
@@ -707,7 +736,7 @@ d2drawPanel1(*) {
 		ui.d2AppLoadoutKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w80  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppLoadoutKey),1,8))
 		ui.d2AppLoadoutKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-34 w80  h20 center c" cfg.themeFont1Color " backgroundTrans","Loadout")
 		ui.d2AppSwordFlyKey				:= ui.gameSettingsGui.addPicture("x+2 ys w80  h30 section backgroundTrans","./img/keyboard_key_up.png")
-		ui.d2AppSwordFlyKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w80  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppLoadoutKey),1,8))
+		ui.d2AppSwordFlyKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w80  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppSwordFlyKey),1,8))
 		ui.d2AppSwordFlyKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-34 w80  h20 center c" cfg.themeFont1Color " backgroundTrans","Sword Fly")
 		ui.d2AppReloadKey						:= ui.gameSettingsGui.addPicture("x+2 ys w82 h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppReloadKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w82  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppReloadKey),1,8))
@@ -1014,7 +1043,7 @@ d2DrawUi(*) {
 		run("chrome.exe https://www.d2checklist.com")
 		}
 
-d2LaunchDestinyTrackerButtonClicked(*) {
+	d2LaunchDestinyTrackerButtonClicked(*) {
 		ui.d2LaunchDestinyTrackerButton.value := "./Img2/d2_button_DestinyTracker_down.png"
 		setTimer () => ui.d2LaunchDestinyTrackerButton.value := "./Img2/d2_button_DestinyTracker.png",-400
 		run("chrome.exe https://www.DestinyTracker.com")
@@ -1205,23 +1234,6 @@ d2GameHoldToCrouchKeyClicked(*) {
 			}
 		}
 		keyBindDialogBoxClose()
-		; keyBindDialogBox('Crouch (No AutoSprint)',"Center")
-				; Sleep(100)
-		; d2AppHoldToCrouchKeyInput := InputHook("L1 T6",inputHookAllowedKeys,"+V")
-		; d2AppHoldToCrouchKeyInput.start()
-		; d2AppHoldToCrouchKeyInput.wait()
-		; if (d2AppHoldToCrouchKeyInput.endKey == "" && d2AppHoldToCrouchKeyInput.input =="") {
-			; keyBindDialogBoxClose()
-			; notifyOSD('No Key Detected.`nPlease Try Again.',2000,"Center")
-		; } else {
-			; if (d2AppHoldToCrouchKeyInput.input)
-			; {
-				; tmpCrouchKey .= "|" d2AppHoldToCrouchKeyInput.input
-			; } else {
-				; tmpCrouchKey .= "|" d2AppHoldToCrouchKeyInput.endKey
-			; }
-		; }
-		; keyBindDialogBoxClose()
 		cfg.d2AppSwordFlyKey := tmpd2AppSwordFlyKey
 		ui.d2AppSwordFlyKeyData.text := subStr(strUpper(cfg.d2AppSwordFlyKey),1,8)
 		d2CreateLoadoutKeys()

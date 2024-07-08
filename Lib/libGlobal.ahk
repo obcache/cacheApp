@@ -563,7 +563,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.excludedApps			:= IniRead(cfg.file,"System","ExcludedApps","Windows10Universal.exe,explorer.exe,RobloxPlayerInstaller.exe,RobloxPlayerLauncher.exe,Chrome.exe,msedge.exe")
 	cfg.MainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
 	cfg.MainScriptName			:= IniRead(cfg.file,"System","MainScriptName", "cacheApp")
-	cfg.debugEnabled			:= IniRead(cfg.file,"System","debugEnabled",false)
+	cfg.debugEnabled			:= IniRead(cfg.file,"System","DebugEnabled",false)
 	cfg.consoleVisible			:= IniRead(cfg.file,"System","consoleVisible",false)
 	cfg.ToolTipsEnabled 		:= IniRead(cfg.file,"System","ToolTipsEnabled",true)
 	cfg.monitorRes				:= IniRead(cfg.file,"System","MonitorResolution","Auto")
@@ -861,7 +861,9 @@ WriteConfig() {
 	iniWrite(cfg.towerInterval,cfg.file,"AFK","TowerInterval")
 	iniWrite(cfg.CelestialTowerEnabled,cfg.file,"AFK","CelestialTowerEnabled")
 	IniWrite(ui.AutoClickerSpeedSlider.Value,cfg.file,"AFK","AutoClickerSpeed")
+	iniWrite(cfg.debugEnabled,cfg.file,"System","DebugEnabled")
 	IniWrite(ui.win1classDDL.value,cfg.file,"AFK","Win1Class")
+
 	if (ui.win2ClassDDL.Text != "N/A")
 		IniWrite(ui.win2classDDL.value,cfg.file,"AFK","Win2Class")
 	if !(DirExist("./Logs"))

@@ -146,7 +146,7 @@ ThemeProgressColor=E7F0D9
 ThemeDisabledColor=292929
 ThemeButtonOnColor=BFFF01
 ThemeButtonReadyColor=AAAAAA
-ThemeButtonAlertColor=F2FF01
+ThemeButtonAlertColor=F3850C
 ThemeFont4Color=959595
 
 [Alien]
@@ -158,7 +158,7 @@ ThemeFont4Color=959595
 ThemePanel3Color=61823A
 ThemeFont3Color=333333
 ThemeButtonOnColor=BFFF01
-ThemeButtonAlertColor=F2FF01
+ThemeButtonAlertColor=F3850C
 ThemePanel2Color=515151
 ThemeBackgroundColor=3C3C3C
 ThemeBorderDarkColor=9E9E9E

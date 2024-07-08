@@ -238,6 +238,7 @@ GuiDockTab(&ui) {
 				this_Caption	:= row[7]
 				this_onTop 		:= row[8]
 				splitPath(processPath,&processName,&processDir)
+				osdLog("found config for: " processName)
 				launchapp(processPath,processName,processDir) 
 				try {
 					osdLog("Moving to: " this_coordX "," this_coordY "," this_coordW "," this_coordH)
@@ -262,6 +263,7 @@ GuiDockTab(&ui) {
 	winCloseAll_callback(*) {
 		winCloseAll()
 	}
+	
 	winCloseAll(workspace := ui.workspaceDDL.text) {
 		try 
 			sqliteQuery(cfg.dbFilename,"SELECT [processPath] from [winPositions] where [workspace] = '" workspace "'",&sqlResult)
@@ -269,6 +271,7 @@ GuiDockTab(&ui) {
 		if sqlResult.hasRows {
 			for row in sqlResult.rows {
 				splitPath(row[1],&processName)
+				osdLog("terminating: " processName)
 				try
 					winClose("ahk_exe " processName)
 			}
@@ -283,40 +286,38 @@ GuiDockTab(&ui) {
 	
 	
 	launchApp(processPath,processName,processDir) {
+		
 		if inStr(processPath,"discord") {
+			DetectHiddenWindows(true)
+			osdLog("recognized app with exception: discord")
+			osdLog("launching discord with special rules")
 			processPath := a_scriptdir "\redist\discord.exe"
 			splitPath(processPath,&processName,&processDir)
 		}
 		if inStr(processName,"obs64.exe") {
+				osdLog("recognized app with exception: obs")
+				osdLog("launching obs.exe with special rules")
 				processPath .= " --disable-shutdown-check --disable-missing-files-check -m"
 		}
-		osdLog(processPath)
 		processRunning := false
 		rerun_timeout := 0
 		winWait_timeout := 0
-		while processRunning == false && rerun_timeOut < 5  {
-			rerun_timeout += 1
-			if !processExist(processName) {
-				run(processPath,processDir)
-				osdLog("launching " processName ": attempt " a_index)
-			} 	
-			while processRunning == false && winWait_timeout < 5 {
-				winWait_timeout += 1
-				if processExist(processName) {
-					processRunning := true
-					osdLog(processName ": Started")
-					
-				sleep(1000)
-				osdLog("waiting for: " processName)
-				}
-			}
+		osdLog("executing: " processPath)
+		if !processExist(processName)
+			run(processPath,processDir)
+		sleep(1500)	
+		osdLog("waiting for: " processName)
+		processWait(processName)
 		
-			if currWin := winExist("ahk_exe " processName) {
-				winShow("ahk_id " currWin)
-				winActivate("ahk_id " currWin)
-			}
-			 ; winMa
-		}	
+		winWait("ahk_exe " processName)
+		switch winGetMinMax("ahk_exe " processName) {
+			case 1 || -1:
+				PostMessage(0x0112, 0xF120,,,"ahk_exe " processName,)
+			default:
+		}
+		winShow()
+		winActivate()
+		DetectHiddenWindows(false)
 	}
 
 	toggleAlwaysOnTop(*) {

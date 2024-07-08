@@ -110,14 +110,14 @@ GuiSetupTab(&ui,&cfg) {
 	
 	ui.toggleAnimations := ui.MainGui.AddPicture("xs w50 y+2 h22 section vAnimations " (cfg.AnimationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.AnimationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAnimations.OnEvent("Click", toggleChanged)
-	ui.toggleAnimations.ToolTip := "Keeps this app on top of all other windows."
+	ui.toggleAnimations.ToolTip := "Toggles the app's slide and fade animations."
 	ui.labelAnimations:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Animations")
 
 
 
 	ui.toggleAutoStart := ui.MainGui.AddPicture("xs y+2 w50 h22 section vAutoStart " (cfg.autoStartEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.autoStartEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleAutoStart.OnEvent("Click", toggleChangedAutoStart)
-	ui.toggleAutoStart.ToolTip := "Keeps this app on top of all other windows."
+	ui.toggleAutoStart.ToolTip := "Auto-starts the app on Windows login."
 	ui.labelAutoStart:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  AutoStart")
 	
 	toggleChangedAutoStart(toggleControl,*) {
@@ -162,13 +162,13 @@ GuiSetupTab(&ui,&cfg) {
 	}
 	ui.toggleStartMinimized := ui.MainGui.AddPicture("xs y+2 w50 h22 section vStartMinimized " (cfg.StartMinimizedEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.StartMinimizedEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleStartMinimized.OnEvent("Click", toggleChanged)
-	ui.toggleStartMinimized.ToolTip := "Keeps this app on top of all other windows."
+	ui.toggleStartMinimized.ToolTip := "Minimizes the app to system tray when started.  Useful when combined with 'Start with Windows'."
 	ui.labelStartMinimized:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Start Minimized")
 	  
 
 	ui.toggleconfirmExit := ui.MainGui.AddPicture("xs y+2 w50 h22 section vConfirmExit " (cfg.ConfirmExitEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.ConfirmExitEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.toggleConfirmExit.OnEvent("Click", toggleChanged)
-	ui.toggleConfirmExit.ToolTip := "Keeps this app on top of all other windows."
+	ui.toggleConfirmExit.ToolTip := "Produces a confirmation prompt upon exiting the application."
 	ui.labelConfirmExit:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Confirm Exit")
 
 
@@ -179,8 +179,8 @@ GuiSetupTab(&ui,&cfg) {
 	}
 	ui.togglePushNotifications := ui.MainGui.AddPicture("xs y+2 w50 h22 section vPushNotifications " (cfg.PushNotificationsEnabled ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor)),((cfg.PushNotificationsEnabled) ? (cfg.toggleOn) : (cfg.toggleOff)))
 	ui.togglePushNotifications.OnEvent("Click", toggleChanged)
-	ui.togglePushNotifications.ToolTip := "Keeps this app on top of all other windows."
-	ui.labelPushNotifications:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  PushNotifications")
+	ui.togglePushNotifications.ToolTip := "Enables pop-up notifications regarding in-game events."
+	ui.labelPushNotifications:= ui.MainGui.AddText("x+5 ys+2 backgroundTrans","  Notifications")
 
 	ToggleDebug(*)
 	{
