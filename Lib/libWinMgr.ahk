@@ -39,7 +39,7 @@ collateGuis(hwnd := ui.mainGui.hwnd) {
 wm_winActivated(this_control,info,msg,hwnd) {
 	static prev_hwnd := hwnd
 	if hwnd == ui.mainGui.hwnd && prev_hwnd != hwnd {
-		restoreWin()
+		restoreWin()       
 		ui.prevHwnd := hwnd
 	}
 }
@@ -57,80 +57,31 @@ WM_LBUTTONDOWN_pBcallback(*) {
 WM_LBUTTONDOWN(wParam, lParam, msg, Hwnd) {
 	;ShowMouseClick()
 		postMessage("0xA1",2)
-
-		; try {
-			; if (Hwnd = ui.MainGui.hwnd) 
-			; PostMessage("0xA1",2)
-		; }
-		; try {	
-			; if (Hwnd = ui.titleBarButtonGui.Hwnd) 
-			; PostMessage("0xA1",2)
-		; }
-		; try {
-			; if (hwnd == ui.dividerGui.hwnd) 
-			; PostMessage("0xA1",2)
-		; }
-		; try {
-			; if (hwnd == ui.afkGui.hwnd)
-			; PostMessage("0xA1",2)
-		; }
-		; try {
-			; if (hwnd == ui.pbConsole.hwnd)
-			; PostMessage("0xA1",2)
-		; }
-		; try {
-			; if (hwnd == ui.pbConsoleHandle.hwnd)
-			; PostMessage("0xA1",2)
-		; }
-		; try {
-		; if (hwnd == ui.dividerGui.hwnd)
-		; {
-		; keyWait("LButton")
-		; MonitorGetWorkArea(cfg.AppDockMonitor, &Left, &Top, &Right, &Bottom)
-		; coordMode("mouse","screen")
-		; MouseGetPos(&mX,&mY,&currWin)
-		; winMove(,mY,,Bottom-mY+8,"ahk_exe " ui.app2filename.text)
-		; winMove(,Top,,mY-Top,"ahk_exe " ui.app1filename.text)
-		; winActivate(ui.dividerGui)
-		; }
-		; }
 }
 
 wm_mouseMove(wParam, lParam, msg, hwnd) {
 	static prevHwnd := 0
-    if (hwnd != prevHwnd) {
-		toolTip()
-		if ui.incursionNoticeHwnd && winExist(ui.incursionNoticeHwnd)
-			if (hwnd == ui.incursionGui.hwnd) {
-				setTimer(d2FlashIncursionNoticeA,0)
-				setTimer(d2FlashIncursionNoticeB,0)
-				ui.incursionGuiBg.opt("background" cfg.themeFont3Color)
-				ui.incursionGuiBg.redraw()
-			}
-		this_control := guiCtrlFromHwnd(hwnd)
-		; try {
-			; if WinExist(ui.exitMenuGui) {
-			; msgbox('here')
-				; if (this_control == ui.startGamingButton || this_control == ui.stopGamingButton) {
-					; this_control.opt("background" cfg.themeButtonOnColor)
-				; }
-				; if (guiCtrlFromHwnd(prevHwnd) == ui.startGamingButton || guiCtrlFromHwnd(prevHwnd) == ui.stopGamingButton) {
-					; guiCtrlFromHwnd(prevHwnd).opt("background" cfg.themeButtonReadyColor)
-				; }
-			; }
-		; }
-		if (this_control.hasProp("ToolTip") && cfg.toolTipsEnabled) || this_control.hasProp("ToolTipData") {
-			setTimer () => toolTipDelayStart(this_control), -850
-		}
-		 
-		prevHwnd := Hwnd
+	try {
+		(hwnd == prevHwnd) 
+		? (prevHwnd := hwnd,bail()) 
+		: (winGetMinMax("A") == 1) 
+			? (prevHwnd := hwnd,bail()) 
+			: (ui.incursionNoticeHwnd == hwnd)
+				? (setTimer(d2FlashIncursionNoticeA,0)
+					,setTimer(d2FlashIncursionNoticeB,0)
+					,ui.incursionGuiBg.opt("background" cfg.themeFont3Color)
+					;,ui.incursionGuiBg.redraw()
+					,bail())
+				: (cfg.tooltipsEnabled && (guiCtrlFromHwnd(hwnd).hasProp("ToolTip") || guiCtrlFromHwnd(hwnd).hasProp("ToolTipData")))
+					? (setTimer () => toolTipDelayStart(hwnd),-850)
+					: (prevHwnd := Hwnd,bail())
 	}
 }
 
-toolTipDelayStart(origGuiCtrl) {
+toolTipDelayStart(origHwnd) {
 	mouseGetPos(,,&currCtrlWin,&currCtrlClass)
 	try {
-		if origGuiCtrl.hwnd == controlGetHwnd(currCtrlClass,currCtrlWin) {
+		if getHwnd == controlGetHwnd(currCtrlClass,currCtrlWin) {
 			if origGuiCtrl.hasProp("ToolTipData")
 				toolTip(origGuiCtrl.toolTipData)
 			else

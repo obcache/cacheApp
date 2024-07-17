@@ -330,11 +330,12 @@ preAutoExec(InstallDir,ConfigFileName) {
 			
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			installLog("Copied Assets to: " InstallDir)
-			sleep(4500)
+			
 			fileCreateShortcut(installDir "/cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
 			fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
 			IniWrite(installDir,installDir "/cacheApp.ini","System","InstallDir")
 			Run(InstallDir "\" A_AppName ".exe")
+			sleep(4500)
 			ExitApp
 		
 		}
@@ -429,6 +430,10 @@ installLog(LogMsg) {
 	FileAppend(A_YYYY A_MM A_DD " [" A_Hour ":" A_Min ":" A_Sec "] " LogMsg "`n",InstallDir "/Logs/persist.log")
 }
 
+bail(*) {
+	return
+}
+	
 autoUpdate() {		
 	runWait("cmd /C start /b /wait ping -n 1 8.8.8.8 > " a_scriptDir "/.tmp",,"Hide")
 	if !inStr(fileRead(a_scriptDir "/.tmp"),"100% loss") {

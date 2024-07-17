@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.6.3"
+A_FileVersion := "1.2.6.4"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -109,6 +109,7 @@ ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
 ui.gameSettingsGui.show("x" cfg.guiX+35 " y" cfg.guiY+32 " w495 h180 noActivate")
 ui.titleBarButtonGui.Show("w75 h36 NoActivate")
 ui.MainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
+
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 
 ;if (cfg.startMinimizedEnabled)
