@@ -486,7 +486,7 @@ d2FlashIncursionNoticeB(*) {
 			send("{LButton Down}")
 			sleep(100)
 			send("{LButton Up}")
-			sleep(700)
+			sleep(800)
 			send("{space down}")
 			sleep(80)
 			send("{space up}")
