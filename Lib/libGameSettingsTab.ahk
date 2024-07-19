@@ -590,7 +590,7 @@ d2HoldToCrouch(*) {
 		ui.dockBarD2HoldToCrouch.redraw()
 	}
 	send("{" cfg.d2gameHoldToCrouchKey " down}")
-	keywait(cfg.d2appHoldToCrouchKey)
+	keywait(cfg.d2AppHoldToCrouchKey)
 	ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
 	if (cfg.topDockEnabled) {
 		ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonOnColor)
@@ -1041,7 +1041,7 @@ d2DrawUi(*) {
 
 
 	d2RedrawUI(*) {
-		reload()
+		;reload()
 	}
 
 	d2LaunchDIMButtonClicked(*) {
@@ -1232,10 +1232,16 @@ d2GameHoldToCrouchKeyClicked(*) {
 			; }
 		; }
 		; keyBindDialogBoxClose()
+
 		cfg.d2AppHoldToCrouchKey := tmpCrouchKey
+
 		ui.d2AppHoldToCrouchKeyData.text := subStr(strUpper(cfg.d2AppHoldToCrouchKey),1,8)
+		ui.d2AppHoldToCrouchKey.opt("w" ui.d2KeybindWidth + max(0,(strLen(cfg.d2AppHoldToCrouchKeyData.text)-6))*10)
+		ui.d2AppHoldToCrouchKeyData.opt("w" ui.d2KeybindWidth + max(0,(strLen(cfg.d2AppHoldToCrouchKeyData.text)-6))*10)
+		ui.d2AppHoldToCrouchKeyLabel.opt("w" ui.d2KeybindWidth + max(0,(strLen(cfg.d2AppHoldToCrouchKeyData.text)-6))*10)
 		d2CreateLoadoutKeys()
 		d2RedrawUI()
+
 	}
 	
 	d2AppSwordFlyKeyClicked(*) {
