@@ -683,14 +683,17 @@ cfgLoad(&cfg, &ui) {
 	
 	cfg.holdToCrouchEnabled 	:= IniRead(cfg.file,"game","HoldToCrouch",true)
 	cfg.cs2HoldToScopeEnabled	:= IniRead(cfg.file,"game","cs2HoldToScopeEnabled",true)
+
+	cfg.d2AppPauseKey			:= iniRead(cfg.file,"Game","d2AppPauseKey","<UNSET>")
+	cfg.d2AppPaused				:= iniRead(cfg.file,"Game","d2AppPaused",false)
 	cfg.d2AlwaysRunEnabled		:= iniRead(cfg.file,"Game","d2AlwaysRunEnabled",false)
 	cfg.d2AppSwordFlyKey		:= iniRead(cfg.file,"Game","d2AppSwordFlyKey","<UNSET>")
 	cfg.d2AppLoadoutKey			:= IniRead(cfg.file,"Game","d2AppLoadoutKey","<UNSET>")
 	cfg.d2AppLoadoutMultiplier	:= iniRead(cfg.file,"Game","d2AppLoadoutMultiplier",1)
 	cfg.d2AppToggleSprintKey	:= IniRead(cfg.file,"Game","d2AppToggleSprintKey","<UNSET>")
 	cfg.d2AppReloadKey			:= IniRead(cfg.file,"Game","d2AppReloadKey","<UNSET>")
-	cfg.d2AppHoldToCrouchKey		:= IniRead(cfg.file,"Game","d2AppHoldToCrouchKey","<UNSET>")
-	cfg.d2GameHoldToCrouchKey		:= iniRead(cfg.file,"Game","d2GameHoldToCrouchKey","LControl")
+	cfg.d2AppHoldToCrouchKey	:= IniRead(cfg.file,"Game","d2AppHoldToCrouchKey","<UNSET>")
+	cfg.d2GameHoldToCrouchKey	:= iniRead(cfg.file,"Game","d2GameHoldToCrouchKey","LControl")
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
 	cfg.d2GameReloadKey			:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
@@ -782,6 +785,8 @@ WriteConfig() {
 		iniWrite(cfg.topDockEnabled,cfg.file,"Interface","TopDockEnabled")
 		
 		iniWrite(cfg.SLBHopKey,cfg.file,"Game","ShatterLineBunnyHopKey")
+		iniWrite(cfg.d2AppPauseKey,cfg.file,"Game","d2AppPauseKey")
+		iniWrite(cfg.d2AppPaused,cfg.file,"Game","d2AppPaused")
 		IniWrite(cfg.d2AppHoldToCrouchKey,cfg.file,"Game","d2AppHoldToCrouchKey")
 		IniWrite(cfg.d2AppLoadoutKey,cfg.file,"Game","d2AppLoadoutKey")
 		iniWrite(cfg.d2AppSwordFlyKey,cfg.file,"Game","d2AppSwordFlyKey")

@@ -69,7 +69,7 @@ GuiDockTab(&ui) {
 			ui.mainGui.AddText("x+0 ys+0 w2 h17 background" cfg.themePanel2Color,"")
 	}
 	ui.mainGui.setFont("s8","Calibri Light")
-	ui.winPosLV := ui.mainGui.addListView("x40 y92 w398 h114 -hdr e0x2000 c" cfg.themeFont2Color " background" cfg.themePanel2Color)
+	ui.winPosLV := ui.mainGui.addListView("x41 y94 w398 h116 -hdr e0x2000 c" cfg.themeFont2Color " background" cfg.themePanel2Color)
 	ui.winPosLV.setFont("s9","Calibri")
 	ui.winPosLV.onEvent("itemFocus",changeWinSelected)
 		ui.mainGui.setFont("s9","calibri")

@@ -34,7 +34,7 @@ initGui(&cfg, &ui) {
 	ui.mainGuiTabs.useTab("Game")
 	ui.MainGuiTabs.UseTab("")
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	ui.handleBarImage := ui.MainGui.AddPicture("x0 y28 w36 h186","./Img/handlebar_vertical.png")
+	ui.handleBarImage := ui.MainGui.AddPicture("x0 y28 w36 h188","./Img/handlebar_vertical.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	;ui.rightHandlebarImage := ui.titleBarButtonGui.AddPicture("x530 w35 y3 h216","./Img/handlebar_vertical.png")
 	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w35 y0 h216 section","./Img/handlebar_vertical.png")
@@ -43,9 +43,9 @@ initGui(&cfg, &ui) {
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.handleBarImage.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
-	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x0 y0 w35 h30 background" cfg.themeDark2Color)
-	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x1 y1 w34 h29 background" cfg.themeBright2Color)
-	ui.gameTabTopDockButton := ui.mainGui.addPicture("x1 y1 w33 h28 background" cfg.themeButtonReadyColor,"./img/button_dockUp_ready.png")
+	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x1 y0 w34 h30 background" cfg.themeBright2Color)
+	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x2 y1 w32 h28 background" cfg.themeDark1Color)
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x3 y2 w30 h26 background" cfg.themeButtonOnColor,"./img/button_dockUp_on.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
 
@@ -984,7 +984,7 @@ tabsChanged(*) {
 	}
 	
 	controlFocus(ui.mainGuiTabs,ui.mainGui)
-	controlFocus(ui.d2AlwaysSprint,ui.gameSettingsGui)
+	controlFocus(ui.d2ToggleAppFunctions,ui.gameSettingsGui)
 	controlFocus(ui.buttonTower,ui.afkGui)
 	ui.previousTab := ui.activeTab
 }
@@ -1205,7 +1205,7 @@ dockBarIcons(game,operation := "") {
 					? ("./img/toggle_vertical_trans_on.png") 
 						: ("./img/toggle_vertical_trans_off.png")))			
 				ui.dockBarWidth 		+= 24
-				ui.dockBarD2AlwaysRun.onEvent("click",d2ToggleAlwaysRun)
+				ui.dockBarD2AlwaysRun.onEvent("click",d2ToggleAppFunctions)
 
 
 

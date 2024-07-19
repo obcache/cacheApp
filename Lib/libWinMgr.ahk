@@ -81,7 +81,8 @@ wm_mouseMove(wParam, lParam, msg, hwnd) {
 toolTipDelayStart(origHwnd) {
 	mouseGetPos(,,&currCtrlWin,&currCtrlClass)
 	try {
-		if getHwnd == controlGetHwnd(currCtrlClass,currCtrlWin) {
+		if origHwnd == controlGetHwnd(currCtrlClass,currCtrlWin) {
+			origGuiCtrl := guiCtrlFromHwnd(origHwnd)
 			if origGuiCtrl.hasProp("ToolTipData")
 				toolTip(origGuiCtrl.toolTipData)
 			else
