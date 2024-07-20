@@ -209,7 +209,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			FileInstall("./Img/label_anti_idle_timer.png",InstallDir "/Img/label_anti_idle_timer.png",true)
 			FileInstall("./Img/label_infinite_tower.png",InstallDir "/Img/label_infinite_tower.png",true)
 			FileInstall("./Img/label_celestial_tower.png",InstallDir "/Img/label_celestial_tower.png",true)			
-			FileInstall("./Img/handlebar_vertical.png",InstallDir "/Img/handlebar_vertical.png",true)
+			FileInstall("./Img2/handlebar_vertical.png",InstallDir "/Img2/handlebar_vertical.png",true)
 			FileInstall("./Img/button_quit.png",InstallDir "/Img/button_quit.png",true)
 			FileInstall("./Img/button_minimize.png",InstallDir "/Img/button_minimize.png",true)
 			FileInstall("./Img/button_tower.png",InstallDir "/Img/button_tower.png",true)
@@ -318,6 +318,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/d2_button_DestinyTracker_down.png",installDir "/img2/d2_button_DestinyTracker_down.png",1)
 			
 			;IMGv2 below
+			fileInstall("./img2/button_dock_up.png",installDir "/img2/button_dock_up.png",1)
 			fileInstall("./img2/button_power.png",installDir "/img2/button_power.png",1)
 			fileInstall("./img2/button_power_down.png",installDir "/img2/button_power_down.png",1)
 			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
@@ -382,7 +383,6 @@ pbConsole(msg) {
 	if !hasProp(ui,"pbConsole")
 		createPbConsole("cacheApp Console")
 	ui.pbConsoleData.text := msg "`n" ui.pbConsoleData.text
-	;ui.pbConsoleData.text := msg "`n" subStr(ui.pbConsoleData.text, inStr(ui.pbConsoleData.text,"`n") - 10)
 }
 
 testPbConsole() {
@@ -461,7 +461,6 @@ CheckForUpdates(msg,*) {
 	} catch {
 			if(msg != 0) {
 				ui.latestVersionText.text := "Available:`t--No Network--"
-				;setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
 				notifyOSD("Network down.`nTry again later.",3000)
 			ui.latestVersion := ui.installedVersion
 		}
@@ -489,8 +488,7 @@ CheckForUpdates(msg,*) {
 		if(msg != 0) {
 			ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
 			notifyOSD("No upgraded needed.`nInstalled: " substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1) "`nAvailable: " substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1),2500)
-				;setTimer () => ui.latestVersionText.text := "Latest:`t*****",-300000
-		 }
+		}
 	}
 	
 }
@@ -556,14 +554,13 @@ cfgLoad(&cfg, &ui) {
 	win2afk.currStepNum 		:= ""
 	ui.clearClockAlert			:= false
 	ui.themeEditorVisible		:= false
-	ui.dividerGui				:= gui()
 	cfg.forcedTooltipControls	:= "Win1,Win2,Win3"
 	cfg.gameModuleList			:= strSplit(iniRead(cfg.file,"Game","GameModuleList","Destiny2,World//Zero"),",")
-	cfg.GameList				:= StrSplit(IniRead(cfg.file,"Game","GameList","Roblox,Rocket League"),",")
-	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Lists,Setup"),",")
+	cfg.gameList				:= StrSplit(IniRead(cfg.file,"Game","GameList","Roblox,Rocket League"),",")
+	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList","Game,Sys,AFK,AppDock,Setup"),",")
 	cfg.mainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
 	cfg.startMinimizedEnabled	:= iniRead(cfg.file,"System","StartMinimizedEnabled",false)
-	cfg.autoStartEnabled := iniRead(cfg.file,"System","AutoStartEnabled",false)
+	cfg.autoStartEnabled 		:= iniRead(cfg.file,"System","AutoStartEnabled",false)
 	cfg.confirmExitEnabled		:= iniRead(cfg.file,"System","ConfirmExit",false)
 	cfg.excludedApps			:= IniRead(cfg.file,"System","ExcludedApps","Windows10Universal.exe,explorer.exe,RobloxPlayerInstaller.exe,RobloxPlayerLauncher.exe,Chrome.exe,msedge.exe")
 	cfg.MainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
@@ -587,23 +584,11 @@ cfgLoad(&cfg, &ui) {
 	cfg.GuiW					:= IniRead(cfg.file,"Interface","GuiW",545)
 	cfg.GuiH					:= IniRead(cfg.file,"Interface","GuiH",210)
 	cfg.pushNotificationsEnabled := iniRead(cfg.file,"Interface","PushNotifications",false)
-	cfg.appGuiList				:= strSplit(iniRead(cfg.file,"Interface","AppGuiList","ui.mainGui,ui.afkGui,ui.gameSettingsGui,ui.titleBarButtonGui,ui.dockBarGui"),",")
-	cfg.gameProcessList			:= iniRead(cfg.file,"Interface","GameProcessList","destiny2.exe,shatterline.exe,rocketleague.exe,robloxPlayerBeta.exe")
-	cfg.nonGameProcessList		:= iniRead(cfg.file,"Interface","nonGameProcessList","foobar2000.exe,discord.exe,chrome.exe,edge.exe,firefox.exe,explorer.exe")
-	cfg.gamingStopProc := strSplit(iniRead(cfg.file,"System","GamingStopProcesses","foobar2000.exe,discord.exe,shatterline.exe,rocketLeague.exe,destiny2.exe,robloxPlayerBeta.exe,applicationFrameHost.exe,steam.exe,EpicGamesLauncher.exe"),",")
 
-	cfg.gamingStartProc	:= strSplit(iniRead(cfg.file,"System","GamingStartProcesses",'"C:\Program Files (x86)\Steam\steam.exe","C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe","C:\Program Files\BakkesMod\BakkesMod.exe","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Medal.lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\2) Video\OBS Studio (64bit).lnk","C:\Users\cashm\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\7) System\Logitech G HUB.lnk"'),",")
-
-
-;msgBox("1: " cfg.guix "`n" cfg.guiy)
-
-	;MonitorGet(MonitorGetPrimary(),&L,&T,&R,&B)
 	if (cfg.GuiX < primaryMonitorLeft)
 		cfg.GuiX := 200
 	if (cfg.GuiY > primaryMonitorBottom)
 		cfg.GuiY := 200
-	
-	;MsgBox("2: " cfg.guix "`n" cfg.guiy)
 	
 	cfg.AfkX					:= IniRead(cfg.file,"Interface","AfkX",cfg.GuiX+10)
 	cfg.AfkY					:= IniRead(cfg.file,"Interface","AfkY",cfg.GuiY+35)
@@ -702,17 +687,7 @@ cfgLoad(&cfg, &ui) {
 WriteConfig() {
 	Global
 	tmpGameList := ""
-	cfg.gamingStartProcString := "'"
-	loop cfg.gamingStartProc.length {
-		cfg.gamingStartProcString .= cfg.gamingStartProc[a_index] ","
-	}
-	cfg.gamingStopProcString := "'"
-	loop cfg.gamingStopProc.length {
-		cfg.gamingStopProcString .= cfg.gamingStopProc[a_index] ","
-	}
 	iniWrite(cfg.displaySizeAuto,cfg.file,"Game","DisplaySizeAuto")
-	iniWrite(rtrim(cfg.gamingStartProcString,",") "'",cfg.file,"System","GamingStartProcesses")
-	iniWrite(rtrim(cfg.gamingStopProcString,",") "'",cfg.file,"System","GamingStopProcesses")
 	iniWrite(cfg.excludedProcesses,cfg.file,"Game","ExcludedProcesses")
 	IniWrite(cfg.autoDetectGame,cfg.file,"Game","AutoDetectGame")
 	iniWrite(cfg.excludedApps,cfg.file,"System","ExcludedApps")
@@ -820,14 +795,6 @@ WriteConfig() {
 			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords2560x1440[a_index] ","
 		}		
 		iniWrite(rtrim(d2LoadoutCoordsStr,","),cfg.file,"Game","d2LoadoutCoords2560x1440")
-
-		
-		for appGui in cfg.appGuiList {
-			appGuiListStr .= appGui ","
-		}
-		iniWrite(rtrim(appGuiListStr,","),cfg.file,"Interface","AppGuiList")
-		iniWrite(cfg.gameProcessList,cfg.file,"Interface","GameProcessList")
-		iniWrite(cfg.nonGameProcessList,cfg.file,"Interface","NonGameProcessList")
 
 		ui.mainTabListString := ""
 		loop cfg.mainTabList.length {

@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.6.8"
+A_FileVersion := "1.2.6.9"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -86,7 +86,7 @@ initConsole(&ui)
 #include <libGuiSetupTab>
 #include <libGuiAppDockTab>
 #include <libGameSettingsTab>
-#include <libEditorTab>
+ #include <libEditorTab>
 #include <libGuiSystemTab>
 #include <libHotkeys>
 #include <libRoutines>
@@ -138,3 +138,18 @@ if cfg.topDockEnabled
 if ui.incursionDebug
 	incursionNotice()
 ;OnMessage(0x0201, wm_lButtonDown)
+	if (cfg.AlwaysOnTopEnabled) 
+	{
+		ui.MainGui.Opt("+AlwaysOnTop")
+		ui.titleBarButtonGui.Opt("+AlwaysOnTop")
+		ui.AfkGui.Opt("+AlwaysOnTop")
+		try
+			ui.dockBarGui.opt("+alwaysOnTop")
+	} else {
+		ui.MainGui.Opt("-AlwaysOnTop")
+		ui.titleBarButtonGui.Opt("-AlwaysOnTop")
+		ui.AfkGui.Opt("-AlwaysOnTop")	
+		try
+			ui.dockBarGui.opt("+alwaysOnTop")
+	}
+	

@@ -711,11 +711,11 @@ refreshWin(winNumber) { ;Performs Window Discovery, Game Identification and Gui 
 		: 1) 
 			: winNumber	
 			
-	ui.AllGameWindowsList := WinGetList(strReplace(ui.GameDDL.Text,"World//Zero","Roblox"))
-	ui.FilteredGameWindowsList := Array()
-	Loop ui.AllGameWindowsList.Length {
-		if !InStr(cfg.excludedApps,WinGetProcessName("ahk_id " ui.AllGameWindowsList[A_Index])) {
-			ui.FilteredGameWindowsList.Push(ui.AllGameWindowsList[A_Index])
+	ui.allGameWindowsList := WinGetList(strReplace(ui.GameDDL.Text,"World//Zero","Roblox"))
+	ui.filteredGameWindowsList := Array()
+	Loop ui.allGameWindowsList.Length {
+		if !InStr(cfg.excludedApps,WinGetProcessName("ahk_id " ui.allGameWindowsList[A_Index])) {
+			ui.filteredGameWindowsList.Push(ui.allGameWindowsList[A_Index])
 		}
 	}
 

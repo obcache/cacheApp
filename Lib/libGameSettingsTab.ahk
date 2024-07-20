@@ -400,7 +400,7 @@ d2FlashIncursionNoticeB(*) {
 		ui.gameTabGui.opt("-caption toolWindow alwaysOnTop +E0x20 owner" ui.gameSettingsGui.hwnd)
 		ui.gameTabGui.backColor := ui.transparentColor
 		ui.gameTabGui.color := ui.transparentColor
-		drawOutlineNamed("gameTabOutline",ui.gameTabGui,0,0,227,28,cfg.themeBright1Color,cfg.themeBright1Color,1)
+		drawOutlineNamed("gameTabOutline",ui.gameTabGui,0,0,227,29,cfg.themeBright1Color,cfg.themeBright1Color,1)
 		
 		winSetTransColor(ui.transparentColor,ui.gameTabGui)
 		ui.gameTabGui.addText("x1 y0 w0 h27 section background" cfg.themeBright1Color,"")
@@ -419,8 +419,8 @@ d2FlashIncursionNoticeB(*) {
 		ui.gameTab1Label.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
 		ui.gameTabWidth += 113
 		((tabNum == 1)
-			? ui.gameTabGui.addText("ys x+0  w2 h27 section background" cfg.themeBright1Color,"")
-			: ui.gameTabGui.addText("ys-1 x+0  w2 h27 section background" cfg.themeBright1Color,""))
+			? ui.gameTabGui.addText("ys x+0  w2 h28 section background" cfg.themeBright1Color,"")
+			: ui.gameTabGui.addText("ys-1 x+0  w2 h28 section background" cfg.themeBright1Color,""))
 		ui.gameTab2Skin := ui.gameTabGui.addText(
 			((tabNum == 2) 
 				? "ys-1 h27" 
@@ -440,8 +440,8 @@ d2FlashIncursionNoticeB(*) {
 			,"Impact")
 		ui.gameTab2Label := ui.gameTabGui.addText(
 			((tabNum == 2) 
-				? "ys+0 h27" 
-				: "ys+0 h27")
+				? "ys+0 h28" 
+				: "ys+0 h28")
 			" x+-112 w112 section center backgroundTrans c" 
 			((tabNum == 2)
 			? cfg.themeFont1Color 
@@ -454,11 +454,11 @@ d2FlashIncursionNoticeB(*) {
 			,"Impact")
 		ui.gameTabWidth += 113
 		((tabNum == 1)
-			? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,"")
-			: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h26" : "h27") " section background" cfg.themeBright1Color,""))
+			? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h27" : "h28") " section background" cfg.themeBright1Color,"")
+			: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h27" : "h28") " section background" cfg.themeBright1Color,""))
 		guiVis(ui.gameTabGui,false)
 		if (winGetTransparent(ui.gameTabGui)) == 0 {
-			ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h27 background" cfg.themePanel1Color)
+			ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h28 background" cfg.themePanel1Color)
 			drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+3,4,498-ui.gameTabWidth-6,25,cfg.themeDark1Color,cfg.themeDark1Color,1)
 			winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
 			ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")

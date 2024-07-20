@@ -9,54 +9,44 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	Return
 }
 
-
 initGui(&cfg, &ui) {
-	ui.TransparentColor := "010203"
-
-	ui.MainGui := Gui()
-	ui.MainGui.Name := "cacheApp"
-	ui.mainGui.Title	:= "CacheApp"
-	ui.TaskbarHeight := GetTaskBarHeight()
-	ui.MainGui.BackColor := ui.TransparentColor
-	ui.MainGui.Color := ui.TransparentColor
+	ui.TransparentColor 	:= "010203"
+	ui.MainGui 				:= Gui()
+	ui.MainGui.Name 		:= "cacheApp"
+	ui.mainGui.Title		:= "CacheApp"
+	ui.TaskbarHeight 		:= GetTaskBarHeight()
+	ui.MainGui.BackColor 	:= ui.TransparentColor
+	ui.MainGui.Color 		:= ui.TransparentColor
 	ui.MainGui.Opt("-Caption -Border")
 	if (cfg.AlwaysOnTopEnabled)
 	{
 		ui.MainGui.Opt("+AlwaysOnTop 0x4000000")
-	}
-	
+	}	
 	ui.MainGui.MarginX := 0
 	ui.MainGui.MarginY := 0
 	ui.MainGui.SetFont("s13 c" cfg.ThemeFont1Color,"Calibri")
 	ui.MainGuiTabs := ui.MainGui.AddTab3("x35 y1 w495 h213 Buttons -redraw Background" cfg.ThemeBackgroundColor " -E0x200", cfg.mainTabList)
 	ui.MainGuiTabs.OnEvent("Change",TabsChanged)
-;	ui.MainGuiTabs.Choose(cfg.mainTabList[3])
 	ui.mainGuiTabs.useTab("Game")
 	ui.MainGuiTabs.UseTab("")
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	ui.handleBarImage := ui.MainGui.AddPicture("x0 y28 w36 h188","./Img/handlebar_vertical.png")
+	ui.handleBarImage := ui.MainGui.AddPicture("x0 y31 w36 h188","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
-	;ui.rightHandlebarImage := ui.titleBarButtonGui.AddPicture("x530 w35 y3 h216","./Img/handlebar_vertical.png")
-	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w35 y0 h216 section","./Img/handlebar_vertical.png")
-
+	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w35 y0 h216 section","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.handleBarImage.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
-	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x1 y0 w34 h30 background" cfg.themeBright2Color)
-	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x2 y1 w32 h28 background" cfg.themeDark1Color)
-	ui.gameTabTopDockButton := ui.mainGui.addPicture("x3 y2 w30 h26 background" cfg.themeButtonOnColor,"./img/button_dockUp_on.png")
+	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x1 y0 w34 h30 background" cfg.themeBright2Color)
+	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x2 y1 w32 h28 background" cfg.themeDark1Color)
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x0 y0 w35 h30 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
-
 	ui.gvConsole := ui.MainGui.AddListBox("x35 y220 w500 h192 +Background" cfg.ThemePanel1Color)
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
-
-	afk 						:= Object()
-	
+	afk 						:= Object()	
 	GuiAFKTab(&ui,&afk)
 	GuiOperationsTab(&ui,&cfg,&afk)	
-
 	GuiDockTab(&ui)
 	GuiSetupTab(&ui,&cfg)
 	GuiListsTab(&ui,&cfg)
@@ -64,7 +54,6 @@ initGui(&cfg, &ui) {
 	OnMessage(0x0200, WM_MOUSEMOVE)
 	OnMessage(0x0202, WM_LBUTTONDOWN)
 	OnMessage(0x47, WM_WINDOWPOSCHANGED)
-	; onMessage(0x0006, wm_winActivated)
 	if (FileExist("./Logs/persist.log"))
 	{
 		try
@@ -74,8 +63,7 @@ initGui(&cfg, &ui) {
 		try
 			FileDelete("./Logs/persist.log")
 	}
-
-
+	
 	ui.titleBarButtonGui := Gui()
 	ui.titleBarButtonGui.Opt("-Caption -Border AlwaysOnTop +ToolWindow owner" ui.mainGui.hwnd)
 	ui.titleBarButtonGui.BackColor := ui.TransparentColor
@@ -83,46 +71,23 @@ initGui(&cfg, &ui) {
 	ui.DownButton := ui.titleBarButtonGui.AddPicture("x0 y0 w36 h35 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
 	ui.DownButton.OnEvent("Click",HideGui)
 	ui.DownButton.ToolTip := "Minimizes cacheApp App"
-	
 	ui.ExitButton 	:= ui.titleBarButtonGui.AddPicture("x+1 ys section w36 h35 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
 	ui.ExitButton.OnEvent("Click",ExitButtonPushed)
 	ui.ExitButton.ToolTip := "Terminates cacheApp App"
-
-
 	ui.buttonUndockAfk := ui.titleBarButtonGui.AddPicture("x+6 ys w35 h35 hidden Background" cfg.ThemeButtonAlertColor,"./Img/button_dockright_ready.png")
 	ui.buttonUndockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonUndockAfk.ToolTip := "Undocks AFK Window"
-
-
 	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h38 background" cfg.themeBorderDarkColor," ")
-
 	InitOSDGui()
-
 	if (cfg.consoleVisible) {
 		(cfg.consoleVisible := !cfg.consoleVisible)
 		toggleConsole()
 	}
 	
-	if (cfg.AlwaysOnTopEnabled) 
-	{
-		ui.MainGui.Opt("+AlwaysOnTop")
-		ui.titleBarButtonGui.Opt("+AlwaysOnTop")
-		ui.AfkGui.Opt("+AlwaysOnTop")
-		try
-			ui.dockBarGui.opt("+alwaysOnTop")
-	} else {
-		ui.MainGui.Opt("-AlwaysOnTop")
-		ui.titleBarButtonGui.Opt("-AlwaysOnTop")
-		ui.AfkGui.Opt("-AlwaysOnTop")	
-		try
-			ui.dockBarGui.opt("+alwaysOnTop")
-	}
-	
+
 	debugLog("Interface Initialized")
 	ui.MainGuiTabs.UseTab("")
 }
-
-
 
 initOSDGui() {
 	Global 
@@ -191,14 +156,7 @@ initOSDGui() {
 	postMessage("0x153", -1, 19,, "AHK_ID " ui.afkWin1ClassDDL.Hwnd ) ; CB_SETITEMHEIGHT = 0x153
 	postMessage("0x153", 0, 19,, "AHK_ID " ui.afkWin1ClassDDL.Hwnd ) ; CB_SETITEMHEIGHT = 0x153
 	ui.Win2Label := ui.AfkGui.AddPicture("xs y+8 section w30 h23 background" cfg.themeEditboxColor,"./Img/arrow_right.png")
-	; loop ui.profileList.length {
-		; if (ui.profileList[a_index] == cfg.win1class) {
-			; ui.afkWin1ClassDDL.choose(a_index)
-		; }
-		; if (ui.profileList[a_index] == cfg.win2class) {
-			; ui.afkWin2ClassDDL.choose(a_index)
-		; }
-	; }
+
 	ui.AfkGui.SetFont("s14","Calibri")
 	ui.Win2AfkIcon := ui.AfkGui.AddPicture("x+0 ys w28 h20 background" cfg.themeEditboxColor,"./Img/sleep_icon.png")
 	ui.Win2AfkStatus := ui.AfkGui.AddText("x+0 ys w28 h20 background" cfg.themeEditboxColor,"")
@@ -261,7 +219,6 @@ fadeIn() {
 		ui.isFading := true
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui)
 		transparency := 0
-
 		if cfg.topDockEnabled {
 			guiVis(ui.mainGui,false)
 			guiVis(ui.titleBarButtonGui,false)
@@ -282,7 +239,6 @@ fadeIn() {
 						winSetTransparent(round(transparency),ui.titleBarButtonGui)
 						sleep(1)
 					}
-				
 				case "Game":
 					while transparency < 223 {
 						transparency += 4
@@ -292,9 +248,6 @@ fadeIn() {
 						winSetTransparent(min(round(transparency)+0,255),ui.gameSettingsGui)
 						sleep(1)
 					}
-					
-					;ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
-					;guiVis(ui.gameSettingsGui,true)
 					guiVis(ui.gameTabGui,true)
 					
 				default:
@@ -310,7 +263,6 @@ fadeIn() {
 			guiVis(ui.titleBarButtonGui,true)
 		}
 		ui.isFading := false
-
 	}
 	if (cfg.alwaysOnTopEnabled) {
 		ui.mainGui.opt("alwaysOnTop")
@@ -326,7 +278,6 @@ autoFireButtonClicked(*) {
 	ToggleAutoFire()
 }
 
-
 toggleGuiCollapse(*) {
 	static activeMainTab := ui.mainGuiTabs.value
 		
@@ -334,7 +285,6 @@ toggleGuiCollapse(*) {
 		? CollapseGui() 
 		: UncollapseGui()
 }
-
 
 CollapseGui() {
 	winGetPos(&mainX,&mainY,&mainW,&mainH,ui.mainGui)
@@ -359,10 +309,6 @@ CollapseGui() {
 }
 
 redrawGuis(GuiWidth,mainX,mainY) {
-	
-	; if guiWidth < 310
-		; ui.afkGui.move(mainX+45,mainY+35,guiWidth-35,)
-	;ui.gameSettingsGui.move(mainX+35,mainY+35,guiWidth-35,)
 }
 
 UncollapseGui() {
@@ -388,16 +334,13 @@ UncollapseGui() {
 	guiVis(ui.gameTabGui,true)
 	tabsChanged()
 	guiVis(ui.titleBarButtonGui,true)
-
 }
-
 
 toggleAfkDock(*) {
 	(ui.AfkDocked := !ui.AfkDocked) 
 	? dockAfkGui() 
 	: undockAfkGui()
 }
-
 
 dockAfkGui(*) {
 	; guiVis(ui.opsGui,false)
@@ -412,23 +355,15 @@ dockAfkGui(*) {
 	ui.AfkGui.Move(0,A_ScreenHeight-ui.TaskbarHeight-134,272,134)
 	winGetPos(&AfkGuiX,&AfkGuiY,,,ui.afkGui)
 
-	;ui.mainGui.move(afkGuiX-45,afkGuiX-35)
-
 	ui.buttonDockAfk.opt("background" cfg.themeButtonOnColor)
 	ui.buttonDockAfk.value := "./img/button_dockright_ready.png"
 	ui.handleBarAfkGui.opt("-hidden")
-	; ui.downButton.opt("hidden")
 	guiVis(ui.afkGui,true)
 	guiVis(ui.titleBarButtonGui,false)
 	WinGetPos(&AfkGuiX,&AfkGuiY,&AfkGuiW,&AfkGuiH,ui.afkGui)
 	WinSetTransparent(210,ui.AfkGui)
 	WinSetTransparent(210,ui.HandlebarAfkGui)
 	controlFocus(ui.buttonUndockAfk)
-
-	; ui.buttonUndockAfk.Opt("-Hidden")
-
-	; ui.exitButton.Move(10,0)
-	;ui.buttonUndockAfk.Move(49,0)
 }
 	
 undockAfkGui(*) {
@@ -443,42 +378,13 @@ undockAfkGui(*) {
 	ui.mainGui.move(cfg.guiX+1,cfg.guiY)
 	ui.mainGui.move(cfg.guiX-1,cfg.guiY)
 	ui.HandlebarAfkGui.Opt("Hidden")	
-
-	; ui.downButton.opt("-hidden")
-	; ui.downButton.Move(456,0)
-	; ui.exitButton.Move(494,0)
-
-	; IniWrite(cfg.GuiX,"cacheApp.ini","Interface","GuiX")
-	; IniWrite(cfg.GuiY,"cacheApp.ini","Interface","GuiY")
-	; guiVis(ui.opsGui,true)
-	; ui.buttonDockAfk.Opt("-Hidden")
-	; ui.buttonUndockAfk.Opt("Hidden")
-	; ui.buttonDockAfk.Move(6,2)
-	; ui.buttonStartAFK.Move(36,2)
-	; ui.buttonTower.Move(66,2)
-	; ui.buttonAntiIdle1.Move(96,2)
-	; ui.buttonAutoFire.Move(126,2)
-	; ui.buttonAutoClicker.Move(156,2)
-	; ui.buttonPopout.move(217,2)
-	; ui.opsGui.Move(winX,winY)
-
-	;ui.mainGui.move(ui.prevGuiX,ui.prevGuiY)
-	; if !(ui.MainGuiTabs.Text == "AFK")
-	; {
-		; guiVis(ui.afkGui,false)
-		; AfkPopoutButtonPushed()
-	; } else {
-		; guiVis(ui.afkGui,true)
-	; }
 	tabsChanged()
 	guiVis(ui.mainGui,true)
 	guiVis(ui.titleBarButtonGui,true)
-; ui.mainGuiTabs.choose("AFK")
 	controlFocus(ui.buttonDockAfk)
 }	
 
 afkPopoutButtonPushed(*) {
-
 	(ui.AfkAnchoredToGui := !ui.AfkAnchoredToGui)
 	? afkPopIn()
 	: afkPopOut()
@@ -486,10 +392,8 @@ afkPopoutButtonPushed(*) {
 	afkPopOut() {
 		saveGuiPos()
 		winGetPos(&winX,&winY,,,ui.mainGui)
-		
 		ui.prevGuiX := winX
 		ui.prevGuiY := winY
-		
 		debugLog("PopOut of AFK Gui")
 		ui.AfkDocked := false
 		guiVis(ui.titleBarButtonGui,false)
@@ -498,23 +402,17 @@ afkPopoutButtonPushed(*) {
 		WinSetTransparent(210,ui.AfkGui)
 		ui.buttonPopout.Value := "./Img/button_popout_on.png"
 		ui.buttonPopout.Opt("Background" cfg.ThemeButtonOnColor)
-		; ui.buttonPopout.move(245,2)
 	}
 	
 	afkPopIn() {
 		ui.AfkDocked := false
 		ui.AfkAnchoredToGui := true
-		;unDockAfkGui()
 		ui.buttonAfkHide.opt("+hidden")
 		ui.handleBarAfkGui.opt("hidden") 
-
-
 		ui.buttonPopout.Value := "./Img/button_popout_ready.png"
 		ui.buttonPopout.Opt("Background" cfg.ThemeButtonReadyColor)
 
-		
-		if !(ui.MainGuiTabs.Text == "AFK")
-		{
+		if !(ui.MainGuiTabs.Text == "AFK") {
 			guiVis(ui.afkGui,false)
 		}
 		ui.titleBarButtonGui.Opt("Owner" ui.MainGui.Hwnd)
@@ -526,7 +424,6 @@ afkPopoutButtonPushed(*) {
 		ui.mainGui.move(cfg.guiX+1,cfg.guiY)
 		ui.mainGui.move(cfg.guiX-1,cfg.guiY)
 		ui.HandlebarAfkGui.Opt("Hidden")	
-
 		winGetPos(&afkX,&afkY,,,ui.afkGui)
 		ui.mainGui.move(afkX-40,afkY-50)
 		guiVis(ui.titleBarButtonGui,true)
@@ -534,23 +431,18 @@ afkPopoutButtonPushed(*) {
 	}
 }
 
-
 exitMenuShow(this_button) {
 	if this_button == ui.dockBarExitButton {
 		winGetPos(&dbX,&dbY,&dbW,&dbH,ui.dockBarGui)
 		ui.exitMenuGui := gui()
 		ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.dockBarGui.hwnd)
 		ui.exitMenuGui.BackColor := ui.transparentColor
-
-
 		ui.stopGamingButton := ui.exitMenuGui.addPicture("x0 y2 section w35 h35 background" cfg.themeFont2Color,"./img/button_quit.png")
 		ui.startGamingButton := ui.exitMenuGui.addPicture("x+2 ys w35 h35 background" cfg.themeFont2Color,"./img/button_exit_gaming.png")
 		ui.stopGamingButton.toolTip := "Shut down all apps defined in the Gaming Mode AppDock list"
 		ui.startGamingButton.toolTip := "Start apps defined in the Gaming Mode AppDock list"
 		ui.stopGamingButton.onEvent("Click",exitAppCallback)
 		ui.startGamingButton.onEvent("Click",stopGaming)
-		; ui.gamingLabels := ui.exitMenuGui.addText("x0 y40 w80 h52 center background" cfg.themePanel3color " c" cfg.themeButtonOnColor,"Stop Start ")
-		; ui.gamingLabels.setFont("s10 bold")	
 		WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
 		ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y37 w72 h15 center background" cfg.themePanel3color " c" cfg.themeFont3Color," Gaming Mode")
 		ui.gamingModeLabel.setFont("s8")
@@ -558,7 +450,6 @@ exitMenuShow(this_button) {
 		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,1,1,72,50,cfg.themeBorderLightColor,cfg.themeBorderDarkColor,1)
 		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,2,2,72,50,cfg.themeDark1Color,cfg.themeDark2Color,1)
 		ui.exitMenuGui.show("x" dbX+dbW-71 " y" dbY+dbH-37 " w74 h52 noActivate")
-		
 		loop 75 {
 			ui.exitMenuGui.move(dbX+dbW-71+a_index,dbY+dbH-37)
 		}
@@ -567,7 +458,6 @@ exitMenuShow(this_button) {
 		ui.exitMenuGui := gui()
 		ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.mainGui.hwnd)
 		ui.exitMenuGui.BackColor := ui.transparentColor
-
 		ui.gamingModeLabel := ui.exitMenuGui.addText("x0 y2 w72 h15 center background" cfg.themePanel3color " c" cfg.themeButtonOnColor," Gaming Mode")
 		ui.gamingModeLabel.setFont("s8")
 		ui.gamingLabels := ui.exitMenuGui.addText("x0 y16 w72 h52 center background" cfg.themePanel3color " c" cfg.themeButtonAlertColor," Stop   Start ")
@@ -578,9 +468,7 @@ exitMenuShow(this_button) {
 		ui.startGamingButton.onEvent("Click",stopGaming)
 		WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
 		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
-		;msgBox(tbx "`n" tby)
 		ui.exitMenuGui.show("x" tbX " y" tbY-70 " AutoSize noActivate")
-		
 		loop 70 {
 			ui.exitMenuGui.move(tbX,tbY-a_index)
 		}
@@ -602,8 +490,7 @@ exitButtonPushed(this_button,*) {
 				startGaming()
 			case ui.stopGamingButton.hwnd:
 				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-					
+					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)	
 				}
 				ui.exitMenuGui.destroy()
 				stopGaming()
@@ -612,8 +499,7 @@ exitButtonPushed(this_button,*) {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
 				}
 				ui.exitMenuGui.destroy()
-				exitApp()
-				
+				exitApp()	
 			case ui.exitButton.hwnd:
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
@@ -629,33 +515,28 @@ exitButtonPushed(this_button,*) {
 	} else {
 		mouseGetPos(,,,&ctrlUnderMouse,2)
 		winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)	
-		switch ctrlUnderMouse
-		{
+		switch ctrlUnderMouse {
 			case ui.startGamingButton.hwnd:
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				
 				}
 				ui.exitMenuGui.destroy()
 				startGaming()
 			case ui.stopGamingButton.hwnd:
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-					
-					}
+				}
 				ui.exitMenuGui.destroy()
 				stopGaming()
 			case ui.exitButton.hwnd:
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				
 				}
 				ui.exitMenuGui.destroy()
 				exitApp()
 			default: 
 				loop 69 {
 					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				
 				}
 				ui.exitMenuGui.destroy()
 		}
@@ -663,28 +544,12 @@ exitButtonPushed(this_button,*) {
 }
 
 stopGaming(*) {
-	; ui.dividerGui.hide()
-	; while a_index <= cfg.gamingStopProc.length {
-		; try	
-			; processClose(cfg.gamingStopProc[a_index])
-		; processIndex := a_index
-	; }
-	; try
-	; winWaitClose("ahk_exe " cfg.gamingStopProc[processIndex],,5)
 	winCloseAll("Gaming Mode")
 	exitApp()
 }
 
-
 startGaming(*) {
-	; msgBox(cfg.gamingStartProc.length)
 	applyWinPos("Gaming Mode")
-	; sqliteQuery(cfg.dbFilename,"SELECT action from listActions where listName='Gaming Start' and type='Application'",&sqlResult)
-	; for row in sqlResult.rows {
-		; osdLog(row[1])
-		; splitPath(row[1],&processName,&processDir)
-		; run(row[1],processDir)
-	; }
 }
 
 quickOSD()

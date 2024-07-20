@@ -382,17 +382,3 @@ GuiDockTab(&ui) {
 		}
 			
 	}
-	
-	
-	
-	drawDivider(DockY) { 
-		MonitorGetWorkArea(cfg.AppDockMonitor, &Left, &Top, &Right, &Bottom)
-		WorkAreaHeightWhenDocked :=  (Bottom - Top - cfg.DockHeight)
-		ui.dividerGui.opt("-caption +alwaysOnTop +ToolWindow +0x4000000")
-		ui.dividerGui.backColor := cfg.themeBright1Color
-		ui.dividerGui.show("x" Left " y" DockY-8 " w" Right-Left " h12 NoActivate")
-		winSetTransparent(255,ui.dividerGui)
-	}
-	
-
-
