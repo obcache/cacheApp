@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.6.9"
+A_FileVersion := "1.2.7.1"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -86,7 +86,7 @@ initConsole(&ui)
 #include <libGuiSetupTab>
 #include <libGuiAppDockTab>
 #include <libGameSettingsTab>
- #include <libEditorTab>
+#include <libEditorTab>
 #include <libGuiSystemTab>
 #include <libHotkeys>
 #include <libRoutines>

@@ -18,7 +18,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 d2drawPanel1(*) {
 	guiName := ui.gameSettingsGui
-		labelX := 280
+		labelX := 80
 		labelY := 44
 		labelW := 80
 		labelH := 21
@@ -29,7 +29,7 @@ d2drawPanel1(*) {
 
 		ui.d2keybindAppTab1 := guiName.addText("x" labelX " y" labelY+labelH/2 " w" labelW " h" labelH/2+3 " background" outlineColor,"")
 			
-		labelX := 360
+		labelX := 160
 		labelY := 42
 		labelW := 100
 		labelH := 23
@@ -83,22 +83,22 @@ d2drawPanel1(*) {
 		ui.d2KeyBindHelpMsg			:= ui.gameSettingsGui.addText("x47 y54 w350 h12 backgroundTrans c" cfg.themeFont1Color,"")
 		ui.d2KeyBindHelpMsg.setFont("s8")
 
-		ui.d2AppPauseKey.ToolTip 	:= "Click to Assign"
-		ui.d2AppHoldToCrouchKey.ToolTip 			:= "Click to Assign"
-		ui.d2AppHoldToCrouchKeyData.ToolTip  	:= "Click to Assign"
-		ui.d2AppHoldToCrouchKeyLabel.ToolTip		:= "Click to Assign"
-		ui.d2AppLoadoutKey.ToolTip			:= "Click to Assign"
-		ui.d2AppLoadoutKeyData.ToolTip  	:= "Click to Assign"
-		ui.d2AppLoadoutKeyLabel.ToolTip		:= "Click to Assign"
-		ui.d2AppToggleSprintKey.ToolTip		:= "Click to Assign"
+		ui.d2AppPauseKey.ToolTip 				:= "Click to Assign"
+		ui.d2AppHoldToCrouchKey.ToolTip 		:= "Click to Assign"
+		ui.d2AppHoldToCrouchKeyData.ToolTip 	:= "Click to Assign"
+		ui.d2AppHoldToCrouchKeyLabel.ToolTip	:= "Click to Assign"
+		ui.d2AppLoadoutKey.ToolTip				:= "Click to Assign"
+		ui.d2AppLoadoutKeyData.ToolTip  		:= "Click to Assign"
+		ui.d2AppLoadoutKeyLabel.ToolTip			:= "Click to Assign"
+		ui.d2AppToggleSprintKey.ToolTip			:= "Click to Assign"
 		ui.d2AppToggleSprintKeyData.ToolTip  	:= "Click to Assign"
 		ui.d2AppToggleSprintKeyLabel.ToolTip	:= "Click to Assign"
-		ui.d2AppHoldToCrouchKey.ToolTip		:= "Click to Assign"
+		ui.d2AppHoldToCrouchKey.ToolTip			:= "Click to Assign"
 		ui.d2AppHoldToCrouchKeyData.ToolTip  	:= "Click to Assign"
 		ui.d2AppHoldToCrouchKeyLabel.ToolTip	:= "Click to Assign"
-		ui.d2AppReloadKey.ToolTip		:= "Click to Assign"
-		ui.d2AppReloadKeyData.ToolTip  	:= "Click to Assign"
-		ui.d2AppReloadKeyLabel.ToolTip	:= "Click to Assign"
+		ui.d2AppReloadKey.ToolTip				:= "Click to Assign"
+		ui.d2AppReloadKeyData.ToolTip  			:= "Click to Assign"
+		ui.d2AppReloadKeyLabel.ToolTip			:= "Click to Assign"
 
 		ui.d2AppLoadoutKeyData.setFont("s11")
 		ui.d2AppPauseKeyData.setFont("s11")
@@ -149,7 +149,7 @@ d2drawPanel1(*) {
 		ui.d2GameHoldToCrouchKeyData.onEvent("click",d2GameHoldToCrouchKeyClicked)
 
 		ui.d2gameToggleSprintKey.ToolTip		:= "Click to Assign"
-		ui.d2gameToggleSprintKeyData.ToolTip  := "Click to Assign"
+		ui.d2gameToggleSprintKeyData.ToolTip  	:= "Click to Assign"
 		ui.d2gameToggleSprintKeyLabel.ToolTip	:= "Click to Assign"
 		
 		ui.d2GameReloadKey.ToolTip				:= "Click to Assign"
@@ -892,16 +892,16 @@ d2keybindGameTabClicked(*) {
 guiName := ui.gameSettingsGui
 		
 		ui.d2KeybindHelpMsg.text := "Configure these to mirror your in-game bindings"
-		labelX := 360
+		labelX := 260
 		labelY := 46
 		labelW := 100
 		labelH := 13
 		ui.d2keybindAppTab1.opt("background" cfg.themeBright2Color)
 		ui.d2keybindAppTab2.opt("background" cfg.themePanel4Color) 
 		ui.d2keybindAppTab3.setFont("s10 c" cfg.themeFont4Color,"thin")
-		ui.d2keybindAppTab1.move(280,,80,15)
-		ui.d2keybindAppTab2.move(281,labelY+7,78,12)
-		ui.d2keybindAppTab3.move(280,labelY+5,,12)
+		ui.d2keybindAppTab1.move(80,,80,15)
+		ui.d2keybindAppTab2.move(81,labelY+7,78,12)
+		ui.d2keybindAppTab3.move(80,labelY+5,,12)
 		
 
 		ui.d2keybindGameTab1.opt("background" cfg.themeBright1Color)
@@ -922,9 +922,9 @@ ui.d2KeyBindHelpMsg.text := "     Assign keys you'd like to use for each functio
 		ui.d2keybindGameTab1.opt("background" cfg.themeDark2Color)
 		ui.d2keybindGameTab2.opt("background" cfg.themePanel4Color) 
 		ui.d2keybindGameTab3.setFont("s10 c" cfg.themeFont4Color,"thin")
-		ui.d2keybindGameTab1.move(360,,100,15)
-		ui.d2keybindGameTab2.move(361,labelY+7,98,12)
-		ui.d2keybindGameTab3.move(360,labelY+5,,12)
+		ui.d2keybindGameTab1.move(160,,100,15)
+		ui.d2keybindGameTab2.move(161,labelY+7,98,12)
+		ui.d2keybindGameTab3.move(160,labelY+5,,12)
 		
 
 		ui.d2keybindAppTab1.opt("background" cfg.themeBright1Color)
