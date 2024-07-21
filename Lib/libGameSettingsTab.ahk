@@ -18,7 +18,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 d2drawPanel1(*) {
 	guiName := ui.gameSettingsGui
-		labelX := 80
+		labelX := 280
 		labelY := 44
 		labelW := 80
 		labelH := 21
@@ -29,7 +29,7 @@ d2drawPanel1(*) {
 
 		ui.d2keybindAppTab1 := guiName.addText("x" labelX " y" labelY+labelH/2 " w" labelW " h" labelH/2+3 " background" outlineColor,"")
 			
-		labelX := 160
+		labelX := 360
 		labelY := 42
 		labelW := 100
 		labelH := 23
@@ -892,23 +892,24 @@ d2keybindGameTabClicked(*) {
 guiName := ui.gameSettingsGui
 		
 		ui.d2KeybindHelpMsg.text := "Configure these to mirror your in-game bindings"
-		labelX := 260
+		labelX := 360
 		labelY := 46
 		labelW := 100
 		labelH := 13
-		ui.d2keybindAppTab1.opt("background" cfg.themeBright2Color)
+		ui.d2keybindAppTab1.opt("background" cfg.themeDark2Color)
 		ui.d2keybindAppTab2.opt("background" cfg.themePanel4Color) 
 		ui.d2keybindAppTab3.setFont("s10 c" cfg.themeFont4Color,"thin")
-		ui.d2keybindAppTab1.move(80,,80,15)
-		ui.d2keybindAppTab2.move(81,labelY+7,78,12)
-		ui.d2keybindAppTab3.move(80,labelY+5,,12)
+		ui.d2keybindAppTab1.move(280,,80,15)
+		ui.d2keybindAppTab2.move(281,labelY+7,78,12)
+		ui.d2keybindAppTab3.move(280,labelY+5,,12)
 		
 
 		ui.d2keybindGameTab1.opt("background" cfg.themeBright1Color)
 		ui.d2keybindGameTab2.opt("background" cfg.themePanel2Color)
 		ui.d2keybindGameTab3.setFont("s10 c" cfg.themeFont1Color,"bold")
-		ui.d2keybindGameTab2.move(labelx+1,labelY+6,100,15)
-		ui.d2keybindGameTab1.move(labelx+0,labelY+5,,17)
+		ui.d2keybindGameTab2.move(labelx+1,labelY+6,98,15)
+		ui.d2keybindGameTab2.redraw()
+		ui.d2keybindGameTab1.move(labelx+0,labelY+5,101,17)
 	d2changeKeybindPanelTab(1)
 }
 
@@ -922,16 +923,16 @@ ui.d2KeyBindHelpMsg.text := "     Assign keys you'd like to use for each functio
 		ui.d2keybindGameTab1.opt("background" cfg.themeDark2Color)
 		ui.d2keybindGameTab2.opt("background" cfg.themePanel4Color) 
 		ui.d2keybindGameTab3.setFont("s10 c" cfg.themeFont4Color,"thin")
-		ui.d2keybindGameTab1.move(160,,100,15)
-		ui.d2keybindGameTab2.move(161,labelY+7,98,12)
-		ui.d2keybindGameTab3.move(160,labelY+5,,12)
+		ui.d2keybindGameTab1.move(360,,100,15)
+		ui.d2keybindGameTab2.move(361,labelY+7,98,12)
+		ui.d2keybindGameTab3.move(360,labelY+5,,12)
 		
 
-		ui.d2keybindAppTab1.opt("background" cfg.themeBright1Color)
+		ui.d2keybindAppTab1.opt("background" cfg.themeBright2Color)
 		ui.d2keybindAppTab2.opt("background" cfg.themePanel2Color)
 		ui.d2keybindAppTab3.setFont("s10 c" cfg.themeFont1Color,"bold")
 		ui.d2keybindAppTab2.move(labelx+1,labelY+6,78,15)
-		ui.d2keybindAppTab1.move(labelx+0,labelY+5,,17)
+		ui.d2keybindAppTab1.move(labelx+0,labelY+5,80,17)
 		d2changeKeybindPanelTab(2)
 		
 		
