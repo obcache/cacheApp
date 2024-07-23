@@ -87,7 +87,21 @@ initGui(&cfg, &ui) {
 
 	debugLog("Interface Initialized")
 	ui.MainGuiTabs.UseTab("")
+	line(ui.mainGui,35,212,496,2,cfg.themeBright2Color)
+	line(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
+
 }
+
+line(this_gui,startingX,startingY,length,thickness,color,vertical:=false) {
+	this_guid := comObject("Scriptlet.TypeLib").GUID
+	if (vertical) {
+		this_guid := this_gui.addText("x" startingX " y" startingY " w" thickness " h" length " background" color)
+	} else {
+		this_guid := this_gui.addText("x" startingX " y" startingY " w" length " h" thickness " background" color)
+	}
+	return this_guid
+}
+
 
 initOSDGui() {
 	Global 
@@ -240,6 +254,7 @@ fadeIn() {
 						sleep(1)
 					}
 				case "Game":
+					guiVis(ui.gameTabGui,true)
 					while transparency < 223 {
 						transparency += 4
 						winSetTransparent(min(round(transparency)+60,255),	ui.gameTabGui)
@@ -248,7 +263,7 @@ fadeIn() {
 						winSetTransparent(min(round(transparency)+0,255),ui.gameSettingsGui)
 						sleep(1)
 					}
-					guiVis(ui.gameTabGui,true)
+				guiVis(ui.gameTabGui,true)
 					
 				default:
 				while transparency < 253 {

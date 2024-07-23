@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.7.6"
+A_FileVersion := "1.2.7.7"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -138,8 +138,7 @@ if cfg.topDockEnabled
 if ui.incursionDebug
 	incursionNotice()
 ;OnMessage(0x0201, wm_lButtonDown)
-	if (cfg.AlwaysOnTopEnabled) 
-	{
+	if (cfg.AlwaysOnTopEnabled) {
 		ui.MainGui.Opt("+AlwaysOnTop")
 		ui.titleBarButtonGui.Opt("+AlwaysOnTop")
 		ui.AfkGui.Opt("+AlwaysOnTop")

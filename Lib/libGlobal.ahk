@@ -447,7 +447,7 @@ autoUpdate() {
 }	
 
 CheckForUpdates(msg,*) {
-	winSetAlwaysOnTop(0,ui.mainGui.hwnd)
+	;winSetAlwaysOnTop(0,ui.mainGui.hwnd)
 	ui.installedVersion := fileRead("./cacheApp_currentBuild.dat")
 	ui.installedVersionText.text := "Installed:`t" substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1)
 	ui.installedVersionText.redraw()

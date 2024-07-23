@@ -393,6 +393,7 @@ d2FlashIncursionNoticeB(*) {
 	}
 
 	drawGameTabs(tabNum := 1) {
+		
 		ui.gameTabWidth := 0
 		try	 
 			ui.gameTabGui.destroy()
@@ -461,10 +462,10 @@ d2FlashIncursionNoticeB(*) {
 			ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h28 background" cfg.themePanel1Color)
 			drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+3,4,498-ui.gameTabWidth-6,25,cfg.themeDark1Color,cfg.themeDark1Color,1)
 			winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-			ui.gameTabGui.show("w497 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
+			ui.gameTabGui.show("w495 h28 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
 		} else {
 			winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-			ui.gameTabGui.show("w228 h29 x" mainGuiX+35 " y" mainGuiY+184 " noActivate") 
+			ui.gameTabGui.show("w228 h28 x" mainGuiX+35 " y" mainGuiY+185 " noActivate") 
 		}
 		;setTimer () => ui.gameTabGui.move(winX+35,winY+184,495,29),-3000
 
