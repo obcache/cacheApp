@@ -237,72 +237,75 @@ GuiDockTab(&ui) {
 			}
 		}
 		
-		while winList.length > 0 {
-			if (sqlResult.hasRows) {
-				for row in sqlResult.rows {
-					winNum := a_index
-					this_winTitle := row[1]
-					processPath 	:= row[2]
-					this_coordX		:= row[3]
-					this_coordY		:= row[4]
-					this_coordW		:= row[5]
-					this_coordH		:= row[6]
-					this_Caption	:= row[7]
-					this_onTop 		:= row[8]
-					splitPath(processPath,&processName,&processDir)
-					osdLog("found config for: " processName)
-					winList[a_index] := false
-					
-					if inStr(processPath,"discord") {
-						DetectHiddenWindows(true)
-						osdLog("recognized app with exception: discord")
-						osdLog("launching discord with special rules")
-						processPath := a_scriptdir "\redist\discord.exe"
+		loop 3 {
+			try
+				if (tmp_x == this_coordX && tmp_y == this_coordY && tmp_w == this_coordW && tmp_h == this_coordH && (winGetStyle(processName) & "0xC00000") == this_caption && winGetAlwaysOnTop(processName) == this_OnTop)
+					return
+			try 
+				if (sqlResult.hasRows) {
+					for row in sqlResult.rows {
+						winNum := a_index
+						this_winTitle := row[1]
+						processPath 	:= row[2]
+						this_coordX		:= row[3]
+						this_coordY		:= row[4]
+						this_coordW		:= row[5]
+						this_coordH		:= row[6]
+						this_Caption	:= row[7]
+						this_onTop 		:= row[8]
 						splitPath(processPath,&processName,&processDir)
-						DetectHiddenWindows(false)
-					}
-					if inStr(processName,"obs64.exe") {
-						osdLog("recognized app with exception: obs")
-						osdLog("launching obs.exe with special rules")
-						processPath .= " --disable-shutdown-check --disable-missing-files-check -m"
-					}
-					
-				processRunning := false
-				rerun_timeout := 0
-				winWait_timeout := 0
-				osdLog("executing: " processPath)
-				if !processExist(processName)
-					run(processPath,processDir)
-				sleep(1500)	
-				osdLog("waiting for: " processName)
-				processWait(processName)
-			
-				winWait("ahk_exe " processName)
-				if winGetMinMax("ahk_exe " processName)
-					PostMessage(0x0112, 0xF120,,,"ahk_exe " processName,)
-				try
-					winGetPos(&tmp_x,&tmp_y,&tmp_w,&tmp_h,"ahk_exe " processName)
-
-				winShow()
-				winActivate()
-
-				try {
-					osdLog("Moving to: " this_coordX "," this_coordY "," this_coordW "," this_coordH)
-					winMove(this_coordX,this_coordY,this_coordW,this_coordH,"ahk_exe " processName)		
-					if this_onTop == true
-						winSetAlwaysOnTop(1,"ahk_exe " processName)
-					else
-						winSetAlwaysOnTop(0,"ahk_exe " processName)
-					if this_caption == true
-						WinSetStyle("+0xC00000", "ahk_exe " processName)
-					else
-						WinSetStyle("-0xC00000","ahk_exe " processName)
-					}
+						osdLog("found config for: " processName)
+						winList[a_index] := false
+						
+						if inStr(processPath,"discord") {
+							DetectHiddenWindows(true)
+							osdLog("recognized app with exception: discord")
+							osdLog("launching discord with special rules")
+							processPath := a_scriptdir "\redist\discord.exe"
+							splitPath(processPath,&processName,&processDir)
+							DetectHiddenWindows(false)
+						}
+						if inStr(processName,"obs64.exe") {
+							osdLog("recognized app with exception: obs")
+							osdLog("launching obs.exe with special rules")
+							processPath .= " --disable-shutdown-check --disable-missing-files-check -m"
+						}
+						
+					processRunning := false
+					rerun_timeout := 0
+					winWait_timeout := 0
+					osdLog("executing: " processPath)
+					if !processExist(processName)
+						run(processPath,processDir)
+					sleep(1500)	
+					osdLog("waiting for: " processName)
+					processWait(processName)
 				
+					winWait("ahk_exe " processName)
+					if winGetMinMax("ahk_exe " processName) == 1 || winGetMinMax("ahk_exe " processName)
+						PostMessage(0x0112, 0xF120,,,"ahk_exe " processName,)
+					try
+						winGetPos(&tmp_x,&tmp_y,&tmp_w,&tmp_h,"ahk_exe " processName)
+
+					winShow()
+					winActivate()
+
+					try {
+						osdLog("Moving to: " this_coordX "," this_coordY "," this_coordW "," this_coordH)
+						winMove(this_coordX,this_coordY,this_coordW,this_coordH,"ahk_exe " processName)		
+						if this_onTop == true
+							winSetAlwaysOnTop(1,"ahk_exe " processName)
+						else
+							winSetAlwaysOnTop(0,"ahk_exe " processName)
+						if this_caption == true
+							WinSetStyle("+0xC00000", "ahk_exe " processName)
+						else
+							WinSetStyle("-0xC00000","ahk_exe " processName)
+						}
+					
+					}
 				}
-			}
-		if (tmp_x == this_coordX && tmp_y == this_coordY && tmp_w == this_coordW && tmp_h == this_coordH && (winGetStyle(processName) & "0xC00000") == this_caption && winGetAlwaysOnTop(processName) == this_OnTop)
-			winList.removeAt[a_index]
+		
 		}
 	ui.restoreWinPosButton.opt("background" cfg.themePanel3Color)
 	ui.restoreWinPosButton.redraw()
