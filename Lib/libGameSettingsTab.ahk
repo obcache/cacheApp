@@ -534,7 +534,7 @@ d2AppPause(*) {
 }
 	
 d2RemapCrouchEnabled(*) {
-	return ((winActive("ahk_exe destiny2.exe"))
+	return ((winActive("ahk_exe destiny2.exe") && !cfg.d2AppPaused)
 		? cfg.d2AlwaysRunEnabled
 			? 1
 			: 0
