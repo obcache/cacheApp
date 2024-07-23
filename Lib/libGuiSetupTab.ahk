@@ -9,8 +9,8 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	Return
 }
 
-;libGuiSetupTab
 monitorResChanged(*) {
+;libGuiSetupTab
 	cfg.monitorRes := ui.monitorResDDL.text
 	if (ui.monitorAuto.value) {
 		ui.monitorResDDL.delete()
@@ -208,18 +208,28 @@ GuiSetupTab(&ui,&cfg) {
 	ui.latestVersionText := ui.mainGui.addText("xs y+-4 w140 backgroundTrans c" cfg.themeFont3Color,"Available:`t#.#.#.#")
 	ui.monitorResList := ["1920x1080","1920x1200","2560x1440","3440x1440","Custom"]
 
-	ui.monitorResDDL := ui.mainGui.AddDDL("xs-42 y+15 w110 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,ui.monitorResList)
+	ui.monitorResDDL := ui.mainGui.AddDDL("xs-42 y+15 w90 r4 choose" cfg.monitorRes " background" cfg.themeBackgroundColor,ui.monitorResList)
 	ui.monitorResDDL.onEvent("change",monitorResChanged)
-	ui.monitorResLabel := ui.mainGui.AddText("x+3 y+-23 w65 c" cfg.themeFont1Color " backgroundTrans","Display")	
-	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Resolution")
+	ui.monitorResLabel := ui.mainGui.AddText("x+3 y+-23 w65 c" cfg.themeFont1Color " backgroundTrans","Screen")	
+	ui.monitorResLabel2 := ui.mainGui.AddText("y+-7 w65 c" cfg.themeFont1Color " backgroundTrans","Size")
 	ui.monitorResLabel.setFont("s7")
 	ui.monitorResLabel2.setFont("s7")
-	ui.monitorAuto := ui.mainGui.addCheckbox("x+-8 y+-18 w15 h15",cfg.displaySizeAuto)
+	ui.monitorAuto := ui.mainGui.addCheckbox("x+-22 y+-18 w15 h15",cfg.displaySizeAuto)
 	ui.monitorAuto.onEvent("Click",toggleAutoDisplaySize)
-	ui.monitorAutoLabel := ui.mainGui.addText("x+-21 y+-28 w25 h12 c" cfg.themeFont1Color " backgroundTrans","Auto")
+	ui.monitorAutoLabel := ui.mainGui.addText("x+-21 y+-28 w25 h12 section c" cfg.themeFont1Color " backgroundTrans","Auto")
 	ui.monitorAutoLabel.setFont("s8")
+
+	ui.macroSpeed := ui.mainGui.addText("x+7 ys+13 w33 h16 center border section")
+	ui.macroSpeed := ui.mainGui.addUpDown("vMacroSpeed range1-10",cfg.d2AppLoadoutMultiplier)
+	ui.macroSpeedLabel := ui.mainGui.addText("x+-31 y+-29 w30 backgroundTrans","Delay")
+	ui.macroSpeedLabel.setFont("s8")
+	ui.macroSpeed.onEvent("change",macroSpeedChanged)
 	ui.installedVersionText.setFont("s10")
 	ui.latestVersionText.setFont("s10")
+
+	macroSpeedChanged(*) {
+		cfg.d2AppLoadoutMultiplier := ui.macroSpeed.value
+	}
 
 	if cfg.displaySizeAuto {
 		ui.monitorResDDL.opt("disabled")
