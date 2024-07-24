@@ -48,15 +48,15 @@ d2drawPanel1(*) {
 		ui.d2KeybindWidth := 60
 		
 		ui.currKey := cfg.d2AppPauseKey
-		ui.d2AppPauseKey			:= ui.gameSettingsGui.addPicture("x50 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppPauseKey			:= ui.gameSettingsGui.addPicture("x46 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppPauseKeyData 	:= ui.gameSettingsGui.addText("xs-2 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppPauseKey),1,8))
 		ui.d2AppPauseKeyLabel	:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h20 center c" cfg.themeFont1Color " backgroundTrans","Pause App")
 		
-		ui.keybindSpacer	:= ui.gameSettingsGui.addText("x+10 y+-18 w2 h40 background" cfg.themeBright2Color)		
+		ui.keybindSpacer	:= ui.gameSettingsGui.addText("x+6 y+-18 w2 h40 background" cfg.themeBright2Color)		
 		ui.keybindSpacer2	:= ui.gameSettingsGui.addText("x+1 y+-40 w1 h40 background" cfg.themeBorderLightColor)
 		
 		ui.currKey := cfg.d2AppToggleSprintKey
-		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x+7 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x+4 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppToggleSprintKeyData 	:= ui.gameSettingsGui.addText("xs-2 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppToggleSprintKey),1,8))
 		ui.d2AppToggleSprintKeyLabel	:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h20 center c" cfg.themeFont1Color " backgroundTrans","Sprint")
 		
@@ -76,13 +76,48 @@ d2drawPanel1(*) {
 		ui.d2AppLoadoutKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) "  h20 center c" cfg.themeFont1Color " backgroundTrans","Loadout")
 
 		ui.currKey := cfg.d2AppSwordFlyKey
-		ui.d2AppSwordFlyKey				:= ui.gameSettingsGui.addPicture("x+5 ys w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) "  h30 section backgroundTrans","./img/keyboard_key_up.png")
-		ui.d2AppSwordFlyKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) "  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppSwordFlyKey),1,8))
-		ui.d2AppSwordFlyKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) "  h20 center c" cfg.themeFont1Color " backgroundTrans","SwordFly")
+		ui.d2AppSwordFlyKey				:= ui.gameSettingsGui.addPicture("x+5 ys w40 h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppSwordFlyKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w40 h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppSwordFlyKey),1,8))
+		ui.d2AppSwordFlyKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-34 w40 h20 center c" cfg.themeFont1Color " backgroundTrans","Fly")
 
+		ui.d2ClassIcon			:= ui.gameSettingsGui.addPicture("xs+43 y+-20 w36 h30 backgroundTrans","./img2/d2ClassIconWarlock_on.png")
+		ui.d2ClassIconUpDown	:= ui.gameSettingsGui.addUpDown("range0-4 x+-31 y+-4 horz w26 c" cfg.themeDark1Color " h12",cfg.d2CharacterClass)
+		ui.d2ClassIconUpDown.onEvent("change",d2ClassIconUpDownChanged)
 		ui.d2KeyBindHelpMsg			:= ui.gameSettingsGui.addText("x47 y54 w350 h12 backgroundTrans c" cfg.themeFont1Color,"")
 		ui.d2KeyBindHelpMsg.setFont("s8")
 
+
+		d2ClassIconUpDownChanged(*) {
+			switch ui.d2ClassIconUpDown.value {
+				case 0: 
+					hotIf(d2ReadyToSwordFly)
+						hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
+					hotIf()
+					ui.d2ClassIconUpDown.value := 3
+					ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
+				case 1: 
+					hotIf(d2ReadyToSwordFly)
+						hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
+					hotIf()
+					ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
+				case 2:      
+					ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
+				case 3:
+					hotIf(d2ReadyToSwordFly)
+						hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
+					hotIf()
+					ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
+				case 4:
+					hotIf(d2ReadyToSwordFly)
+						hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
+					hotIf()
+					ui.d2ClassIconUpDown.value := 1
+					ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
+				default:                                          
+			}
+			cfg.d2CharacterClass := ui.d2ClassIconUpDown.value
+		}
+		
 		ui.d2AppPauseKey.ToolTip 				:= "Click to Assign"
 		ui.d2AppHoldToCrouchKey.ToolTip 		:= "Click to Assign"
 		ui.d2AppHoldToCrouchKeyData.ToolTip 	:= "Click to Assign"
@@ -513,8 +548,8 @@ hotIf(d2ReadyToSprint)
 	hotKey("~*w",d2StartSprinting)
 hotIf()
 
-hotIf(d2ReadyToSwordFly)
-	hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
+
+
 hotIf()
 
 togglePrismatic(*) {
@@ -542,6 +577,7 @@ d2RemapCrouchEnabled(*) {
 		: 0)
 }	
 
+
 d2SwordFly(*) {
 	while getKeyState(cfg.d2AppSwordFlyKey) {
 		send("{LButton Down}")
@@ -556,6 +592,153 @@ d2SwordFly(*) {
 		sleep(80)
 		send("{space up}")
 		sleep(700)
+	}
+}
+
+d2MorgethWarlock(*) {
+	while getKeyState(cfg.d2AppSwordFlyKey) && getKeyState("w") {
+		send("{j down}")
+		sleep(1700)
+		send("{j up}")
+		send("{" strLower(cfg.d2GameToggleSprintKey) "}")
+		sleep(800)
+		send("{space down}{space up}")
+		sleep(80)
+		send("{space down}{space up}")
+		sleep(11000)
+		send("{x down}")
+		sleep(300)
+		send("{x up}")
+		sleep(300)
+		send("{x down}")
+		sleep(300)
+		send("{x up}")
+		sleep(7000)
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)			
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+	
 	}
 }
 

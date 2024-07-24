@@ -316,6 +316,9 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/d2_button_brayTech_down.png",installDir "/img2/d2_button_brayTech_down.png",1)
 			fileInstall("./img2/d2_button_DestinyTracker.png",installDir "/img2/d2_button_DestinyTracker.png",1)
 			fileInstall("./img2/d2_button_DestinyTracker_down.png",installDir "/img2/d2_button_DestinyTracker_down.png",1)
+			fileInstall("./img2/d2ClassIconWarlock_on.png",installDir "/img2/d2ClassIconWarlock_on.png",1)
+			fileInstall("./img2/d2ClassIconHunter_on.png",installDir "/img2/d2ClassIconHunter_on.png",1)
+			fileInstall("./img2/d2ClassIconTitan_on.png",installDir "/img2/d2ClassIconTitan_on.png",1)
 			
 			;IMGv2 below
 			fileInstall("./img2/button_dock_up.png",installDir "/img2/button_dock_up.png",1)
@@ -584,6 +587,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.GuiW					:= IniRead(cfg.file,"Interface","GuiW",545)
 	cfg.GuiH					:= IniRead(cfg.file,"Interface","GuiH",210)
 	cfg.pushNotificationsEnabled := iniRead(cfg.file,"Interface","PushNotifications",false)
+	
 
 	if (cfg.GuiX < primaryMonitorLeft)
 		cfg.GuiX := 200
@@ -681,6 +685,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.d2GameHoldToCrouchKey	:= iniRead(cfg.file,"Game","d2GameHoldToCrouchKey","LControl")
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
 	cfg.d2GameReloadKey			:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
+	cfg.d2CharacterClass		:= iniRead(cfg.file,"Game","d2CharacterClass","1")
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
 }
 
@@ -771,6 +776,7 @@ WriteConfig() {
 		IniWrite(cfg.d2AppHoldToCrouchKey,cfg.file,"Game","d2AppHoldToCrouchKey")
 		IniWrite(cfg.d2GameToggleSprintKey,cfg.file,"Game","d2GameToggleSprintKey")
 		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
+		iniWrite(cfg.d2CharacterClass,cfg.file,"Game","d2CharacterClass")
 
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {

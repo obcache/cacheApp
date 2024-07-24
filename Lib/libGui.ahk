@@ -88,7 +88,7 @@ initGui(&cfg, &ui) {
 	debugLog("Interface Initialized")
 	ui.MainGuiTabs.UseTab("")
 	line(ui.mainGui,35,212,496,2,cfg.themeBright2Color)
-	line(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
+	;ccccline(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
 
 }
 
