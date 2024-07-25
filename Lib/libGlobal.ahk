@@ -329,6 +329,9 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/button_power_down.png",installDir "/img2/button_power_down.png",1)
 			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
 			fileInstall("./img2/button_crouch.png",installDir "/img2/button_crouch.png",1)
+			fileInstall("./img2/d2CodeMorgeth.png",installDir "/img2/d2CodeMorgeth.png",1)
+			fileInstall("./img2/button_quit.png",installDir "/img2/button_quit.png",1)
+			
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
 			fileInstall("./redist/soundVolumeView.exe",installDir "/redist/soundVolumeView.exe",1)

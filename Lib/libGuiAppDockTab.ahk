@@ -18,7 +18,7 @@ workspaceChanged(*) {
 	ui.winPosLV.delete()
 	loop ui.winPoslv.getCount("col") 
 		ui.winPoslv.deleteCol(1)
-	for colDef in  ui.lvColDefs {
+	for colDef in ui.lvColDefs {
 		ui.winPoslv.insertCol(a_index, "", strSplit(colDef,":")[3] " " strSplit(colDef,":")[1])
 		if a_index == 1
 			ui.winPoslv.modifyCol(a_index,strSplit(colDef,":")[3] " " strSplit(colDef,":")[2]-1)
@@ -69,7 +69,7 @@ GuiDockTab(&ui) {
 			ui.mainGui.AddText("x+0 ys+0 w2 h17 background" cfg.themePanel2Color,"")
 	}
 	ui.mainGui.setFont("s8","Calibri Light")
-	ui.winPosLV := ui.mainGui.addListView("x41 y94 w398 h116 -hdr e0x2000 c" cfg.themeFont2Color " background" cfg.themePanel2Color)
+	ui.winPosLV := ui.mainGui.addListView("x41 y94 w398 h116 -hdr e0x2000 -multi c" cfg.themeFont2Color " background" cfg.themePanel2Color)
 	ui.winPosLV.setFont("s9","Calibri")
 	ui.winPosLV.onEvent("itemFocus",changeWinSelected)
 		ui.mainGui.setFont("s9","calibri")
@@ -139,10 +139,10 @@ GuiDockTab(&ui) {
 	lvDrawGridlines() {
 		ui.mainGuiTabs.useTab("AppDock")
 		ui.mainGui.setFont("s8","Arial")
-		ui.mainGui.AddText("x42 y80 hidden section")
+		ui.mainGui.AddText("x42 y79 hidden section")
 		sqliteQuery(cfg.dbFilename,"SELECT title FROM winPositions WHERE workspace = '" ui.workspaceDDL.text "'",&sqlResult)
 		loop sqlResult.rows.length
-			ui.mainGui.addText("x46 y+17 w390 h1 background" cfg.themeFont2Color)
+			ui.mainGui.addText("xs y+19 w390 h1 background" cfg.themeFont2Color)
 	}
 
 	getWinOption(winTitle,winOption) {
@@ -159,7 +159,6 @@ GuiDockTab(&ui) {
 		sqliteExec(cfg.dbFilename,"UPDATE [winPositions] SET [" winOption "] = " isEnabled " WHERE [title] = '" this_winTitle "'",&sqlResult)		
 		;trayTip("Win: " this_winTitle "`nOption: " winOption "`nValue: " ((isEnabled) ? "On" : "Off"))
 	}
-	
 	
 	winPosAdd(*) {
 		ui.winPosAdd.opt("background" cfg.themeButtonOnColor)
