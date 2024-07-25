@@ -506,6 +506,7 @@ cfgLoad(&cfg, &ui) {
 	ui.exitMenuGui := gui()
 	ui.gameWindowsList 		:= array()
 	cfg.gameWindowsList 	:= array()
+	cfg.d2FlyEnabled		:= true
 	ui.d2AlwaysSprintPaused 	:= false
 	ui.d2IsSprinting			:= false
 	ui.d2IsSliding				:= false

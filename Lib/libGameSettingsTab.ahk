@@ -74,49 +74,113 @@ d2drawPanel1(*) {
 		ui.d2AppLoadoutKey				:= ui.gameSettingsGui.addPicture("x+5 ys w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) "  h30 section backgroundTrans","./img/keyboard_key_up.png")
 		ui.d2AppLoadoutKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) "  h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppLoadoutKey),1,8))
 		ui.d2AppLoadoutKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) "  h20 center c" cfg.themeFont1Color " backgroundTrans","Loadout")
-
+		
+	
 		ui.currKey := cfg.d2AppSwordFlyKey
-		ui.d2AppSwordFlyKey				:= ui.gameSettingsGui.addPicture("x+5 ys w40 h30 section backgroundTrans","./img/keyboard_key_up.png")
-		ui.d2AppSwordFlyKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w40 h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppSwordFlyKey),1,8))
-		ui.d2AppSwordFlyKeyLabel 		:= ui.gameSettingsGui.addText("xs-1 y+-34 w40 h20 center c" cfg.themeFont1Color " backgroundTrans","Fly")
-
-		ui.d2ClassIcon			:= ui.gameSettingsGui.addPicture("xs+43 y+-20 w36 h30 backgroundTrans","./img2/d2ClassIconWarlock_on.png")
-		ui.d2ClassIconUpDown	:= ui.gameSettingsGui.addUpDown("range0-4 x+-31 y+-4 horz w26 c" cfg.themeDark1Color " h12",cfg.d2CharacterClass)
-		ui.d2ClassIconUpDown.onEvent("change",d2ClassIconUpDownChanged)
+		ui.d2AppSwordFlyKey				:= ui.gameSettingsGui.addPicture("x+15 ys w30 h30 section backgroundTrans","./img/keyboard_key_up.png")
+		ui.d2AppSwordFlyKeyData 			:= ui.gameSettingsGui.addText("xs+0 y+-24 w30 h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppSwordFlyKey),1,8))
+		ui.d2AppSwordFlyKeyLabel 		:= ui.gameSettingsGui.addText("xs+0 y+-34 w30 h20 center c" cfg.themeFont1Color " backgroundTrans","Fly")
+		ui.d2ClassSelectBg		:= ui.gameSettingsGui.addText("xs+36 y+-18 w36 h40 background" cfg.themeDark1Color)
+		ui.d2ClassSelectBg2		:= ui.gameSettingsGui.addText("xs+37 y+-14 w34 h14 background" cfg.themeDark2Color)
+		ui.d2ClassSelectBg3		:= ui.gameSettingsGui.addText("xs+37 y+-13 w34 h13 background" cfg.themeDark1Color)
+		ui.d2ClassIcon			:= ui.gameSettingsGui.addPicture("x442 y10 w34 h30 backgroundTrans","")
+		ui.d2ClassIconDown	:= ui.gameSettingsGui.addText("x442 y38 w18 h13 center backgroundTrans c" cfg.themeButtonOnColor,"←")
+		ui.d2ClassIconDown.setFont("s9")
+		ui.d2ClassIconDown.onEvent("click",d2ClassIconDownChanged)
+		ui.d2ClassIconUp	:= ui.gameSettingsGui.addText("x460 y38 w18 h13 center backgroundTrans c" cfg.themeButtonOnColor,"→")
+		ui.d2ClassIconUp.setFont("s9")
+		ui.d2ClassIconUp.onEvent("click",d2ClassIconUpChanged)
+		ui.d2ClassSelectSpacer := ui.gameSettingsGui.addText("x459 y39 w1 h13 background" cfg.themeDark2Color)
+		;ui.d2ClassSelectSpacer2 := ui.gameSettingsGui.addText("x441 y11 w1 h41 background" cfg.themeBright2Color)
 		ui.d2KeyBindHelpMsg			:= ui.gameSettingsGui.addText("x47 y54 w350 h12 backgroundTrans c" cfg.themeFont1Color,"")
 		ui.d2KeyBindHelpMsg.setFont("s8")
+		ui.d2ClassIcon.onEvent("click",d2ToggleFly)
+		ui.d2ClassIcon.toolTip := "Click to Enable/Disable the Fly Macro"
+		ui.d2ClassIconDown.tooltip := "Click to switch between character classes for the Fly Macro"
+		ui.d2ClassIconUp.tooltip := "Click to switch between character classes for the Fly Macro"
+		ui.keybindSpacer3	:= ui.gameSettingsGui.addText("x396 y11 w2 h40 background" cfg.themeBright2Color)		
+		ui.keybindSpacer4	:= ui.gameSettingsGui.addText("x397 y11 w1 h40 background" cfg.themeBorderLightColor)
+	
+	
 
-
-		d2ClassIconUpDownChanged(*) {
-			switch ui.d2ClassIconUpDown.value {
-				case 0: 
-					hotIf(d2ReadyToSwordFly)
-						hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
-					hotIf()
-					ui.d2ClassIconUpDown.value := 3
-					ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
+	
+	
+		d2ToggleFly()
+		d2ToggleFly(*) {
+			(cfg.d2FlyEnabled := !cfg.d2FlyEnabled)
+			switch cfg.d2CharacterClass {
 				case 1: 
-					hotIf(d2ReadyToSwordFly)
-						hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
-					hotIf()
-					ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
-				case 2:      
-					ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
+				case 2:
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
 				case 3:
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
+				default:
+			}
+		}
+		
+		d2ClassIconUpChanged(*) {
+
+			switch cfg.d2CharacterClass {
+				case 1:
+					cfg.d2CharacterClass := 2
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
+				case 2:
+					cfg.d2CharacterClass := 3
 					hotIf(d2ReadyToSwordFly)
 						hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
 					hotIf()
-					ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
-				case 4:
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
+				case 3: 
+					cfg.d2CharacterClass := 1
 					hotIf(d2ReadyToSwordFly)
 						hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
 					hotIf()
-					ui.d2ClassIconUpDown.value := 1
-					ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
+
 				default:                                          
 			}
-			cfg.d2CharacterClass := ui.d2ClassIconUpDown.value
-		}
+		}		
+		d2ClassIconDownChanged(*) {
+
+			switch cfg.d2CharacterClass {
+				case 3:
+					cfg.d2CharacterClass := 2
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
+				case 1:
+					cfg.d2CharacterClass := 3
+					hotIf(d2ReadyToSwordFly)
+						hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
+					hotIf()
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
+				case 2: 
+					cfg.d2CharacterClass := 1
+					hotIf(d2ReadyToSwordFly)
+						hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
+					hotIf()
+					(cfg.d2FlyEnabled)
+						? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
+						: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
+
+				default:                                          
+			}
+		}		
 		
 		ui.d2AppPauseKey.ToolTip 				:= "Click to Assign"
 		ui.d2AppHoldToCrouchKey.ToolTip 		:= "Click to Assign"
@@ -145,6 +209,8 @@ d2drawPanel1(*) {
 		ui.d2AppHoldToCrouchKeyLabel.setFont("s9")
 		ui.d2AppLoadoutKeyLabel.setFont("s9")
 		ui.d2AppToggleSprintKeyLabel.setFont("s9")
+		ui.d2AppSwordFlyKeyData.setFont("s11")
+		ui.d2AppSwordFlyKeyLabel.setFont("s9")
 
 		ui.d2AppPauseKey.onEvent("click",d2AppPauseKeyClicked)
 		ui.d2AppHoldToCrouchKey.onEvent("click",d2AppHoldToCrouchKeyClicked)
@@ -792,7 +858,7 @@ d2FireButtonClicked(*) {
 		send("{" cfg.d2GameToggleSprintKey "}")
 }
 d2ReadyToSwordFly(*) {
-	if winActive("ahk_exe destiny2.exe") && !cfg.d2AppPaused
+	if winActive("ahk_exe destiny2.exe") && !cfg.d2AppPaused && cfg.d2FlyEnabled
 		return 1
 	else
 		return 0
@@ -1036,8 +1102,16 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2AppSwordFlyKeyLabel
 			,ui.d2AppReloadKey
 			,ui.d2AppReloadKeyData
-			,ui.d2AppReloadKeyLabel]
-	
+			,ui.d2AppReloadKeyLabel
+			,ui.d2ClassSelectBg
+			,ui.d2ClassSelectBg2
+			,ui.d2ClassSelectBg3
+			,ui.d2ClassIcon
+			,ui.d2ClassIconUp
+			,ui.d2ClassIconDown
+			,ui.d2ClassSelectSpacer
+			,ui.keybindSpacer3
+			,ui.keybindSpacer4]	
 	ui.d2Panel2Objects := [
 			ui.d2GameToggleSprintKey
 			,ui.d2GameToggleSprintKeyData
