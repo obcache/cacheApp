@@ -49,7 +49,7 @@ if (A_Args.length > 0) && FileExist("./versions/" A_Args[1]) {
 			pbNotify("Upgrading cacheApp to version " latestVersion)
 	
 	
-			runWait("cmd /C start /b /wait curl.exe https://raw.githubusercontent.com/obcache/cacheApp/main/Bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
+			runWait("cmd /C start /b /wait curl.exe https://github.com/obcache/cacheApp/raw/main/bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
 			sleep(3000)
 			if winExist("ahk_exe cacheApp.exe")
 			{
