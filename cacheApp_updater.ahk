@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.1.3"
+A_FileVersion := "1.1.1.2"
 A_AppName := "cacheApp_updater"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
@@ -10,6 +10,7 @@ A_AppName := "cacheApp_updater"
 #SingleInstance
 #Warn All, Off
 
+currExe := DllCall("GetCommandLine", "str")
 if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
 {
     try
