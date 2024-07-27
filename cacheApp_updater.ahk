@@ -10,18 +10,18 @@ A_AppName := "cacheApp_updater"
 #SingleInstance
 #Warn All, Off
 
-currExe := DllCall("GetCommandLine", "str")
-if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
-{
-    try
-    {
-        if a_isCompiled
-            run '*runAs "' a_scriptFullPath '" /restart'
-        else
-            run '*runAs "' a_ahkPath '" /restart "' a_scriptFullPath '"'
-    }
-    exitApp()
-}
+; currExe := DllCall("GetCommandLine", "str")
+; if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
+; {
+    ; try
+    ; {
+        ; if a_isCompiled
+            ; run '*runAs "' a_scriptFullPath '" /restart'
+        ; else
+            ; run '*runAs "' a_ahkPath '" /restart "' a_scriptFullPath '"'
+    ; }
+    ; exitApp()
+; }
 InstallMouseHook()
 InstallKeybdHook()
 KeyHistory(10)
@@ -42,14 +42,14 @@ if (A_Args.length > 0) && FileExist("./versions/" A_Args[1]) {
 	whr.WaitForResponse()
 	latestVersion := whr.ResponseText
 	if fileExist("./cacheApp_latestBuild.dat")
-		fileDelete("./cacheApp_latestBuild.dat")
 
+		fileDelete("./cacheApp_latestBuild.dat")
 	fileAppend(latestVersion,"./cacheApp_latestBuild.dat")
 	currentVersion := fileRead("./cacheApp_currentBuild.dat")
 	if !(DirExist("./versions"))
 		DirCreate("./versions")
 					
-	if (latestVersion > currentVersion) 
+	if !(latestVersion > currentVersion) 
 	{
 		msgBoxAnswer := MsgBox("A newer version is available.`nYou currently have: " currentVersion "`nBut the newest is: " latestVersion "`nWould you like to update now?",,"YN")
 
@@ -60,10 +60,10 @@ if (A_Args.length > 0) && FileExist("./versions/" A_Args[1]) {
 			}			
 			pbNotify("Upgrading cacheApp to version " latestVersion)
 	
-			download("https://github.com/obcache/cacheApp/raw/main/bin/cacheApp_" latestVersion ".exe",A_ScriptDir "/versions/cacheApp_" latestVersion ".exe"
-			)
-			; runWait("cmd /C start /b /wait curl.exe https://github.com/obcache/cacheApp/raw/main/bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
-			sleep(3000)
+			; download("https://raw.githubusercontent.com/obcache/cacheApp/main/cacheApp_" latestVersion ".exe",A_ScriptDir "/versions/cacheApp_" latestVersion ".exe")
+			;download("https://raw.githubusercontent.com/obcache/cacheApp/main/cacheApp_currentBuild.dat",A_scriptDir "/versions/cacheApp_test.txt")
+			runWait("cmd /C start /b /wait curl.exe https://raw.githubusercontent.com/obcache/cacheApp/main/bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
+			sleep(7000)
 			if winExist("ahk_exe cacheApp.exe")
 			{
 				processClose("cacheApp.exe") 
