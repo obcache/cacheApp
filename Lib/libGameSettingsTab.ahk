@@ -39,15 +39,15 @@ d2drawPanel1(*) {
 	labelText := "Game Settings"	
 	
 	ui.d2keybindGameTab1 := guiName.addText("x" labelX " y" labelY+labelH/2 " w" labelW " h" labelH/2+3 " background" outlineColor,"")
-	ui.d2Panel1Tab1Bg := ui.gameSettingsGui.addText("x38 y10 w440 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
-	drawOutlineNamed("appSettings",ui.gameSettingsGui,38,11,440,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
+	ui.d2Panel1Tab1Bg := ui.gameSettingsGui.addText("x38 y10 w441 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
+	drawOutlineNamed("appSettings",ui.gameSettingsGui,38,11,441,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
 	ui.currKey := cfg.d2AppPauseKey
 	ui.d2AppPauseKey			:= ui.gameSettingsGui.addPicture("x46 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
 	ui.d2AppPauseKeyData 	:= ui.gameSettingsGui.addText("xs-2 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppPauseKey),1,8))
 	ui.d2AppPauseKeyLabel	:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h20 center c" cfg.themeFont1Color " backgroundTrans","Pause App")
 	
-	ui.keybindSpacer	:= ui.gameSettingsGui.addText("x+6 y+-18 w2 h40 background" cfg.themeBright2Color)		
-	ui.keybindSpacer2	:= ui.gameSettingsGui.addText("x+1 y+-40 w1 h40 background" cfg.themeBorderLightColor)
+	ui.keybindSpacer	:= ui.gameSettingsGui.addText("x+6 y+-18 w1 h40 background" cfg.themeBright2Color)		
+	ui.keybindSpacer2	:= ui.gameSettingsGui.addText("x+0 y+-40 w1 h40 background" cfg.themeBorderLightColor)
 	
 	ui.currKey := cfg.d2AppToggleSprintKey
 	ui.d2AppToggleSprintKey			:= ui.gameSettingsGui.addPicture("x+4 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) 
@@ -82,24 +82,27 @@ d2drawPanel1(*) {
 		"  h20 center c" cfg.themeFont1Color " backgroundTrans","Loadout")
 	
 	ui.currKey 					:= cfg.d2AppSwordFlyKey
-	ui.d2AppSwordFlyKey			:= ui.gameSettingsGui.addPicture("x+15 ys w30 h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2AppSwordFlyKeyData 	:= ui.gameSettingsGui.addText("xs+0 y+-24 w30 h21 center c" cfg.themeButtonAlertColor " backgroundTrans"
+	ui.d2AppSwordFlyKey			:= ui.gameSettingsGui.addPicture("x+11 ys w36 h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2AppSwordFlyKeyData 	:= ui.gameSettingsGui.addText("xs+0 y+-24 w36 h21 center c" cfg.themeButtonAlertColor " backgroundTrans"
 		,subStr(strUpper(cfg.d2AppSwordFlyKey),1,8))
-	ui.d2AppSwordFlyKeyLabel 	:= ui.gameSettingsGui.addText("xs+0 y+-34 w30 h20 center c" cfg.themeFont1Color " backgroundTrans","Fly")
-	ui.d2ClassSelectBg			:= ui.gameSettingsGui.addText("xs+36 y+-18 w36 h40 background" cfg.themeDark1Color)
-	ui.d2ClassSelectBg2			:= ui.gameSettingsGui.addText("xs+37 y+-14 w34 h14 background" cfg.themeDark2Color)
-	ui.d2ClassSelectBg3			:= ui.gameSettingsGui.addText("xs+37 y+-13 w34 h13 background" cfg.themeDark1Color)
-	ui.d2ClassIcon				:= ui.gameSettingsGui.addPicture("x442 y10 w34 h30 backgroundTrans","")
-	ui.d2ClassIconDown			:= ui.gameSettingsGui.addText("x442 y38 w18 h13 center backgroundTrans c" cfg.themeButtonOnColor,"←")
-	ui.d2ClassIconUp			:= ui.gameSettingsGui.addText("x460 y38 w18 h13 center backgroundTrans c" cfg.themeButtonOnColor,"→")
-	ui.d2ClassSelectSpacer 		:= ui.gameSettingsGui.addText("x459 y39 w1 h13 background" cfg.themeDark2Color)
+	ui.d2AppSwordFlyKeyLabel 	:= ui.gameSettingsGui.addText("xs+0 y+-34 w36 h20 center c" cfg.themeFont1Color " backgroundTrans","Fly")
+
+	ui.d2ClassSelectBg			:= ui.gameSettingsGui.addText("xs+40 y+-18 w38 h36 background" cfg.themePanel2Color)
+	ui.d2ClassSelectBg2			:= ui.gameSettingsGui.addText("xs+40 y+-12 w38 h16 background" cfg.themeDark1Color)
+	ui.d2ClassSelectBgLine		:= ui.gameSettingsGui.addText("xs+40 y+-17 w38 h1 background" cfg.themeBright2Color)
+	; ui.d2ClassSelectBg3			:= ui.gameSettingsGui.addText("xs+40 y+-13 w38 h12 background" cfg.themePanel2Color)
+	ui.d2ClassIcon				:= ui.gameSettingsGui.addPicture("x441 y10 w37 h26 center backgroundTrans","")
+	ui.d2ClassIconDown			:= ui.gameSettingsGui.addText("x441 y37 w18 h13 center backgroundTrans c" cfg.themeButtonOnColor,"←")
+	ui.d2ClassIconUp			:= ui.gameSettingsGui.addText("x460 y37 w19 h13 center backgroundTrans c" cfg.themeButtonOnColor,"→")
+	ui.d2ClassSelectSpacer 		:= ui.gameSettingsGui.addText("x459 y36 w1 h16 background" cfg.themeBright2Color)
 	ui.d2KeyBindHelpMsg			:= ui.gameSettingsGui.addText("x47 y54 w350 h12 backgroundTrans c" cfg.themeFont1Color,"")
 	ui.d2ClassIcon.toolTip 		:= "Click to Enable/Disable the Fly Macro"
 	ui.d2ClassIconDown.tooltip 	:= "Click to switch between character classes for the Fly Macro"
 	ui.d2ClassIconUp.tooltip 	:= "Click to switch between character classes for the Fly Macro"
-	ui.keybindSpacer3			:= ui.gameSettingsGui.addText("x398 y11 w2 h40 background" cfg.themeBright2Color)		
-	ui.keybindSpacer4			:= ui.gameSettingsGui.addText("x399 y11 w1 h40 background" cfg.themeBorderLightColor)
-
+	ui.keybindSpacer3			:= ui.gameSettingsGui.addText("x393 y11 w1 h41 background" cfg.themeBright2Color)		
+	ui.keybindSpacer4			:= ui.gameSettingsGui.addText("x394 y11 w1 h41 background" cfg.themeBorderLightColor)
+	ui.d2ClassIconSpacer		:= ui.gameSettingsGui.addText("x439 y11 w1 h41 background" cfg.themeBright2Color,"")
+	ui.d2ClassIconSpacer2		:= ui.gameSettingsGui.addText("x440 y11 w1 h41 background" cfg.themeBorderLightColor,"")
 	ui.d2ClassIconDown.setFont("s9")
 	ui.d2ClassIconDown.onEvent("click",d2ClassIconDownChanged)
 	ui.d2ClassIconUp.setFont("s9")
@@ -113,16 +116,16 @@ d2drawPanel1(*) {
 		switch cfg.d2CharacterClass {
 			case 1: 
 				(cfg.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
+					? (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel1Color))
+					: (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel2Color))
 			case 2:
 				(cfg.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
+					? (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel1Color))
+					: (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel2Color))
 			case 3:
 				(cfg.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
+					? (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel1Color))
+					: (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel2Color))
 			default:
 		}
 	}
@@ -1071,8 +1074,8 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2AppReloadKeyData
 			,ui.d2AppReloadKeyLabel
 			,ui.d2ClassSelectBg
-			,ui.d2ClassSelectBg2
-			,ui.d2ClassSelectBg3
+			; ,ui.d2ClassSelectBg2
+			; ,ui.d2ClassSelectBg3
 			,ui.d2ClassIcon
 			,ui.d2ClassIconUp
 			,ui.d2ClassIconDown

@@ -57,6 +57,12 @@ WM_LBUTTONDOWN_pBcallback(*) {
 WM_LBUTTONDOWN(wParam, lParam, msg, Hwnd) {
 	;ShowMouseClick()
 		postMessage("0xA1",2)
+		
+		; (hwnd == ui.handlebarImage)
+			; ? ui.handleBar
+			; : (ui.rightHandlebarImage2)
+				; ?
+				; : return
 }
 
 wm_mouseMove(wParam, lParam, msg, hwnd) {

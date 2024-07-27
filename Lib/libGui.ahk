@@ -30,7 +30,9 @@ initGui(&cfg, &ui) {
 	ui.mainGuiTabs.useTab("Game")
 	ui.MainGuiTabs.UseTab("")
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	ui.handleBarImage := ui.MainGui.AddPicture("x0 y31 w36 h188","./Img2/handlebar_vertical.png")
+	ui.handleBarBorder := ui.mainGui.addText("x1 y0 w37 h215 background" cfg.themeDark1Color,"")
+	ui.handleBarBorder2 := ui.mainGui.addText("x1 y1 w36 h214 background" cfg.themeBright2Color,"")
+	ui.handleBarImage := ui.MainGui.AddPicture("x2 y33 w35 h180","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w35 y0 h216 section","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
@@ -39,7 +41,7 @@ initGui(&cfg, &ui) {
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x1 y0 w34 h30 background" cfg.themeBright2Color)
 	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x2 y1 w32 h28 background" cfg.themeDark1Color)
-	ui.gameTabTopDockButton := ui.mainGui.addPicture("x0 y0 w35 h30 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x1 y0 w35 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
 	ui.gvConsole := ui.MainGui.AddListBox("x35 y220 w500 h192 +Background" cfg.ThemePanel1Color)
