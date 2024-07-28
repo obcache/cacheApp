@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.9.6"
+A_FileVersion := "1.2.9.7"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -42,9 +42,22 @@ installDir 		:= a_myDocuments "\cacheApp"
 configFileName 	:= "cacheApp.ini"
 themeFileName	:= "cacheApp.themes"
 
+try {
+	download("http://sorryneedboost.com/cacheApp/cacheApp_bootstrap.exe","./cacheApp_bootstrap.exe")
+}
+
+if !fileExist("./cacheApp_bootstrap.exe") {
+	runWait("./cacheApp_bootstrap.exe")
+	fileDelete("./cacheApp_bootstrap.exe")
+}
+
+
 preAutoExec(InstallDir,ConfigFileName)
+
 initTrayMenu()
-	d2ActivePanel := 1
+checkForUpdates(0)
+
+d2ActivePanel := 1
 
 ; ui.AfkGui 		:= Gui()
 dockApp 		:= Object()
@@ -128,12 +141,12 @@ try {
 	whr.WaitForResponse()
 	iniWrite(whr.ResponseText,cfg.file,"Game","LastIncursion")
 }
-autoUpdate()
+
+checkForUpdates(0)
+; autoUpdate()
+
 if cfg.topDockEnabled
 	ui.topDockPrevTab := ui.mainGuiTabs.text
-
-
-
 
 if ui.incursionDebug
 	incursionNotice()

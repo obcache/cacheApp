@@ -457,9 +457,12 @@ autoUpdate() {
 
 CheckForUpdates(msg,*) {
 	;winSetAlwaysOnTop(0,ui.mainGui.hwnd)
-	ui.installedVersion := fileRead("./cacheApp_currentBuild.dat")
-	ui.installedVersionText.text := "Installed:`t" substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1)
-	ui.installedVersionText.redraw()
+	installedVersion := fileRead("./cacheApp_currentBuild.dat")
+	try {
+		ui.installedVersionText.text := "Installed:`t" substr(installedVersion,1,1) "." substr(installedVersion,2,1) "." substr(installedVersion,3,1) "." substr(installedVersion,4,1)
+		ui.installedVersionText.redraw()
+	}
+	
 	try {
 		whr := ComObject("WinHttp.WinHttpRequest.5.1")
 		whr.Open("GET", "https://raw.githubusercontent.com/obcache/cacheApp/main/cacheApp_currentBuild.dat", true)
@@ -475,31 +478,33 @@ CheckForUpdates(msg,*) {
 		}
 	}
 
-	if (ui.installedVersion < ui.latestVersion) {
-		try {
-			winSetAlwaysOnTop(0,"ahk_id ui.mainGui.hwnd")
-		} 
-		try {
-			winSetAlwaysOnTop(0,"ahk_id ui.titleBarButtonGui.hwnd")
-		} 
-		try {
-			winSetAlwaysOnTop(0,"ahk_id ui.afkGui.hwnd")
-		} 
-		try {
-			winSetAlwaysOnTop(0,"ahk_id ui.gameSettingsGui.hwnd")
-		} 
-		try {
-			winSetAlwaysOnTop(0,"ahk_id ui.gameTabGui.hwnd")
-		} 
-		sleep(1500)
-		runWait("./cacheApp_updater.exe")
-	} else {
-		if(msg != 0) {
-			ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
-			notifyOSD("No upgraded needed.`nInstalled: " substr(ui.installedVersion,1,1) "." substr(ui.installedVersion,2,1) "." substr(ui.installedVersion,3,1) "." substr(ui.installedVersion,4,1) "`nAvailable: " substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1),2500)
+	try {
+		if (installedVersion < ui.latestVersion) {
+			try {
+				winSetAlwaysOnTop(0,"ahk_id ui.mainGui.hwnd")
+			} 
+			try {
+				winSetAlwaysOnTop(0,"ahk_id ui.titleBarButtonGui.hwnd")
+			} 
+			try {
+				winSetAlwaysOnTop(0,"ahk_id ui.afkGui.hwnd")
+			} 
+			try {
+				winSetAlwaysOnTop(0,"ahk_id ui.gameSettingsGui.hwnd")
+			} 
+			try {
+				winSetAlwaysOnTop(0,"ahk_id ui.gameTabGui.hwnd")
+			} 
+			sleep(1500)
+			try
+				runWait("./cacheApp_updater.exe")
+		} else {
+			if(msg != 0) {
+				ui.latestVersionText.text := "Available:`t" substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1)
+				notifyOSD("No upgraded needed.`nInstalled: " substr(installedVersion,1,1) "." substr(installedVersion,2,1) "." substr(installedVersion,3,1) "." substr(installedVersion,4,1) "`nAvailable: " substr(ui.latestVersion,1,1) "." substr(ui.latestVersion,2,1) "." substr(ui.latestVersion,3,1) "." substr(ui.latestVersion,4,1),2500)
+			}
 		}
-	}
-	
+	}	
 }
 
 cfgLoad(&cfg, &ui) {
