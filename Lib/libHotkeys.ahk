@@ -93,4 +93,11 @@ noDestiny(*) {
 	; }
 ; }
 
+insert::
+{
+	toggleGlyphWindow()
+}
 
+delete::
+{
+	}

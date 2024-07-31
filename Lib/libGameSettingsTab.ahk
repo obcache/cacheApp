@@ -10,11 +10,147 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 
 
 	inputHookAllowedKeys := "{All}{LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{Left}{Right}{Up}{Down}{BS}{CapsLock}{NumLock}{PrintScreen}{Pause}{Tab}{Enter}{ScrollLock}{LButton}{MButton}{RButton}"	
-	
+
 	ui.d2FlashingIncursionNotice := false
 	ui.d2ShowingIncursionNotice := false
 	ui.incursionDebug := false
 	ui.d2AppFunctionsEnabled := true
+
+
+drawInfographic("vod")
+drawInfographic(infographicName,imageWidth := 150,imageHeight := 150, numColumns := 5) {
+	imageTypes := "png,jpg,gif,bmp"
+	infographicFolder := "./img2/infogfx"
+	transparentColor := "030405"
+
+	if (cfg.topDockEnabled) {
+		infoGuiMon := cfg.dockbarMon
+	} else { 
+		winGetPos(&infoGuiX,&infoGuiY,,,ui.mainGui)
+		infoGuiMon := 1
+		loop monitorGetCount() {
+			monitorGet(a_index,&monLeft,,&monRight,)
+			if infoGuiX > monLeft && infoGuiX < monRight {
+				infoGuiMon := a_index
+				break
+			}
+		}
+	}
+
+	monitorGet(infoGuiMon,&infoGuiMonL,&infoGuiMonT,&infoGuiMonR,&infoGuiMonB)
+	
+	ui.infoGuiBg := gui()
+	ui.infoGuiBg.opt("toolWindow alwaysOnTop -caption")
+	ui.infoGuiBg.backColor := "454545"
+	winSetTransparent(120,ui.infoGuiBg.hwnd)
+	ui.infoGui := gui()
+	ui.infoGui.opt("toolWindow -caption AlwaysOnTop owner" ui.gameSettingsGui.hwnd)
+	ui.infoGui.backColor := transparentColor
+	ui.infoGui.color := transparentColor
+	;ui.infoGuiBg := ui.infoGui.addText("x0 y0 w800 h600 background" transparentColor,"")
+	;ui.infoGui.addText("x0 y0 x1 y1 section background" transparentColor,"")
+	winSetTransColor(transparentColor,ui.infoGui.hwnd)
+
+	
+
+	
+;	loop files, sort(infographicFolder "/" infographicName "/*.png") {
+;		ui.%infographicName%%ui.infoGui.hwnd% := ui.infoGui.addPicture("x0 y30 section w" imageWidth " h" imageHeight,infographicFolder "/" infographicName "/" a_loopFilename )
+
+;	}
+	rowNum := 0
+	columnNum := 1
+	fileList := array()
+	
+	loop files, infographicFolder "/" infographicName "/*.png" {
+		fileList.push(a_loopFilename)
+	}
+
+	
+	for file in fileList {
+		if columnNum == 1 {
+			ui.%infographicName%%a_index% := ui.infoGui.addPicture("x0 y" 30+(rowNum*imageHeight) " w" imageWidth " h" imageHeight,infographicFolder "/" infographicName "/" file)
+			ui.%infographicName%%a_index%.onEvent("click",d2ClickedGlyph)
+			ui.%infographicName%%a_index%.onEvent("doubleclick",d2DoubleClickedGlyph)
+			rowNum +=1
+		} else {	
+			ui.%infographicName%%a_index% := ui.infoGui.addPicture("x" (columnNum*imageWidth)-imageWidth " y" 30+(rowNum*imageHeight)-imageHeight " w" imageWidth " h" imageHeight,infographicFolder "/" infographicName "/" file)
+			ui.%infographicName%%a_index%.onEvent("click",d2ClickedGlyph)
+			ui.%infographicName%%a_index%.onEvent("doubleclick",d2DoubleClickedGlyph)
+		}
+		columnNum += 1
+		if columnNum > numColumns
+			columnNum := 1
+	}
+	;msgBox(fileListText)
+	ui.%infographicName%QuitButton := ui.infoGui.addPicture("x770 y0 w30 h30 backgroundTrans","./img2/button_quit.png")
+	ui.%infographicName%QuitButton.onEvent("click",closeInfographic)
+		
+	infoGuiWidth := numColumns*imageWidth
+	infoGuiHeight := (rowNum*imageHeight)+30
+	ui.infoGuiDragZone := ui.infoGuiBg.addText("x0 y0 w" infoGuiWidth " y" infoGuiHeight " background" transparentColor,"")
+	winSetTransparent(0,ui.infoGuiBg.hwnd)
+	winSetTransparent(0,ui.infoGui.hwnd)
+	ui.infoGuiBg.show("x" ((infoGuiMonL+infoGuiMonR)/2)-(infoGuiWidth/2) " y" ((infoGuiMonT+infoGuiMonB)/2)-(infoGuiHeight/2) " w" infoGuiWidth " h" infoGuiHeight " noActivate")
+	ui.infoGui.show("x" ((infoGuiMonL+infoGuiMonR)/2)-(infoGuiWidth/2) " y" ((infoGuiMonT+infoGuiMonB)/2)-(infoGuiHeight/2) " w" infoGuiWidth " h" infoGuiHeight " noActivate")
+	ui.infoGui.opt("owner" ui.infoGuiBg.hwnd)
+
+}
+closeInfographic(*) {
+	try 
+		ui.infoGui.hide()
+	try
+		ui.infoGuiBg.hide()
+	try
+		ui.infoGui.destroy()
+	try	
+		ui.infoGuiBg.destroy()
+}
+
+toggleGlyphWindow(*) {
+	static glyphWindowVisible := false
+	(glyphWindowVisible := !glyphWindowVisible)
+		? showGlyphWindow()		
+		: hideGlyphWindow()
+		
+		showGlyphWindow(*) {
+			ui.infoGuiBg.show() 
+			ui.infoGui.show()
+			ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry_down.png"
+			winSetTransparent(255,ui.infoGuiBg.hwnd)
+			winSetTransparent(255,ui.infoGui.hwnd)
+		}
+		
+		hideGlyphWindow(*) {
+			ui.infoGui.hide(), ui.infoGuiBg.hide(),ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry.png"
+		}
+}
+
+d2DoubleClickedGlyph(lparam,wparam*) {
+	winActivate("ahk_exe destiny2.exe")
+	d2ClickedGlyph(lparam,wparam)
+	winActivate("ahk_exe destiny2.exe")
+	send("{Enter}")
+	sleep(500)
+	send("glyph: " A_Clipboard)
+	sleep(250)
+	send("{Enter}")
+	Sleep(500)
+	send("{t}")
+	sleep(500)
+;	d2Launchd2FoundryButtonClicked()
+}	
+
+d2ClickedGlyph(lparam,wparam*) {
+	buttonHoldTimerStart := a_now
+	WM_LBUTTONDOWN_callback(lparam,wparam)
+	keyWait("LButton")
+	if a_now-buttonHoldTimerStart > 400
+		return
+	
+	A_Clipboard := (subStr(strSplit(lparam.value,"/")[5],-99,-4))
+	TrayTip("Copied glyph name: " a_clipboard " to clipboard")
+}
 
 d2drawPanel1(*) {
 	guiName := ui.gameSettingsGui
@@ -28,7 +164,7 @@ d2drawPanel1(*) {
 	outlineColor := cfg.themeDark2Color
 	labelText := "Keybinds"
 	ui.d2keybindAppTab1 := guiName.addText("x" labelX " y" labelY+labelH/2 " w" labelW " h" labelH/2+3 " background" outlineColor,"")
-		
+		     
 	labelX := 360
 	labelY := 42
 	labelW := 100
@@ -259,7 +395,7 @@ d2drawPanel1(*) {
 	ui.d2GameHoldToCrouchKeyData.ToolTip  	:= "Click to Assign"
 	ui.d2GameHoldToCrouchKeyLabel.ToolTip	:= "Click to Assign"
 
-ui.d2gameToggleSprintKeyLabel.setFont("s9")
+	ui.d2gameToggleSprintKeyLabel.setFont("s9")
 	ui.d2gameToggleSprintKeyData.setFont("s11")
 	ui.d2GameReloadKeyData.setFont("s11")
 	ui.d2GameReloadKeylabel.setFont("s9")
@@ -894,7 +1030,7 @@ d2CreateLoadoutKeys(*) {
 }
 
 d2AppEnabled(*) {
-	if cfg.d2AppPaused && winActive("ahk_exe destiny2.exe")
+	if !cfg.d2AppPaused && winActive("ahk_exe destiny2.exe")
 		return 0
 	else
 		return 1
@@ -1073,15 +1209,18 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2AppReloadKey
 			,ui.d2AppReloadKeyData
 			,ui.d2AppReloadKeyLabel
+			,ui.d2ClassSelectBgLine
 			,ui.d2ClassSelectBg
-			; ,ui.d2ClassSelectBg2
-			; ,ui.d2ClassSelectBg3
+			,ui.d2ClassSelectBg2
 			,ui.d2ClassIcon
 			,ui.d2ClassIconUp
 			,ui.d2ClassIconDown
 			,ui.d2ClassSelectSpacer
+			,ui.d2ClassIconSpacer
+			,ui.d2ClassIconSpacer2
 			,ui.keybindSpacer3
 			,ui.keybindSpacer4]	
+	
 	ui.d2Panel2Objects := [
 			ui.d2GameToggleSprintKey
 			,ui.d2GameToggleSprintKeyData
@@ -1091,7 +1230,8 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2GameHoldToCrouchKeyLabel
 			,ui.d2GameReloadKey
 			,ui.d2GameReloadKeyData
-			,ui.d2GameReloadKeyLabel]
+			,ui.d2GameReloadKeyLabel
+			]
 			
 	if panelNum == 1 {
 		this_panelObjects := ui.d2Panel1Objects
@@ -1229,7 +1369,7 @@ ui.d2LaunchLightGGbutton.onEvent("click",d2launchLightGGbuttonClicked)
 ui.d2LaunchD2checkListButton.onEvent("click",d2launchD2checklistButtonClicked)
 ui.d2LaunchBlueberriesButton.onEvent("click",d2launchBlueBerriesButtonClicked)
 ui.d2LaunchDestinyTrackerButton.onEvent("click",d2LaunchDestinyTrackerButtonClicked)
-ui.d2Launchd2FoundryButton.onEvent("click",d2Launchd2FoundryButtonClicked)
+ui.d2Launchd2FoundryButton.onEvent("click",toggleGlyphWindow)
 ui.d2LaunchBrayTechButton.onEvent("click",d2LaunchBrayTechButtonClicked)
 
 
@@ -1269,30 +1409,42 @@ d2LaunchDestinyTrackerButtonClicked(*) {
 }
 
 d2Launchd2FoundryButtonClicked(*) {
-	ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry_down.png"
-	setTimer () => ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry.png",-400
-	run("chrome.exe https://www.d2foundry.gg")
+	; run("chrome.exe https://www.d2foundry.gg")
+		 toggleGlyphWindow()
 }	
 
 d2LaunchBrayTechButtonClicked(*) {
-	ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech_down.png"
-	setTimer () => ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_braytech.png",-400
-	ui.d2wwCodesGui := gui()
-	ui.d2wwCodesGui.opt("alwaysOnTop -caption toolWindow owner" ui.mainGui.hwnd)
-	ui.d2wwCodesGui.backColor := "010203"
-	winSetTransColor("010203",ui.d2wwCodesGui)
-	ui.d2wwCodeImg := ui.d2wwCodesGui.addPicture("x20 y20 w800 h600","./img2/d2CodeMorgeth.png")
-	ui.d2CodeExit := ui.d2wwCodesGui.addPicture("x805 y5 w30 h30 background" cfg.themeBright2Color,"./img2/button_quit.png")
-	ui.d2CodeExit.onEvent("click",d2CloseCodes)
-	ui.d2wwCodeImg.onEvent("click",WM_LBUTTONDOWN_callback)
-	d2CloseCodes(*) {
-		ui.d2wwCodesGui.destroy()
-	}
-	ui.d2wwCodesGui.show("x200 y200 w840 h640 noactivate")
-	
-	;run("chrome.exe https://www.bray.tech")
+	static codeWindowVisible := false
+	(codeWindowVisible := !codeWindowVisible)
+		? showCodeWindow()
+		: hideCodeWindow()
+		
+	showCodeWindow(*) {
+		ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech_down.png"
+		d2wwCodesGuiHwnd := false
+		try 
+			d2wwCodesGuiHwnd := ui.d2wwCodesGui.hwnd
+		
+		if !d2wwCodesGuiHwnd {
+			ui.d2wwCodesGui := gui()
+			ui.d2wwCodesGui.opt("alwaysOnTop -caption toolWindow owner" ui.mainGui.hwnd)
+			ui.d2wwCodesGui.backColor := "010203"
+			winSetTransColor("010203",ui.d2wwCodesGui)
+			ui.d2wwCodeImg := ui.d2wwCodesGui.addPicture("x20 y20 w800 h600","./img2/d2CodeMorgeth.png")
+			ui.d2CodeExit := ui.d2wwCodesGui.addPicture("x805 y5 w30 h30 background" cfg.themeBright2Color,"./img2/button_quit.png")
+			ui.d2CodeExit.onEvent("click",hideCodeWindow)
+			ui.d2wwCodeImg.onEvent("click",WM_LBUTTONDOWN_callback)
+		}
+		ui.d2wwCodesGui.show("x200 y200 w840 h640 noactivate")
+
+	}																																																																																																																																																																																																																				
 }
 
+hideCodeWindow(*) {
+	ui.d2wwCodesGui.hide()
+}
+
+	
 keyBindDialogBox(Msg,Alignment := "Center") {
 	Global
 	if !InStr("LeftRightCenter",Alignment)
@@ -1425,7 +1577,7 @@ d2GameHoldToCrouchKeyClicked(*) {
 		ui.d2AppSwordFlyKeyData.text := subStr(strUpper(cfg.d2AppSwordFlyKey),1,8)
 		d2CreateLoadoutKeys()
 		d2RedrawUI()
-	}
+	}	
 	
 	d2AppReloadKeyClicked(*) {
 		tmpd2AppReloadKey := ""

@@ -10,18 +10,6 @@ A_AppName := "cacheApp_updater"
 #SingleInstance
 #Warn All, Off
 
-currExe := DllCall("GetCommandLine", "str")
-if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
-{
-    try
-    {
-        if a_isCompiled
-            run '*runAs "' a_scriptFullPath '" /restart'
-        else
-            run '*runAs "' a_ahkPath '" /restart "' a_scriptFullPath '"'
-    }
-    exitApp()
-}
 InstallMouseHook()
 InstallKeybdHook()
 KeyHistory(10)
@@ -60,8 +48,8 @@ if (A_Args.length > 0) && FileExist("./versions/" A_Args[1]) {
 			}			
 			pbNotify("Upgrading cacheApp to version " latestVersion)
 	
-			;download("https://github.com/obcache/cacheApp/raw/main/bin/cacheApp_" latestVersion ".exe",A_ScriptDir "/versions/cacheApp_" latestVersion ".exe")
-			runWait("cmd /C start /b /wait curl.exe https://raw.githubusercontent.com/obcache/cacheApp/7a4e26d933a372a4650fb58601633adbeae8927e/bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
+	
+			runWait("cmd /C start /b /wait curl.exe https://raw.githubusercontent.com/obcache/cacheApp/main/Bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
 			sleep(3000)
 			if winExist("ahk_exe cacheApp.exe")
 			{

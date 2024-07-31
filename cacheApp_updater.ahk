@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.1.3"
+A_FileVersion := "1.1.1.2"
 A_AppName := "cacheApp_updater"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
@@ -59,9 +59,10 @@ if (A_Args.length > 0) && FileExist("./versions/" A_Args[1]) {
 				winClose("ahk_exe cacheApp.exe")
 			}			
 			pbNotify("Upgrading cacheApp to version " latestVersion)
-			;msgBox('here')
-			runWait("cmd /C start /b /wait curl https://raw.githubusercontent.com/obcache/cacheApp/main/bin/cacheApp_" latestVersion ".exe -o e:\documents\cacheApp\versions\cacheApp_" latestVersion ".exe")
-
+	
+			download("https://github.com/obcache/cacheApp/raw/main/bin/cacheApp_" latestVersion ".exe",A_ScriptDir "/versions/cacheApp_" latestVersion ".exe"
+			)
+			; runWait("cmd /C start /b /wait curl.exe https://github.com/obcache/cacheApp/raw/main/bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
 			sleep(3000)
 			if winExist("ahk_exe cacheApp.exe")
 			{

@@ -27,6 +27,9 @@ collateGuis(hwnd := ui.mainGui.hwnd) {
 					ui.gameTabGui.move((mainGuiX+35)*(A_ScreenDPI/96),(mainGuiY+184)*(A_ScreenDPI/96))
 					ui.gameSettingsLinkGui.move((mainGuiX+35+12)*(A_ScreenDPI/96),(mainGuiY+32+79)*(A_ScreenDPI/96))
 				}
+			case ui.infoGui.hwnd:
+					winGetPos(&tmpX,&tmpY,,,ui.infoGui)
+					ui.infoGuiBg.move(tmpX,tmpY)
 			case ui.pbConsoleBg.hwnd:
 				winGetPos(&winX,&winY,,,ui.pbConsoleBg.hwnd)
 				ui.pbConsole.move(winX,winY)
@@ -51,7 +54,7 @@ WM_LBUTTONDOWN_callback(thisControl,info) {
 
 
 WM_LBUTTONDOWN_pBcallback(*) {
-	WM_LBUTTONDOWN(0,0,0,ui.pbConsole.Hwnd)
+	WM_LBUTTONDOWN(0,0,0,"A")
 }
 
 WM_LBUTTONDOWN(wParam, lParam, msg, Hwnd) {

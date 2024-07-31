@@ -257,26 +257,9 @@ GuiSetupTab(&ui,&cfg) {
 	ui.themeEditorButton.onEvent("click",showThemeEditor)
 	
   	AutoClickerSpeedChanged(*) {
-		cfg.AutoClickerSpeed := (ui.AutoClickerSpeedSlider.Value/0.128)
-			
-		; Switch
-		; {
-			
-			; case ui.AutoClickerSpeedSlider.Value < 20:
-			; {
-				; cfg.AutoClickerSpeed := (ui.AutoClickerSpeedSlider.Value * .75)
-			; }
-			; case ui.AutoClickerSpeedSlider.Value >= 20:
-			; {
-				; cfg.AutoClickerSpeed := ui.AutoClickerSpeedSlider.Value
-			; }
-		; }
-	}
+	cfg.AutoClickerSpeed := (ui.AutoClickerSpeedSlider.Value/0.128)
 
-
-	{ ;Functions for Game Profile List Management (Including Modal Pop-up Interaces)
-
-	} ;End Game Profile List Modal Gui
+}
 
 ui.defaultThemes := "
 (

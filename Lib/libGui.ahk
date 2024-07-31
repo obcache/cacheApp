@@ -41,7 +41,7 @@ initGui(&cfg, &ui) {
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x1 y0 w34 h30 background" cfg.themeBright2Color)
 	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x2 y1 w32 h28 background" cfg.themeDark1Color)
-	ui.gameTabTopDockButton := ui.mainGui.addPicture("x1 y0 w35 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x1 y0 w36 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
 	ui.gvConsole := ui.MainGui.AddListBox("x35 y220 w500 h192 +Background" cfg.ThemePanel1Color)

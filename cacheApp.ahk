@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.9.7"
+A_FileVersion := "1.3.0.0"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -26,13 +26,14 @@ if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
     exitApp()
 }
 
+
+
 persistent()
 installMouseHook()
 installKeybdHook()
 keyHistory(10)
 setWorkingDir(a_scriptDir)
 
-	
 a_restarted := 
 	(inStr(dllCall("GetCommandLine","Str"),"/restart"))
 		? true
@@ -42,22 +43,18 @@ installDir 		:= a_myDocuments "\cacheApp"
 configFileName 	:= "cacheApp.ini"
 themeFileName	:= "cacheApp.themes"
 
-try {
-	download("http://sorryneedboost.com/cacheApp/cacheApp_bootstrap.exe","./cacheApp_bootstrap.exe")
-}
-
-if !fileExist("./cacheApp_bootstrap.exe") {
-	runWait("./cacheApp_bootstrap.exe")
-	fileDelete("./cacheApp_bootstrap.exe")
-}
-
+; if fileExist("./extractAssets.ahk")
+	; fileDelete("./extractAssets.ahk")
+; loop files, "./img2/infogfx/vod/*.png" {
+	; flist .= a_loopFilename "`n"
+	; fileAppend('fileInstall("./img2/infogfx/vod/' a_loopFilename '", "' installDir '/img2/infogfx/vod/' a_loopFilename '",1)`n',"./extractAssets.ahk")
+; }
+; keyWait("Escape")
+; return
 
 preAutoExec(InstallDir,ConfigFileName)
-
 initTrayMenu()
-checkForUpdates(0)
-
-d2ActivePanel := 1
+	d2ActivePanel := 1
 
 ; ui.AfkGui 		:= Gui()
 dockApp 		:= Object()
@@ -141,12 +138,12 @@ try {
 	whr.WaitForResponse()
 	iniWrite(whr.ResponseText,cfg.file,"Game","LastIncursion")
 }
-
-checkForUpdates(0)
-; autoUpdate()
-
+autoUpdate()
 if cfg.topDockEnabled
 	ui.topDockPrevTab := ui.mainGuiTabs.text
+
+
+
 
 if ui.incursionDebug
 	incursionNotice()
