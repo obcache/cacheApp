@@ -40,7 +40,7 @@ listChanged(*) {
 
 GuiListsTab(&ui,&cfg) {
 	selectedRow := ""
-	ui.MainGuiTabs.UseTab("Lists")
+	ui.MainGuiTabs.UseTab("5_Lists")
 	ui.mainGui.setFont("s10")
 	lvColSizes := [65,70,70,178]
 	lvColNames := ["List","Action","Type","Options"]

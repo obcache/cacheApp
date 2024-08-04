@@ -25,25 +25,47 @@ initGui(&cfg, &ui) {
 	ui.MainGui.MarginX := 0
 	ui.MainGui.MarginY := 0
 	ui.MainGui.SetFont("s13 c" cfg.ThemeFont1Color,"Calibri")
-	ui.MainGuiTabs := ui.MainGui.AddTab3("x35 y1 w495 h213 Buttons -redraw Background" cfg.ThemeBackgroundColor " -E0x200", cfg.mainTabList)
+	;ui.topHandlebar := ui.mainGui.addPicture("x-5 y2 w528 h28 backgroundTrans","./img2/handlebar_horz.png")
+	ui.1_GameButtonBg := ui.mainGui.addPicture("x32 y2 section w80 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.1_GameButton := ui.mainGui.addText("x+-80 ys+5 w80 h22 center backgroundTrans","Game")
+	ui.2_SysButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.2_SysButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Sys")
+	ui.3_AfkButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.3_AfkButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Afk")
+	ui.4_AppDockButtonBg := ui.mainGui.addPicture("ys+0 w100 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.4_AppDockButton := ui.mainGui.addText("ys+5 x+-100 w100 h22 center backgroundTrans"," App Dock ")
+	ui.5_ListsButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.5_ListsButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Lists")
+	ui.6_SetupButtonBg := ui.mainGui.addPicture("ys+0 w80 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.6_SetupButton := ui.mainGui.addText("ys+5 x+-80 w80 h22 center backgroundTrans","Setup")
+	ui.MainGuiTabs := ui.MainGui.AddTab3("x32 y2 w495 h213  Buttons -redraw Background" cfg.ThemeBackgroundColor " -E0x200", cfg.mainTabList)
+	ui.mainGuiTabs.setFont("s13")
 	ui.MainGuiTabs.OnEvent("Change",TabsChanged)
-	ui.mainGuiTabs.useTab("Game")
+	ui.mainGuiTabs.useTab("1_GAME")
 	ui.MainGuiTabs.UseTab("")
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	ui.handleBarBorder := ui.mainGui.addText("x1 y0 w37 h215 background" cfg.themeDark1Color,"")
-	ui.handleBarBorder2 := ui.mainGui.addText("x1 y1 w36 h214 background" cfg.themeBright2Color,"")
-	ui.handleBarImage := ui.MainGui.AddPicture("x2 y33 w35 h180","./Img2/handlebar_vertical.png")
+	ui.handleBarBorder := ui.mainGui.addText("x1 y33 w30 h180 background" cfg.themeBright1Color,"")
+	ui.handleBarImage := ui.MainGui.AddPicture("x2 y33 w29 h180 backgroundTrans","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
-	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w35 y0 h216 section","./Img2/handlebar_vertical.png")
+	ui.rightHandlebarBg := ui.mainGui.addText("x529 y33 w31 h180 background" cfg.themeBright1Color,"")
+	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w29 y33 h180 section","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.handleBarImage.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
-	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x1 y0 w34 h30 background" cfg.themeBright2Color)
-	;ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x2 y1 w32 h28 background" cfg.themeDark1Color)
-	ui.gameTabTopDockButton := ui.mainGui.addPicture("x1 y0 w36 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
+	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x0 y0 w33 h33 background" cfg.themeBright1Color)
+	;ui.gameTabTopDockButtonOutline2 := ui.mainGui.addText("x1 y1 w33 h31 background" cfg.themeDark1Color)
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x1 y0 w33 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
+	ui.exitButtonBg := ui.mainGui.addText("x495 y0 w66 h33 background" cfg.themeBright1Color,"")
+	ui.DownButton := ui.mainGui.AddPicture("x495 y0 w33 h30 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
+	ui.DownButton.OnEvent("Click",HideGui)
+	ui.DownButton.ToolTip := "Minimizes cacheApp App"
+	ui.ExitButtonBorder 	:= ui.mainGui.AddText("x+0 ys0 section w33 h33 Background" cfg.ThemeBright1Color,"")
+	ui.ExitButton 	:= ui.mainGui.AddPicture("x+-33 ys0 w32 h32 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
+	ui.ExitButton.OnEvent("Click",ExitButtonPushed)
+	ui.ExitButton.ToolTip := "Terminates cacheApp App"
 	ui.gvConsole := ui.MainGui.AddListBox("x35 y220 w500 h192 +Background" cfg.ThemePanel1Color)
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
 	afk 						:= Object()	
@@ -70,16 +92,11 @@ initGui(&cfg, &ui) {
 	ui.titleBarButtonGui.Opt("-Caption -Border AlwaysOnTop +ToolWindow owner" ui.mainGui.hwnd)
 	ui.titleBarButtonGui.BackColor := ui.TransparentColor
 	ui.titleBarButtonGui.Color := ui.TransparentColor
-	ui.DownButton := ui.titleBarButtonGui.AddPicture("x0 y0 w36 h35 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
-	ui.DownButton.OnEvent("Click",HideGui)
-	ui.DownButton.ToolTip := "Minimizes cacheApp App"
-	ui.ExitButton 	:= ui.titleBarButtonGui.AddPicture("x+1 ys section w36 h35 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
-	ui.ExitButton.OnEvent("Click",ExitButtonPushed)
-	ui.ExitButton.ToolTip := "Terminates cacheApp App"
-	ui.buttonUndockAfk := ui.titleBarButtonGui.AddPicture("x+6 ys w35 h35 hidden Background" cfg.ThemeButtonAlertColor,"./Img/button_dockright_ready.png")
+
+	ui.buttonUndockAfk := ui.mainGui.AddPicture("x+6 ys w35 h35 hidden Background" cfg.ThemeButtonAlertColor,"./Img/button_dockright_ready.png")
 	ui.buttonUndockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonUndockAfk.ToolTip := "Undocks AFK Window"
-	ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h38 background" cfg.themeBorderDarkColor," ")
+	;ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h38 background" cfg.themeBorderLightColor," ")
 	InitOSDGui()
 	if (cfg.consoleVisible) {
 		(cfg.consoleVisible := !cfg.consoleVisible)
@@ -89,7 +106,7 @@ initGui(&cfg, &ui) {
 
 	debugLog("Interface Initialized")
 	ui.MainGuiTabs.UseTab("")
-	line(ui.mainGui,35,212,496,2,cfg.themeBright2Color)
+	line(ui.mainGui,33,211,495,2,cfg.themeDark2Color)
 	;ccccline(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
 
 }
@@ -237,7 +254,7 @@ fadeIn() {
 		transparency := 0
 		if cfg.topDockEnabled {
 			guiVis(ui.mainGui,false)
-			guiVis(ui.titleBarButtonGui,false)
+			;guiVis(ui.titleBarButtonGui,false)
 			showDockBar()
 			while transparency < 253 {
 				transparency += 2.5
@@ -247,20 +264,20 @@ fadeIn() {
 			guiVis(ui.dockBarGui,true)
 		} else {
 			switch ui.mainGuiTabs.text {
-				case "AFK":
+				case "3_AFK":
 					while transparency < 253 {
 						transparency += 2.5
 						winSetTransparent(round(transparency),ui.mainGui)			
 						winSetTransparent(round(transparency),ui.afkGui)
-						winSetTransparent(round(transparency),ui.titleBarButtonGui)
+						;winSetTransparent(round(transparency),ui.titleBarButtonGui)
 						sleep(1)
 					}
-				case "Game":
+				case "1_Game":
 					guiVis(ui.gameTabGui,true)
 					while transparency < 223 {
 						transparency += 4
 						winSetTransparent(min(round(transparency)+60,255),	ui.gameTabGui)
-						winSetTransparent(round(transparency),ui.titleBarButtonGui)
+						;winSetTransparent(round(transparency),ui.titleBarButtonGui)
 						winSetTransparent(round(transparency),ui.mainGui)	
 						winSetTransparent(min(round(transparency)+0,255),ui.gameSettingsGui)
 						sleep(1)
@@ -271,22 +288,22 @@ fadeIn() {
 				while transparency < 253 {
 					transparency += 2.5
 					winSetTransparent(round(transparency),ui.mainGui)
-					winSetTransparent(round(transparency),ui.titleBarButtonGui)
+					;winSetTransparent(round(transparency),ui.titleBarButtonGui)
 					sleep(1)
 				}
 
 			}
 			guiVis(ui.mainGui,true)
-			guiVis(ui.titleBarButtonGui,true)
+			;guiVis(ui.titleBarButtonGui,true)
 		}
 		ui.isFading := false
 	}
 	if (cfg.alwaysOnTopEnabled) {
 		ui.mainGui.opt("alwaysOnTop")
-		ui.titleBarButtonGui.opt("alwaysOnTop")
+		;ui.titleBarButtonGui.opt("alwaysOnTop")
 	} else {
 		ui.mainGui.opt("-alwaysOnTop")
-		ui.titleBarButtonGui.opt("-alwaysOnTop")
+		;ui.titleBarButtonGui.opt("-alwaysOnTop")
 	}
 	ui.mainGuiTabs.useTab("")
 }
@@ -429,7 +446,7 @@ afkPopoutButtonPushed(*) {
 		ui.buttonPopout.Value := "./Img/button_popout_ready.png"
 		ui.buttonPopout.Opt("Background" cfg.ThemeButtonReadyColor)
 
-		if !(ui.MainGuiTabs.Text == "AFK") {
+		if !(ui.MainGuiTabs.Text == "3_AFK") {
 			guiVis(ui.afkGui,false)
 		}
 		ui.titleBarButtonGui.Opt("Owner" ui.MainGui.Hwnd)
@@ -471,7 +488,7 @@ exitMenuShow(this_button) {
 			ui.exitMenuGui.move(dbX+dbW-71+a_index,dbY+dbH-37)
 		}
 	} else {
-		winGetPos(&tbX,&tbY,,,ui.titleBarButtonGui)
+		winGetPos(&tbX,&tbY,,,ui.mainGui)
 		ui.exitMenuGui := gui()
 		ui.exitMenuGui.Opt("-caption -border toolWindow AlwaysOnTop Owner" ui.mainGui.hwnd)
 		ui.exitMenuGui.BackColor := ui.transparentColor
@@ -485,9 +502,9 @@ exitMenuShow(this_button) {
 		ui.startGamingButton.onEvent("Click",stopGaming)
 		WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
 		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
-		ui.exitMenuGui.show("x" tbX " y" tbY-70 " AutoSize noActivate")
+		ui.exitMenuGui.show("x" tbX+460 " y" tbY-70 " AutoSize noActivate")
 		loop 70 {
-			ui.exitMenuGui.move(tbX,tbY-a_index)
+			ui.exitMenuGui.move(tbX+460,tbY-a_index)
 		}
 	}
 }
@@ -689,7 +706,7 @@ initConsole(&ui) {
 	ui.gvMonitorSelectGui.Opt("-Theme -Border -Caption toolWindow +AlwaysOnTop +Parent" ui.MainGui.Hwnd " +Owner" ui.MainGui.Hwnd)
 	ui.gvMonitorSelectGui.BackColor := "212121"
 	ui.gvMonitorSelectGui.SetFont("s16 c00FFFF","Calibri Bold")
-	ui.gvMonitorSelectGui.Add("Text",,"Click anywhere on the screen`nyou'd like your cacheAppDock on.")
+	ui.gvMonitorSelectGui.Add("Text",,"Click anywhere on the screen`nyou'd like your AppDock on.")
 }
 
 { ;Draw Outline Functions
@@ -761,7 +778,7 @@ initConsole(&ui) {
 
 { ;BEGIN = outline parameters
 	drawAfkOutlines() {	
-	ui.mainGuiTabs.UseTab("AFK")
+	ui.mainGuiTabs.UseTab("3_AFK")
 		drawOutlineNamed("afkToolbarOutline",ui.afkGui,5,0,132,35,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)
 		drawOutlineNamed("afkPopoutButtonOutline",ui.afkGui,216,0,34,35,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)
 		 drawOutlineNamed("win1statusRow",ui.afkGui,4,40,246,26,cfg.themeBright1Color,cfg.themeBright1Color,2)
@@ -782,7 +799,7 @@ initConsole(&ui) {
 	drawOpsOutlines() {
 		ui.mainGuiTabs.useTab("")
 
-		ui.mainGuiTabs.useTab("Sys")
+		ui.mainGuiTabs.useTab("2_SYS")
 		drawGridlines()
 		drawOutlineNamed("bottomLine",ui.mainGui,36,211,495,2,cfg.themeBright2Color,cfg.themeBright2Color,2)
 		drawOutlineNamed("bottomLine2",ui.mainGui,36,211,495,1,cfg.themeBright1Color,cfg.themeBright1Color,1)
@@ -802,7 +819,7 @@ initConsole(&ui) {
 	}
 
 	drawGridLines() {
-	ui.MainGuiTabs.UseTab("Sys")
+	ui.MainGuiTabs.UseTab("2_SYS")
 		drawOutline(ui.MainGui,103,62,157,100,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2) 	;Win1 Info Frame
 		drawOutline(ui.MainGui,104,62,156,100,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1) 	;Win1 Info Frame
 		drawOutline(ui.MainGui,103,76,157,16,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win1 Info Gridlines  
@@ -832,39 +849,62 @@ tabsChanged(*) {
 	ui.afkGui.opt("toolWindow")
 	ui.gameSettingsGui.opt("toolWindow")
 	ui.gameTabGui.opt("toolWindow")
-	guiVis(ui.titleBarButtonGui,true)
+	;guiVis(ui.titleBarButtonGui,true)
 	guiVis(ui.mainGui,true)
-	
+	for tab in cfg.mainTabList {
+		ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+	}
+	;msgbox(ui.activeTab)
 	switch ui.activeTab {
-		case "AFK":
+		case "3_AFK":
 			if tabDisabled()
 				Return
 			ui.afkGui.opt("-toolWindow")
 			guiVis(ui.afkGui,true)
 			guiVis(ui.gameSettingsGui,false)
 			guiVis(ui.gameTabGui,false)
-	
-		case "Game":
+			ui.3_afkButtonBg.value := "./img2/tab_selected.png"
+		case "1_Game":
 			if tabDisabled()
 				return
 			guiVis(ui.afkGui,false)
 			guiVis(ui.gameSettingsGui,true)
 			guiVis(ui.gameTabGui,true)
 			ui.gameSettingsGui.opt("-toolWindow")
-
-		case "Lists":
+			ui.1_gameButtonBg.value := "./img2/tab_selected.png"
+			ui.1_gameButtonBg.redraw()
+		case "5_Lists":
 			if tabDisabled()
 				Return
 			guiVis(ui.afkGui,false)
 			guiVis(ui.gameSettingsGui,false)
 			guiVis(ui.gameTabGui,false)
+			ui.5_listsButtonBg.value := "./img2/tab_selected.png"
+		case "2_Sys":
+			guiVis(ui.gameSettingsGui,false)
+			guiVis(ui.gameTabGui,false)
+			guiVis(ui.afkGui,false)
+			ui.mainGui.opt("-toolWindow")
+			ui.2_sysButtonBg.value := "./img2/tab_selected.png"
+		case "4_AppDock":
+			guiVis(ui.gameSettingsGui,false)
+			guiVis(ui.gameTabGui,false)
+			guiVis(ui.afkGui,false)
+			ui.mainGui.opt("-toolWindow")
+			ui.4_appDockButtonBg.value := "./img2/tab_selected.png"
+		case "6_Setup":
+			guiVis(ui.gameSettingsGui,false)
+			guiVis(ui.gameTabGui,false)
+			guiVis(ui.afkGui,false)
+			ui.mainGui.opt("-toolWindow")
+			ui.6_setupButtonBg.value := "./img2/tab_selected.png"
 		default:
 			guiVis(ui.gameSettingsGui,false)
 			guiVis(ui.gameTabGui,false)
 			guiVis(ui.afkGui,false)
 			ui.mainGui.opt("-toolWindow")
 	}
-	
+		
 	controlFocus(ui.mainGuiTabs,ui.mainGui)
 	controlFocus(ui.d2ToggleAppFunctions,ui.gameSettingsGui)
 	controlFocus(ui.buttonTower,ui.afkGui)
@@ -895,10 +935,10 @@ guiVis(guiName,isVisible:= true) {
 				winSetTransparent(255,ui.mainGui)
 				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.mainGui)
 			}
-			try { 
-				winSetTransparent(255,ui.titleBarButtonGui)
-				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
-			}
+			; try { 
+				; winSetTransparent(255,ui.titleBarButtonGui)
+				; winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
+			; }
 			try { 
 				winSetTransparent(255,ui.afkGui)
 				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.afkGui)
@@ -921,10 +961,10 @@ guiVis(guiName,isVisible:= true) {
 				winSetTransparent(0,ui.mainGui)
 				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.mainGui)
 			}
-			try { 
-				winSetTransparent(0,ui.titleBarButtonGui)
-				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
-			}
+			; try { 
+				; winSetTransparent(0,ui.titleBarButtonGui)
+				; winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
+			; }
 			try { 
 				winSetTransparent(0,ui.afkGui)
 				winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.afkGui)
@@ -1159,20 +1199,20 @@ fadeOut(*) {
 		activeTab := ui.mainGuiTabs.text
 		transValue := 255
 		switch activeTab {
-			case "AFK":
+			case "3_AFK":
 				while (transValue > 20) {
 					transValue -= 10
-					winSetTransparent(transValue,ui.titleBarButtonGui)
+					;winSetTransparent(transValue,ui.titleBarButtonGui)
 					winSetTransparent(transValue,ui.afkGui)
 					winSetTransparent(transValue,ui.mainGui)
 					sleep(10)
 				}
 
 				guiVis(ui.afkGui,false)
-			case "Game":
+			case "1_GAME":
 				while(transValue > 20) {
 					transValue -= 10
-					winSetTransparent(transValue,ui.titleBarButtonGui)
+					;winSetTransparent(transValue,ui.titleBarButtonGui)
 					winSetTransparent(transValue,ui.mainGui)
 					winSetTransparent(transValue,ui.gameSettingsGui)
 					winSetTransparent(transValue,ui.gameTabGui)
@@ -1185,7 +1225,7 @@ fadeOut(*) {
 				while(transValue > 20) {
 					transValue -= 10
 					winSetTransparent(transValue,ui.mainGui)
-					winSetTransparent(transValue,ui.titleBarButtonGui)
+					;winSetTransparent(transValue,ui.titleBarButtonGui)
 					sleep(10)
 				}
 		}	
@@ -1268,9 +1308,9 @@ topDockOff(*) {
 	cfg.topDockEnabled := false
 		tabGui := ""
 	switch ui.mainGUiTabs.text {
-		case "Game":
+		case "1_GAME":
 			tabGui := ui.gameSettingsGui
-		case "AFK":
+		case "3_AFK":
 			tabGui := ui.afkGui
 		default:
 			tabGui := ""
@@ -1295,7 +1335,7 @@ topDockOff(*) {
 	if (cfg.animationsEnabled) {
 		fadeIn()
 	}
-	guiVis(ui.titleBarButtonGui,true)
+	guiVis(ui.titleBarButtonGui,false)
 	guiVis(ui.mainGui,true)
 	tabsChanged()
 	; winSetTransparent(0,ui.mainGui)

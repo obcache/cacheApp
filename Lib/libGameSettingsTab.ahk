@@ -112,19 +112,20 @@ toggleGlyphWindow(*) {
 	(glyphWindowVisible := !glyphWindowVisible)
 		? showGlyphWindow()		
 		: hideGlyphWindow()
-		
-		showGlyphWindow(*) {
-			ui.infoGuiBg.show() 
-			ui.infoGui.show()
-			ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry_down.png"
-			winSetTransparent(255,ui.infoGuiBg.hwnd)
-			winSetTransparent(255,ui.infoGui.hwnd)
-		}
-		
-		hideGlyphWindow(*) {
-			ui.infoGui.hide(), ui.infoGuiBg.hide(),ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry.png"
-		}
 }
+
+showGlyphWindow(*) {
+	ui.infoGuiBg.show("noActivate") 
+	ui.infoGui.show("noActivate")
+	ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry_down.png"
+	winSetTransparent(255,ui.infoGuiBg.hwnd)
+	winSetTransparent(255,ui.infoGui.hwnd)
+}
+
+hideGlyphWindow(*) {
+	ui.infoGui.hide(), ui.infoGuiBg.hide(),ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry.png"
+}
+
 
 d2DoubleClickedGlyph(lparam,wparam*) {
 	winActivate("ahk_exe destiny2.exe")
@@ -519,49 +520,57 @@ incursionNotice(*) {
 		ui.incursionOptOut.onEvent("click",toggleIncursionNotice)
 		ui.incursionNotice.setFont("s19 c" cfg.themeFont3Color,"Courier")
 
-		if cfg.topDockEnabled {
+		try {
 			cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
-			monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
-			incursionGuix := ((dockbarMonitorL + dockbarMonitorR)/2)-175
-			dockbarPosY := dockbarMonitorT
-			if cfg.animationsEnabled {
-				ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+31 " w350 h0 noActivate")
-				posH := 0
-				while posH < 60 {
-					posH += 10
-					ui.incursionGui.move(incursionGuix,dockbarPosY+31,,posH)
-					sleep(1)
-				}
+			if monitorGetCount() < cfg.dockbarMonitor {
+				cfg.dockbarMonitor := 1
 			}
-			ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+31 " w352 h51 noActivate")
-			ui.d2ShowingIncursionNotice := true
-		} else {
-			transLevel := 0
-			if cfg.animationsEnabled {
-				guiVis(ui.incursionGui,false)
-				ui.incursionGui.show("y150 w350 h51 noActivate")
-				while transLevel < 255 {
-					transLevel += 5
-					winSetTransparent(transLevel,ui.incursionGui)
-					sleep(1)
-				}
-			}
-			
-			ui.incursionGui.show("y150 w352 h51 noActivate")
-			ui.d2ShowingIncursionNotice := true
 		}
-		winSetTransColor("010203",ui.incursionGui)
-		soundPlay("./redist/incursionAudio.mp3")
-		ui.d2FlashIncursionNoticeActive := true
-		setTimer(d2FlashIncursionNoticeA,2000)
-		sleep(1000)
-		setTimer(d2FlashIncursionNoticeB,2000)
-	
-		cfg.lastIncursion := ui.latestIncursion
-		iniWrite(cfg.lastIncursion,cfg.file,"Game","LastIncursion")
+		
+		try {
+			if cfg.topDockEnabled {
+				monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
+				incursionGuix := ((dockbarMonitorL + dockbarMonitorR)/2)-175
+				dockbarPosY := dockbarMonitorT
+				if cfg.animationsEnabled {
+					ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+31 " w350 h0 noActivate")
+					posH := 0
+					while posH < 60 {
+						posH += 10
+						ui.incursionGui.move(incursionGuix,dockbarPosY+31,,posH)
+						sleep(1)
+					}
+				}
+				ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+31 " w352 h51 noActivate")
+				ui.d2ShowingIncursionNotice := true
+			} else {
+				transLevel := 0
+				if cfg.animationsEnabled {
+					guiVis(ui.incursionGui,false)
+					ui.incursionGui.show("y150 w350 h51 noActivate")
+					while transLevel < 255 {
+						transLevel += 5
+						winSetTransparent(transLevel,ui.incursionGui)
+						sleep(1)
+					}
+				}
+				
+				ui.incursionGui.show("y150 w352 h51 noActivate")
+				ui.d2ShowingIncursionNotice := true
+			}
+		
+			winSetTransColor("010203",ui.incursionGui)
+			soundPlay("./redist/incursionAudio.mp3")
+			ui.d2FlashIncursionNoticeActive := true
+			setTimer(d2FlashIncursionNoticeA,2000)
+			sleep(1000)
+			setTimer(d2FlashIncursionNoticeB,2000)
+		
+			cfg.lastIncursion := ui.latestIncursion
+			iniWrite(cfg.lastIncursion,cfg.file,"Game","LastIncursion")
+		}
 	}
 }
-
 d2FlashIncursionNoticeA(*) {
 	ui.incursionGuiBg.opt("background" cfg.themeProgressColor)
 	ui.incursionGuiBg.redraw()
@@ -640,8 +649,8 @@ drawGameTabs(tabNum := 1) {
 	ui.gameTab1Label.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
 	ui.gameTabWidth += 113
 	((tabNum == 1)
-		? ui.gameTabGui.addText("ys x+0  w2 h28 section background" cfg.themeBright1Color,"")
-		: ui.gameTabGui.addText("ys-1 x+0  w2 h28 section background" cfg.themeBright1Color,""))
+		? ui.gameTabGui.addText("ys x+0 w2 h28 section background" cfg.themeBright1Color,"")
+		: ui.gameTabGui.addText("ys-1 x+0 w2 h28 section background" cfg.themeBright1Color,""))
 	ui.gameTab2Skin := ui.gameTabGui.addText(
 		((tabNum == 2) 
 			? "ys-1 h27" 
@@ -715,6 +724,8 @@ ui.d2IsSprinting := false
 hotIfWinActive("ahk_exe destiny2.exe")
 	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
 	hotKey(cfg.d2AppPauseKey,d2ToggleAppFunctions)
+	hotkey("Ins",toggleGlyphWindow)
+	hotkey("Del",toggleCodeWindow)
 hotIf()
 
 hotIf(d2RemapCrouchEnabled)
@@ -915,6 +926,14 @@ d2MorgethWarlock(*) {
 		send("{space}")
 		sleep(100)
 		send("{space}")
+		sleep(200)
+		send("{space}")
+		sleep(100)
+		send("{space}")
+		sleep(200)		
+		send("{space}")
+		sleep(100)
+		send("{space}")
 		sleep(200)		
 	}
 }
@@ -933,11 +952,11 @@ d2reload(*) {
 	}
 	
 	stopReload() {
-		ui.d2IsReloading := false
-		d2ToggleAppFunctionsOn()
-		ui.d2AppReloadKeyData.opt("c" cfg.themeButtonAlertcolor)
-		ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor)
-		ui.d2GameReloadKeyData.redraw()
+		; ui.d2IsReloading := false
+		; d2ToggleAppFunctionsOn()
+		; ui.d2AppReloadKeyData.opt("c" cfg.themeButtonAlertcolor)
+		; ui.d2GameReloadKeyData.opt("c" cfg.themeButtonAlertColor)
+		; ui.d2GameReloadKeyData.redraw()
 		setTimer () => (ui.d2IsReloading := false
 			,d2ToggleAppFunctionsOn()
 			,ui.d2AppReloadKeyData.opt("c" cfg.themeButtonAlertcolor)
@@ -1187,7 +1206,7 @@ d2Panel2TabClicked(*) {
 
 d2drawTopPanel(*) {
 	ui.d2TopPanelBg := ui.gameSettingsGui.addText("x7 y4 w481 h66 background" cfg.themePanel1Color,"")
-	drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,484,69,cfg.themeBright2Color,cfg.themeDark2Color,1)
+	drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,3,484,69,cfg.themeBright2Color,cfg.themeBright1Color,1)
 }
 
 d2changeKeybindPanelTab(panelNum := 2) {
@@ -1219,7 +1238,10 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2ClassIconSpacer
 			,ui.d2ClassIconSpacer2
 			,ui.keybindSpacer3
-			,ui.keybindSpacer4]	
+			,ui.keybindSpacer4
+			,ui.d2AppPauseKey
+			,ui.d2AppPauseKeyData
+			,ui.d2AppPauseKeyLabel]	
 	
 	ui.d2Panel2Objects := [
 			ui.d2GameToggleSprintKey
@@ -1327,7 +1349,7 @@ d2drawPanel3(*) {
 	ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
 	ui.d2LaunchDestinyTrackerButton 	:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_DestinyTracker.png")
 	ui.d2Launchd2FoundryButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2Foundry.png")
-	ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_braytech.png")
+	ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 vBrayTechButton backgroundTrans","./Img2/d2_button_braytech.png")
 }
 
 d2KeybindTabChange(this_button,*) {
@@ -1409,40 +1431,46 @@ d2LaunchDestinyTrackerButtonClicked(*) {
 }
 
 d2Launchd2FoundryButtonClicked(*) {
+		if winActive("ahk_exe destiny2.exe")
 	; run("chrome.exe https://www.d2foundry.gg")
 		 toggleGlyphWindow()
 }	
 
-d2LaunchBrayTechButtonClicked(*) {
-	static codeWindowVisible := false
-	(codeWindowVisible := !codeWindowVisible)
-		? showCodeWindow()
-		: hideCodeWindow()
-		
-	showCodeWindow(*) {
-		ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech_down.png"
-		d2wwCodesGuiHwnd := false
-		try 
-			d2wwCodesGuiHwnd := ui.d2wwCodesGui.hwnd
-		
-		if !d2wwCodesGuiHwnd {
-			ui.d2wwCodesGui := gui()
-			ui.d2wwCodesGui.opt("alwaysOnTop -caption toolWindow owner" ui.mainGui.hwnd)
-			ui.d2wwCodesGui.backColor := "010203"
-			winSetTransColor("010203",ui.d2wwCodesGui)
-			ui.d2wwCodeImg := ui.d2wwCodesGui.addPicture("x20 y20 w800 h600","./img2/d2CodeMorgeth.png")
-			ui.d2CodeExit := ui.d2wwCodesGui.addPicture("x805 y5 w30 h30 background" cfg.themeBright2Color,"./img2/button_quit.png")
-			ui.d2CodeExit.onEvent("click",hideCodeWindow)
-			ui.d2wwCodeImg.onEvent("click",WM_LBUTTONDOWN_callback)
-		}
-		ui.d2wwCodesGui.show("x200 y200 w840 h640 noactivate")
-
-	}																																																																																																																																																																																																																				
+d2LaunchBrayTechButtonClicked(lparam,wparam*) {
+			toggleCodeWindow(lparam)
 }
+
+toggleCodeWindow(lparam,wparam*) {
+	static codeWindowVisible := false
+		(codeWindowVisible := !codeWindowVisible)
+			? showCodeWindow()
+			: hideCodeWindow()
+}
+	
+showCodeWindow(*) {
+	ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech_down.png"
+	d2wwCodesGuiHwnd := false
+	try 
+		d2wwCodesGuiHwnd := ui.d2wwCodesGui.hwnd
+	
+	if !d2wwCodesGuiHwnd {
+		ui.d2wwCodesGui := gui()
+		ui.d2wwCodesGui.opt("alwaysOnTop -caption toolWindow owner" ui.mainGui.hwnd)
+		ui.d2wwCodesGui.backColor := "080203"
+		winSetTransColor("080203",ui.d2wwCodesGui)
+		ui.d2wwCodeImg := ui.d2wwCodesGui.addPicture("x20 y20 w800 h600","./img2/d2CodeMorgeth.png")
+		ui.d2CodeExit := ui.d2wwCodesGui.addPicture("x805 y5 w30 h30 background" cfg.themeBright2Color,"./img2/button_quit.png")
+		ui.d2CodeExit.onEvent("click",hideCodeWindow)
+		ui.d2wwCodeImg.onEvent("click",WM_LBUTTONDOWN_callback)
+	}
+	ui.d2wwCodesGui.show("x200 y200 w840 h640 noactivate")
+}																																																																																																																																																																																																																				
 
 hideCodeWindow(*) {
+	ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech.png"
 	ui.d2wwCodesGui.hide()
 }
+
 
 	
 keyBindDialogBox(Msg,Alignment := "Center") {
@@ -1719,39 +1747,39 @@ d2GameHoldToCrouchKeyClicked(*) {
 		d2RedrawUI()
 	}
 
-	ui.gameTabs.useTab("World//Zero")
-	ui.gameSettingsGui.addText("x10 y7 w475 h65 background" cfg.themePanel1Color,"")
-	drawOutlineNamed("w0AutoTowerOutline",ui.gameSettingsGui,10,6,475,67,cfg.themeBright2Color,cfg.themeDark2Color,1)
-	drawOutlineNamed("w0AutoTowerHorizLine",ui.gameSettingsGui,20,6,70,1,cfg.themeBackgroundColor,cfg.themeBackgroundColor,2)
-	drawOutlineNamed("w0AutoTowerVertLine",ui.gameSettingsGui,20,6,70,7,cfg.themeBackgroundColor,cfg.themeBright2Color,1)
-	ui.gameSettingsGui.addText("x21 y-2 w68 h14 c" cfg.themeFont1Color " background" cfg.themeBackgroundColor," Auto Tower")
-	drawOutlineNamed("w0AutoAfkTabs",ui.gameSettingsGui,20,6,1,7,cfg.themeDark1Color,cfg.themeBright2Color,1)
-	ui.gameSettingsGui.setFont("s10")
-	ui.toggleCelestialTower := ui.gameSettingsGui.AddPicture("x20 y20 w60 h25 section vCelestialTower " (cfg.CelestialTowerEnabled ? ("Background" cfg.ThemeButtonAlertColor) : ("Background" cfg.ThemeButtonAlertColor)),((cfg.CelestialTowerEnabled) ? "./img/towerToggle_celestial.png" : "./img/towerToggle_infinite.png"))
-	ui.toggleCelestialTower.OnEvent("Click", towerToggleChanged)
-	ui.toggleCelestialTower.ToolTip := "Toggles between Infinite and Celestial Towers."
-	ui.towerIntervalSlider := ui.gameSettingsGui.addSlider("x+0 ys-4 w160 h30 tickInterval5 altSubmit vTowerCycleLength thick18 center section Range1-50  background" 
-	cfg.themePanel1Color " ToolTip",cfg.towerInterval)
-	ui.towerIntervalSlider.onEvent("change",towerCycleChange)
-	towerCycleChange(*) {
-		ui.cycleLengthData.value := ui.towerIntervalSlider.value
-		controlFocus(ui.gameTabs)
-	}
-	ui.cycleLengthData := ui.gameSettingsGui.AddText("x+0 ys+3 w35 h30 section center background" cfg.themeBackgroundColor,ui.towerIntervalSlider.value)
-	ui.cycleLengthData.setFont("s18")
-	ui.labelCelestialTower:= ui.gameSettingsGui.AddText("xs-220 y+-1 w60 section backgroundTrans","Tower Type")
-	ui.labelTowerTiming := ui.gameSettingsGui.AddText("ys w160 center section backgroundTrans","Cycle Length")	
-	drawOutlineNamed("towerCycleLength",ui.gameSettingsGui,239,19,36,31,cfg.themeDark2Color,cfg.themeBright2Color,1)
-	ui.towerIntervalSlider.OnEvent("Change",towerIntervalChanged)
-	ui.towerIntervalSlider.ToolTip := "Tower Restart Interval"
-	ToggleCelestialTower(*)
-	{
-		ui.toggleCelestialTower.Opt((cfg.CelestialTowerEnabled := !cfg.CelestialTowerEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
-		ui.toggleCelestialTower.Redraw()
-	}
-		towerIntervalChanged(*) {
-		cfg.towerInterval := ui.towerIntervalSlider.Value
-	}
+	; ui.gameTabs.useTab("World//Zero")
+	; ui.gameSettingsGui.addText("x10 y7 w475 h65 background" cfg.themePanel1Color,"")
+	; drawOutlineNamed("w0AutoTowerOutline",ui.gameSettingsGui,10,6,475,67,cfg.themeBright2Color,cfg.themeDark2Color,1)
+	; drawOutlineNamed("w0AutoTowerHorizLine",ui.gameSettingsGui,20,6,70,1,cfg.themeBackgroundColor,cfg.themeBackgroundColor,2)
+	; drawOutlineNamed("w0AutoTowerVertLine",ui.gameSettingsGui,20,6,70,7,cfg.themeBackgroundColor,cfg.themeBright2Color,1)
+	; ui.gameSettingsGui.addText("x21 y-2 w68 h14 c" cfg.themeFont1Color " background" cfg.themeBackgroundColor," Auto Tower")
+	; drawOutlineNamed("w0AutoAfkTabs",ui.gameSettingsGui,20,6,1,7,cfg.themeDark1Color,cfg.themeBright2Color,1)
+	; ui.gameSettingsGui.setFont("s10")
+	; ui.toggleCelestialTower := ui.gameSettingsGui.AddPicture("x20 y20 w60 h25 section vCelestialTower " (cfg.CelestialTowerEnabled ? ("Background" cfg.ThemeButtonAlertColor) : ("Background" cfg.ThemeButtonAlertColor)),((cfg.CelestialTowerEnabled) ? "./img/towerToggle_celestial.png" : "./img/towerToggle_infinite.png"))
+	; ui.toggleCelestialTower.OnEvent("Click", towerToggleChanged)
+	; ui.toggleCelestialTower.ToolTip := "Toggles between Infinite and Celestial Towers."
+	; ui.towerIntervalSlider := ui.gameSettingsGui.addSlider("x+0 ys-4 w160 h30 tickInterval5 altSubmit vTowerCycleLength thick18 center section Range1-50  background" 
+	; cfg.themePanel1Color " ToolTip",cfg.towerInterval)
+	; ui.towerIntervalSlider.onEvent("change",towerCycleChange)
+	; towerCycleChange(*) {
+		; ui.cycleLengthData.value := ui.towerIntervalSlider.value
+		; controlFocus(ui.gameTabs)
+	; }
+	; ui.cycleLengthData := ui.gameSettingsGui.AddText("x+0 ys+3 w35 h30 section center background" cfg.themeBackgroundColor,ui.towerIntervalSlider.value)
+	; ui.cycleLengthData.setFont("s18")
+	; ui.labelCelestialTower:= ui.gameSettingsGui.AddText("xs-220 y+-1 w60 section backgroundTrans","Tower Type")
+	; ui.labelTowerTiming := ui.gameSettingsGui.AddText("ys w160 center section backgroundTrans","Cycle Length")	
+	; drawOutlineNamed("towerCycleLength",ui.gameSettingsGui,239,19,36,31,cfg.themeDark2Color,cfg.themeBright2Color,1)
+	; ui.towerIntervalSlider.OnEvent("Change",towerIntervalChanged)
+	; ui.towerIntervalSlider.ToolTip := "Tower Restart Interval"
+	; ToggleCelestialTower(*)
+	; {
+		; ui.toggleCelestialTower.Opt((cfg.CelestialTowerEnabled := !cfg.CelestialTowerEnabled) ? ("Background" cfg.ThemeButtonOnColor) : ("Background" cfg.ThemeButtonReadyColor))
+		; ui.toggleCelestialTower.Redraw()
+	; }
+		; towerIntervalChanged(*) {
+		; cfg.towerInterval := ui.towerIntervalSlider.Value
+	; }
 
 if (cfg.d2AlwaysRunEnabled) {
 				d2ToggleAppFunctionsOn()

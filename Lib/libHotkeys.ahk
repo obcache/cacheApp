@@ -9,14 +9,7 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	Return
 }
 
-hotif(noDestiny)
-	+pause::x
-hotif()
 
-noDestiny(*) {
-	if !winActive("ahk_exe destiny2.exe")
-		return 1
-}
 
 ^+[:: {
 	static currOutputDeviceNum := 1
@@ -37,15 +30,12 @@ noDestiny(*) {
 		tmpStr .= ui.audioDevices[A_Index] "`n"
 	}
 
-	if currOutputDeviceNum == ui.audioDevices.length
-		currOutputDeviceNum := 1
-	else
 		currOutputDeviceNum += 1	
 	Run('.\Redist\soundVolumeView.exe /SetDefault "' ui.audioDevices[currOutputDeviceNum] '" "all"')
 	TrayTip("Audio Changed:`n " strSplit(ui.audioDevices[currOutputDeviceNum],"\")[1],"CacheApp Audio Mgr","Iconi Mute")
 }
 
-; !^c::
+; !^c::darknessdarkness
 ; {
 	; ToggleAutoClicker()
 ; }
@@ -92,12 +82,3 @@ noDestiny(*) {
 		; }
 	; }
 ; }
-
-insert::
-{
-	toggleGlyphWindow()
-}
-
-delete::
-{
-	}

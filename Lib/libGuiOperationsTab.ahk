@@ -72,7 +72,7 @@ populateClassList() {
 GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 	global
 
-	ui.MainGuiTabs.UseTab("Sys")
+	ui.MainGuiTabs.UseTab("2_SYS")
 	ui.win1GridLines := ui.mainGui.addText("x105 y63 w155 h44 background" cfg.themeDisabledcolor,"")
 	ui.win2GridLines := ui.mainGui.addText("x284 y62 w200 h40 background" cfg.themeDisabledcolor,"")
 	ui.MainGui.SetFont("s14","Calibri Thin")

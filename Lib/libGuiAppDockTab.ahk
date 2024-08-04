@@ -38,7 +38,7 @@ workspaceChanged(*) {
 
 GuiDockTab(&ui) {
 	selectedRow := ""
-	ui.MainGuiTabs.UseTab("AppDock")
+	ui.MainGuiTabs.UseTab("4_AppDock")
 	ui.mainGui.setFont("s9","Arial")
 	ui.lvColDefs := [":0:","Title:68:","X:40:Right","Y:40:Right","W:40:Right","H:40:Right","Process Path:159:"]
 	drawPanel(ui.mainGui,40,40,400,32,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,.75,85,"Window Sets","Calibri",cfg.themeFont1Color )
@@ -137,7 +137,7 @@ GuiDockTab(&ui) {
 	}
 		
 	lvDrawGridlines() {
-		ui.mainGuiTabs.useTab("AppDock")
+		ui.mainGuiTabs.useTab("4_AppDock")
 		ui.mainGui.setFont("s8","Arial")
 		ui.mainGui.AddText("x42 y79 hidden section")
 		sqliteQuery(cfg.dbFilename,"SELECT title FROM winPositions WHERE workspace = '" ui.workspaceDDL.text "'",&sqlResult)

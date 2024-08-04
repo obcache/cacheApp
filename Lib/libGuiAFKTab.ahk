@@ -9,7 +9,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) {
 	
 guiAFKTab(&ui,&afk) {
 	global
-	ui.MainGuiTabs.UseTab("AFK")
+	ui.MainGuiTabs.UseTab("3_AFK")
 	;Any logic needed for the AFK tab beneath the docked AfkGui
 	win1afk.routine := ui.mainGui.addListView("x325 y37 section w200 h78 0xC 0x2000 -Hdr readOnly Background" cfg.ThemeEditBoxColor,["","","",""])
 	win2afk.routine := ui.mainGui.addListView("xs y+10 w200 h78 0xC 0x2000 -Hdr readOnly Background" cfg.ThemeEditboxColor,["","","",""])

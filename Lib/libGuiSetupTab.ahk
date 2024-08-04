@@ -23,7 +23,7 @@ monitorResChanged(*) {
 
 GuiSetupTab(&ui,&cfg) {
 	global
-	ui.MainGuiTabs.UseTab("Setup")
+	ui.MainGuiTabs.UseTab("6_Setup")
 	
 	drawPanel(ui.mainGui,45,36,210,168,cfg.themePanel1Color,cfg.themeBorderDarkColor,cfg.themeBorderLightColor,1,1,"none",100,"Features","Calibri",cfg.themeFont1Color)
 	drawPanel(ui.mainGui,263,36,210,108,cfg.themePanel1Color,cfg.themeBorderDarkColor,cfg.themeBorderLightColor,1,1,"none",100,"Features","Calibri",cfg.themeFont1Color)
