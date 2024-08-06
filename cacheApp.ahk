@@ -116,7 +116,7 @@ try
 	guiVis("all",false)
 
 ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
-ui.gameSettingsGui.show("x" cfg.guiX+30 " y" cfg.guiY+32 " w495 h180 noActivate")
+ui.gameSettingsGui.show("x" cfg.guiX+30 " y" cfg.guiY+32 " w495 h182 noActivate")
 ;ui.titleBarButtonGui.Show("w75 h36 NoActivate")
 ui.MainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
 
@@ -125,6 +125,8 @@ ui.MainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
 ;winMinimize(ui.mainGui.hwnd)
 
 monitorResChanged()
+
+ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 
 
 ; initGuiState()
@@ -140,9 +142,6 @@ try {
 autoUpdate()
 if cfg.topDockEnabled
 	ui.topDockPrevTab := ui.mainGuiTabs.text
-
-
-
 
 if ui.incursionDebug
 	incursionNotice()
@@ -162,5 +161,3 @@ if ui.incursionDebug
 	}
 	
 
-ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
-tabsChanged()

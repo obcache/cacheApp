@@ -73,11 +73,11 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 	global
 
 	ui.MainGuiTabs.UseTab("2_SYS")
-	ui.win1GridLines := ui.mainGui.addText("x105 y63 w155 h44 background" cfg.themeDisabledcolor,"")
-	ui.win2GridLines := ui.mainGui.addText("x284 y62 w200 h40 background" cfg.themeDisabledcolor,"")
+	ui.win1GridLines := ui.mainGui.addText("x103 y63 w155 h44 background" cfg.themeDisabledcolor,"")
+	ui.win2GridLines := ui.mainGui.addText("x282 y62 w200 h40 background" cfg.themeDisabledcolor,"")
 	ui.MainGui.SetFont("s14","Calibri Thin")
 
-	ui.OpsDockButton := ui.MainGui.AddPicture("x36 y34 w32 h27 section Background" cfg.ThemeButtonReadyColor,"./Img/button_dockLeft_ready.png")
+	ui.OpsDockButton := ui.MainGui.AddPicture("x34 y34 w32 h27 section Background" cfg.ThemeButtonReadyColor,"./Img/button_dockLeft_ready.png")
 	ui.OpsDockButton.OnEvent("Click",toggleAfkDock)
 	ui.OpsDockButton.ToolTip 		:= "Dock AFK Panel"
 	
@@ -93,7 +93,7 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 	ui.opsClockPadding := ui.mainGui.addText("x+0 ys w105 Right h2 section background" cfg.themePanel3Color,"")
 	ui.opsClockPadding.setFont("s3")
 	ui.OpsClock := ui.MainGui.AddText("xs-1 w100 Right h22 section Background" cfg.ThemePanel3Color " c" cfg.ThemeFont3Color,)
-	ui.opsClockRPadding := ui.mainGui.addText("ys w5 h22 background" cfg.themePanel3Color,"")
+	ui.opsClockRPadding := ui.mainGui.addText("ys w7 h22 background" cfg.themePanel3Color,"")
 	ui.opsClockRPadding.setFont("s6")
 	ui.OpsClock.SetFont("s15","Courier New Bold")
 	ui.OpsClock.OnEvent("Click",ChangeClockMode)
@@ -138,7 +138,7 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 	unFocusOpsDDL()
 	
 	ui.MainGui.SetFont("s10 c" cfg.ThemeFont1Color,"Calibri")	
-	ui.GameWindowsListBox := ui.MainGui.AddListBox("x38 y+1 w0 r10 section hidden Background" cfg.ThemePanel1Color " -E0x200 multi",ui.gameWindowsList)
+	ui.GameWindowsListBox := ui.MainGui.AddListBox("x36 y+1 w0 r10 section hidden Background" cfg.ThemePanel1Color " -E0x200 multi",ui.gameWindowsList)
 	ui.GameWindowsListBox.ToolTip := "List of available game windows in session"
 
 
@@ -196,7 +196,7 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 		ui.opsWin2AfkStatus := ui.MainGui.AddText("x+0 ys section w50 h22 +Background" cfg.ThemePanel1Color,"")
 		UI.opsWin2AfkStatus.setFont("s14")
 
-		ui.OpsAntiIdle1Button := ui.MainGui.AddPicture("x69 y130 w35 h30 section Background" cfg.ThemeButtonReadyColor,"./Img/button_antiIdle_ready.png")
+		ui.OpsAntiIdle1Button := ui.MainGui.AddPicture("x67 y130 w35 h30 section Background" cfg.ThemeButtonReadyColor,"./Img/button_antiIdle_ready.png")
 		;ui.OpsAntiIdle1Button.OnEvent("Click",ToggleAntiIdle1)
 		ui.OpsAntiIdle1Button.ToolTip := "Toggle Anti-Idle"
 		
@@ -223,7 +223,7 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 		;ui.autoFireWin2Button.OnEvent("Click",autoFireWin2)
 		
 
-		ui.OpsStatusLeftTrim := ui.mainGui.AddPicture("x144 y161 w15 h38 section","./Img/label_left_trim.png")
+		ui.OpsStatusLeftTrim := ui.mainGui.AddPicture("x142 y161 w15 h38 section","./Img/label_left_trim.png")
 		ui.OpsStatus1 := ui.MainGui.AddPicture("ys w100 h38 section Background" cfg.ThemeButtonReadyColor,"./Img/label_timer_off.png")  ; XX & YY serve to auto-size the window.
 		ui.OpsStatus2 := ui.MainGui.AddPicture("x+52 ys w100 h38 section Background" cfg.ThemeButtonReadyColor,"./Img/label_timer_off.png")  ; XX & YY serve to auto-size the window.
 		ui.OpsStatusRightTrim := ui.mainGui.AddPicture("ys w15 h38","./Img/label_right_trim.png")

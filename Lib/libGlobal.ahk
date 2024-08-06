@@ -704,6 +704,8 @@ cfgLoad(&cfg, &ui) {
 	cfg.d2GameHoldToCrouchKey	:= iniRead(cfg.file,"Game","d2GameHoldToCrouchKey","LControl")
 	cfg.d2GameToggleSprintKey	:= IniRead(cfg.file,"Game","d2GameToggleSprintKey","<UNSET>")
 	cfg.d2GameReloadKey			:= IniRead(cfg.file,"Game","d2GameReloadKey","<UNSET>")
+	cfg.d2GameGrenadeKey			:= IniRead(cfg.file,"Game","d2GameGrenadeKey","<UNSET>")
+	cfg.d2GameSuperKey			:= IniRead(cfg.file,"Game","d2GameSuperKey","<UNSET>")
 	cfg.d2CharacterClass		:= iniRead(cfg.file,"Game","d2CharacterClass","1")
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
 }
@@ -795,6 +797,8 @@ WriteConfig() {
 		IniWrite(cfg.d2AppHoldToCrouchKey,cfg.file,"Game","d2AppHoldToCrouchKey")
 		IniWrite(cfg.d2GameToggleSprintKey,cfg.file,"Game","d2GameToggleSprintKey")
 		IniWrite(cfg.d2GameReloadKey,cfg.file,"Game","d2GameReloadKey")
+		IniWrite(cfg.d2GameGrenadeKey,cfg.file,"Game","d2GameGrenadeKey")
+		IniWrite(cfg.d2GameSuperKey,cfg.file,"Game","d2GameSuperKey")
 		iniWrite(cfg.d2CharacterClass,cfg.file,"Game","d2CharacterClass")
 
 		d2LoadoutCoordsStr := ""

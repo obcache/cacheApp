@@ -1,4 +1,4 @@
-A_FileVersion := "1.2.9.2"
+A_FileVersion := "1.3.0.1"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -26,13 +26,14 @@ if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
     exitApp()
 }
 
+
+
 persistent()
 installMouseHook()
 installKeybdHook()
 keyHistory(10)
 setWorkingDir(a_scriptDir)
 
-	
 a_restarted := 
 	(inStr(dllCall("GetCommandLine","Str"),"/restart"))
 		? true
@@ -41,6 +42,15 @@ a_restarted :=
 installDir 		:= a_myDocuments "\cacheApp"
 configFileName 	:= "cacheApp.ini"
 themeFileName	:= "cacheApp.themes"
+
+; if fileExist("./extractAssets.ahk")
+	; fileDelete("./extractAssets.ahk")
+; loop files, "./img2/infogfx/vod/*.png" {
+	; flist .= a_loopFilename "`n"
+	; fileAppend('fileInstall("./img2/infogfx/vod/' a_loopFilename '", "' installDir '/img2/infogfx/vod/' a_loopFilename '",1)`n',"./extractAssets.ahk")
+; }
+; keyWait("Escape")
+; return
 
 preAutoExec(InstallDir,ConfigFileName)
 initTrayMenu()
@@ -106,11 +116,10 @@ try
 	guiVis("all",false)
 
 ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
-ui.gameSettingsGui.show("x" cfg.guiX+35 " y" cfg.guiY+32 " w495 h180 noActivate")
-ui.titleBarButtonGui.Show("w75 h36 NoActivate")
+ui.gameSettingsGui.show("x" cfg.guiX+30 " y" cfg.guiY+32 " w495 h180 noActivate")
+;ui.titleBarButtonGui.Show("w75 h36 NoActivate")
 ui.MainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
 
-ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 
 ;if (cfg.startMinimizedEnabled)
 ;winMinimize(ui.mainGui.hwnd)
@@ -152,3 +161,6 @@ if ui.incursionDebug
 			ui.dockBarGui.opt("+alwaysOnTop")
 	}
 	
+
+ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
+tabsChanged()

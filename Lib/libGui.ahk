@@ -25,27 +25,31 @@ initGui(&cfg, &ui) {
 	ui.MainGui.MarginX := 0
 	ui.MainGui.MarginY := 0
 	ui.MainGui.SetFont("s13 c" cfg.ThemeFont1Color,"Calibri")
+	ui.mainBg := ui.mainGui.addText("x3 y3 w550 h230 background" cfg.themeBackgroundColor,"")
+	ui.mainGuiAnchor := ui.mainGui.addText("x0 y0 w0 h0 section hidden")
 	;ui.topHandlebar := ui.mainGui.addPicture("x-5 y2 w528 h28 backgroundTrans","./img2/handlebar_horz.png")
-	ui.1_GameButtonBg := ui.mainGui.addPicture("x32 y2 section w80 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.1_GameButtonBg := ui.mainGui.addPicture("x32 y2 section w80 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==1) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
 	ui.1_GameButton := ui.mainGui.addText("x+-80 ys+5 w80 h22 center backgroundTrans","Game")
-	ui.2_SysButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.2_SysButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==2) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
 	ui.2_SysButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Sys")
-	ui.3_AfkButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.3_AfkButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==3) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
 	ui.3_AfkButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Afk")
-	ui.4_AppDockButtonBg := ui.mainGui.addPicture("ys+0 w100 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.4_AppDockButtonBg := ui.mainGui.addPicture("ys+0 w100 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==4) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
 	ui.4_AppDockButton := ui.mainGui.addText("ys+5 x+-100 w100 h22 center backgroundTrans"," App Dock ")
-	ui.5_ListsButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.5_ListsButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==5) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
 	ui.5_ListsButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Lists")
-	ui.6_SetupButtonBg := ui.mainGui.addPicture("ys+0 w80 h30 center background" cfg.themeBackgroundColor,"./img2/tab_unselected.png")
+	ui.6_SetupButtonBg := ui.mainGui.addPicture("ys+0 w80 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==6) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
 	ui.6_SetupButton := ui.mainGui.addText("ys+5 x+-80 w80 h22 center backgroundTrans","Setup")
 	ui.MainGuiTabs := ui.MainGui.AddTab3("x32 y2 w495 h213  Buttons -redraw Background" cfg.ThemeBackgroundColor " -E0x200", cfg.mainTabList)
 	ui.mainGuiTabs.setFont("s13")
 	ui.MainGuiTabs.OnEvent("Change",TabsChanged)
-	ui.mainGuiTabs.useTab("1_GAME")
-	ui.MainGuiTabs.UseTab("")
+	;ui.mainGuiTabs.useTab("1_GAME")
+	ui.MainGuiTabs.useTab("")
+	ui.activeTab := ui.mainGuiTabs.Text
+	ui.previousTab := ui.activeTab
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
 	ui.handleBarBorder := ui.mainGui.addText("x1 y33 w30 h180 background" cfg.themeBright1Color,"")
-	ui.handleBarImage := ui.MainGui.AddPicture("x2 y33 w29 h180 backgroundTrans","./Img2/handlebar_vertical.png")
+	ui.handleBarImage := ui.MainGui.AddPicture("x2 y33 w31 h180 backgroundTrans","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	ui.rightHandlebarBg := ui.mainGui.addText("x529 y33 w31 h180 background" cfg.themeBright1Color,"")
 	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w29 y33 h180 section","./Img2/handlebar_vertical.png")
@@ -58,14 +62,23 @@ initGui(&cfg, &ui) {
 	ui.gameTabTopDockButton := ui.mainGui.addPicture("x1 y0 w33 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
-	ui.exitButtonBg := ui.mainGui.addText("x495 y0 w66 h33 background" cfg.themeBright1Color,"")
-	ui.DownButton := ui.mainGui.AddPicture("x495 y0 w33 h30 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
+	ui.exitButtonBg := ui.mainGui.addText("x498 y0 w66 h32 background" cfg.themeBright1Color,"")
+	ui.DownButton := ui.mainGui.AddPicture("x498 y0 w30 h30 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
 	ui.DownButton.OnEvent("Click",HideGui)
 	ui.DownButton.ToolTip := "Minimizes cacheApp App"
 	ui.ExitButtonBorder 	:= ui.mainGui.AddText("x+0 ys0 section w33 h33 Background" cfg.ThemeBright1Color,"")
 	ui.ExitButton 	:= ui.mainGui.AddPicture("x+-33 ys0 w32 h32 Background" cfg.ThemeButtonOnColor,"./Img/button_power_ready.png")
 	ui.ExitButton.OnEvent("Click",ExitButtonPushed)
 	ui.ExitButton.ToolTip := "Terminates cacheApp App"
+	; for tab in cfg.mainTabList {
+		; if a_index == cfg.activeMainTab {
+			; ui.%tab%ButtonBg.value := "./img2/tab_selected.png"
+		
+			; ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+			; }
+	; msgBox(cfg.mainTabList[cfg.activeMainTab] "`n" a_index "`n" tab)
+	;	if ui.mainGuiTabs[cfg.activeMainTab.Text].text = tab.text ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+	
 	ui.gvConsole := ui.MainGui.AddListBox("x35 y220 w500 h192 +Background" cfg.ThemePanel1Color)
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
 	afk 						:= Object()	
@@ -105,9 +118,10 @@ initGui(&cfg, &ui) {
 	
 
 	debugLog("Interface Initialized")
+	
 	ui.MainGuiTabs.UseTab("")
 	line(ui.mainGui,33,211,495,2,cfg.themeDark2Color)
-	;ccccline(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
+	;line(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
 
 }
 
@@ -801,39 +815,39 @@ initConsole(&ui) {
 
 		ui.mainGuiTabs.useTab("2_SYS")
 		drawGridlines()
-		drawOutlineNamed("bottomLine",ui.mainGui,36,211,495,2,cfg.themeBright2Color,cfg.themeBright2Color,2)
-		drawOutlineNamed("bottomLine2",ui.mainGui,36,211,495,1,cfg.themeBright1Color,cfg.themeBright1Color,1)
-		drawOutlineNamed("tabsUnderline",ui.MainGui,35,29,502,3,cfg.ThemeBackgroundColor,cfg.ThemeBackgroundColor,2)
-		drawOutlineNamed("opsClock",ui.mainGui,103,33,139,28,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,2)		;Ops Clock
-		drawOutlineNamed("opsClassDDL",ui.mainGui,325,33,138,28,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,1)		;Ops Clock
-		drawOutlineNamed("opsToolbarOutline2",ui.mainGui,36,33,494,30,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)	;Ops Toolbar Outline
-		drawOutlineNamed("opsToolbarCenter",ui.mainGui,269,34,29,30,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)	;Ops Toolbar Outline
+		drawOutlineNamed("bottomLine",ui.mainGui,34,211,495,2,cfg.themeBright2Color,cfg.themeBright2Color,2)
+		drawOutlineNamed("bottomLine2",ui.mainGui,34,211,495,1,cfg.themeBright1Color,cfg.themeBright1Color,1)
+		drawOutlineNamed("tabsUnderline",ui.MainGui,33,29,502,3,cfg.ThemeBackgroundColor,cfg.ThemeBackgroundColor,2)
+		drawOutlineNamed("opsClock",ui.mainGui,101,33,139,28,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,2)		;Ops Clock
+		drawOutlineNamed("opsClassDDL",ui.mainGui,323,33,138,28,cfg.ThemeBorderDarkColor,cfg.ThemeBorderDarkColor,1)		;Ops Clock
+		drawOutlineNamed("opsToolbarOutline2",ui.mainGui,34,33,494,30,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)	;Ops Toolbar Outline
+		drawOutlineNamed("opsToolbarCenter",ui.mainGui,267,34,29,30,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)	;Ops Toolbar Outline
 
-		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,258,62,54,138,cfg.themeBright1Color,cfg.themeBright1Color,3)	;Ops Toolbar Outline
-		drawOutlineNamed("opsMiddleColumnOutlineLight",ui.mainGui,260,63,50,135,cfg.themeDark1Color,cfg.themeDark1Color,1)		;Ops Toolbar
-		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,261,64,48,133,cfg.themeBright2Color,cfg.themeBright2Color,1)	;Ops Toolbar Outline
-		drawOutlineNamed("opsAfkStatusLeft",ui.mainGui,36,104,67,25,cfg.themeBright1Color,cfg.themeBright1Color,1)
-		drawOutlineNamed("opsAfkStatusRight",ui.mainGui,464,104,66,25,cfg.themeBright1Color,cfg.themeBright1Color,1)	
-		drawOutlineNamed("opsAfkStatusLeft",ui.mainGui,36,130,67,32,cfg.themeBright1Color,cfg.themeBright1Color,1)
-		drawOutlineNamed("opsAfkStatusRight",ui.mainGui,464,130,66,32,cfg.themeBright1Color,cfg.themeBright1Color,1)
+		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,256,62,54,138,cfg.themeBright1Color,cfg.themeBright1Color,3)	;Ops Toolbar Outline
+		drawOutlineNamed("opsMiddleColumnOutlineLight",ui.mainGui,258,63,50,135,cfg.themeDark1Color,cfg.themeDark1Color,1)		;Ops Toolbar
+		drawOutlineNamed("opsMiddleColumnOutlineDark",ui.mainGui,259,64,48,133,cfg.themeBright2Color,cfg.themeBright2Color,1)	;Ops Toolbar Outline
+		drawOutlineNamed("opsAfkStatusLeft",ui.mainGui,34,104,67,25,cfg.themeBright1Color,cfg.themeBright1Color,1)
+		drawOutlineNamed("opsAfkStatusRight",ui.mainGui,462,104,66,25,cfg.themeBright1Color,cfg.themeBright1Color,1)	
+		drawOutlineNamed("opsAfkStatusLeft",ui.mainGui,34,130,67,32,cfg.themeBright1Color,cfg.themeBright1Color,1)
+		drawOutlineNamed("opsAfkStatusRight",ui.mainGui,462,130,66,32,cfg.themeBright1Color,cfg.themeBright1Color,1)
 	}
 
 	drawGridLines() {
 	ui.MainGuiTabs.UseTab("2_SYS")
-		drawOutline(ui.MainGui,103,62,157,100,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2) 	;Win1 Info Frame
-		drawOutline(ui.MainGui,104,62,156,100,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1) 	;Win1 Info Frame
-		drawOutline(ui.MainGui,103,76,157,16,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win1 Info Gridlines  
-		drawOutline(ui.MainGui,104,76,156,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win1 Line above ClassDDL
-		drawOutline(ui.MainGui,103,90,157,17,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win1 Line above ClassDDL
-		drawOutline(ui.MainGui,104,90,156,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win1 Line above ClassDDL
+		drawOutline(ui.MainGui,101,62,157,100,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2) 	;Win1 Info Frame
+		drawOutline(ui.MainGui,102,62,156,100,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1) 	;Win1 Info Frame
+		drawOutline(ui.MainGui,101,76,157,16,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win1 Info Gridlines  
+		drawOutline(ui.MainGui,102,76,156,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win1 Line above ClassDDL
+		drawOutline(ui.MainGui,101,90,157,17,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win1 Line above ClassDDL
+		drawOutline(ui.MainGui,102,90,156,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win1 Line above ClassDDL
 
-		drawOutline(ui.MainGui,308,62,156,100,cfg.ThemeBright2Color,cfg.ThemeBright2Color,1)		;WIn2 Info Frame
-		drawOutline(ui.MainGui,308,62,155,100,cfg.ThemeBright1Color,cfg.ThemeBright1Color,2)	;WIn2 Info Frame
+		drawOutline(ui.MainGui,306,62,156,100,cfg.ThemeBright2Color,cfg.ThemeBright2Color,1)		;WIn2 Info Frame
+		drawOutline(ui.MainGui,306,62,155,100,cfg.ThemeBright1Color,cfg.ThemeBright1Color,2)	;WIn2 Info Frame
 
-		drawOutline(ui.MainGui,308,76,156,16,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win2 Info Gridlines
-		drawOutline(ui.MainGui,308,76,155,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win2 Line above ClassDDL
-		drawOutline(ui.MainGui,308,90,156,16,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win2 Line above ClassDDL
-		drawOutline(ui.MainGui,308,90,155,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win2 Line above ClassDDL
+		drawOutline(ui.MainGui,306,76,156,16,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win2 Info Gridlines
+		drawOutline(ui.MainGui,306,76,155,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win2 Line above ClassDDL
+		drawOutline(ui.MainGui,306,90,156,16,cfg.ThemeBright2Color,cfg.ThemeBright2Color,2)		;Win2 Line above ClassDDL
+		drawOutline(ui.MainGui,306,90,155,15,cfg.ThemeBright1Color,cfg.ThemeBright1Color,1)		;Win2 Line above ClassDDL
 
 	}
 } ;END - outline parameters
@@ -843,82 +857,103 @@ tabsChanged(*) {
 	ui.activeTab := ui.mainGuiTabs.Text
 	ui.topDockPrevTab := ui.activeTab
 	cfg.activeMainTab := ui.mainGuiTabs.value
-
-	ui.mainGui.opt("toolWindow")
-	ui.titleBarButtonGui.opt("toolWindow")
-	ui.afkGui.opt("toolWindow")
-	ui.gameSettingsGui.opt("toolWindow")
-	ui.gameTabGui.opt("toolWindow")
-	;guiVis(ui.titleBarButtonGui,true)
-	guiVis(ui.mainGui,true)
+	(ui.activeTab=="5_Lists")
+		? tabDisabled()
+		: 1
+	((ui.activeTab=="1_Game")||(ui.activeTab=="3_AFK"))
+	? (ui.activeTab=="1_Game")
+		? (guiVis(ui.gameSettingsGui,true)
+			, guiVis(ui.gameTabGui,true)
+			, guiVis(ui.afkGui,false)
+			, ui.gameSettingsGui.opt("-toolWindow")
+			, ui.afkGui.opt("+toolWindow")
+			, ui.mainGui.opt("+toolWindow"))
+		: (guiVis(ui.afkGui,true)
+			, guiVis(ui.gameSettingsGui,false)
+			, guiVis(ui.gameTabGui,false)
+			, ui.afkGui.opt("-toolWindow")
+			, ui.gameSettingsGui.opt("+toolWindow")
+			, ui.mainGui.opt("+toolWindow"))
+	: (ui.mainGui.opt("-toolWindow")
+		, ui.afkGui.opt("+toolWindow")
+		, ui.gameSettingsGui.opt("+toolWindow")
+		, guiVis(ui.afkGui,false)
+		, guiVis(ui.gameSettingsGui,false)
+		, guiVis(ui.gameTabGui,false))
+		
 	for tab in cfg.mainTabList {
-		ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+		ui.%tab%ButtonBg.value := 
+			(cfg.activeMainTab==a_index) 
+				? "./img2/tab_selected.png" 
+				: "./img2/tab_unselected.png"
 	}
-	;msgbox(ui.activeTab)
-	switch ui.activeTab {
-		case "3_AFK":
-			if tabDisabled()
-				Return
-			ui.afkGui.opt("-toolWindow")
-			guiVis(ui.afkGui,true)
-			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.gameTabGui,false)
-			ui.3_afkButtonBg.value := "./img2/tab_selected.png"
-		case "1_Game":
-			if tabDisabled()
-				return
-			guiVis(ui.afkGui,false)
-			guiVis(ui.gameSettingsGui,true)
-			guiVis(ui.gameTabGui,true)
-			ui.gameSettingsGui.opt("-toolWindow")
-			ui.1_gameButtonBg.value := "./img2/tab_selected.png"
-			ui.1_gameButtonBg.redraw()
-		case "5_Lists":
-			if tabDisabled()
-				Return
-			guiVis(ui.afkGui,false)
-			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.gameTabGui,false)
-			ui.5_listsButtonBg.value := "./img2/tab_selected.png"
-		case "2_Sys":
-			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.gameTabGui,false)
-			guiVis(ui.afkGui,false)
-			ui.mainGui.opt("-toolWindow")
-			ui.2_sysButtonBg.value := "./img2/tab_selected.png"
-		case "4_AppDock":
-			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.gameTabGui,false)
-			guiVis(ui.afkGui,false)
-			ui.mainGui.opt("-toolWindow")
-			ui.4_appDockButtonBg.value := "./img2/tab_selected.png"
-		case "6_Setup":
-			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.gameTabGui,false)
-			guiVis(ui.afkGui,false)
-			ui.mainGui.opt("-toolWindow")
-			ui.6_setupButtonBg.value := "./img2/tab_selected.png"
-		default:
-			guiVis(ui.gameSettingsGui,false)
-			guiVis(ui.gameTabGui,false)
-			guiVis(ui.afkGui,false)
-			ui.mainGui.opt("-toolWindow")
-	}
+			
+	; ui.afkGui.opt("toolWindow")
+	; ui.gameSettingsGui.opt("toolWindow")
+	; ui.gameTabGui.opt("toolWindow")
+	; switch ui.activeTab {
+		; case "1_Game":
+			; if tabDisabled()
+				; return
+			; guiVis(ui.afkGui,false)
+			; guiVis(ui.gameSettingsGui,true)
+			; guiVis(ui.gameTabGui,true)
+			; ui.gameSettingsGui.opt("-toolWindow")
+			; ui.mainGui.opt("+toolWindow")
+			; ui.1_gameButtonBg.value := "./img2/tab_selected.png"
+		; case "2_Sys":
+			; guiVis(ui.gameSettingsGui,false)
+			; guiVis(ui.gameTabGui,false)
+			; guiVis(ui.afkGui,false)
+			; ui.mainGui.opt("-toolWindow")
+			; ui.2_sysButtonBg.value := "./img2/tab_selected.png"
+		; case "3_AFK":
+			; guiVis(ui.afkGui,true)
+			; guiVis(ui.gameSettingsGui,false)
+			; guiVis(ui.gameTabGui,false)
+			; ui.afkGui.opt("-toolWindow")
+			; ui.mainGui.opt("+toolWindow")
+			; ui.3_afkButtonBg.value := "./img2/tab_selected.png"
+		; case "4_AppDock":
+			; guiVis(ui.gameSettingsGui,false)
+			; guiVis(ui.gameTabGui,false)
+			; guiVis(ui.afkGui,false)
+			; ui.mainGui.opt("-toolWindow")
+			; ui.4_appDockButtonBg.value := "./img2/tab_selected.png"
+		; case "5_Lists":
+			; tabDisabled()
+				; Return
+			; guiVis(ui.afkGui,false)
+			; guiVis(ui.gameSettingsGui,false)
+			; guiVis(ui.gameTabGui,false)
+			; ui.5_listsButtonBg.value := "./img2/tab_selected.png"
+		; case "6_Setup":
+			; guiVis(ui.gameSettingsGui,false)
+			; guiVis(ui.gameTabGui,false)
+			; guiVis(ui.afkGui,false)
+			; ui.mainGui.opt("-toolWindow")
+			;ui.6_setupButtonBg.value := "./img2/tab_selected.png"
+		; default:
+			; guiVis(ui.gameSettingsGui,false)
+			; guiVis(ui.gameTabGui,false)
+			; guiVis(ui.afkGui,false)
+			; ui.mainGui.opt("-toolWindow")
+		;	ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+	; }
 		
 	controlFocus(ui.mainGuiTabs,ui.mainGui)
 	controlFocus(ui.d2ToggleAppFunctions,ui.gameSettingsGui)
 	controlFocus(ui.buttonTower,ui.afkGui)
 	ui.previousTab := ui.activeTab
+	;guiVis(ui.mainGui,true)
 }
 
 tabDisabled() {
-	if inStr(cfg.disabledTabs,ui.activeTab) {
 		ui.mainGuiTabs.choose(ui.previousTab)
 		tabsChanged()
+		sleep(300)
 		notifyOSD("This tab has been`ndisabled by the developer",2000)
 		return 1
-	}
-	return 0
 } 
 			
 

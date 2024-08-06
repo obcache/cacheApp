@@ -41,8 +41,8 @@ GuiDockTab(&ui) {
 	ui.MainGuiTabs.UseTab("4_AppDock")
 	ui.mainGui.setFont("s9","Arial")
 	ui.lvColDefs := [":0:","Title:68:","X:40:Right","Y:40:Right","W:40:Right","H:40:Right","Process Path:159:"]
-	drawPanel(ui.mainGui,40,40,400,32,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,.75,85,"Window Sets","Calibri",cfg.themeFont1Color )
-	drawPanel(ui.mainGui,442,40,85,170,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,1.75,40,"Actions","Calibri",cfg.themeFont1Color)
+	drawPanel(ui.mainGui,34,40,400,29,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,.75,85,"Window Sets","Calibri",cfg.themeFont1Color )
+	drawPanel(ui.mainGui,437,40,90,170,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,1.75,40,"Actions","Calibri",cfg.themeFont1Color)
 	workspaceArr := array()
 	ui.selectedWorkspace := iniRead(cfg.file,"AppDock","SelectedWorkspace",1)
 	sqliteQuery(cfg.dbFilename,"SELECT name FROM workspaces",&sqlResult)
@@ -52,24 +52,24 @@ GuiDockTab(&ui) {
 			workspaceArr.push(sqlResult.rows[a_index][1])
 		}
 	}
-	ui.workspaceDDL := ui.mainGui.addComboBox("x45 y45 w150 r6 section altSubmit choose" ui.selectedWorkspace " c" cfg.themeFont1Color " background" cfg.themePanel1Color,workspaceArr)
+	ui.workspaceDDL := ui.mainGui.addComboBox("x37 y43 w150 r6 section altSubmit choose" ui.selectedWorkspace " c" cfg.themeFont1Color " background" cfg.themePanel1Color,workspaceArr)
 	ui.workspaceDDL.setFont("s9","arial")
-	drawOutlineNamed("AppListView",ui.mainGui,41,73,398,20,cfg.themeBright2Color,cfg.themeBorderDarkColor,2)
-	drawOutlineNamed("AppListView2",ui.mainGui,42,74,396,17,cfg.themeBorderLightColor,cfg.themeDark1Color,1)
+	drawOutlineNamed("AppListView",ui.mainGui,35,71,398,20,cfg.themeBright2Color,cfg.themeBorderDarkColor,1)
+	;drawOutlineNamed("AppListView2",ui.mainGui,35,70,398,15,cfg.themeBorderLightColor,cfg.themeDark1Color,1)
 
 	ui.workspaceDDL.onEvent("change",workspaceChanged)
 	
-	ui.mainGui.AddText("xs-13 y+-17 section hidden")
+	ui.mainGui.AddText("xs-10 y+-19 section hidden")
 	ui.mainGui.setFont("s10 bold")
 	for colDef in ui.lvColDefs {
-		ui.mainGui.AddText("x+0 ys+0 w" strSplit(colDef,":")[2] " h17 center c" cfg.themeFont1Color " background" cfg.themePanel1Color, strSplit(colDef,":")[1])
+		ui.mainGui.AddText("x+0 ys+1 w" strSplit(colDef,":")[2] " h16 center c" cfg.themeFont1Color " background" cfg.themePanel1Color, strSplit(colDef,":")[1])
 		if a_index < ui.lvColDefs.length 
-			ui.mainGui.AddText("x+0 ys+0 w1 h17 background" cfg.themeBright2Color,"")
+			ui.mainGui.AddText("x+0 ys+0 w1 h18 background" cfg.themeBright2Color,"")
 		else
-			ui.mainGui.AddText("x+0 ys+0 w2 h17 background" cfg.themePanel2Color,"")
+			ui.mainGui.AddText("x+0 ys+0 w3 h17 background" cfg.themePanel1Color,"")
 	}
 	ui.mainGui.setFont("s8","Calibri Light")
-	ui.winPosLV := ui.mainGui.addListView("x41 y94 w398 h116 -hdr e0x2000 -multi c" cfg.themeFont2Color " background" cfg.themePanel2Color)
+	ui.winPosLV := ui.mainGui.addListView("x35 y94 w398 h115 -hdr e0x2000 -multi c" cfg.themeFont2Color " background" cfg.themePanel2Color)
 	ui.winPosLV.setFont("s9","Calibri")
 	ui.winPosLV.onEvent("itemFocus",changeWinSelected)
 		ui.mainGui.setFont("s9","calibri")
@@ -139,10 +139,10 @@ GuiDockTab(&ui) {
 	lvDrawGridlines() {
 		ui.mainGuiTabs.useTab("4_AppDock")
 		ui.mainGui.setFont("s8","Arial")
-		ui.mainGui.AddText("x42 y79 hidden section")
+		ui.mainGui.AddText("x37 y83 hidden section")
 		sqliteQuery(cfg.dbFilename,"SELECT title FROM winPositions WHERE workspace = '" ui.workspaceDDL.text "'",&sqlResult)
 		loop sqlResult.rows.length
-			ui.mainGui.addText("xs y+19 w390 h1 background" cfg.themeFont2Color)
+			ui.mainGui.addText("xs y+17.5 w395 h1 background" cfg.themeFont2Color)
 	}
 
 	getWinOption(winTitle,winOption) {
@@ -192,10 +192,10 @@ GuiDockTab(&ui) {
 				outlineOffset	:= 1,	;outline offset (how many pixels inset the border starts)
 				labelFont, 		;label font
 				labelFontColor]	;label font color
-			ui.winManualAddTitle := ui.notifyGui.addEdit("x10 y10 w120 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<Window TItle>")
-			ui.winManualAddCoords := ui.notifyGui.addEdit("x130 y10 w240 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<x,y,w,h>")
-			ui.winManualAddProcessPath := ui.notifyGui.addEdit("x10 y40 w310 r section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<c:\program files\this program\program.exe>")
-			ui.winManualAddSaveButton := ui.notifyGui.addPicture("x320 y30 w40 h40 backgroundTrans","/img2/button_save.png")
+			ui.winManualAddTitle := ui.notifyGui.addEdit("x5 y10 w120 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<Window TItle>")
+			ui.winManualAddCoords := ui.notifyGui.addEdit("x125 y10 w240 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<x,y,w,h>")
+			ui.winManualAddProcessPath := ui.notifyGui.addEdit("x5 y40 w310 r section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<c:\program files\this program\program.exe>")
+			ui.winManualAddSaveButton := ui.notifyGui.addPicture("x315 y30 w40 h40 backgroundTrans","/img2/button_save.png")
 			ui.winManualAddGui.show("noActivate")
 		} else {
 		splitPath(winGetProcessPath(winClicked),,,,&winName)

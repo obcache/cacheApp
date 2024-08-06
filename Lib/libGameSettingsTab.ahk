@@ -379,10 +379,26 @@ d2drawPanel1(*) {
 	ui.d2GameReloadKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
 	ui.d2GameReloadKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")		
 	
+	ui.currKey := cfg.d2GameGrenadeKey
+	ui.currKeyLabel := "Reload"
+	ui.d2GameGrenadeKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameGrenadeKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameGrenadeKey),1,8))
+	ui.d2GameGrenadeKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Grenade")		
+	
+	ui.currKey := cfg.d2GameSuperKey
+	ui.currKeyLabel := "Super"
+	ui.d2GameSuperKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameSuperKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameSuperKey),1,8))
+	ui.d2GameSuperKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Super")		
+	
 	ui.d2gameToggleSprintKey.onEvent("click",d2gameToggleSprintKeyClicked)
 	ui.d2gameToggleSprintKeyData.onEvent("click",d2gameToggleSprintKeyClicked)
 	ui.d2GameReloadKey.onEvent("click",d2GameReloadKeyClicked)
 	ui.d2GameReloadKeyData.onEvent("click",d2GameReloadKeyClicked)
+	ui.d2GameSuperKey.onEvent("click",d2GameSuperKeyClicked)
+	ui.d2GameSuperKeyData.onEvent("click",d2GameSuperKeyClicked)
+	ui.d2GameGrenadeKey.onEvent("click",d2GameGrenadeKeyClicked)
+	ui.d2GameGrenadeKeyData.onEvent("click",d2GameGrenadeKeyClicked)
 	ui.d2GameHoldToCrouchKey.onEvent("click",d2GameHoldToCrouchKeyClicked)
 	ui.d2GameHoldToCrouchKeyData.onEvent("click",d2GameHoldToCrouchKeyClicked)
 
@@ -392,6 +408,12 @@ d2drawPanel1(*) {
 	ui.d2GameReloadKey.ToolTip				:= "Click to Assign"
 	ui.d2GameReloadKeyData.ToolTip  		:= "Click to Assign"
 	ui.d2GameReloadKeyLabel.ToolTip			:= "Click to Assign"
+	ui.d2GameSuperKey.ToolTip				:= "Click to Assign"
+	ui.d2GameSuperKeyData.ToolTip  		:= "Click to Assign"
+	ui.d2GameSuperKeyLabel.ToolTip			:= "Click to Assign"
+	ui.d2GameGrenadeKey.ToolTip				:= "Click to Assign"
+	ui.d2GameGrenadeKeyData.ToolTip  		:= "Click to Assign"
+	ui.d2GameGrenadeKeyLabel.ToolTip			:= "Click to Assign"
 	ui.d2GameHoldToCrouchKey.ToolTip		:= "Click to Assign"
 	ui.d2GameHoldToCrouchKeyData.ToolTip  	:= "Click to Assign"
 	ui.d2GameHoldToCrouchKeyLabel.ToolTip	:= "Click to Assign"
@@ -400,6 +422,10 @@ d2drawPanel1(*) {
 	ui.d2gameToggleSprintKeyData.setFont("s11")
 	ui.d2GameReloadKeyData.setFont("s11")
 	ui.d2GameReloadKeylabel.setFont("s9")
+	ui.d2GameSuperKeyData.setFont("s11")
+	ui.d2GameSuperKeylabel.setFont("s9")
+	ui.d2GameGrenadeKeyData.setFont("s11")
+	ui.d2GameGrenadeKeylabel.setFont("s9")
 	ui.d2GameHoldToCrouchKeyData.setFont("s11")
 	ui.d2GameHoldToCrouchKeyLabel.setFont("s9")
 
@@ -691,7 +717,7 @@ drawGameTabs(tabNum := 1) {
 		ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h28 background" cfg.themePanel1Color)
 		drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+3,4,498-ui.gameTabWidth-6,25,cfg.themeDark1Color,cfg.themeDark1Color,1)
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w495 h28 x" mainGuiX+35 " y" mainGuiY+184 " noActivate")
+		ui.gameTabGui.show("w495 h30 x" mainGuiX+33 " y" mainGuiY+184 " noActivate")
 	} else {
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
 		ui.gameTabGui.show("w228 h28 x" mainGuiX+35 " y" mainGuiY+185 " noActivate") 
@@ -786,22 +812,22 @@ d2SwordFly(*) {
 
 d2MorgethWarlock(*) {
 	while getKeyState(cfg.d2AppSwordFlyKey) && getKeyState("w") {
-		send("{j down}")
+		send("{" cfg.d2GameGrenadeKey " down}")
 		sleep(1700)
-		send("{j up}")
+		send("{" cfg.d2GameGrenadeKey " up}")
 		send("{" strLower(cfg.d2GameToggleSprintKey) "}")
 		sleep(800)
 		send("{space down}{space up}")
 		sleep(80)
 		send("{space down}{space up}")
 		sleep(11000)
-		send("{x down}")
+		send("{" cfg.d2GameSuperKey " down}")
 		sleep(300)
-		send("{x up}")
+		send("{" cfg.d2GameSuperKey " up}")
 		sleep(300)
-		send("{x down}")
+		send("{" cfg.d2GameSuperKey " down}")
 		sleep(300)
-		send("{x up}")
+		send("{" cfg.d2GameSuperKey " up}")
 		sleep(7000)
 		send("{space}")
 		sleep(100)
@@ -1253,6 +1279,12 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2GameReloadKey
 			,ui.d2GameReloadKeyData
 			,ui.d2GameReloadKeyLabel
+			,ui.d2GameGrenadeKey
+			,ui.d2GameGrenadeKeyData
+			,ui.d2GameGrenadeKeyLabel
+			,ui.d2GameSuperKey
+			,ui.d2GameSuperKeyData
+			,ui.d2GameSuperKeyLabel
 			]
 			
 	if panelNum == 1 {
@@ -1508,8 +1540,9 @@ keyBindDialogBox(Msg,Alignment := "Center") {
 	drawOutlineNotifyGui(2,2,w-4,h-4,cfg.ThemeBright2Color,cfg.ThemeBright2Color,1)
 	
 	Transparency := 0
+	;ui.mainGui.hide()
 	guiVis(ui.mainGui,false)
-	guiVis(ui.titleBarButtonGui,false)
+	;guiVis(ui.titleBarButtonGui,false)
 	guiVis(ui.gameSettingsGui,false)
 	guiVis(ui.gameTabGui,false)
 	While Transparency < 253 {
@@ -1741,6 +1774,52 @@ d2GameHoldToCrouchKeyClicked(*) {
 				cfg.d2GameReloadKey := d2GameReloadKeyInput.endKey
 			}
 			ui.d2GameReloadKeyData.text := subStr(strUpper(cfg.d2GameReloadKey),1,8)
+		}
+		DialogBoxClose()
+		d2CreateLoadoutKeys()
+		d2RedrawUI()
+	}
+	
+	d2GameGrenadeKeyClicked(*) {
+		DialogBox('Assign key for: `n"Grenade"',"Center")
+		Sleep(100)
+		d2GameGrenadeKeyInput := InputHook("L1 T6", inputHookAllowedKeys,"+V")
+		d2GameGrenadeKeyInput.start()
+		d2GameGrenadeKeyInput.wait()
+		if (d2GameGrenadeKeyInput.endKey == "" && d2GameGrenadeKeyInput.input == "") {
+			DialogBoxClose()
+			notifyOSD('No Key Detected.`nPlease Try Again.',2000,"Center")
+		} else {
+			if (d2GameGrenadeKeyInput.input)
+			{
+				cfg.d2GameGrenadeKey := d2GameGrenadeKeyInput.input
+			} else {
+				cfg.d2GameGrenadeKey := d2GameGrenadeKeyInput.endKey
+			}
+			ui.d2GameGrenadeKeyData.text := subStr(strUpper(cfg.d2GameGrenadeKey),1,8)
+		}
+		DialogBoxClose()
+		d2CreateLoadoutKeys()
+		d2RedrawUI()
+	}
+	
+	d2GameSuperKeyClicked(*) {
+		DialogBox('Assign key for: `n"Super"',"Center")
+		Sleep(100)
+		d2GameSuperKeyInput := InputHook("L1 T6", inputHookAllowedKeys,"+V")
+		d2GameSuperKeyInput.start()
+		d2GameSuperKeyInput.wait()
+		if (d2GameSuperKeyInput.endKey == "" && d2GameSuperKeyInput.input == "") {
+			DialogBoxClose()
+			notifyOSD('No Key Detected.`nPlease Try Again.',2000,"Center")
+		} else {
+			if (d2GameSuperKeyInput.input)
+			{
+				cfg.d2GameSuperKey := d2GameSuperKeyInput.input
+			} else {
+				cfg.d2GameSuperKey := d2GameSuperKeyInput.endKey
+			}
+			ui.d2GameSuperKeyData.text := subStr(strUpper(cfg.d2GameSuperKey),1,8)
 		}
 		DialogBoxClose()
 		d2CreateLoadoutKeys()

@@ -1,4 +1,4 @@
-A_FileVersion := "1.1.1.2"
+A_FileVersion := "1.1.1.4"
 A_AppName := "cacheApp_updater"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
@@ -10,6 +10,18 @@ A_AppName := "cacheApp_updater"
 #SingleInstance
 #Warn All, Off
 
+currExe := DllCall("GetCommandLine", "str")
+if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
+{
+    try
+    {
+        if a_isCompiled
+            run '*runAs "' a_scriptFullPath '" /restart'
+        else
+            run '*runAs "' a_ahkPath '" /restart "' a_scriptFullPath '"'
+    }
+    exitApp()
+}
 InstallMouseHook()
 InstallKeybdHook()
 KeyHistory(10)
@@ -24,15 +36,18 @@ if (A_Args.length > 0) && FileExist("./versions/" A_Args[1]) {
 	exitApp
 } else {
 	
-	whr := ComObject("WinHttp.WinHttpRequest.5.1")
-	whr.Open("GET", "https://raw.githubusercontent.com/obcache/cacheApp/main/cacheApp_currentBuild.dat", true)
-	whr.Send()
-	whr.WaitForResponse()
-	latestVersion := whr.ResponseText
-	if fileExist("./cacheApp_latestBuild.dat")
-		fileDelete("./cacheApp_latestBuild.dat")
-
-	fileAppend(latestVersion,"./cacheApp_latestBuild.dat")
+	; whr := ComObject("WinHttp.WinHttpRequest.5.1")
+	; whr.Open("GET", "https://raw.githubusercontent.com/obcache/cacheApp/main/cacheApp_currentBuild.dat", true)
+	; whr.Send()
+	; whr.WaitForResponse()
+	; latestVersion := whr.ResponseText
+	; if fileExist("./cacheApp_latestBuild.dat")
+		; fileDelete("./cacheApp_latestBuild.dat")
+		
+	download("http://sorryneedboost.com/cacheApp/cacheApp_currentBuild.dat","./cacheApp_latestBuild.dat")
+	latestVersion := "0000"
+	currentVersion := "0000"
+	latestVersion := fileRead("./cacheApp_latestBuild.dat")
 	currentVersion := fileRead("./cacheApp_currentBuild.dat")
 	if !(DirExist("./versions"))
 		DirCreate("./versions")
@@ -48,8 +63,9 @@ if (A_Args.length > 0) && FileExist("./versions/" A_Args[1]) {
 			}			
 			pbNotify("Upgrading cacheApp to version " latestVersion)
 	
-	
-			runWait("cmd /C start /b /wait curl.exe https://raw.githubusercontent.com/obcache/cacheApp/main/Bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
+			download("http://sorryneedboost.com/cacheApp/bin/cacheApp_" latestVersion ".exe",A_ScriptDir "/versions/cacheApp_" latestVersion ".exe"
+			)
+			; runWait("cmd /C start /b /wait curl.exe https://github.com/obcache/cacheApp/raw/main/bin/cacheApp_" latestVersion ".exe -o " A_ScriptDir  "/versions/cacheApp_" latestVersion ".exe")
 			sleep(3000)
 			if winExist("ahk_exe cacheApp.exe")
 			{
