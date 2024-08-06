@@ -156,10 +156,10 @@ preAutoExec(InstallDir,ConfigFileName) {
 			}
 			installLog("Created Img folder")
 			
-			if !dirExist("./img2/infogfx")
-				dirCreate("./img2/infogfx")
-			if !dirExist("./img2/infogfx/vod")
-				dirCreate("./img2/infogfx/vod")
+			if !dirExist(installDir "/img2/infogfx")
+				dirCreate(installDir "/img2/infogfx")
+			if !dirExist(installDir "/img2/infogfx/vod")
+				dirCreate(installDir "/img2/infogfx/vod")
 
 			FileInstall("./Img/keyboard_key_up.png",InstallDir "/img/keyboard_key_up.png",1)
 			FileInstall("./Img/keyboard_key_down.png",InstallDir "/img/keyboard_key_down.png",1)
