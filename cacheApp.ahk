@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.0.3"
+A_FileVersion := "1.3.0.4"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"

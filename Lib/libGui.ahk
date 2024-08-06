@@ -222,7 +222,7 @@ initOSDGui() {
 	WinSetTransparent(210)
 
 	ui.AfkAnchoredToGui := true
-	ui.HandlebarAfkGui := ui.AfkGui.AddPicture("x250 y-2 w30 h138 +Hidden","./Img/handlebar_vertical.png")
+	ui.HandlebarAfkGui := ui.AfkGui.AddPicture("x250 y-2 w30 h138 +Hidden","./Img2/handlebar_vertical.png")
 	ui.AfkGui.Opt("+LastFound")
 	guiVis(ui.afkGui,false)
 }
