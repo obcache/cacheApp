@@ -15,7 +15,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)) { ;run main app
 	ui.d2ShowingIncursionNotice := false
 	ui.incursionDebug := false
 	ui.d2AppFunctionsEnabled := true
-
+	ui.d2FlyEnabled := false
 
 drawInfographic("vod")
 drawInfographic(infographicName,imageWidth := 150,imageHeight := 150, numColumns := 5) {
@@ -177,7 +177,7 @@ d2drawPanel1(*) {
 	
 	ui.d2keybindGameTab1 := guiName.addText("x" labelX " y" labelY+labelH/2 " w" labelW " h" labelH/2+3 " background" outlineColor,"")
 	ui.d2Panel1Tab1Bg := ui.gameSettingsGui.addText("x38 y10 w441 h43 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
-	drawOutlineNamed("appSettings",ui.gameSettingsGui,38,11,441,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
+	drawOutlineNamed("appSettings",ui.gameSettingsGui,18,11,461,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
 	ui.currKey := cfg.d2AppPauseKey
 	ui.d2AppPauseKey			:= ui.gameSettingsGui.addPicture("x46 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
 	ui.d2AppPauseKeyData 	:= ui.gameSettingsGui.addText("xs-2 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppPauseKey),1,8))
@@ -247,31 +247,47 @@ d2drawPanel1(*) {
 	ui.d2KeyBindHelpMsg.setFont("s8")
 	ui.d2ClassIcon.onEvent("click",d2ToggleFly)
 
+		
+
 	d2ToggleFly()
 	d2ToggleFly(*) {
-		(cfg.d2FlyEnabled := !cfg.d2FlyEnabled)
+		(ui.d2FlyEnabled := !ui.d2FlyEnabled)
+
 		switch cfg.d2CharacterClass {
 			case 1: 
-				(cfg.d2FlyEnabled)
-					? (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel1Color))
-					: (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel2Color))
+				(ui.d2FlyEnabled)
+					? (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
+					: (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
 			case 2:
-				(cfg.d2FlyEnabled)
-					? (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel1Color))
-					: (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel2Color))
+				(ui.d2FlyEnabled)
+					? (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
+					: (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
 			case 3:
-				(cfg.d2FlyEnabled)
-					? (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel1Color))
-					: (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel2Color))
+				(ui.d2FlyEnabled)
+					? (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
+					: (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
 			default:
 		}
+	}
+
+	switch cfg.d2CharacterClass { 
+		case 1:
+		case 2:
+		hotif(d2ReadyToSwordFly)
+			hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
+		hotif()
+		case 3:
+		hotif(d2ReadyToSwordFly)
+			hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
+		hotif()
+		default:
 	}
 	
 	d2ClassIconUpChanged(*) {
 		switch cfg.d2CharacterClass {
 			case 1:
 				cfg.d2CharacterClass := 2
-				(cfg.d2FlyEnabled)
+				(ui.d2FlyEnabled)
 					? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
 					: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
 			case 2:
@@ -279,7 +295,7 @@ d2drawPanel1(*) {
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
 				hotIf()
-				(cfg.d2FlyEnabled)
+				(ui.d2FlyEnabled)
 					? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
 					: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
 			case 3: 
@@ -287,7 +303,7 @@ d2drawPanel1(*) {
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
 				hotIf()
-				(cfg.d2FlyEnabled)
+				(ui.d2FlyEnabled)
 					? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
 					: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
 			default:                                          
@@ -298,7 +314,7 @@ d2drawPanel1(*) {
 		switch cfg.d2CharacterClass {
 			case 3:
 				cfg.d2CharacterClass := 2
-				(cfg.d2FlyEnabled)
+				(ui.d2FlyEnabled)
 					? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
 					: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
 			case 1:
@@ -306,7 +322,7 @@ d2drawPanel1(*) {
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
 				hotIf()
-				(cfg.d2FlyEnabled)
+				(ui.d2FlyEnabled)
 					? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
 					: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
 			case 2: 
@@ -314,7 +330,7 @@ d2drawPanel1(*) {
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
 				hotIf()
-				(cfg.d2FlyEnabled)
+				(ui.d2FlyEnabled)
 					? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
 					: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
 			default:                                          
@@ -661,39 +677,54 @@ drawGameTabs(tabNum := 1) {
 	winSetTransColor(ui.transparentColor,ui.gameTabGui)
 	ui.gameTabGui.addText("x1 y0 w0 h27 section background" cfg.themeBright1Color,"")
 	ui.gameTab1Skin := ui.gameTabGui.addText(
-		((tabNum == 1) ? "ys+0 h26" : "ys+1 h26")
-		" x+0 w110 section center background" 
-		((tabNum == 1) ? cfg.themeBackgroundColor : cfg.themePanel1Color) 
-		" c" ((tabNum == 1) ? cfg.themeFont1Color : cfg.themeFont4Color)
+		((tabNum == 1) 
+			? "ys+0 h26" 
+			: "ys+1 h26")
+				" x+0 w110 section center background" 
+		((tabNum == 1) 
+			? cfg.themeBackgroundColor 
+			: cfg.themePanel1Color) 
+		" c" ((tabNum == 1) 
+			? cfg.themeFont1Color 
+			: cfg.themeFont4Color)
 		,"")
-	ui.gameTab1Skin.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
+	ui.gameTab1Skin.setFont((tabNum == 1 
+		? "s14" 
+		: "s12"),"Impact")
 	ui.gameTab1Label := ui.gameTabGui.addText(
-		((tabNum == 1) ? "ys+0 h25" : "ys+1 h24")
-		" x+-110 w110 section center backgroundTrans c" 
-		((tabNum == 1) ? cfg.themeFont1Color : cfg.themeFont4Color)
-		,"Destiny 2")
-	ui.gameTab1Label.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
+		((tabNum == 1) 
+			? "ys+0 h25" 
+			: "ys+1 h24")
+				" x+-110 w110 section center backgroundTrans c" 
+		((tabNum == 1) 
+			? cfg.themeFont1Color 
+			: cfg.themeFont4Color)
+				,"Destiny 2")
+	ui.gameTab1Label.setFont((tabNum == 1 
+		? "s14" 
+		: "s12")
+			,"Impact")
 	ui.gameTabWidth += 113
 	((tabNum == 1)
-		? ui.gameTabGui.addText("ys x+0 w2 h27 section background" cfg.themeBright1Color,"")
-		: ui.gameTabGui.addText("ys-1 x+0 w2 h27 section background" cfg.themeBright1Color,""))
+		? ui.gameTabGui.addText("ys x+0 w2 h29 section background" cfg.themeBright1Color,"")
+		: ui.gameTabGui.addText("ys-1 x+0 w2 h29 section background" cfg.themeBright1Color,""))
 	ui.gameTab2Skin := ui.gameTabGui.addText(
 		((tabNum == 2) 
 			? "ys-1 h28" 
 			: "ys+2 h26")
-		" x+0 w112 section center background" 
+				" x+0 w112 section center background" 
 		((tabNum == 2) 
 			? cfg.themeBackgroundColor 
 			: cfg.themePanel1Color)
-		" c" ((tabNum == 2)
+				" c" ((tabNum == 2)
 			? cfg.themeFont1Color 
 			: cfg.themeFont4Color)
-		,"")
+				,"")
 	ui.gameTab2Skin.setFont(
 		((tabNum == 2)
 			? "s14" 
 			: "s12")
-		,"Impact")
+			,"Impact")
 	ui.gameTab2Label := ui.gameTabGui.addText(
 		((tabNum == 2) 
 			? "ys+0 h24" 
@@ -710,12 +741,12 @@ drawGameTabs(tabNum := 1) {
 		,"Impact")
 	ui.gameTabWidth += 113
 	((tabNum == 1)
-		? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h27" : "h27") " section background" cfg.themeBright1Color,"")
-		: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h27" : "h27") " section background" cfg.themeBright1Color,""))
+		? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h30" : "h30") " section background" cfg.themeBright1Color,"")
+		: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h30" : "h30") " section background" cfg.themeBright1Color,""))
 	guiVis(ui.gameTabGui,false)
 	if (winGetTransparent(ui.gameTabGui)) == 0 {
-		ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h26 background" cfg.themePanel1Color)
-		drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+3,4,498-ui.gameTabWidth-6,27,cfg.themeDark1Color,cfg.themeDark1Color,1)
+		ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h26 background" cfg.themePanel4Color)
+		drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+0,0,498-ui.gameTabWidth-2,29,cfg.themeBright1Color,cfg.themeDark1Color,1)
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
 		ui.gameTabGui.show("w495 h29 x" mainGuiX+33 " y" mainGuiY+184 " noActivate")
 	} else {
@@ -753,53 +784,87 @@ ui.d2IsSprinting := false
 		;toolTip("Starting Pale Heart AFK")
 		Loop {
 			Loop 40 {
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{3}")
 				sleep(2000)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				mouseMove(a_screenwidth/2,(a_screenheight-40)/2,0)
 				sleep(1500)
-				dllCall("mouse_event","UInt","0x01","Int",-600,"Int",0,"UInt",0,"UInt",0)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					dllCall("mouse_event","UInt","0x01","Int",-600,"Int",0,"UInt",0,"UInt",0)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(1225)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				dllCall("mouse_event","UInt","0x01","Int",175,"Int",0,"UInt",0,"UInt",0)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(500)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{LButton down}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(1200)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{LButton up}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(10000)
-
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{shift down}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{w down}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(8000)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{shift up}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{w up}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				dllCall("mouse_event","UInt","0x01","Int",1360,"Int",0,"UInt",0,"UInt",0)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				loop 30 {
-					sleep(1000)
-					if !ui.d2PhAfkActive
-						break
-				}
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+				sleep(1000)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+				
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+				
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{shift down}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send ("{w down}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				loop 6 {
-					sleep(1000)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+				sleep(1000)
 					if !ui.d2PhAfkActive
 						break
 				}
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(400)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				dllCall("mouse_event","UInt","0x01","Int",-330,"Int",0,"UInt",0,"UInt",0)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				loop 3 {
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 					sleep(1000)
 					if !ui.d2PhAfkActive
 						break
 				}
 				sleep(200)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{shift up}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{w up}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				dllCall("mouse_event","UInt","0x01","Int",-91000,"Int",0,"UInt",0,"UInt",0)
 				if !ui.d2PhAfkActive
 					break
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(500)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{e down}")
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				sleep(1200)
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 				send("{e up}")	
 				sleep(500)
 				if !ui.d2PhAfkActive
@@ -807,11 +872,14 @@ ui.d2IsSprinting := false
 			}
 			if !ui.d2PhAfkActive
 				break
+				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 			send("{Tab}")
 			sleep(1000)
 			if !ui.d2PhAfkActive
 				break
+			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 			send("{o down}")
+			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 			loop 40 {
 				sleep(1000)
 				if !ui.d2PhAfkActive
@@ -819,20 +887,24 @@ ui.d2IsSprinting := false
 			}
 			
 			send("{o up}")
+			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 			loop 10 {
 				sleep(1000)
 				if !ui.d2PhAfkActive
 					break
 			}
+			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 			send("{3}")
 			sleep(1000)
 			if !ui.d2PhAfkActive
 				break
+			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
 			mouseMove(a_screenwidth/1.2,(a_screenheight-40)/1.15,0)
 			sleep(500)
 			if !ui.d2PhAfkActive
 				break
-			send("{LButton}")
+			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+				send("{LButton}")
 			loop 30 {
 				sleep(1000)
 				if !ui.d2PhAfkActive
@@ -840,6 +912,7 @@ ui.d2IsSprinting := false
 			}
 		}
 	}
+}
 	
 	stopD2PhAfk(*) {
 		ui.d2PhAfkActive := false
@@ -1124,7 +1197,7 @@ d2FireButtonClicked(*) {
 		send("{" cfg.d2GameToggleSprintKey "}")
 }
 d2ReadyToSwordFly(*) {
-	if winActive("ahk_exe destiny2.exe") && !cfg.d2AppPaused && cfg.d2FlyEnabled
+	if winActive("ahk_exe destiny2.exe") && !cfg.d2AppPaused && ui.d2FlyEnabled
 		return 1
 	else
 		return 0
@@ -1480,8 +1553,8 @@ d2DrawUi(*) {
 d2drawPanel3(*) {
 	ui.gameSettingsGui.addText("x7 y78 w481 h69 background" cfg.themePanel1Color,"")
 	ui.gameSettingsGui.addText("x12 y81 w470 h58 c" cfg.themePanel1Color " background" cfg.themePanel2Color)
-	drawOutlineNamed("d2linkPanel",ui.gameSettingsGui,13,82,470,57,cfg.themeDark2Color,cfg.themeBright2Color,1)
-	drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,76,484,70,cfg.themeBright2Color,cfg.themeDark2Color,1)
+	drawOutlineNamed("d2linkPanel",ui.gameSettingsGui,13,82,470,57,cfg.themeDark1Color,cfg.themeBright2Color,1)
+	drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,76,484,68,cfg.themeBright1Color,cfg.themeBright1Color,1)
 	ui.gameSettingsGui.addText("hidden x19 y21 section")
 	ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
 	ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
@@ -1502,7 +1575,7 @@ drawKeybind(x,y,bindName,labelText := bindName,gui := ui.mainGui,w := 84,h := 30
 	%bindName%KeyLabel := gui.addText("xs-1 y+-34 w" w " h" h-10 " textJustify c" fontColorReady " backgroundTrans",labelText)
 }
 		
-ui.d2ToggleAppFunctions := ui.gameSettingsGui.addPicture("x13 y9 w28 h46 section "
+ui.d2ToggleAppFunctions := ui.gameSettingsGui.addPicture("x15 y9 w25 h45 section "
 ((ui.d2AppFunctionsEnabled) 
 	? ("Background" cfg.ThemeButtonOnColor) 
 		: ("Background" cfg.themeButtonReadyColor)),
