@@ -120,7 +120,7 @@ initGui(&cfg, &ui) {
 	debugLog("Interface Initialized")
 	
 	ui.MainGuiTabs.UseTab("")
-	line(ui.mainGui,33,211,495,2,cfg.themeDark2Color)
+	line(ui.mainGui,33,211,495,2,cfg.themeBright2Color)
 	;line(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
 
 }

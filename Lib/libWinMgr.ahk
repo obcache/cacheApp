@@ -52,7 +52,6 @@ WM_LBUTTONDOWN_callback(thisControl,info) {
 	;WM_LBUTTONDOWN(0,0,0,thisControl)	
 }
 
-
 WM_LBUTTONDOWN_pBcallback(*) {
 	WM_LBUTTONDOWN(0,0,0,"A")
 }

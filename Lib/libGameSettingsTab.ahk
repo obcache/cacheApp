@@ -661,30 +661,30 @@ drawGameTabs(tabNum := 1) {
 	winSetTransColor(ui.transparentColor,ui.gameTabGui)
 	ui.gameTabGui.addText("x1 y0 w0 h27 section background" cfg.themeBright1Color,"")
 	ui.gameTab1Skin := ui.gameTabGui.addText(
-		((tabNum == 1) ? "ys+0 h27" : "ys+1 h26")
+		((tabNum == 1) ? "ys+0 h26" : "ys+1 h26")
 		" x+0 w110 section center background" 
-		((tabNum == 1) ? cfg.themeBackgroundColor : cfg.themePanel4Color) 
+		((tabNum == 1) ? cfg.themeBackgroundColor : cfg.themePanel1Color) 
 		" c" ((tabNum == 1) ? cfg.themeFont1Color : cfg.themeFont4Color)
 		,"")
 	ui.gameTab1Skin.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
 	ui.gameTab1Label := ui.gameTabGui.addText(
-		((tabNum == 1) ? "ys+0 h27" : "ys+1 h26")
+		((tabNum == 1) ? "ys+0 h25" : "ys+1 h24")
 		" x+-110 w110 section center backgroundTrans c" 
 		((tabNum == 1) ? cfg.themeFont1Color : cfg.themeFont4Color)
 		,"Destiny 2")
 	ui.gameTab1Label.setFont((tabNum == 1 ? "s14" : "s12"),"Impact")
 	ui.gameTabWidth += 113
 	((tabNum == 1)
-		? ui.gameTabGui.addText("ys x+0 w2 h28 section background" cfg.themeBright1Color,"")
-		: ui.gameTabGui.addText("ys-1 x+0 w2 h28 section background" cfg.themeBright1Color,""))
+		? ui.gameTabGui.addText("ys x+0 w2 h27 section background" cfg.themeBright1Color,"")
+		: ui.gameTabGui.addText("ys-1 x+0 w2 h27 section background" cfg.themeBright1Color,""))
 	ui.gameTab2Skin := ui.gameTabGui.addText(
 		((tabNum == 2) 
-			? "ys-1 h27" 
-			: "ys+2 h25")
+			? "ys-1 h28" 
+			: "ys+2 h26")
 		" x+0 w112 section center background" 
 		((tabNum == 2) 
 			? cfg.themeBackgroundColor 
-			: cfg.themePanel4Color)
+			: cfg.themePanel1Color)
 		" c" ((tabNum == 2)
 			? cfg.themeFont1Color 
 			: cfg.themeFont4Color)
@@ -696,8 +696,8 @@ drawGameTabs(tabNum := 1) {
 		,"Impact")
 	ui.gameTab2Label := ui.gameTabGui.addText(
 		((tabNum == 2) 
-			? "ys+0 h28" 
-			: "ys+0 h28")
+			? "ys+0 h24" 
+			: "ys+0 h26")
 		" x+-112 w112 section center backgroundTrans c" 
 		((tabNum == 2)
 		? cfg.themeFont1Color 
@@ -710,17 +710,17 @@ drawGameTabs(tabNum := 1) {
 		,"Impact")
 	ui.gameTabWidth += 113
 	((tabNum == 1)
-		? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h27" : "h28") " section background" cfg.themeBright1Color,"")
-		: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h27" : "h28") " section background" cfg.themeBright1Color,""))
+		? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h27" : "h27") " section background" cfg.themeBright1Color,"")
+		: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h27" : "h27") " section background" cfg.themeBright1Color,""))
 	guiVis(ui.gameTabGui,false)
 	if (winGetTransparent(ui.gameTabGui)) == 0 {
-		ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h28 background" cfg.themePanel1Color)
-		drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+3,4,498-ui.gameTabWidth-6,25,cfg.themeDark1Color,cfg.themeDark1Color,1)
+		ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h26 background" cfg.themePanel1Color)
+		drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+3,4,498-ui.gameTabWidth-6,27,cfg.themeDark1Color,cfg.themeDark1Color,1)
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w495 h30 x" mainGuiX+33 " y" mainGuiY+184 " noActivate")
+		ui.gameTabGui.show("w495 h29 x" mainGuiX+33 " y" mainGuiY+184 " noActivate")
 	} else {
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w228 h28 x" mainGuiX+35 " y" mainGuiY+185 " noActivate") 
+		ui.gameTabGui.show("w228 h29 x" mainGuiX+35 " y" mainGuiY+185 " noActivate") 
 	}
 }
 			
@@ -747,11 +747,119 @@ cfg.d2LoadoutCoordsCustom := strSplit(iniRead(cfg.file,"Game"
 ui.d2IsReloading := false
 ui.d2IsSprinting := false
 
+
+	startD2PhAfk(*) {
+		ui.d2PhAfkActive := true
+		;toolTip("Starting Pale Heart AFK")
+		Loop {
+			Loop 40 {
+				send("{3}")
+				sleep(2000)
+				mouseMove(a_screenwidth/2,(a_screenheight-40)/2,0)
+				sleep(1500)
+				dllCall("mouse_event","UInt","0x01","Int",-600,"Int",0,"UInt",0,"UInt",0)
+				sleep(1225)
+				dllCall("mouse_event","UInt","0x01","Int",175,"Int",0,"UInt",0,"UInt",0)
+				sleep(500)
+				send("{LButton down}")
+				sleep(1200)
+				send("{LButton up}")
+				sleep(10000)
+
+				send("{shift down}")
+				send("{w down}")
+				sleep(8000)
+				send("{shift up}")
+				send("{w up}")
+				dllCall("mouse_event","UInt","0x01","Int",1360,"Int",0,"UInt",0,"UInt",0)
+				loop 30 {
+					sleep(1000)
+					if !ui.d2PhAfkActive
+						break
+				}
+				send("{shift down}")
+				send ("{w down}")
+				loop 6 {
+					sleep(1000)
+					if !ui.d2PhAfkActive
+						break
+				}
+				sleep(400)
+				dllCall("mouse_event","UInt","0x01","Int",-330,"Int",0,"UInt",0,"UInt",0)
+				loop 3 {
+					sleep(1000)
+					if !ui.d2PhAfkActive
+						break
+				}
+				sleep(200)
+				send("{shift up}")
+				send("{w up}")
+				dllCall("mouse_event","UInt","0x01","Int",-91000,"Int",0,"UInt",0,"UInt",0)
+				if !ui.d2PhAfkActive
+					break
+				sleep(500)
+				send("{e down}")
+				sleep(1200)
+				send("{e up}")	
+				sleep(500)
+				if !ui.d2PhAfkActive
+					break
+			}
+			if !ui.d2PhAfkActive
+				break
+			send("{Tab}")
+			sleep(1000)
+			if !ui.d2PhAfkActive
+				break
+			send("{o down}")
+			loop 40 {
+				sleep(1000)
+				if !ui.d2PhAfkActive
+					break
+			}
+			
+			send("{o up}")
+			loop 10 {
+				sleep(1000)
+				if !ui.d2PhAfkActive
+					break
+			}
+			send("{3}")
+			sleep(1000)
+			if !ui.d2PhAfkActive
+				break
+			mouseMove(a_screenwidth/1.2,(a_screenheight-40)/1.15,0)
+			sleep(500)
+			if !ui.d2PhAfkActive
+				break
+			send("{LButton}")
+			loop 30 {
+				sleep(1000)
+				if !ui.d2PhAfkActive
+					break
+			}
+		}
+	}
+	
+	stopD2PhAfk(*) {
+		ui.d2PhAfkActive := false
+	;toolTip("Stopping Pale Heart AFK")
+		send("{w up}")
+		send("{shift up}")
+		send("{LButton up}")
+		reload()
+	}
+
+
+
+
 hotIfWinActive("ahk_exe destiny2.exe")
 	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
 	hotKey(cfg.d2AppPauseKey,d2ToggleAppFunctions)
 	hotkey("Ins",toggleGlyphWindow)
 	hotkey("Del",toggleCodeWindow)
+	hotkey("Home",startD2PhAfk)
+	hotkey("End",stopD2PhAfk)
 hotIf()
 
 hotIf(d2RemapCrouchEnabled)
@@ -1054,7 +1162,7 @@ d2CreateLoadoutKeys(*) {
 		} else {
 			cfg.d2Loadoutcoords := cfg.d2LoadoutCoords%ui.monitorResDDL.text%
 		}
-	} catch {
+		} catch {
 		cfg.d2LoadoutCoords := cfg.d2LoadoutCoords1920x1080
 	}
 	loop cfg.d2LoadoutCoords.length {
