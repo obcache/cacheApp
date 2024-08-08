@@ -525,73 +525,76 @@ exitMenuShow(this_button) {
 }
 
 exitButtonPushed(this_button,*) {
-	exitMenuShow(this_button)
-	keyWait("LButton")
-	if this_button == ui.dockBarExitButton {
-		mouseGetPos(,,,&ctrlUnderMouse,2)
-		winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)
-		switch ctrlUnderMouse {
-			case ui.startGamingButton.hwnd:
+	if !keyWait("LButton","T.450") {
+		exitMenuShow(this_button)
+		keyWait("LButton")
+		if this_button == ui.dockBarExitButton {
+			mouseGetPos(,,,&ctrlUnderMouse,2)
+			winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)
+			switch ctrlUnderMouse {
+				case ui.startGamingButton.hwnd:
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+					startGaming()
+				case ui.stopGamingButton.hwnd:
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)	
+					}
+					ui.exitMenuGui.destroy()
+					stopGaming()
+				case ui.dockBarExitButton.hwnd:
 				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-				startGaming()
-			case ui.stopGamingButton.hwnd:
-				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)	
-				}
-				ui.exitMenuGui.destroy()
-				stopGaming()
-			case ui.dockBarExitButton.hwnd:
-			loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-				exitApp()	
-			case ui.exitButton.hwnd:
-				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-				exitApp()
-			default: 
-				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-		}
-	} else {
-		mouseGetPos(,,,&ctrlUnderMouse,2)
-		winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)	
-		switch ctrlUnderMouse {
-			case ui.startGamingButton.hwnd:
-				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-				startGaming()
-			case ui.stopGamingButton.hwnd:
-				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-				stopGaming()
-			case ui.exitButton.hwnd:
-				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-				exitApp()
-			default: 
-				loop 69 {
-					ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
-				}
-				ui.exitMenuGui.destroy()
-		}
-	}
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+					exitApp()	
+				case ui.exitButton.hwnd:
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+					exitApp()
+				default: 
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+			}
+		} else {
+			mouseGetPos(,,,&ctrlUnderMouse,2)
+			winGetPos(&menuX,&menuY,,&menuH,ui.exitMenuGui.hwnd)	
+			switch ctrlUnderMouse {
+				case ui.startGamingButton.hwnd:
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+					startGaming()
+				case ui.stopGamingButton.hwnd:
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+					stopGaming()
+				case ui.exitButton.hwnd:
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+					exitApp()
+				default: 
+					loop 69 {
+						ui.exitMenuGui.move(menuX,menuY+a_index,,menuH-a_index)
+					}
+					ui.exitMenuGui.destroy()
+			}
+		} 
+	} else 
+			exitApp
 }
-
+	
 stopGaming(*) {
 	winCloseAll("Gaming Mode")
 	exitApp()
