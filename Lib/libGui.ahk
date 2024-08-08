@@ -48,23 +48,23 @@ initGui(&cfg, &ui) {
 	ui.activeTab := ui.mainGuiTabs.Text
 	ui.previousTab := ui.activeTab
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	ui.handleBarBorder := ui.mainGui.addText("x0 y32 w32 h181 background" cfg.themeBright1Color,"")
-	ui.handleBarImage := ui.MainGui.AddPicture("x1 y33 w31 h179 backgroundTrans","./Img2/handlebar_vertical.png")
+	ui.handleBarBorder := ui.mainGui.addText("x0 y32 w33 h182 background" cfg.themeBright1Color,"")
+	ui.handleBarImage := ui.MainGui.AddPicture("x1 y33 w32 h180 backgroundTrans","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	
-	ui.rightHandlebarBg := ui.mainGui.addText("x528 y32 w32 h181 background" cfg.themeBright1Color,"")
-	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x529 w30 y33 h179 section","./Img2/handlebar_vertical.png")
+	ui.rightHandlebarBg := ui.mainGui.addText("x528 y32 w32 h182 background" cfg.themeBright1Color,"")
+	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x529 w30 y33 h180 section","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
 	ui.handleBarImage.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x0 y0 w33 h33 background" cfg.themeBright1Color)
 	;ui.gameTabTopDockButtonOutline2 := ui.mainGui.addText("x1 y1 w33 h31 background" cfg.themeDark1Color)
-	ui.gameTabTopDockButton := ui.mainGui.addPicture("x0 y0 w33 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x0 y0 w34 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
-	ui.exitButtonBg := ui.mainGui.addText("x500 y0 w60 h32 background" cfg.themeBright1Color,"")
-	ui.DownButton := ui.mainGui.AddPicture("x498 y0 w30 h30 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
+	ui.exitButtonBg := ui.mainGui.addText("x502 y2 w58 h30 background" cfg.themeBright1Color,"")
+	ui.DownButton := ui.mainGui.AddPicture("x502 y0 w26 h30 section Background" cfg.ThemeFont1Color,"./Img/button_minimize.png")
 	ui.DownButton.OnEvent("Click",HideGui)
 	ui.DownButton.ToolTip := "Minimizes cacheApp App"
 	ui.ExitButtonBorder 	:= ui.mainGui.AddText("x+2 ys0 section w30 h30 Background" cfg.ThemeBright1Color,"")
@@ -121,7 +121,7 @@ initGui(&cfg, &ui) {
 	debugLog("Interface Initialized")
 	
 	ui.MainGuiTabs.UseTab("")
-	line(ui.mainGui,33,211,495,2,cfg.themeBright2Color)
+	line(ui.mainGui,33,210,495,2,cfg.themeDark2Color)
 	;line(ui.gameSettingsGui,250,190,280,2,cfg.themeBright2Color)
 
 }
@@ -517,9 +517,9 @@ exitMenuShow(this_button) {
 		ui.startGamingButton.onEvent("Click",stopGaming)
 		WinSetTransColor(ui.transparentColor,ui.exitMenuGui)
 		drawOutlineNamed("exitMenuBorder",ui.exitMenuGui,0,0,74,68,cfg.themeFont3Color,cfg.themeFont3Color,2)
-		ui.exitMenuGui.show("x" tbX+460 " y" tbY-70 " AutoSize noActivate")
+		ui.exitMenuGui.show("x" tbX+490 " y" tbY-70 " AutoSize noActivate")
 		loop 70 {
-			ui.exitMenuGui.move(tbX+460,tbY-a_index)
+			ui.exitMenuGui.move(tbX+490,tbY-a_index)
 		}
 	}
 }

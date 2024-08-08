@@ -127,7 +127,7 @@ ThemeProgressColor=FFFF01
 
 [Custom]
 ThemeBright2Color=A8A8A8
-ThemeBright1Color=E4E4E4
+ThemeBright1Color=FFFFFF
 ThemeDark2Color=626262
 ThemeDark1Color=272727
 ThemeBorderDarkColor=9E9E9E
@@ -165,7 +165,7 @@ ThemeBorderDarkColor=9E9E9E
 ThemeBorderLightColor=303030
 ThemeEditboxColor=404040
 ThemeProgressColor=E7F0D9
-ThemeBright1Color=E4E4E4
+ThemeBright1Color=FFFFFF
 ThemeDark1Color=272727
 ThemeDisabledColor=292929
 ThemeBright2Color=A8A8A8

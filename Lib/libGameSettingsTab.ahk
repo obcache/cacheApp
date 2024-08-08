@@ -282,7 +282,7 @@ d2drawPanel1(*) {
 		hotif()
 		default:
 	}
-	
+	d2ClassIconUpChanged()
 	d2ClassIconUpChanged(*) {
 		switch cfg.d2CharacterClass {
 			case 1:
@@ -675,15 +675,19 @@ drawGameTabs(tabNum := 1) {
 		,cfg.themeBright1Color,cfg.themeBright1Color,1)
 	
 	winSetTransColor(ui.transparentColor,ui.gameTabGui)
+			drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth-0,0,498-ui.gameTabWidth,32,cfg.themeBright1Color,cfg.themeDark1Color,1)
 	ui.gameTabGui.addText("x1 y0 w0 h27 section background" cfg.themeBright1Color,"")
+	((tabNum == 1)
+		? ui.gameTab2SkinOutline := ui.gameTabGui.addText("x+0 y+-1 w110 h26 background" cfg.themeBright1Color,"" )
+		: ui.gameTab2SkinOutline := ui.gameTabGui.addText("x+0 y+-1 w110 h26 background" cfg.themeDark2Color,""))
 	ui.gameTab1Skin := ui.gameTabGui.addText(
 		((tabNum == 1) 
-			? "ys+0 h26" 
-			: "ys+1 h26")
-				" x+0 w110 section center background" 
+			? "ys+0 h28" 
+			: "ys+1 h27")
+				" x+-110 w110 section center background" 
 		((tabNum == 1) 
 			? cfg.themeBackgroundColor 
-			: cfg.themePanel1Color) 
+			: cfg.themePanel4Color) 
 		" c" ((tabNum == 1) 
 			? cfg.themeFont1Color 
 			: cfg.themeFont4Color)
@@ -706,16 +710,19 @@ drawGameTabs(tabNum := 1) {
 			,"Impact")
 	ui.gameTabWidth += 113
 	((tabNum == 1)
-		? ui.gameTabGui.addText("ys x+0 w2 h29 section background" cfg.themeBright1Color,"")
-		: ui.gameTabGui.addText("ys-1 x+0 w2 h29 section background" cfg.themeBright1Color,""))
+		? ui.gameTabGui.addText("ys x+-2 w2 h29 section background" cfg.themeBright1Color,"")
+		: ui.gameTabGui.addText("ys-1 x+-2 w2 h29 section background" cfg.themeBright1Color,""))
+	((tabNum == 2)
+		? ui.gameTab2SkinOutline := ui.gameTabGui.addText("x+0 y+-1 w115 h28 background" cfg.themeBright1Color,"" )
+		: ui.gameTab2SkinOutline := ui.gameTabGui.addText("x+0 y+-1 w115 h28 background" cfg.themeDark2Color,""))
 	ui.gameTab2Skin := ui.gameTabGui.addText(
 		((tabNum == 2) 
 			? "ys-1 h28" 
 			: "ys+2 h26")
-				" x+0 w112 section center background" 
+				" x+-115 w115 section center background" 
 		((tabNum == 2) 
 			? cfg.themeBackgroundColor 
-			: cfg.themePanel1Color)
+			: cfg.themePanel4Color)
 				" c" ((tabNum == 2)
 			? cfg.themeFont1Color 
 			: cfg.themeFont4Color)
@@ -741,17 +748,17 @@ drawGameTabs(tabNum := 1) {
 		,"Impact")
 	ui.gameTabWidth += 113
 	((tabNum == 1)
-		? ui.gameTabGui.addText("ys-1 x+0 w2 " (tabNum == 1 ? "h30" : "h30") " section background" cfg.themeBright1Color,"")
-		: ui.gameTabGui.addText("ys+1 x+0 w2 " (tabNum == 1 ? "h30" : "h30") " section background" cfg.themeBright1Color,""))
+		? ui.gameTabGui.addText("ys-1 x+-1 w2 h30 section background" cfg.themeDark2Color,"")
+		: ui.gameTabGui.addText("ys+1 x+-1 w2 h30 section background" cfg.themeBright1Color,""))
 	guiVis(ui.gameTabGui,false)
 	if (winGetTransparent(ui.gameTabGui)) == 0 {
-		ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h26 background" cfg.themePanel4Color)
-		drawOutlineNamed("gameTabs",ui.gameTabGui,ui.gameTabWidth+0,0,498-ui.gameTabWidth-2,29,cfg.themeBright1Color,cfg.themeDark1Color,1)
+		ui.gameTabGui.addText("ys+1 x+0 w" 498-(ui.gameTabWidth+3) " h26 background" cfg.themePanel1Color)
+
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w495 h29 x" mainGuiX+33 " y" mainGuiY+184 " noActivate")
+		ui.gameTabGui.show("w495 h30 x" mainGuiX+33 " y" mainGuiY+184 " noActivate")
 	} else {
 		winGetPos(&mainGuiX,&mainGuiY,,,ui.mainGui.hwnd)
-		ui.gameTabGui.show("w228 h29 x" mainGuiX+35 " y" mainGuiY+185 " noActivate") 
+		ui.gameTabGui.show("w228 h30 x" mainGuiX+35 " y" mainGuiY+185 " noActivate") 
 	}
 }
 			

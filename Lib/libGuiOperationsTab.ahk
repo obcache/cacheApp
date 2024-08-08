@@ -170,7 +170,7 @@ GuiOperationsTab(&ui,&cfg,&afk) { ;libGuiOperationsTab
 		ui.MainGui.SetFont("s11 c" cfg.ThemeFont1Color,"Calibri")
 		ui.Win2Label := ui.MainGui.AddText("ys-28 section w70 h20 c" cfg.ThemeFont1Color " Center Background" cfg.ThemePanel1Color,"Game2")
 
-		ui.Win2EnabledToggle := ui.MainGui.AddPicture("xs+3 y+-3 section w69 h25 Background" cfg.ThemeButtonReadyColor, cfg.toggleOff)
+		ui.Win2EnabledToggle := ui.MainGui.AddPicture("xs+2 y+-3 section w66 h25 Background" cfg.ThemeButtonReadyColor, cfg.toggleOff)
 		
 		ui.opsWin1AfkStatus := ui.MainGui.AddText("xs-429 y+1 section w40 h22 Background" cfg.ThemePanel1Color,"")
 		ui.opsWin1AfkStatus.setFont("s14")
@@ -971,3 +971,5 @@ removeGame(*) {
 }
 
  
+ 
+ drawOutlineNamed("opsOutline",ui.mainGui,33,34,494,180,cfg.themeBright1Color,cfg.themeBright1Color,2)
