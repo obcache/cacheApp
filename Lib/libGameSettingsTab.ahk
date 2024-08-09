@@ -764,7 +764,7 @@ drawGameTabs(tabNum := 1) {
 			
 cfg.d2LoadoutCoords1920x1080 := strSplit(iniRead(cfg.file,"Game"
 ,"d2LoadoutCoords1920x1080"
-,"145:380,240:380,145:480,240:480,145:580,240:580,145:680,240:680,145:790,240:790,145:910,240:910"),",")
+,"145:3e	80,240:380,145:480,240:480,145:580,240:580,145:680,240:680,145:790,240:790,145:910,240:910"),",")
 	
 cfg.d2LoadoutCoords1920x1200 := strSplit(iniRead(cfg.file,"Game"
 ,"d2LoadoutCoords1920x1200"
@@ -785,150 +785,304 @@ cfg.d2LoadoutCoordsCustom := strSplit(iniRead(cfg.file,"Game"
 ui.d2IsReloading := false
 ui.d2IsSprinting := false
 
-
-	startD2PhAfk(*) {
-		ui.d2PhAfkActive := true
-		;toolTip("Starting Pale Heart AFK")
-		Loop {
-			Loop 40 {
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{3}")
-				sleep(2000)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				mouseMove(a_screenwidth/2,(a_screenheight-40)/2,0)
-				sleep(1500)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-					dllCall("mouse_event","UInt","0x01","Int",-600,"Int",0,"UInt",0,"UInt",0)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(1225)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				dllCall("mouse_event","UInt","0x01","Int",175,"Int",0,"UInt",0,"UInt",0)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(500)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{LButton down}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(1200)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{LButton up}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(10000)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{shift down}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{w down}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(8000)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{shift up}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{w up}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				dllCall("mouse_event","UInt","0x01","Int",1360,"Int",0,"UInt",0,"UInt",0)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				loop 30 {
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(1000)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{shift down}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send ("{w down}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				loop 6 {
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(1000)
-					if !ui.d2PhAfkActive
-						break
-				}
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(400)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				dllCall("mouse_event","UInt","0x01","Int",-330,"Int",0,"UInt",0,"UInt",0)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				loop 3 {
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-					sleep(1000)
-					if !ui.d2PhAfkActive
-						break
-				}
-				sleep(200)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{shift up}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{w up}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				dllCall("mouse_event","UInt","0x01","Int",-91000,"Int",0,"UInt",0,"UInt",0)
-				if !ui.d2PhAfkActive
-					break
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(500)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{e down}")
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				sleep(1200)
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{e up}")	
-				sleep(500)
-				if !ui.d2PhAfkActive
-					break
-			}
-			if !ui.d2PhAfkActive
-				break
-				if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-			send("{Tab}")
-			sleep(1000)
-			if !ui.d2PhAfkActive
-				break
-			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-			send("{o down}")
-			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-			loop 40 {
-				sleep(1000)
-				if !ui.d2PhAfkActive
-					break
-			}
-			
-			send("{o up}")
-			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-			loop 10 {
-				sleep(1000)
-				if !ui.d2PhAfkActive
-					break
-			}
-			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-			send("{3}")
-			sleep(1000)
-			if !ui.d2PhAfkActive
-				break
-			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-			mouseMove(a_screenwidth/1.2,(a_screenheight-40)/1.15,0)
-			sleep(500)
-			if !ui.d2PhAfkActive
-				break
-			if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
-				send("{LButton}")
-			loop 30 {
-				sleep(1000)
-				if !ui.d2PhAfkActive
-					break
-			}
-		}
-	}
-}
+ui.d2PhAfkActive := false
+toggleD2PhAfk(*) {
+	(ui.d2PhAfkActive := !ui.d2PhAfkActive)
+		? startD2PhAfk()
+		: stopD2PhAfk()
 	
-	stopD2PhAfk(*) {
-		ui.d2PhAfkActive := false
-	;toolTip("Stopping Pale Heart AFK")
-		send("{w up}")
-		send("{shift up}")
-		send("{LButton up}")
-		reload()
+}
+
+startD2PhAfk(*) {
+	ui.d2PhAfkActive := true
+	debugLog("Starting: Pale Heart AFK")
+	setTimer(timerD2PhAfk,60000)
+	timerD2PhAfk()
+}
+
+stopD2PhAfk(*) {
+	ui.d2PhAfkActive := false
+		debugLog("Stopping: Pale Heart AFK")
+		setTimer(timerD2PhAfk,0)
 	}
+loopTimerD2PhAfk(*) {
+	setTimer(timerD2PhAfk,60000)
+}
+
+timerD2PhAfk(*) {
+	if !ui.d2PhAfkActive
+		return
+	winActivate("ahk_exe destiny2.exe")
+	if !ui.d2PhAfkActive
+		return	sleep(500)
+	debugLog("Pale Heart AFK: Open Menu")
+	send("{3}")
+	if !ui.d2PhAfkActive
+		return	
+	sleep(1000)
+	debugLog('Pale Heart AFK: Selecting "The Landing"')
+	if !ui.d2PhAfkActive
+		return	
+	mouseMove(-(a_screenwidth/2)+200,0,50,"R")
+	if !ui.d2PhAfkActive
+		return	
+	sleep(2000)
+	mouseMove((a_screenwidth/2)-355,((a_screenHeight-40)/2)-7,50,)
+	if !ui.d2PhAfkActive
+		return	
+	sleep(500)
+	send("{LButton Down}")
+	if !ui.d2PhAfkActive
+		return	
+	sleep(1800)
+	send("{LButton Up}")
+	debugLog("Pale Heart AFK: Waiting to Spawn")
+	loop 8 {
+		if !ui.d2PhAfkActive
+			return
+		sleep(1000)
+	}
+	debugLog("Pale Heart AFK: Walking Forward")
+	send("{w down}")
+	loop 9 {
+		if !ui.d2PhAfkActive
+			return	
+		sleep(1000)
+	}
+	sleep(500)
+	send("{w up}")
+	sleep(250)
+	debugLog("Pale Heart AFK: Turning Left")
+	dllCall("mouse_event","UInt","0x01","Int",-1600,"Int",0,"UInt",0,"UInt",0)
+	if !ui.d2PhAfkActive
+		return	
+	sleep(250)
+	debugLog("Pale Heart AFK: Walking Forward")
+	send("{w down}")
+	loop 6 {
+		if !ui.d2PhAfkActive
+			return	
+		sleep(1000)
+	}
+	send("{w up}")
+	debugLog("Pale Heart AFK: Turning Around")
+	dllCall("mouse_event","UInt","0x01","Int",-3600,"Int",0,"UInt",0,"UInt",0)	
+	debugLog("Pale Heart AFK: Waiting for Chest to Spawn")
+	loop 30 {
+		if !ui.d2PhAfkActive
+			return	
+		sleep(1000)
+	}
+	debugLog("Pale Heart AFK: Walking Forward")
+	send("{w down}")
+	loop 6 {
+		if !ui.d2PhAfkActive
+			return	
+		sleep(1000)
+	}
+	sleep(500)
+	debugLog("Pale Heart AFK: Strafing Right")
+	send("{d down}")
+	if !ui.d2PhAfkActive
+		return	
+	sleep(1600)
+	send("{d up}")
+	debugLog("Pale Heart AFK: Walking Forward")
+	loop 6 {
+		if !ui.d2PhAfkActive
+			return	
+		sleep(1000)
+	}
+	sleep(100)
+	send("{w up}")
+	dllCall("mouse_event","UInt","0x01","Int",-1600,"Int",0,"UInt",0,"UInt",0)
+	debugLog("Pale Heart AFK: Collecting Chest")
+	send("{e down}")
+	if !ui.d2PhAfkActive
+		return	
+	sleep(1800)
+	send("{e up}")
+	if !ui.d2PhAfkActive
+		return	
+	sleep(1500)
+	debugLog("Pale Heart AFK: Waiting to Restart")
+}
+	; timerD2PhAfk(*) {
+		; ui.d2PhAfkActive := true
+		;toolTip("Starting Pale Heart AFK")
+		; Loop {
+			; Loop 40 {
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{3}")
+				; sleep(2000)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break				
+				; mouseMove(a_screenwidth/2,(a_screenheight-40)/2,0)
+				; sleep(1500)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; dllCall("mouse_event","UInt","0x01","Int",-600,"Int",0,"UInt",0,"UInt",0)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(1225)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; dllCall("mouse_event","UInt","0x01","Int",175,"Int",0,"UInt",0,"UInt",0)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(500)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{LButton down}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(1200)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{LButton up}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(10000)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{shift down}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{w down}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(8000)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{shift up}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{w up}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; dllCall("mouse_event","UInt","0x01","Int",1360,"Int",0,"UInt",0,"UInt",0)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; loop 30 {
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(1000)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break		
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{shift down}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send ("{w down}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; loop 6 {
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(1000)
+					; if !ui.d2PhAfkActive
+						; break
+				; }
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(400)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; dllCall("mouse_event","UInt","0x01","Int",-330,"Int",0,"UInt",0,"UInt",0)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; loop 3 {
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+					; sleep(1000)
+					; if !ui.d2PhAfkActive
+						; break
+				; }
+				; sleep(200)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{shift up}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{w up}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; dllCall("mouse_event","UInt","0x01","Int",-91000,"Int",0,"UInt",0,"UInt",0)
+				; if !ui.d2PhAfkActive
+					; break
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(500)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{e down}")
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; sleep(1200)
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+				; send("{e up}")	
+				; sleep(500)
+				; if !ui.d2PhAfkActive
+					; break
+			; }
+			; if !ui.d2PhAfkActive
+				; break
+				; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+					; break
+			; send("{Tab}")
+			; sleep(1000)
+			; if !ui.d2PhAfkActive
+				; break
+			; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+			; send("{o down}")
+			; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+			; loop 40 {
+				; sleep(1000)
+				; if !ui.d2PhAfkActive
+					; break
+			; }	
+			; send("{o up}")
+			; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+			; loop 10 {
+				; sleep(1000)
+				; if !ui.d2PhAfkActive
+					; break
+			; }
+			; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+			; send("{3}")
+			; sleep(1000)
+			; if !ui.d2PhAfkActive
+				; break
+			; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+			; mouseMove(a_screenwidth/1.2,(a_screenheight-40)/1.15,0)
+			; sleep(500)
+			; if !ui.d2PhAfkActive
+				; break
+			; if (A_TimeIdlePhysical > 2500 and A_TimeIdleMouse > 2500)
+				; send("{LButton}")
+			; loop 30 {
+				; sleep(1000)
+				; if !ui.d2PhAfkActive
+					; break
+			; }
+		; }
+	; }
+; }
+	
+	; stopD2PhAfk(*) {
+		; ui.d2PhAfkActive := false
+	;toolTip("Stopping Pale Heart AFK")
+		; send("{w up}")
+		; send("{shift up}")
+		; send("{LButton up}")
+		; reload()
 
 
 
@@ -940,8 +1094,29 @@ hotIfWinActive("ahk_exe destiny2.exe")
 	hotkey("Del",toggleCodeWindow)
 	hotkey("Home",startD2PhAfk)
 	hotkey("End",stopD2PhAfk)
+
+hotkey("PgDn",toggleJoinShuroChi)
 hotIf()
 
+
+toggleJoinShuroChi(*) {
+	static joinShuroChiActive := false
+	(joinShuroChiActive := !joinShuroChiActive)
+		? (trayTip("Starting JoinShuroChi"),setTimer(macroJoinShuroChi,3500))
+		: (trayTip("Stopping JoinShuroChi"),setTimer(macroJoinShuroChi,0))
+}
+
+macroJoinShuroChi(*) {
+	if winActive("ahk_exe destiny2.exe") {
+		send("{Enter}")
+		sleep(500)
+		sendText("/join checkpointbot#0422")
+		send("{Enter}")
+		sleep(1500)
+		send("{Enter}")
+		sleep(1000)
+	}
+}
 hotIf(d2RemapCrouchEnabled)
 	hotkey("~*$" cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
 hotIf()

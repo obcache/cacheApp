@@ -19,7 +19,7 @@ showThemeEditor(*) {
 }
 
 ui.themeEditorGui := gui()
-ui.themeEditorGui.opt("-caption alwaysOnTop owner" ui.mainGui.hwnd)
+ui.themeEditorGui.opt("-caption alwaysOnTop toolWindow owner" ui.mainGui.hwnd)
 ui.themeEditorGui.backColor := cfg.themeBackgroundColor
 ui.themeEditorGui.color := cfg.themeBackgroundColor
 ui.themeEditorTitlebar := ui.themeEditorGui.addText("x0 y0 w295 h25 background" cfg.themePanel1Color " c" cfg.themeFont1Color,"")

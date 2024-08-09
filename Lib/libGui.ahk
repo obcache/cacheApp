@@ -25,7 +25,7 @@ initGui(&cfg, &ui) {
 	ui.MainGui.MarginX := 0
 	ui.MainGui.MarginY := 0
 	ui.MainGui.SetFont("s13 c" cfg.ThemeFont1Color,"Calibri")
-	ui.mainBg := ui.mainGui.addText("x3 y3 w550 h230 background" cfg.themeBackgroundColor,"")
+	ui.mainBg := ui.mainGui.addText("x3 y3 w550 h210 background" cfg.themeBackgroundColor,"")
 	ui.mainGuiAnchor := ui.mainGui.addText("x0 y0 w0 h0 section hidden")
 	;ui.topHandlebar := ui.mainGui.addPicture("x-5 y2 w528 h28 backgroundTrans","./img2/handlebar_horz.png")
 	ui.1_GameButtonBg := ui.mainGui.addPicture("x32 y2 section w80 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==1) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
@@ -80,7 +80,7 @@ initGui(&cfg, &ui) {
 	; msgBox(cfg.mainTabList[cfg.activeMainTab] "`n" a_index "`n" tab)
 	;	if ui.mainGuiTabs[cfg.activeMainTab.Text].text = tab.text ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
 	
-	ui.gvConsole := ui.MainGui.AddListBox("x35 y220 w500 h192 +Background" cfg.ThemePanel1Color)
+	ui.gvConsole := ui.MainGui.AddListBox("x0 y214 w560 h192 +Background" cfg.ThemePanel1Color)
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
 	afk 						:= Object()	
 	GuiAFKTab(&ui,&afk)
