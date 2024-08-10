@@ -399,7 +399,7 @@ d2AutoGameConfigOverride(*) {
 							ui.d2GameReloadKeyData.redraw()
 						}
 					}
-				case "hold_sprint":
+				case "toggle_sprint":
 					try	{
 						curr_key := strSplit(a_loopReadline,'"')[2]
 						curr_values := strSplit(strSplit(a_loopReadline,'"')[4],"!")
