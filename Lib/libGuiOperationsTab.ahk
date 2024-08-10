@@ -972,4 +972,4 @@ removeGame(*) {
 
  
  
- drawOutlineNamed("opsOutline",ui.mainGui,33,34,494,180,cfg.themeBright1Color,cfg.themeBright1Color,2)
+ drawOutlineNamed("opsOutline",ui.mainGui,32,-5,497,219,cfg.themeBright1Color,cfg.themeBright1Color,1)

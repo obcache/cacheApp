@@ -707,6 +707,7 @@ cfgLoad(&cfg, &ui) {
 	cfg.d2GameGrenadeKey			:= IniRead(cfg.file,"Game","d2GameGrenadeKey","<UNSET>")
 	cfg.d2GameSuperKey			:= IniRead(cfg.file,"Game","d2GameSuperKey","<UNSET>")
 	cfg.d2CharacterClass		:= iniRead(cfg.file,"Game","d2CharacterClass","1")
+	cfg.d2AutoGameConfigEnabled := iniRead(cfg.file,"Game","d2AutoGameConfigEnabled",true)
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
 }
 
@@ -800,7 +801,8 @@ WriteConfig() {
 		IniWrite(cfg.d2GameGrenadeKey,cfg.file,"Game","d2GameGrenadeKey")
 		IniWrite(cfg.d2GameSuperKey,cfg.file,"Game","d2GameSuperKey")
 		iniWrite(cfg.d2CharacterClass,cfg.file,"Game","d2CharacterClass")
-
+		iniWrite(cfg.d2AutoGameConfigEnabled,cfg.file,"Game","d2AutoGameConfigEnabled")
+		
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {
 			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1920x1080[a_index] ","
@@ -1098,7 +1100,7 @@ killMe(*) {
 resetWindowPosition(*) {
 	try 
 		guiVis(ui.dockBarGui,false)
-	guiVis(ui.titleBarButtonGui,false)
+	;guiVis(ui.titleBarButtonGui,false)
 	guiVis(ui.afkGui,false)
 	guiVis(ui.gameSettingsGui,false)
 	guiVis(ui.mainGui,false)
@@ -1106,7 +1108,7 @@ resetWindowPosition(*) {
 	ui.MainGui.Move(PrimaryWorkAreaLeft+200,PrimaryWorkAreaTop+200,,)
 	tabsChanged()
 	guiVis(ui.mainGui,true)
-	guiVis(ui.titleBarButtonGui,true)
+	;guiVis(ui.titleBarButtonGui,true)
 }
 
 exitFunc(ExitReason,ExitCode) {
@@ -1121,7 +1123,7 @@ exitFunc(ExitReason,ExitCode) {
 			Return 1
 		}
 	}
-	guiVis(ui.titlebarButtonGui,false)
+	; guiVis(ui.titlebarButtonGui,false)
 	guiVis(ui.afkGui,false)
 	guiVis(ui.gameSettingsGui,false)
 	guiVis(ui.mainGui,false)

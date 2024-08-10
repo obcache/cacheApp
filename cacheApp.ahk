@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.1.9"
+A_FileVersion := "1.3.2.0"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -82,7 +82,9 @@ MonitorGetWorkArea(MonitorGetprimary(),
 	&primaryWorkAreaBottom)
 
 cfgLoad(&cfg, &ui)
+
 initGui(&cfg, &ui)
+
 initConsole(&ui)
 
 #include <class_sqliteDb>
@@ -117,12 +119,11 @@ try
 
 ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
 ui.gameSettingsGui.show("x" cfg.guiX+30 " y" cfg.guiY+32 " w495 h182 noActivate")
-;ui.titleBarButtonGui.Show("w75 h36 NoActivate")
-ui.MainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
+ui.mainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
 
 
-;if (cfg.startMinimizedEnabled)
-;winMinimize(ui.mainGui.hwnd)
+if (cfg.startMinimizedEnabled)
+	ui.mainGui.hide()
 
 monitorResChanged()
 
@@ -148,13 +149,13 @@ if ui.incursionDebug
 ;OnMessage(0x0201, wm_lButtonDown)
 	if (cfg.AlwaysOnTopEnabled) {
 		ui.MainGui.Opt("+AlwaysOnTop")
-		ui.titleBarButtonGui.Opt("+AlwaysOnTop")
+		; ui.titleBarButtonGui.Opt("+AlwaysOnTop")
 		ui.AfkGui.Opt("+AlwaysOnTop")
 		try
 			ui.dockBarGui.opt("+alwaysOnTop")
 	} else {
 		ui.MainGui.Opt("-AlwaysOnTop")
-		ui.titleBarButtonGui.Opt("-AlwaysOnTop")
+		; ui.titleBarButtonGui.Opt("-AlwaysOnTop")
 		ui.AfkGui.Opt("-AlwaysOnTop")	
 		try
 			ui.dockBarGui.opt("+alwaysOnTop")
@@ -163,3 +164,5 @@ if ui.incursionDebug
 cfg.consoleVisible := !cfg.consoleVisible	
 toggleConsole()
 ;statusBar()
+;listhotkeys()
+d2AutoGameConfigOverride()

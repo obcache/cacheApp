@@ -94,9 +94,9 @@ GuiSetupTab(&ui,&cfg) {
 		try {
 			winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.mainGui)
 		}
-		try { 
-			winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
-		}
+		; try { 
+			; winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.titleBarButtonGui)
+		; }
 		try { 
 			winSetAlwaysOnTop(cfg.AlwaysOnTopenabled,ui.afkGui)
 		}

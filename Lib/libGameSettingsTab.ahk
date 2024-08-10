@@ -33,7 +33,7 @@ d2drawPanel1(*) {
 		     
 	labelX := 360
 	labelY := 44
-	labelW := 100
+	labelW := 900
 	labelH := 23
 	backColor := cfg.themePanel4Color
 	fontColor := cfg.themeFont4Color
@@ -42,8 +42,8 @@ d2drawPanel1(*) {
 	
 	
 	ui.d2keybindGameTab1 := guiName.addText("x" labelX " y" labelY+labelH/2 " w" labelW " h" labelH/2+3 " background" outlineColor,"")
-	ui.d2Panel1Tab1Bg := ui.gameSettingsGui.addText("x18 y10 w439 h42 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
-	drawOutlineNamed("appSettings",ui.gameSettingsGui,18,11,440,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
+	ui.d2Panel1Tab1Bg := ui.gameSettingsGui.addText("x18 y10 w461 h42 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
+	drawOutlineNamed("appSettings",ui.gameSettingsGui,18,11,462,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
 	ui.currKey := cfg.d2AppPauseKey
 	ui.d2AppPauseKey			:= ui.gameSettingsGui.addPicture("x46 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
 	ui.d2AppPauseKeyData 	:= ui.gameSettingsGui.addText("xs-2 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppPauseKey),1,8))
@@ -192,44 +192,46 @@ d2drawPanel1(*) {
 	ui.currKey := cfg.d2GameToggleSprintKey
 	ui.currKeyLabel := "Toggle Sprint"
 	
-	ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x45 y17 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameToggleSprintKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
-	ui.d2GameToggleSprintKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
+	ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x25 y17 w" 30+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameToggleSprintKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 30+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
+	ui.d2GameToggleSprintKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 30+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
 	
 	ui.currKey := cfg.d2GameHoldToCrouchKey
 	ui.currKeyLabel := "Hold Crouch"
-	ui.d2GameHoldToCrouchKey					:= ui.gameSettingsGui.AddPicture("x+2 ys w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-8)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameHoldToCrouchKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-8)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameHoldToCrouchKey),1,8))
-	ui.d2GameHoldToCrouchKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-8)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Hold Crouch")
+	ui.d2GameHoldToCrouchKey					:= ui.gameSettingsGui.AddPicture("x+2 ys w" 10+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-8)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameHoldToCrouchKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 10+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-8)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameHoldToCrouchKey),1,8))
+	ui.d2GameHoldToCrouchKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 10+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-8)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Hold Crouch")
 
 	ui.currKey := cfg.d2GameReloadKey
 	ui.currKeyLabel := "Reload"
-	ui.d2GameReloadKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameReloadKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
-	ui.d2GameReloadKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")		
+	ui.d2GameReloadKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameReloadKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
+	ui.d2GameReloadKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")		
 	
 	ui.currKey := cfg.d2GameGrenadeKey
 	ui.currKeyLabel := "Reload"
-	ui.d2GameGrenadeKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameGrenadeKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameGrenadeKey),1,8))
-	ui.d2GameGrenadeKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Grenade")		
+	ui.d2GameGrenadeKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameGrenadeKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameGrenadeKey),1,8))
+	ui.d2GameGrenadeKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Grenade")		
 	
 	ui.currKey := cfg.d2GameSuperKey
 	ui.currKeyLabel := "Super"
-	ui.d2GameSuperKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameSuperKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameSuperKey),1,8))
-	ui.d2GameSuperKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Super")		
+	ui.d2GameSuperKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameSuperKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameSuperKey),1,8))
+	ui.d2GameSuperKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Super")		
 	
-	cfg.d2AutoGameConfigEnabled := true
-	ui.d2ToggleAutoGameConfig := ui.gameSettingsGui.addPicture("x15 y9 w25 h45 section "
+	;cfg.d2AutoGameConfigEnabled := true
+	ui.d2ToggleAutoGameConfig := ui.gameSettingsGui.addPicture("x455 y9 w25 h45 section "
 	((cfg.d2AutoGameConfigEnabled) 
 		? ("Background" cfg.ThemeButtonOnColor) 
 			: ("Background" cfg.themeButtonReadyColor)),
 	((cfg.d2AutoGameConfigEnabled) 
 		? ("./img/toggle_vertical_trans_on.png") 
 			: ("./img/toggle_vertical_trans_off.png")))
-
-
+	ui.d2ToggleAutoGameConfig.toolTip := "Enable to attempt to automatically`nImport your game settings."
+	ui.d2ToggleAutoGameConfigOutline := ui.gameSettingsGui.addText("ys+2 x+0 w1 h42 background" cfg.themeDark2Color)
+	ui.d2ToggleAutoGameConfigLabel := ui.gameSettingsGui.addText("y+0 xs+4 w30 h10 backgroundTrans","Auto")
+	ui.d2ToggleAutoGameConfigLabel.setFont("s7")
 	ui.d2gameToggleSprintKey.onEvent("click",d2gameToggleSprintKeyClicked)
 	ui.d2gameToggleSprintKeyData.onEvent("click",d2gameToggleSprintKeyClicked)
 	ui.d2GameReloadKey.onEvent("click",d2GameReloadKeyClicked)
@@ -270,7 +272,7 @@ d2drawPanel1(*) {
 
 	labelX := 280
 	labelY := 44
-	labelW := 80
+	labelW := 66
 	labelH := 23
 	backColor := cfg.themePanel4Color
 	fontColor := cfg.themeFont4Color
@@ -281,9 +283,9 @@ d2drawPanel1(*) {
 	ui.d2keybindAppTab3 := guiName.addText("x" labelX+1 " y" labelY+8 " w" labelW-2 " h" labelH " backgroundTrans center c" fontColor, labelText) 
 	ui.d2keybindAppTab3.setFont("s10","thin")
 
-	labelX := 360
+	labelX := 344
 	labelY := 44
-	labelW := 100
+	labelW := 96
 	labelH := 23
 	backColor := cfg.themePanel2Color
 	fontColor := cfg.themeFont1Color
@@ -308,29 +310,139 @@ d2drawPanel1(*) {
 		? ("./img/toggle_vertical_trans_on.png") 
 			: ("./img/toggle_vertical_trans_off.png")))
 }
-	
 
+
+d2AutoGameConfigOverride(*) {
+	if (cfg.d2AutoGameConfigEnabled) {
+		ui.d2ConfigFile := a_AppData "\Bungie\DestinyPC\prefs\cvars.xml"
+		curr_value := "none"
+		loop read ui.d2ConfigFile {
+			try {
+				curr_key := strSplit(a_loopReadline,'"')[2]
+				curr_values := strSplit(strSplit(a_loopReadline,'"')[4],"!")
+			}
+			switch curr_key {
+				case "grenade":
+					try	{
+
+						loop curr_values.length {
+							if curr_values[a_index] != "unused" {
+								curr_value := curr_values[a_index]
+								break
+							}
+						}
+						
+						if curr_value == "none"
+							return
+						else {
+							;msgBox(curr_value)
+							cfg.d2GameGrenadeKey := curr_value
+							ui.d2GameGrenadeKeyData.text := strUpper(curr_value)
+							ui.d2GameGrenadeKeyData.redraw()
+						}
+					}
+			
+				case "super":
+					try	{
+						curr_key := strSplit(a_loopReadline,'"')[2]
+						curr_values := strSplit(strSplit(a_loopReadline,'"')[4],"!")
+						loop curr_values.length {
+							if curr_values[a_index] != "unused" {
+								curr_value := curr_values[a_index]
+								break
+							}
+						}
+						
+						if curr_value == "none"
+							return
+						else {
+							cfg.d2GameSuperKey := curr_value
+							ui.d2GameSuperKeyData.text := strUpper(curr_value)
+							ui.d2GameSuperKeyData.redraw()
+						}
+					}
+				case "hold_crouch":
+					try	{
+						curr_key := strSplit(a_loopReadline,'"')[2]
+						curr_values := strSplit(strSplit(a_loopReadline,'"')[4],"!")
+						loop curr_values.length {
+							if curr_values[a_index] != "unused" {
+								curr_value := curr_values[a_index]
+								break
+							}
+						}
+						
+						if curr_value == "none"
+							return
+						else {
+							cfg.d2GameHoldToCrouchKey := curr_value
+							ui.d2GameHoldToCrouchKeyData.text := strUpper(curr_value)
+							ui.d2GameHoldToCrouchKeyData.redraw()
+						}
+					}
+				case "reload":
+					try	{
+						curr_key := strSplit(a_loopReadline,'"')[2]
+						curr_values := strSplit(strSplit(a_loopReadline,'"')[4],"!")
+						loop curr_values.length {
+							if curr_values[a_index] != "unused" {
+								curr_value := curr_values[a_index]
+								break
+							}
+						}
+						
+						if curr_value == "none"
+							return
+						else {
+							cfg.d2GameReloadKey := curr_value
+							ui.d2GameReloadKeyData.text := strUpper(curr_value)
+							ui.d2GameReloadKeyData.redraw()
+						}
+					}
+				case "hold_sprint":
+					try	{
+						curr_key := strSplit(a_loopReadline,'"')[2]
+						curr_values := strSplit(strSplit(a_loopReadline,'"')[4],"!")
+						loop curr_values.length {
+							if curr_values[a_index] != "unused" {
+								curr_value := curr_values[a_index]
+								break
+							}
+						}
+						
+						if curr_value == "none"
+							return
+						else {
+							cfg.d2GameToggleSprintKey := curr_value
+							ui.d2GameToggleSprintKeyData.text := strUpper(curr_value)
+							ui.d2GameToggleSprintKeyData.redraw()
+						}
+					}
+				}
+			}
+	}
+}
 
 d2keybindAppTabClicked(*) {
 guiName := ui.gameSettingsGui
 ui.d2KeyBindHelpMsg.text := "     Assign keys you'd like to use for each function"
 		labelX := 280
 		labelY := 44
-		labelW := 80
+		labelW := 66
 		labelH := 23
 		ui.d2keybindGameTab1.opt("background" cfg.themeDark2Color)
 		ui.d2keybindGameTab2.opt("background" cfg.themePanel4Color) 
 		ui.d2keybindGameTab3.setFont("s10 c" cfg.themeFont4Color,"thin")
-		ui.d2keybindGameTab1.move(360,labelY+10,100,13)
-		ui.d2keybindGameTab2.move(361,labelY+10,98,12)
-		ui.d2keybindGameTab3.move(360,labelY+8,,14)
+		ui.d2keybindGameTab1.move(348,labelY+10,92,13)
+		ui.d2keybindGameTab2.move(348,labelY+9,90,13)
+		ui.d2keybindGameTab3.move(346,labelY+8,,14)
 
 		ui.d2keybindAppTab1.opt("background" cfg.themeBright1Color)
 		ui.d2keybindAppTab2.opt("background" cfg.themePanel2Color)
 		ui.d2keybindAppTab3.setFont("s10 c" cfg.themeFont1Color,"bold")
-		ui.d2keybindAppTab1.move(labelx+0,labelY+6,80,17)
-		ui.d2keybindAppTab2.move(labelx+1,labelY+6,78,16)
-		ui.d2keybindAppTab3.move(280,labelY+8,,14)
+		ui.d2keybindAppTab1.move(labelx+0,labelY+6,70,17)
+		ui.d2keybindAppTab2.move(labelx+1,labelY+6,66,16)
+		ui.d2keybindAppTab3.move(282,labelY+8,,14)
 		d2changeKeybindPanelTab(2)
 	}
 
@@ -339,22 +451,22 @@ d2keybindGameTabClicked(*) {
 guiName := ui.gameSettingsGui
 		
 		ui.d2KeybindHelpMsg.text := "Configure these to mirror your in-game bindings"
-		labelX := 360
+		labelX := 346
 		labelY := 44
-		labelW := 100
+		labelW := 96
 		labelH := 23
 		ui.d2keybindAppTab1.opt("background" cfg.themeDark2Color)
 		ui.d2keybindAppTab2.opt("background" cfg.themePanel4Color) 
 		ui.d2keybindAppTab3.setFont("s10 c" cfg.themeFont4Color,"thin")
-		ui.d2keybindAppTab1.move(280,labelY+10,80,13)
-		ui.d2keybindAppTab2.move(281,labelY+10,78,12)
+		ui.d2keybindAppTab1.move(280,labelY+10,70,13)
+		ui.d2keybindAppTab2.move(281,labelY+9,65,13)
 		ui.d2keybindAppTab3.move(280,labelY+8,,14)
 
 		ui.d2keybindGameTab1.opt("background" cfg.themeBright1Color)
 		ui.d2keybindGameTab2.opt("background" cfg.themePanel2Color)
 		ui.d2keybindGameTab3.setFont("s10 c" cfg.themeFont1Color,"bold")
-		ui.d2keybindGameTab1.move(labelx+0,labelY+6,98,17)
-		ui.d2keybindGameTab2.move(labelx+1,labelY+6,96,16)
+		ui.d2keybindGameTab1.move(labelx+0,labelY+6,92,17)
+		ui.d2keybindGameTab2.move(labelx+1,labelY+6,90,16)
 		ui.d2keybindGameTab2.redraw()
 	
 		ui.d2keybindGameTab3.move(,labelY+8,,14)
@@ -398,8 +510,8 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2ToggleAppFunctions
 			,ui.d2ClassSelectOutline
 			,ui.d2ClassSelectOutline2
-			]	
-	
+			]
+			
 	ui.d2Panel2Objects := [
 			ui.d2GameToggleSprintKey
 			,ui.d2GameToggleSprintKeyData
@@ -417,8 +529,10 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2GameSuperKeyData
 			,ui.d2GameSuperKeyLabel
 			,ui.d2ToggleAutoGameConfig
+			,ui.d2ToggleAutoGameConfigLabel
+			,ui.d2ToggleAutoGameConfigOutline
 			]
-			
+
 	if panelNum == 1 {
 		ui.d2ToggleAppFunctions.opt("-hidden")
 		this_panelObjects := ui.d2Panel1Objects
@@ -839,7 +953,6 @@ toggleD2PhAfk(*) {
 	(ui.d2PhAfkActive := !ui.d2PhAfkActive)
 		? startD2PhAfk()
 		: stopD2PhAfk()
-	
 }
 
 startD2PhAfk(*) {
@@ -1362,9 +1475,9 @@ d2CreateLoadoutKeys(*) {
 
 d2AppEnabled(*) {
 	if !cfg.d2AppPaused && winActive("ahk_exe destiny2.exe")
-		return 0
-	else
 		return 1
+	else
+		return 0
 }
 
 d2CreateLoadoutKeys()
@@ -1441,6 +1554,7 @@ d2LoadoutModifier(hotKeyName,isController := false) {
 		sleep(550*cfg.d2AppLoadoutMultiplier)
 		keyWait("joy12")
 	}
+	;msgBox('here')
 	send("{F1}")
 	sleep(550*cfg.d2AppLoadoutMultiplier)
 	send("{Left}")
@@ -1478,7 +1592,7 @@ d2ToggleAlwaysSprint(*) {
 				? send("{" cfg.d2AppToggleSprintKey "}")
 				: 0))
 }
-	
+
 d2ToggleAppFunctions(*) {
 	(cfg.d2AppPaused := !cfg.d2AppPaused)
 		? d2ToggleAppFunctionsOff()
@@ -1486,7 +1600,6 @@ d2ToggleAppFunctions(*) {
 }
 
 d2ToggleAppFunctionsOn() {
-	;ui.d2Log.text := " start: SPRINT`n rcvd: " strUpper(subStr(cfg.d2AppToggleSprintKey,1,8)) "`n" ui.d2Log.text
 	ui.d2ToggleAppFunctions.Opt("Background" cfg.ThemeButtonOnColor)
 	ui.d2ToggleAppFunctions.value := "./img/toggle_vertical_trans_on.png"
 	try {				
@@ -1507,6 +1620,7 @@ d2ToggleAppFunctionsOff() {
 		ui.dockBarD2AlwaysRun.value := "./img/toggle_vertical_trans_off.png"
 	}
 }
+
 d2ToggleAutoGameConfigOn() {
 	;ui.d2Log.text := " start: SPRINT`n rcvd: " strUpper(subStr(cfg.d2AppToggleSprintKey,1,8)) "`n" ui.d2Log.text
 	ui.d2ToggleAutoGameConfig.Opt("Background" cfg.ThemeButtonOnColor)
@@ -1520,7 +1634,7 @@ d2ToggleAutoGameConfigOff() {
 	ui.d2ToggleAutoGameConfig.redraw()
 }
 	
-ui.d2Log			:= ui.gameSettingsGui.addText("x405 y10 w68 h80 hidden background" cfg.themePanel3color " c" cfg.themeFont3color," Destiny 2`n Log Started`n Waiting for Input")
+ui.d2Log								:= ui.gameSettingsGui.addText("x405 y10 w68 h80 hidden background" cfg.themePanel3color " c" cfg.themeFont3color," Destiny 2`n Log Started`n Waiting for Input")
 ui.d2Log.setFont("s7","ariel")
 
 ui.d2ToggleAppFunctions.ToolTip 		:= "Toggles holdToCrouch"
@@ -1684,7 +1798,7 @@ keyBindDialogBoxClose(*)
 	Try
 		ui.notifyGui.Destroy()
 	guiVis(ui.mainGui,true)
-	guiVis(ui.titleBarButtonGui,true)
+	;guiVis(ui.titleBarButtonGui,true)
 	guiVis(ui.gameSettingsGui,true)
 	guiVis(ui.gameTabGui,true)
 }
@@ -1735,9 +1849,9 @@ d2GameHoldToCrouchKeyClicked(*) {
 		keyBindDialogBoxClose()
 		cfg.d2AppHoldToCrouchKey := tmpCrouchKey
 		ui.d2AppHoldToCrouchKeyData.text := subStr(strUpper(cfg.d2AppHoldToCrouchKey),1,8)
-		ui.d2AppHoldToCrouchKey.opt("w" ui.d2KeybindWidth + max(0,(strLen(cfg.d2AppHoldToCrouchKeyData.text)-6))*10)
-		ui.d2AppHoldToCrouchKeyData.opt("w" ui.d2KeybindWidth + max(0,(strLen(cfg.d2AppHoldToCrouchKeyData.text)-6))*10)
-		ui.d2AppHoldToCrouchKeyLabel.opt("w" ui.d2KeybindWidth + max(0,(strLen(cfg.d2AppHoldToCrouchKeyData.text)-6))*10)
+		ui.d2AppHoldToCrouchKey.opt("w" ui.d2KeybindWidth + max(0,(strLen(ui.d2AppHoldToCrouchKeyData.text)-6))*10)
+		ui.d2AppHoldToCrouchKeyData.opt("w" ui.d2KeybindWidth + max(0,(strLen(ui.d2AppHoldToCrouchKeyData.text)-6))*10)
+		ui.d2AppHoldToCrouchKeyLabel.opt("w" ui.d2KeybindWidth + max(0,(strLen(ui.d2AppHoldToCrouchKeyData.text)-6))*10)
 		d2CreateLoadoutKeys()
 		d2RedrawUI()
 	}
