@@ -42,8 +42,18 @@ d2drawPanel1(*) {
 	
 	
 	ui.d2keybindGameTab1 := guiName.addText("x" labelX " y" labelY+labelH/2 " w" labelW " h" labelH/2+3 " background" outlineColor,"")
-	ui.d2Panel1Tab1Bg := ui.gameSettingsGui.addText("x18 y10 w461 h42 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
-	drawOutlineNamed("appSettings",ui.gameSettingsGui,18,11,462,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
+	ui.d2Panel1Tab1Bg := ui.gameSettingsGui.addText("x39 y10 w411 h43 background" cfg.themeBright1Color,"")
+	ui.d2Panel1Tab1Bg2 := ui.gameSettingsGui.addText("x39 y10 w410 h42 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
+	ui.d2Panel1Tab1Bg3 := ui.gameSettingsGui.addText("x40 y11 w407 h40 background" cfg.themeDark1Color,"")
+	ui.d2Panel1Tab1Bg4 := ui.gameSettingsGui.addText("x41 y12 w407 h40 background" cfg.themePanel2Color,"")
+	
+	ui.d2Panel1Tab2Bg := ui.gameSettingsGui.addText("hidden x19 y10 w438 h43 background" cfg.themeBright1Color,"")
+	ui.d2Panel1Tab2Bg2 := ui.gameSettingsGui.addText("hidden x19 y10 w437 h42 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
+	ui.d2Panel1Tab2Bg3 := ui.gameSettingsGui.addText("hidden x20 y11 w434 h40 background" cfg.themeDark1Color,"")
+	ui.d2Panel1Tab2Bg4 := ui.gameSettingsGui.addText("hidden x21 y12 w434 h40 background" cfg.themePanel2Color,"")
+	
+	;ui.d2Panel1Tab2Bg := ui.gameSettingsGui.addText("x42 y10 w406 h42 background" cfg.themePanel2color " c" cfg.themeFont4color,"")	
+	;drawOutlineNamed("gameSettings",ui.gameSettingsGui,43,11,404,42,cfg.themeDark1Color,cfg.themeBright1Color,1)
 	ui.currKey := cfg.d2AppPauseKey
 	ui.d2AppPauseKey			:= ui.gameSettingsGui.addPicture("x46 y17 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h30 section backgroundTrans","./img/keyboard_key_up.png")
 	ui.d2AppPauseKeyData 	:= ui.gameSettingsGui.addText("xs-2 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppPauseKey),1,8))
@@ -99,7 +109,7 @@ d2drawPanel1(*) {
 	ui.d2ClassIconDown			:= ui.gameSettingsGui.addText("x441 y37 w18 h13 center backgroundTrans c" cfg.themeButtonOnColor,"←")
 	ui.d2ClassIconUp			:= ui.gameSettingsGui.addText("x460 y37 w19 h13 center backgroundTrans c" cfg.themeButtonOnColor,"→")
 	ui.d2ClassSelectSpacer 		:= ui.gameSettingsGui.addText("hidden x459 y36 w1 h15 background" cfg.themeBright2Color)
-	ui.d2KeyBindHelpMsg			:= ui.gameSettingsGui.addText("x45 y56 w350 h12 backgroundTrans c" cfg.themeFont1Color,"")
+	ui.d2KeyBindHelpMsg			:= ui.gameSettingsGui.addText("x45 y54 w350 h12 backgroundTrans c" cfg.themeFont1Color,"")
 	ui.d2ClassIcon.toolTip 		:= "Click to Enable/Disable the Fly Macro"
 	ui.d2ClassIconDown.tooltip 	:= "Click to switch between character classes for the Fly Macro"
 	ui.d2ClassIconUp.tooltip 	:= "Click to switch between character classes for the Fly Macro"
@@ -192,9 +202,9 @@ d2drawPanel1(*) {
 	ui.currKey := cfg.d2GameToggleSprintKey
 	ui.currKeyLabel := "Toggle Sprint"
 	
-	ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x25 y17 w" 16+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameToggleSprintKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 16+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
-	ui.d2GameToggleSprintKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 16+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
+	ui.d2GameToggleSprintKey				:= ui.gameSettingsGui.AddPicture("x25 y17 w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameToggleSprintKeyData 			:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameToggleSprintKey),1,8))
+	ui.d2GameToggleSprintKeyLabel			:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Toggle Sprint")
 	
 	ui.currKey := cfg.d2GameHoldToCrouchKey
 	ui.currKeyLabel := "Hold Crouch"
@@ -204,24 +214,24 @@ d2drawPanel1(*) {
 
 	ui.currKey := cfg.d2GameReloadKey
 	ui.currKeyLabel := "Reload"
-	ui.d2GameReloadKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameReloadKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
-	ui.d2GameReloadKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")		
+	ui.d2GameReloadKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameReloadKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameReloadKey),1,8))
+	ui.d2GameReloadKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")		
 	
 	ui.currKey := cfg.d2GameGrenadeKey
 	ui.currKeyLabel := "Reload"
-	ui.d2GameGrenadeKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameGrenadeKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameGrenadeKey),1,8))
-	ui.d2GameGrenadeKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 18+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Grenade")		
+	ui.d2GameGrenadeKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameGrenadeKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameGrenadeKey),1,8))
+	ui.d2GameGrenadeKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Grenade")		
 	
 	ui.currKey := cfg.d2GameSuperKey
 	ui.currKeyLabel := "Super"
-	ui.d2GameSuperKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 16+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
-	ui.d2GameSuperKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 16+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameSuperKey),1,8))
-	ui.d2GameSuperKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 16+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Super")		
+	ui.d2GameSuperKey						:= ui.gameSettingsGui.addPicture("x+2 ys w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h30 section backgroundTrans","./img/keyboard_key_up.png")
+	ui.d2GameSuperKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2GameSuperKey),1,8))
+	ui.d2GameSuperKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" 20+(ui.d2KeybindWidth + max(max(0,(strLen(ui.currKey)-6))*10,max(0,(strLen(ui.currKeyLabel)-12)*5))) " h20 center c" cfg.themeFont1Color " backgroundTrans","Super")		
 	
 	;cfg.d2AutoGameConfigEnabled := true
-	ui.d2ToggleAutoGameConfig := ui.gameSettingsGui.addPicture("x455 y9 w25 h45 section "
+	ui.d2ToggleAutoGameConfig := ui.gameSettingsGui.addPicture("x463 y10 w20 h35 section "
 	((cfg.d2AutoGameConfigEnabled) 
 		? ("Background" cfg.ThemeButtonOnColor) 
 			: ("Background" cfg.themeButtonReadyColor)),
@@ -229,8 +239,8 @@ d2drawPanel1(*) {
 		? ("./img/toggle_vertical_trans_on.png") 
 			: ("./img/toggle_vertical_trans_off.png")))
 	ui.d2ToggleAutoGameConfig.toolTip := "Enable to attempt to automatically`nImport your game settings."
-	ui.d2ToggleAutoGameConfigOutline := ui.gameSettingsGui.addText("ys+2 x+0 w1 h42 background" cfg.themeDark2Color)
-	ui.d2ToggleAutoGameConfigLabel := ui.gameSettingsGui.addText("y+0 xs+2 w30 h10 backgroundTrans","Auto")
+	ui.d2ToggleAutoGameConfigOutline := ui.gameSettingsGui.addText("ys+3 x+0 w1 h30 background" cfg.themeDark2Color)
+	ui.d2ToggleAutoGameConfigLabel := ui.gameSettingsGui.addText("xs-1 y+0 w28 h10 backgroundTrans","Auto")
 	ui.d2ToggleAutoGameConfigLabel.setFont("s8")
 	ui.d2gameToggleSprintKey.onEvent("click",d2gameToggleSprintKeyClicked)
 	ui.d2gameToggleSprintKeyData.onEvent("click",d2gameToggleSprintKeyClicked)
@@ -302,14 +312,15 @@ d2drawPanel1(*) {
 	ui.d2keybindGameTab2.onEvent("click",d2keybindGameTabClicked)
 	ui.d2keybindGameTab3.onEvent("click",d2keybindGameTabClicked)
 	ui.d2AppFunctionsEnabled := true
-	ui.d2ToggleAppFunctions := ui.gameSettingsGui.addPicture("x15 y9 w25 h45 section "
+	ui.d2ToggleAppFunctions := ui.gameSettingsGui.addPicture("x13 y10 w20 h35 section "
 	((ui.d2AppFunctionsEnabled) 
 		? ("Background" cfg.ThemeButtonOnColor) 
 			: ("Background" cfg.themeButtonReadyColor)),
 	((ui.d2AppFunctionsEnabled) 
 		? ("./img/toggle_vertical_trans_on.png") 
 			: ("./img/toggle_vertical_trans_off.png")))
-	ui.d2ToggleAppFunctionsLabel := ui.gameSettingsGui.addText("xs-2 y+0 w28 h10 backgroundTrans","Pause")
+	ui.d2ToggleAppFunctionsOutline := ui.gameSettingsGui.addText("ys+2 x+0 w1 h32 background" cfg.themeDark2Color)
+	ui.d2ToggleAppFunctionsLabel := ui.gameSettingsGui.addText("xs-4 y+-1 w28 h10 backgroundTrans center","Pause")
 	ui.d2ToggleAppFunctionsLabel.setFont("s8")
 }
 
@@ -523,6 +534,11 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2ClassSelectOutline
 			,ui.d2ClassSelectOutline2
 			,ui.d2ToggleAppFunctionsLabel
+			,ui.d2ToggleAppFunctionsOutline
+			,ui.d2Panel1Tab1Bg
+			,ui.d2Panel1Tab1Bg2
+			,ui.d2Panel1Tab1Bg3
+			,ui.d2Panel1Tab1Bg4
 			]
 
 	ui.d2Panel2Objects := [
@@ -544,6 +560,10 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2ToggleAutoGameConfig
 			,ui.d2ToggleAutoGameConfigLabel
 			,ui.d2ToggleAutoGameConfigOutline
+			,ui.d2Panel1Tab2Bg
+			,ui.d2Panel1Tab2Bg2
+			,ui.d2Panel1Tab2Bg3
+			,ui.d2Panel1Tab2Bg4
 			]
 
 	if panelNum == 1 {
@@ -1683,7 +1703,7 @@ ui.d2LaunchBrayTechButton.onEvent("click",d2LaunchBrayTechButtonClicked)
 
 
 d2RedrawUI(*) {
-	;reload()
+	reload()
 }
 
 d2LaunchDIMButtonClicked(*) {

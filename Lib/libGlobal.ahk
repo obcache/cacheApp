@@ -1039,8 +1039,7 @@ fadeOSD() {
 	
 }
 
-pbNotify(NotifyMsg,Duration := 10,YN := "")
-{
+pbNotify(NotifyMsg,Duration := 10,YN := "") {
 	Transparent := 250
 	ui.notifyGui			:= Gui()
 	ui.notifyGui.Title 		:= "Notify"
@@ -1070,14 +1069,55 @@ pbNotify(NotifyMsg,Duration := 10,YN := "")
 	} else {
 		SetTimer(pbWaitOSD,-10000)
 	}
+}
+
+loadScreen(visible := true,NotifyMsg := "cacheApp Loading",Duration := 10) {
+	if (visible) {
+		Transparent := 0
+		ui.notifyGui			:= Gui()
+		ui.notifyGui.Title 		:= "cacheApp Loading"
+
+		ui.notifyGui.Opt("+AlwaysOnTop -Caption +ToolWindow")  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
+		ui.notifyGui.BackColor := "353535" ; Can be any RGB color (it will be made transparent below).
+		ui.notifyGui.SetFont("s22")  ; Set a large font size (32-point).
+		ui.notifyGui.AddText("y5 w300 h35 cBABABA center BackgroundTrans",NotifyMsg)  ; XX & YY serve to 00auto-size the window.
+		ui.notifyGUi.addText("xs+1 y+1 w302 h22 background959595")
+		ui.loadingProgress := ui.notifyGui.addProgress("x+-301 y+-21 w300 h20 cABABAB background252525")
+		setTimer(loadingProgressStep,25)
+		ui.notifyGui.AddText("xs hidden")
 	
-	notifyConfirm(*) {
-		return 1
-	}
-	notifyCancel(*) {
-		return 0
+		tmpX := iniRead(cfg.file,"Interface","GuiX",200)
+		tmpY := iniRead(cfg.file,"Interface","GuiY",200)
+		
+		ui.notifyGui.Show("w350 h70")
+		winGetPos(&x,&y,&w,&h,ui.notifyGui.hwnd)
+		ui.notifyGui.move((tmpX+275)-(w/2),(tmpY+95)-(h/2))
+		drawOutline(ui.notifyGui,1,1,w-2,h-2,"454545","757575",1)
+		drawOutline(ui.notifyGui,2,2,w-4,h-4,"858585","454545",1)
+		while transparent < 245 {
+			winSetTransparent(transparent,ui.notifyGui.hwnd)
+			transparent += 8
+			sleep(1)
+		}
+		winSetTransparent("Off",ui.notifyGui.hwnd)
+	
+	} else {
+		try {
+			setTimer(loadingProgressStep,0)
+			transparent := 255
+			while transparent > 20 {
+				winSetTransparent(transparent,ui.notifyGui.hwnd)
+				transparent -= 8
+				sleep(1)
+			}
+			ui.notifyGui.hide()
+			ui.notifyGui.destroy()
+		}
 	}
 }
+
+
+
 pbWaitOSD() {
 	ui.notifyGui.destroy()
 	pbNotify("Timed out waiting for response.`nPlease try your action again",-1000)

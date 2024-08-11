@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.2.4"
+A_FileVersion := "1.3.2.5"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -52,14 +52,20 @@ themeFileName	:= "cacheApp.themes"
 ; keyWait("Escape")
 ; return
 
+loadingProgressStep(*) {
+		ui.loadingProgress.value += 1
+}
+
 preAutoExec(InstallDir,ConfigFileName)
+cfg.file 		:= "./" ConfigFileName
+loadScreen()
 initTrayMenu()
 	d2ActivePanel := 1
 
 ; ui.AfkGui 		:= Gui()
 dockApp 		:= Object()
 workApp			:= Object()
-cfg.file 		:= "./" ConfigFileName
+
 cfg.ThemeFile	:= "./" ThemeFileName
 ui.pinned 		:= 0
 ui.hidden 		:= 0
@@ -131,6 +137,7 @@ ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 
 
 ; initGuiState()
+
 fadeIn()
 
 try {
@@ -140,7 +147,9 @@ try {
 	whr.WaitForResponse()
 	iniWrite(whr.ResponseText,cfg.file,"Game","LastIncursion")
 }
+
 autoUpdate()
+
 if cfg.topDockEnabled
 	ui.topDockPrevTab := ui.mainGuiTabs.text
 
@@ -161,8 +170,11 @@ if ui.incursionDebug
 			ui.dockBarGui.opt("+alwaysOnTop")
 	}
 	
+	
 cfg.consoleVisible := !cfg.consoleVisible	
+
 toggleConsole()
 ;statusBar()
 ;listhotkeys()
 d2AutoGameConfigOverride()
+loadScreen(0)
