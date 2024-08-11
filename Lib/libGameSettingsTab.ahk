@@ -330,7 +330,9 @@ d2AutoGameConfigOverride(*) {
 						loop curr_values.length {
 							if curr_values[a_index] != "unused" {
 								curr_value := curr_values[a_index]
-								break
+								if curr_value == "caps lock"
+									curr_value := "CapsLock"
+									break
 							}
 						}
 						
@@ -351,6 +353,8 @@ d2AutoGameConfigOverride(*) {
 						loop curr_values.length {
 							if curr_values[a_index] != "unused" {
 								curr_value := curr_values[a_index]
+								if curr_value == "caps lock"
+									curr_value := "CapsLock"
 								break
 							}
 						}
@@ -370,6 +374,8 @@ d2AutoGameConfigOverride(*) {
 						loop curr_values.length {
 							if curr_values[a_index] != "unused" {
 								curr_value := curr_values[a_index]
+								if curr_value == "caps lock"
+									curr_value := "CapsLock"
 								break
 							}
 						}
@@ -389,6 +395,8 @@ d2AutoGameConfigOverride(*) {
 						loop curr_values.length {
 							if curr_values[a_index] != "unused" {
 								curr_value := curr_values[a_index]
+								if curr_value == "caps lock"
+									curr_value := "CapsLock"
 								break
 							}
 						}
@@ -408,6 +416,8 @@ d2AutoGameConfigOverride(*) {
 						loop curr_values.length {
 							if curr_values[a_index] != "unused" {
 								curr_value := curr_values[a_index]
+								if curr_value == "caps lock"
+									curr_value := "CapsLock"
 								break
 							}
 						}
@@ -514,7 +524,7 @@ d2changeKeybindPanelTab(panelNum := 2) {
 			,ui.d2ClassSelectOutline2
 			,ui.d2ToggleAppFunctionsLabel
 			]
-			
+
 	ui.d2Panel2Objects := [
 			ui.d2GameToggleSprintKey
 			,ui.d2GameToggleSprintKeyData
@@ -1439,6 +1449,7 @@ d2ReadyToSprint(*) {
 }
 	
 d2startSprinting(*) {
+	;msgBox('.')
 	ui.d2IsSprinting := true
 	;send("{w down}")
 	if (cfg.d2AlwaysRunEnabled) {
