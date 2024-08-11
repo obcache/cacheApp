@@ -55,6 +55,24 @@ Malva:Heal-U,1,w,850,Shatterline
 Malva:Heal-U,2,d,650,Shatterline
 Malva:Heal-U,3,q,250,Shatterline
 Malva:Heal-U,4,c,250,Shatterline
+AFK: Pale Heart,1,"send(""{3}"")",1000,Destiny 2
+AFK: Pale Heart,3,"mouseMove(-(a_screenwidth/2)+200,0,50,""R"")",2000,Destiny 2
+AFK: Pale Heart,5,"mouseMove((a_screenwidth/2)-355,((a_screenHeight-40)/2)-7,50,)",500,Destiny 2
+AFK: Pale Heart,7,"send(""{LButton Down}"")",1800,Destiny 2
+AFK: Pale Heart,9,"send(""{LButton Up}"")",8000,Destiny 2
+AFK: Pale Heart,11,"send(""{w down}"")",9500,Destiny 2
+AFK: Pale Heart,13,"send(""{w up}"")",250,Destiny 2
+AFK: Pale Heart,15,"dllCall(""mouse_event"",""UInt"",""0x01"",""Int"",-1600,""Int"",0,""UInt"",0,""UInt"",0)",250,Destiny 2
+AFK: Pale Heart,17,"send(""{w down}"")",6000,Destiny 2
+AFK: Pale Heart,19,"send(""{w up}"")",100,Destiny 2
+AFK: Pale Heart,20,"dllCall(""mouse_event"",""UInt"",""0x01"",""Int"",-3600,""Int"",0,""UInt"",0,""UInt"",0)",30000,Destiny 2
+AFK: Pale Heart,22,"send(""{w down}"")",6500,Destiny 2
+AFK: Pale Heart,24,"send(""{d down}"")",1600,Destiny 2
+AFK: Pale Heart,26,"send(""{d up}"")",6100,Destiny 2
+AFK: Pale Heart,28,"send(""{w up}"")",100,Destiny 2
+AFK: Pale Heart,29,"dllCall(""mouse_event"",""UInt"",""0x01"",""Int"",-1600,""Int"",0,""UInt"",0,""UInt"",0)",100,Destiny 2
+AFK: Pale Heart,30,"send(""{e down}"")",1800,Destiny 2
+AFK: Pale Heart,32,"send(""{e up}"")",1500,Destiny 2
 AFK: Good Boy Protocol,1,e,800,Destiny 2
 strand:webdash,1,w,550,Destiny 2
 strand:webdash,2,c,350,Destiny 2

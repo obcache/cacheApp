@@ -16,10 +16,10 @@ guiAFKTab(&ui,&afk) {
 	win1afk.routine.SetFont("s10 c" cfg.themeFont1color)
 	win2afk.routine.SetFont("s10 c" cfg.themeFont1color)
 	loop 2 {
-	win%a_index%afk.routine.modifyCol(1,105)
-	win%a_index%afk.routine.modifyCol(2,20)
-	win%a_index%afk.routine.modifyCol(3,"autoHdr")
-	win%a_index%afk.routine.modifyCol(4,"autoHdr")
+	win%a_index%afk.routine.modifyCol(1,15)
+	win%a_index%afk.routine.modifyCol(2,180)
+	win%a_index%afk.routine.modifyCol(3,60)
+	win%a_index%afk.routine.modifyCol(4,8)
 	
 	
 	}

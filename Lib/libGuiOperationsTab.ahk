@@ -32,11 +32,14 @@ populateClassList() {
 			Return
 		}
 
-	lineRoutineName := strSplit(a_loopReadLine,",")[1]
-	lineGameName := strSplit(a_loopReadLine,",")[5]
-
-	if !(inStr(ui.profileListStr,lineRoutineName)) && lineGameName == ui.gameDDL.text
+		lineRoutineName := strSplit(a_loopReadLine,",")[1]
+		lineGameName := strSplit(a_loopReadLine,",")[5]
+		
+		if !(inStr(ui.profileListStr,lineRoutineName)) && lineGameName == ui.gameDDL.text
 		{
+			if lineRoutineName == "AFK: Pale Heart" {
+				ui.isPaleHeartAFK := true
+			}
 			debugLog("Profile: " lineRoutineName "  Game: " lineGameName)
 			ui.ProfileListStr .= lineRoutineName ","
 			ui.ProfileList.Push(lineRoutineName)
@@ -564,11 +567,10 @@ RefreshAfkRoutine(*) {
 			cfg.win1class := 1 
 		} 
 		
-		
 		if (cfg.win1class > 0) && (cfg.win1class <= ui.profileList.length) {
 			if (StrSplit(a_loopReadLine,',')[1] == ui.profileList[cfg.win1class]) 
 			{
-				win1afk.routine.add(,strSplit(a_LoopReadLine,',')[1],strSplit(a_LoopReadLine,',')[2],strSplit(a_LoopReadLine,',')[3],strSplit(a_LoopReadLine,',')[4])
+				win1afk.routine.add(,strSplit(a_LoopReadLine,',')[2],strSplit(a_LoopReadLine,',')[3],strSplit(a_LoopReadLine,',')[4])
 				win1afk.steps.push(StrSplit(a_LoopReadLine,',')[3])
 				win1afk.waits.push(StrSplit(a_loopReadLine,',')[4])
 			}
@@ -580,7 +582,7 @@ RefreshAfkRoutine(*) {
 		if (cfg.win2class > 0) && (cfg.win2class <= ui.profileList.length) {
 			if (StrSplit(a_loopReadLine,',')[1] == ui.profileList[cfg.win2class])
 			{
-				win2afk.routine.add(,strSplit(a_LoopReadLine,',')[1],strSplit(a_LoopReadLine,',')[2],strSplit(a_LoopReadLine,',')[3],strSplit(a_LoopReadLine,',')[4])
+				win2afk.routine.add(,strSplit(a_LoopReadLine,',')[2],strSplit(a_LoopReadLine,',')[3],strSplit(a_LoopReadLine,',')[4])
 				win2afk.steps.push(StrSplit(a_LoopReadLine,',')[3])
 				win2afk.waits.push(StrSplit(a_loopReadLine,',')[4])
 			}

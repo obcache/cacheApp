@@ -10,7 +10,9 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 }
 
 
-
+^+a:: {
+	toggleAfk()
+}
 ^+[:: {
 	static currOutputDeviceNum := 1
 	ui.audioDevices := array()

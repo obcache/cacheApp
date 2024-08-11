@@ -403,6 +403,13 @@ startAFK(*) {
 		ui.dockBarAfkButton.Opt("Background" cfg.ThemeButtonOnColor)
 		ui.dockBarAfkButton.value := "./Img/button_afk_on.png"
 	} 	
+	if ui.profileList[cfg.win1class] == "AFK: Pale Heart" {
+		winActivate("ahk_exe destiny2.exe")
+		sleep(300)
+		startD2PhAfk()
+		debugLog("Starting: Pale Heart AFK")
+		return
+	}
 ; ui.OpsAfkButton.Redraw()
 	; ui.buttonStartAFK.Redraw()	
 	setTimer(afkBeta,-100)
@@ -412,6 +419,7 @@ startAFK(*) {
 
 stopAFK(*) {
 	ui.afkEnabled := false
+	debugLog("Stopping AFK")
 	; SetTimer(runAfkRoutine,0)
 	ui.OpsAfkButton.Opt("Background" cfg.ThemeDisabledColor)
 	ui.opsAfkButton.Value := "./img2/button_afk_ready.png"
@@ -422,10 +430,19 @@ stopAFK(*) {
 		ui.dockBarAfkButton.value := "./img2/button_afk_ready.png"
 	}
 	ui.OpsAfkButton.Redraw()
-	ui.buttonStartAFK.Redraw()	
+	ui.buttonStartAFK.Redraw()
+	
+	if ui.profileList[cfg.win1class] == "AFK: Pale Heart" {
+		winActivate("ahk_exe destiny2.exe")
+		sleep(300)
+		stopD2PhAfk()
+		send("{w up}")
+		send("{d up}")
+		send("{LButton up}")
+		return
+	}
 	SendEvent("{LButton Up}")
-	debugLog("Stopping AFK")
-
+	
 	ui.Win1AfkIcon.value := "./Img/sleep_icon.png"
 	ui.Win1AfkStatus.text := ""
 	ui.Win2AfkIcon.value := "./Img/sleep_icon.png"
