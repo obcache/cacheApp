@@ -53,15 +53,15 @@ initGui(&cfg, &ui) {
 	ui.handleBarImage := ui.MainGui.AddPicture("x1 y33 w32 h150 backgroundTrans","./Img2/handlebar_vertical.png")
 	ui.ButtonHandlebarDebug := ui.MainGui.AddPicture( 
 	(cfg.consoleVisible) 
-		? "x2 y183 w29 h30 section Background" cfg.ThemeButtonOnColor 
-		: "x2 y183 w29 h30 section Background" cfg.ThemeButtonReadyColor,
+		? "x2 y183 w30 h30 section Background" cfg.ThemeButtonOnColor 
+		: "x2 y183 w30 h30 section Background" cfg.ThemeButtonReadyColor,
 	(cfg.consoleVisible) 
 		? "./Img/button_console_ready.png" 
 		: "./Img/button_console_ready.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	
 	ui.rightHandlebarBg := ui.mainGui.addText("x528 y32 w32 h182 background" cfg.themeBright1Color,"")
-	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x529 w30 y33 h180 section","./Img2/handlebar_vertical.png")
+	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w29 y33 h180 section","./Img2/handlebar_vertical.png")
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
 
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
@@ -85,6 +85,8 @@ initGui(&cfg, &ui) {
 	
 	ui.ButtonHandlebarDebug.OnEvent("Click",toggleConsole)	
 	line(ui.mainGui,0,183,33,1,cfg.themeBright1Color)
+	
+	ui.loadingProgress.value += 5
 	; for tab in cfg.mainTabList {
 		; if a_index == cfg.activeMainTab {
 			; ui.%tab%ButtonBg.value := "./img2/tab_selected.png"
@@ -97,12 +99,19 @@ initGui(&cfg, &ui) {
 	ui.gvConsole := ui.MainGui.AddListBox("x0 y214 w560 h192 +Background" cfg.ThemePanel1Color)
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
 	afk 						:= Object()	
+	ui.loadingProgress.value += 5
 	GuiAFKTab(&ui,&afk)
+	ui.loadingProgress.value += 5
 	GuiOperationsTab(&ui,&cfg,&afk)	
+	ui.loadingProgress.value += 5
 	GuiDockTab(&ui)
+
 	GuiSetupTab(&ui,&cfg)
 	GuiListsTab(&ui,&cfg)
+	
+	ui.loadingProgress.value += 5
 	GuiGameTab()
+	ui.loadingProgress.value += 5
 	OnMessage(0x0200, WM_MOUSEMOVE)
 	OnMessage(0x0202, WM_LBUTTONDOWN)
 	OnMessage(0x47, WM_WINDOWPOSCHANGED)
@@ -125,7 +134,11 @@ initGui(&cfg, &ui) {
 	ui.buttonUndockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonUndockAfk.ToolTip := "Undocks AFK Window"
 	;ui.rightPadding 	:= ui.titleBarButtonGui.addText("x73 y0 w1 h38 background" cfg.themeBorderLightColor," ")
+	
+	ui.loadingProgress.value += 5
 	InitOSDGui()
+	
+	ui.loadingProgress.value += 5
 	if (cfg.consoleVisible) {
 		(cfg.consoleVisible := !cfg.consoleVisible)
 		toggleConsole()
@@ -157,7 +170,7 @@ initOSDGui() {
 	ui.afkEnabled := false
 	TimerEnabled := false
 	RunCount := 0
-
+	ui.loadingProgress.value += 5
 	ui.AfkGui := Gui()
 	winSetTransparent(0,ui.afkGui)
 	ui.AfkGui.Name := "CacheApp"
@@ -238,6 +251,8 @@ initOSDGui() {
 	ui.AfkAnchoredToGui := true
 	ui.HandlebarAfkGui := ui.AfkGui.AddPicture("x250 y-2 w30 h138 +Hidden","./Img2/handlebar_vertical.png")
 	ui.AfkGui.Opt("+LastFound")
+	
+	ui.loadingProgress.value += 5
 	guiVis(ui.afkGui,false)
 }
 

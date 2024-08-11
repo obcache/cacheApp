@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.2.6"
+A_FileVersion := "1.3.2.7"
 ;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
 
 A_AppName := "cacheApp"
@@ -14,8 +14,12 @@ if (fileExist("./cacheApp_currentBuild.dat"))
 
 currExe := DllCall("GetCommandLine", "str")
 
-if not (a_isAdmin or regExMatch(currExe, " /restart(?!\S)"))
-{
+a_restarted := 
+	(inStr(dllCall("GetCommandLine","Str"),"/restart"))
+		? true
+		: false
+		
+if !a_isAdmin {
     try
     {
         if a_isCompiled
@@ -34,10 +38,7 @@ installKeybdHook()
 keyHistory(10)
 setWorkingDir(a_scriptDir)
 
-a_restarted := 
-	(inStr(dllCall("GetCommandLine","Str"),"/restart"))
-		? true
-		: false
+
 		
 installDir 		:= a_myDocuments "\cacheApp"
 configFileName 	:= "cacheApp.ini"
@@ -58,6 +59,7 @@ loadingProgressStep(*) {
 
 preAutoExec(InstallDir,ConfigFileName)
 cfg.file 		:= "./" ConfigFileName
+adjustPos()
 loadScreen()
 initTrayMenu()
 	d2ActivePanel := 1
@@ -86,12 +88,15 @@ MonitorGetWorkArea(MonitorGetprimary(),
 	&primaryWorkAreaTop,
 	&primaryWorkAreaRight,
 	&primaryWorkAreaBottom)
-
 cfgLoad(&cfg, &ui)
+ui.loadingProgress.value += 5
+
 
 initGui(&cfg, &ui)
+ui.loadingProgress.value += 10
 
 initConsole(&ui)
+ui.loadingProgress.value += 10
 
 #include <class_sqliteDb>
 #include <class_lv_colors>
@@ -105,40 +110,56 @@ initConsole(&ui)
 #include <libGuiAppDockTab>
 #include <libGameSettingsTab>
 #include <libEditorTab>
+ui.loadingProgress.value += 15
+#include <libGuiSystemTab>
 #include <libGuiSystemTab>
 #include <libHotkeys>
 #include <libRoutines>
 #include <libThemeEditor>
+ui.loadingProgress.value += 10
 
 debugLog("Interface Initialized")
 OnExit(ExitFunc)
 debugLog("Console Initialized")
 
 ui.gameTabs.choose(cfg.gameModuleList[cfg.activeGameTab])
+ui.loadingProgress.value += 5
 
 createDockBar()
+ui.loadingProgress.value += 5
+	
 changeGameDDL()
+
+ui.loadingProgress.value += 5
 drawAfkOutlines()
 
+ui.loadingProgress.value += 5
 try
 	guiVis("all",false)
 
+ui.loadingProgress.value += 5
 ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
 ui.gameSettingsGui.show("x" cfg.guiX+30 " y" cfg.guiY+32 " w495 h182 noActivate")
 ui.mainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")
 
+ui.loadingProgress.value += 5
 
 if (cfg.startMinimizedEnabled)
 	ui.mainGui.hide()
 
-monitorResChanged()
+
+	ui.loadingProgress.value += 5
+	monitorResChanged()
 
 ui.MainGuiTabs.Choose(cfg.mainTabList[cfg.activeMainTab])
 
+ui.loadingProgress.value += 5
 
 ; initGuiState()
 
-fadeIn()
+
+ui.loadingProgress.value += 5
+	fadeIn()
 
 try {
 	whr := ComObject("WinHttp.WinHttpRequest.5.1")

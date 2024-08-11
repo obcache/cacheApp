@@ -608,11 +608,6 @@ cfgLoad(&cfg, &ui) {
 	cfg.pushNotificationsEnabled := iniRead(cfg.file,"Interface","PushNotifications",false)
 	
 
-	if (cfg.GuiX < primaryMonitorLeft)
-		cfg.GuiX := 200
-	if (cfg.GuiY > primaryMonitorBottom)
-		cfg.GuiY := 200
-	
 	cfg.AfkX					:= IniRead(cfg.file,"Interface","AfkX",cfg.GuiX+10)
 	cfg.AfkY					:= IniRead(cfg.file,"Interface","AfkY",cfg.GuiY+35)
 	cfg.AfkSnapEnabled			:= IniRead(cfg.file,"Interface","AfkSnapEnabled",false)
@@ -887,6 +882,35 @@ WriteConfig() {
 	BlockInput("Off")
 }
 
+adjustPos(*) {
+	cfg.guiX := iniRead(cfg.file,"interface","GuiX",200)
+	cfg.guiY := iniRead(cfg.file,"interface","GuiY",200)
+	lowestHorz := 0
+	highestHorz := 0
+	lowestVert :=0
+	highestVert := 0
+	loop monitorGetCount() {
+		monitorGet(a_index,&ml,&mt,&mr,&mb)
+		if lowestHorz > ml
+			lowestHorz := ml
+		if highestHorz < mr
+			highestHorz := mr
+		if lowestVert > mt
+			lowestVert := mt
+		if highestVert < mb
+			highestVert := mb
+	}		
+	if (cfg.GuiX < lowestHorz) || (cfg.guiX+550 > highestHorz) {
+		cfg.GuiX := 200
+		cfg.GuiY := 200
+	}
+	if (cfg.GuiY < lowestVert) || (cfg.guiY+220 > highestVert) {
+		cfg.GuiX := 200
+		cfg.GuiY := 200
+	}
+	iniWrite(cfg.GuiX,cfg.file,"interface","GuiX")
+	iniWrite(cfg.GuiY,cfg.file,"interface","GuiY")
+}
 
 runApp(appName) {
 	global
@@ -1082,8 +1106,8 @@ loadScreen(visible := true,NotifyMsg := "cacheApp Loading",Duration := 10) {
 		ui.notifyGui.SetFont("s22")  ; Set a large font size (32-point).
 		ui.notifyGui.AddText("y5 w300 h35 cBABABA center BackgroundTrans",NotifyMsg)  ; XX & YY serve to 00auto-size the window.
 		ui.notifyGUi.addText("xs+1 y+1 w302 h22 background959595")
-		ui.loadingProgress := ui.notifyGui.addProgress("x+-301 y+-21 w300 h20 cABABAB background252525")
-		setTimer(loadingProgressStep,25)
+		ui.loadingProgress := ui.notifyGui.addProgress("smooth x+-301 y+-21 w300 h20 cABABAB background252525")
+		;setTimer(loadingProgressStep,100)
 		ui.notifyGui.AddText("xs hidden")
 	
 		tmpX := iniRead(cfg.file,"Interface","GuiX",200)
