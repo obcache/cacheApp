@@ -348,8 +348,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/tab_selected.png", installDir "/img2/tab_selected.png",1)
 			fileInstall("./img2/tab_unselected.png", installDir "/img2/tab_unselected.png",1)
 			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
-			FileInstall("./Img2/handlebar_vertical.png",InstallDir "/Img2/handlebar_vertical.png",true)
-			
+			fileInstall("./img2/handlebar_vertical.png",installDir "/img2/handlebar_vertical.png",true)
+			fileInstall("./img2/right_handlebar_vertical.png",installDir "/img2/right_handlebar_vertical.png",true)
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			installLog("Copied Assets to: " InstallDir)
 			
