@@ -1,24 +1,17 @@
-A_FileVersion := "1.3.2.7"
-;@Ahk2Exe-Let FileVersion=%A_PriorLine~U)^(.+"){1}(.+)".*$~$2% 
-
-A_AppName := "cacheApp"
+A_FileVersion := "1.3.2.8"
+a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
-	A_FileVersion := FileRead("./cacheApp_currentBuild.dat")
-;@Ahk2Exe-SetName cacheApp
-;@Ahk2Exe-SetVersion %U_FileVersion%
-;@Ahk2Exe-SetFileVersion %U_FileVersion%
+	a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
+	
+;@ahk2Exe-let fileVersion=%a_priorLine~U)^(.+"){1}(.+)".*$~$2% 
+;@ahk2Exe-setName cacheApp
+;@ahk2Exe-setVersion %a_fileVersion%
+;@ahk2Exe-setFileVersion %a_fileVersion%
 
-#Requires AutoHotkey v2.0
-#SingleInstance
-#Warn All, Off
+#requires autoHotkey v2.0+
+#singleInstance
+#warn All, Off
 
-currExe := DllCall("GetCommandLine", "str")
-
-a_restarted := 
-	(inStr(dllCall("GetCommandLine","Str"),"/restart"))
-		? true
-		: false
-		
 if !a_isAdmin {
     try
     {
@@ -30,6 +23,11 @@ if !a_isAdmin {
     exitApp()
 }
 
+a_cmdLine := DllCall("GetCommandLine", "str")
+a_restarted := 
+			(inStr(a_cmdLine,"/restart"))
+				? true
+				: false
 
 
 persistent()

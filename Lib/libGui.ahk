@@ -49,19 +49,19 @@ initGui(&cfg, &ui) {
 	ui.activeTab := ui.mainGuiTabs.Text
 	ui.previousTab := ui.activeTab
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
-	ui.handleBarBorder := ui.mainGui.addText("x0 y32 w33 h182 background" cfg.themeBright1Color,"")
-	ui.handleBarImage := ui.MainGui.AddPicture("x1 y33 w32 h150 backgroundTrans","./Img2/handlebar_vertical.png")
+	ui.handleBarBorder := ui.mainGui.addText("x0 y34 w32 h184 background" cfg.themeBright1Color,"")
+	ui.handleBarImage := ui.MainGui.AddPicture("x1 y28 w32 h157 backgroundTrans","./Img2/handlebar_vertical.png")
 	ui.ButtonHandlebarDebug := ui.MainGui.AddPicture( 
 	(cfg.consoleVisible) 
-		? "x2 y183 w30 h30 section Background" cfg.ThemeButtonOnColor 
-		: "x2 y183 w30 h30 section Background" cfg.ThemeButtonReadyColor,
+		? "x2 y185 w30 h27 section Background" cfg.ThemeButtonOnColor 
+		: "x2 y185 w30 h27 section Background" cfg.ThemeButtonReadyColor,
 	(cfg.consoleVisible) 
 		? "./Img/button_console_ready.png" 
 		: "./Img/button_console_ready.png")
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	
-	ui.rightHandlebarBg := ui.mainGui.addText("x528 y32 w32 h182 background" cfg.themeBright1Color,"")
-	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x530 w29 y33 h180 section","./Img2/handlebar_vertical.png")
+	ui.rightHandlebarBg := ui.mainGui.addText("x529 y32 w31 h182 background" cfg.themeBright1Color,"")
+	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x528 w31 y33 h180 section","./Img2/right_handlebar_vertical.png")
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
 
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
@@ -84,7 +84,7 @@ initGui(&cfg, &ui) {
 
 	
 	ui.ButtonHandlebarDebug.OnEvent("Click",toggleConsole)	
-	line(ui.mainGui,0,183,33,1,cfg.themeBright1Color)
+	line(ui.mainGui,2,184,33,1,cfg.themeBright1Color)
 	
 	ui.loadingProgress.value += 5
 	; for tab in cfg.mainTabList {
