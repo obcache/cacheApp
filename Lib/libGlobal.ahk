@@ -1162,17 +1162,13 @@ killMe(*) {
 }
 
 resetWindowPosition(*) {
-	try 
+	try {
 		guiVis(ui.dockBarGui,false)
-	;guiVis(ui.titleBarButtonGui,false)
-	guiVis(ui.afkGui,false)
-	guiVis(ui.gameSettingsGui,false)
-	guiVis(ui.mainGui,false)
-	guiVis(ui.gameTabGui,false)
-	ui.MainGui.Move(PrimaryWorkAreaLeft+200,PrimaryWorkAreaTop+200,,)
-	tabsChanged()
-	guiVis(ui.mainGui,true)
-	;guiVis(ui.titleBarButtonGui,true)
+
+		guiVis(ui.mainGui,true)
+		tabsChanged()
+		ui.MainGui.Move(PrimaryWorkAreaLeft+200,PrimaryWorkAreaTop+200,,)
+	}
 }
 
 exitFunc(ExitReason,ExitCode) {

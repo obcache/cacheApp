@@ -1462,10 +1462,22 @@ d2ReadyToReload(*) {
 }
 
 d2ReadyToSprint(*) {
-	if (winActive("ahk_exe destiny2.exe") && cfg.d2AlwaysRunEnabled && !getKeyState("RButton") && !getKeyState("LButton") && !getKeyState(cfg.d2AppHoldToCrouchKey) && !cfg.d2AppPaused)
-		return 1
-	else
-		return 0
+	
+return (winActive("ahk_exe destiny2.exe")) 
+		? (cfg.d2AlwaysRunEnabled)
+			? (!cfg.d2AppPaused)
+				? (!getKeyState("RButton")) 
+					? (!getKeyState("z"))
+						? (!getKeyState("LButton")) 
+							? (!getKeyState(cfg.d2AppHoldToCrouchKey)) 
+								? 1
+								: 0
+							: 0
+						: 0
+					: 0
+				: 0
+			: 0
+		: 0
 }
 	
 d2startSprinting(*) {
