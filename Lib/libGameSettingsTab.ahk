@@ -713,7 +713,7 @@ closeIncursionNotice(*) {
 	ui.incursionGui.destroy()
 }
 
-incursionNotice(*) {
+incursionNotice(this_trigger := "") {
 	(cfg.pushNotificationsEnabled)
 		? bail()
 		: 0
@@ -728,7 +728,7 @@ incursionNotice(*) {
 		ui.latestIncursion := whr.ResponseText
 	}
 	
-	if ((ui.latestIncursion != cfg.lastIncursion) && cfg.pushNotificationsEnabled) || (ui.incursionDebug == true) {
+	if ((ui.latestIncursion != cfg.lastIncursion) && cfg.pushNotificationsEnabled) || (ui.incursionDebug == true) || (this_trigger == "manualFire") {
 		if ui.d2ShowingIncursionNotice == true
 			closeIncursionNotice()
 
@@ -747,7 +747,7 @@ incursionNotice(*) {
 		drawOutlineNamed("incursionClose",ui.incursionGui,329,-2,21,22,cfg.themeBright2Color,cfg.themeBright2Color,1)
 		ui.incursionGui.setFont("s12","Arial")
 		ui.incursionOptOut := ui.incursionGui.addPicture("x224 y27 w13 h13 section backgroundTrans c" cfg.themeFont3Color,)
-				
+			
 		if cfg.pushNotificationsEnabled	== true {
 			ui.incursionOptOut.value := "./img2/checkbox_false.png"
 		} else {
@@ -760,15 +760,15 @@ incursionNotice(*) {
 		ui.incursionOptOut.onEvent("click",toggleIncursionNotice)
 		ui.incursionNotice.setFont("s19 c" cfg.themeFont3Color,"Courier")
 
-		try {
-			cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
-			if monitorGetCount() < cfg.dockbarMonitor {
-				cfg.dockbarMonitor := 1
-			}
-		}
+
 		
 		try {
 			if cfg.topDockEnabled {
+			
+				cfg.dockbarMonitor := iniRead(cfg.file,"Interface","DockbarMonitor",monitorGetPrimary())
+				if monitorGetCount() < cfg.dockbarMonitor {
+					cfg.dockbarMonitor := 1
+				}
 				monitorGet(cfg.dockbarMonitor,&dockbarMonitorL,&dockbarMonitorT,&dockbarMonitorR,&dockbarMonitorB,)
 				incursionGuix := ((dockbarMonitorL + dockbarMonitorR)/2)-175
 				dockbarPosY := dockbarMonitorT
@@ -784,10 +784,21 @@ incursionNotice(*) {
 				ui.incursionGui.show("x" incursionGuix " y" dockbarPosY+31 " w352 h51 noActivate")
 				ui.d2ShowingIncursionNotice := true
 			} else {
+				incursionX := (a_screenWidth/2)-175
 				transLevel := 0
+				if winGetMinMax("ahk_exe destiny2.exe") > 0 {
+					if monitorGetCount() != 1 {
+						(monitorGetPrimary() == 1) 
+							? incursionNoticeMonitor := 2
+							: incursionNoticeMonitor := 1
+							monitorGet(incursionNoticeMonitor,&l,&t,&r,&b)
+							incursionX := ((r+l)/2)-175
+					}
+				}
+				
 				if cfg.animationsEnabled {
 					guiVis(ui.incursionGui,false)
-					ui.incursionGui.show("y150 w350 h51 noActivate")
+					ui.incursionGui.show("x" incursionX " y150 w350 h51 noActivate")
 					while transLevel < 255 {
 						transLevel += 5
 						winSetTransparent(transLevel,ui.incursionGui)

@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.3.1"
+A_FileVersion := "1.3.3.2"
 a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
 	a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
@@ -172,8 +172,8 @@ autoUpdate()
 if cfg.topDockEnabled
 	ui.topDockPrevTab := ui.mainGuiTabs.text
 
-if ui.incursionDebug
-	incursionNotice()
+;if ui.incursionDebug
+;	incursionNotice("manualFire")
 ;OnMessage(0x0201, wm_lButtonDown)
 	if (cfg.AlwaysOnTopEnabled) {
 		ui.MainGui.Opt("+AlwaysOnTop")

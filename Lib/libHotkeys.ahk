@@ -84,3 +84,9 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 		; }
 	; }
 ; }
+
+
+
+^!+v:: {
+	incursionNotice("manualFire")
+}
