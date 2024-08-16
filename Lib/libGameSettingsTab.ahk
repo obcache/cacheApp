@@ -1473,8 +1473,7 @@ d2ReadyToReload(*) {
 }
 
 d2ReadyToSprint(*) {
-	
-return (winActive("ahk_exe destiny2.exe")) 
+	return (winActive("ahk_exe destiny2.exe")) 
 		? (cfg.d2AlwaysRunEnabled)
 			? (!cfg.d2AppPaused)
 				? (!getKeyState("RButton")) 
