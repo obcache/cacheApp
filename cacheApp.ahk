@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.3.5"
+A_FileVersion := "1.3.3.8"
 a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
 	a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
@@ -54,12 +54,11 @@ themeFileName	:= "cacheApp.themes"
 loadingProgressStep(*) {
 		ui.loadingProgress.value += 1
 }
-
 preAutoExec(InstallDir,ConfigFileName)
 cfg.file 		:= "./" ConfigFileName
 adjustPos()
 loadScreen()
-initTrayMenu()
+;initTrayMenu()
 	d2ActivePanel := 1
 
 ; ui.AfkGui 		:= Gui()
@@ -114,6 +113,7 @@ ui.loadingProgress.value += 15
 #include <libHotkeys>
 #include <libRoutines>
 #include <libThemeEditor>
+#include <libVaultCleaner>
 ui.loadingProgress.value += 10
 
 debugLog("Interface Initialized")

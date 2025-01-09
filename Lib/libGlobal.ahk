@@ -38,6 +38,11 @@ preAutoExec(InstallDir,ConfigFileName) {
 	cfg				:= object()
 	ui 				:= object()
 	afk				:= object()
+	this			:= object()
+	setting 		:= object()
+	result 			:= object()
+	libVaultInit()
+	
 	if (A_IsCompiled)
 	{
 		; if !(FileExist("./cacheApp.ini"))
@@ -264,7 +269,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img/icon_running.png",installDir "/img/icon_running.png",1)
 			fileInstall("./img/icon_DIM.png",installDir "/img/icon_dim.png",1)
 			fileInstall("./img/icon_blueberries.png",installDir "/img/icon_blueberries.png",1)
-			fileInstall("./img/icon_lightgg.png",installDir "/img/icon_lightgg.png",1)
+			fileInstall("./img2/button_vault_up.png",installDir "/img2/button_vault_up.png",1)
+			fileInstall("./img2/button_vault_down.png",installDir "/img2/button_vault_down.png",1)
 			fileInstall("./img/icon_d2Checklist.png",installDir "/img/icon_d2Checklist.png",1)
 			fileInstall("./img/icon_brayTech.png",installDir "/img/icon_brayTech.png",1)
 			fileInstall("./img/icon_steeringwheel.png",installDir "/img/icon_steeringwheel.png",1)
@@ -308,8 +314,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileInstall("./img2/d2_button_dim_down.png",installDir "/img2/d2_button_dim_down.png",1)
 			fileInstall("./img2/d2_button_bbgg.png",installDir "/img2/d2_button_bbgg.png",1)
 			fileInstall("./img2/d2_button_bbgg_down.png",installDir "/img2/d2_button_bbgg_down.png",1)
-			fileInstall("./img2/d2_button_lightgg.png",installDir "/img2/d2_button_lightgg.png",1)
-			fileInstall("./img2/d2_button_lightgg_down.png",installDir "/img2/d2_button_lightgg_down.png",1)
+			fileInstall("./img2/button_vault_up.png",installDir "/img2/button_vault_up.png",1)
+			fileInstall("./img2/button_vault_down.png",installDir "/img2/button_vault_down.png",1)
 			fileInstall("./img2/d2_button_d2Checklist.png",installDir "/img2/d2_button_d2Checklist.png",1)
 			fileInstall("./img2/d2_button_d2Checklist_down.png",installDir "/img2/d2_button_d2Checklist_down.png",1)
 			fileInstall("./img2/d2ClassIconWarlock_on.png",installDir "/img2/d2ClassIconWarlock_on.png",1)
@@ -560,6 +566,8 @@ cfgLoad(&cfg, &ui) {
 	ui.gameWindowFound		:= false
 	ui.profileList				:= array()
 	ui.profileListStr			:= ""
+	ui.waitingForPrompt			:= true
+	ui.notifyResponse			:= false
 	win1afk 					:= object()
 	win2afk						:= object()
 	win1afk.steps				:= array()
@@ -1063,7 +1071,7 @@ fadeOSD() {
 	
 }
 
-pbNotify(NotifyMsg,Duration := 10,YN := "") {
+pbNotify(NotifyMsg,Duration := 10,YN := "",confirmCustomScript:="notifyConfirm",cancelCustomScript:="notifyCancel") {
 	Transparent := 250
 	ui.notifyGui			:= Gui()
 	ui.notifyGui.Title 		:= "Notify"
@@ -1077,23 +1085,43 @@ pbNotify(NotifyMsg,Duration := 10,YN := "") {
 	if (YN) {
 		ui.notifyGui.AddText("xs hidden")
 		ui.notifyGui.SetFont("s10")
-		ui.notifyYesButton := ui.notifyGui.AddButton("ys section w60 h25","Yes")
-		ui.notifyYesButton.OnEvent("Click",notifyConfirm)
-		ui.notifyNoButton := ui.notifyGui.AddButton("xs w60 h25","No")
-		ui.notifyNoButton.OnEvent("Click",notifyCancel)
+		ui.notifyYesButton := ui.notifyGui.AddButton("ys section w60 h25","Proceed")
+		ui.notifyYesButton.OnEvent("Click",%confirmCustomScript%)
+		ui.notifyNoButton := ui.notifyGui.AddButton("xs w60 h25","Cancel")
+		ui.notifyNoButton.OnEvent("Click",%cancelCustomScript%)
 	}
 	
 	ui.notifyGui.Show("AutoSize")
 	winGetPos(&x,&y,&w,&h,ui.notifyGui.hwnd)
 	drawOutline(ui.notifyGui,0,0,w,h,"202020","808080",3)
 	drawOutline(ui.notifyGui,5,5,w-10,h-10,"BBBBBB","DDDDDD",2)
-	if !(YN) {
-		setTimer () => (sleep(duration),fadeOSD()),-1
-		;FadeOSD()
-	} else {
-		SetTimer(pbWaitOSD,-10000)
-	}
-}
+	canProceed:=""
+	timeout:=0
+	if (YN) {
+		while timeout < 90 && ui.waitingForPrompt {
+				timeout+=1
+				sleep(500)
+		}
+		ui.waitingForPrompt:=true
+		if timeout > 89 {
+			notifyOSD("Timed out waiting for response. Cancelling")
+			setTimer () => (fadeOSD()),-1
+			Exit
+		} else {
+			if !ui.notifyResponse {
+				setTimer () => (fadeOSD()),-1
+				
+				exit
+			} else {
+				setTimer () => (sleep(duration),fadeOSD()),-1
+			}
+				
+		} 
+		timeout:=0
+	} else
+			setTimer () => (sleep(duration),fadeOSD()),duration
+} 
+
 
 loadScreen(visible := true,NotifyMsg := "cacheApp Loading",Duration := 10) {
 	if (visible) {

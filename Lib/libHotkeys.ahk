@@ -13,6 +13,12 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 ^+a:: {
 	toggleAfk()
 }
+
+
+^+v:: {
+	vaultCleaner()
+}
+
 ^+[:: {
 	static currOutputDeviceNum := 1
 	ui.audioDevices := array()

@@ -1162,7 +1162,7 @@ dockBarIcons(game,operation := "") {
 				ui.topDockd2Checklistbutton		:= ui.dockBarGui.addPicture("x+0  ys w28 h28 section backgroundTrans","./img/icon_d2Checklist.png")
 				 ui.dockBarWidth 		+= 28
 				ui.topDockDIMbutton.onEvent("click",d2LaunchDIMButtonClicked)
-				ui.topDockLightGGbutton.onEvent("click",d2LaunchLightGGButtonClicked)
+				ui.topDockLightGGbutton.onEvent("click",d2LaunchVaultCleanerButtonClicked)
 				ui.topDockBBGGbutton.onEvent("click",d2LaunchBlueBerriesButtonClicked)
 				ui.topDockBrayTechbutton.onEvent("click",d2LaunchBrayTechButtonClicked)
 				ui.topDockd2Checklistbutton.onEvent("click",d2Launchd2ChecklistButtonClicked)

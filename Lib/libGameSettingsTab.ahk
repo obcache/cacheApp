@@ -616,7 +616,7 @@ d2drawPanel3(*) {
 	drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,76,484,68,cfg.themeBright1Color,cfg.themeBright1Color,1)
 	ui.gameSettingsGui.addText("hidden x19 y21 section")
 	ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
-	ui.d2LaunchLightGGbutton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_LightGG.png")
+	ui.d2LaunchVaultCleanerButton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/button_vault_up.png")
 	ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
 	ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
 	ui.d2LaunchDestinyTrackerButton 	:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_DestinyTracker.png")
@@ -1695,7 +1695,7 @@ ui.d2Log.setFont("s7","ariel")
 
 ui.d2ToggleAppFunctions.ToolTip 		:= "Toggles holdToCrouch"
 ui.d2LaunchDIMbutton.ToolTip			:= "Launch DIM in Browser"
-ui.d2LaunchLightGGbutton.toolTip 		:= "Launch Light.gg in Browser"
+ui.d2LaunchVaultCleanerButton.toolTip 		:= "Launch Vault Cleaner"
 ui.d2LaunchBlueberriesButton.toolTip	:= "Launch Blueberries.gg in Browser"
 ui.d2Launchd2CheckListButton.toolTip	:= "Launch D2Checklist.com in Browser"
 ui.d2LaunchDestinyTrackerButton.toolTip	:= "Launch DestinyTracker.com in Browser"
@@ -1716,7 +1716,7 @@ ui.d2AppLoadoutKeyData.onEvent("click",d2AppLoadoutKeyClicked)
 ui.d2AppToggleSprintKey.onEvent("click",d2AppToggleSprintKeyClicked)
 ui.d2AppToggleSprintKeyData.onEvent("click",d2AppToggleSprintKeyClicked)
 ui.d2LaunchDIMbutton.onEvent("click",d2launchDIMbuttonClicked)
-ui.d2LaunchLightGGbutton.onEvent("click",d2launchLightGGbuttonClicked)
+ui.d2LaunchVaultCleanerButton.onEvent("click",d2LaunchVaultCleanerButtonClicked)
 ui.d2LaunchD2checkListButton.onEvent("click",d2launchD2checklistButtonClicked)
 ui.d2LaunchBlueberriesButton.onEvent("click",d2launchBlueBerriesButtonClicked)
 ui.d2LaunchDestinyTrackerButton.onEvent("click",d2LaunchDestinyTrackerButtonClicked)
@@ -1735,10 +1735,10 @@ d2LaunchDIMButtonClicked(*) {
 	run("chrome.exe http://app.destinyitemmanager.com")
 }
 
-d2LaunchLightGGbuttonClicked(*) {
-	ui.d2LaunchLightGGbutton.value := "./Img2/d2_button_LightGG_down.png"
-	setTimer () => ui.d2LaunchLightGGbutton.value := "./Img2/d2_button_LightGG.png",-400
-	run("chrome.exe https://www.light.gg/god-roll/roll-appraiser/")	
+d2LaunchVaultCleanerButtonClicked(*) {
+	ui.d2LaunchVaultCleanerButton.value := "./Img2/button_vault_down.png"
+	setTimer () => ui.d2LaunchVaultCleanerButton.value := "./Img2/button_vault_up.png",-400
+	vaultCleaner()	
 }
 
 d2LaunchBlueBerriesButtonClicked(*) {
