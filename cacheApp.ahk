@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.3.8"
+A_FileVersion := "1.3.3.7"
 a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
 	a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
@@ -58,7 +58,7 @@ preAutoExec(InstallDir,ConfigFileName)
 cfg.file 		:= "./" ConfigFileName
 adjustPos()
 loadScreen()
-;initTrayMenu()
+initTrayMenu()
 	d2ActivePanel := 1
 
 ; ui.AfkGui 		:= Gui()
