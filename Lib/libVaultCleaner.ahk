@@ -396,7 +396,7 @@ tile(colNum,rowNum) {
 	return tile
 }
 
-hotIf(isHot)
+hotIf(isVault)
 +\:: {
 	this.statusText.text:="[Esc] to Stop/Exit"
 	
@@ -414,8 +414,8 @@ F5:: {
 }
 hotIf()
 
-isHot(*) {
-	if winActive(this.gameWin)
+isVault(*) {
+	if winActive(ui.thisGui)
 		return 1
 	else
 		return 0

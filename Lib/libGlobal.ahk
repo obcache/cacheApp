@@ -806,7 +806,7 @@ WriteConfig() {
 		IniWrite(cfg.d2GameSuperKey,cfg.file,"Game","d2GameSuperKey")
 		iniWrite(cfg.d2CharacterClass,cfg.file,"Game","d2CharacterClass")
 		iniWrite(cfg.d2AutoGameConfigEnabled,cfg.file,"Game","d2AutoGameConfigEnabled")
-		
+		iniWrite(cfg.MouseRemapEnabled,cfg.file,"System","MouseRemapEnabled")
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {
 			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1920x1080[a_index] ","

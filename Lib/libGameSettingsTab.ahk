@@ -1289,12 +1289,12 @@ timerD2PhAfk(*) {
 		; send("{shift up}")
 		; send("{LButton up}")
 		; reload()
-remapMouse(*) {
+MouseRemap(*) {
 	 return cfg.mouseRemapEnabled
 }
 
 
-#hotIf remapMouse()
+#hotIf MouseRemap()
  XButton1 & LButton::z
  XButton1 & RButton::y
  XButton1 & MButton::x

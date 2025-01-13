@@ -66,7 +66,7 @@ WM_LBUTTONDOWN(wParam, lParam, msg, Hwnd) {
 			; ? ui.handleBar
 			; : (ui.rightHandlebarImage2)
 				; ?
-				; : return
+		; : return
 }
 
 wm_mouseMove(wParam, lParam, msg, hwnd) {
