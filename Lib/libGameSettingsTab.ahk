@@ -84,7 +84,7 @@ d2drawPanel1(*) {
 	ui.d2AppReloadKeyData 					:= ui.gameSettingsGui.addText("xs-3 y+-24 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) 
 		" h21 center c" cfg.themeButtonAlertColor " backgroundTrans",subStr(strUpper(cfg.d2AppReloadKey),1,8))
 	ui.d2AppReloadKeyLabel					:= ui.gameSettingsGui.addText("xs-1 y+-34 w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) 
-		" h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")
+	" h20 center c" cfg.themeFont1Color " backgroundTrans","Reload")
 
 	ui.currKey := cfg.d2AppLoadoutKey
 	ui.d2AppLoadoutKey				:= ui.gameSettingsGui.addPicture("x+5 ys w" (ui.d2KeybindWidth + max(0,(strLen(ui.currKey)-6))*10) 
@@ -1289,9 +1289,18 @@ timerD2PhAfk(*) {
 		; send("{shift up}")
 		; send("{LButton up}")
 		; reload()
+remapMouse(*) {
+	 return cfg.mouseRemapEnabled
+}
 
 
-
+#hotIf remapMouse()
+ XButton1 & LButton::z
+ XButton1 & RButton::y
+ XButton1 & MButton::x
+ XButton2::LAlt
+ ;space::msgBox(cfg.mouseRemapEnabled)
+#hotIf
 
 hotIfWinActive("ahk_exe destiny2.exe")
 	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
@@ -1489,7 +1498,9 @@ d2ReadyToSprint(*) {
 			: 0
 		: 0
 }
-	
+
+
+
 d2startSprinting(*) {
 	;msgBox('.')
 	ui.d2IsSprinting := true
@@ -1565,6 +1576,8 @@ d2controllerLoadoutChange(*) {
 		default:return
 	}
 }
+
+
 
 d2LoadoutModifier(hotKeyName,isController := false) {
 	d2LoadoutCoordsStr := ""

@@ -568,6 +568,7 @@ cfgLoad(&cfg, &ui) {
 	ui.profileListStr			:= ""
 	ui.waitingForPrompt			:= true
 	ui.notifyResponse			:= false
+	ui.fastShutdown				:= false
 	win1afk 					:= object()
 	win2afk						:= object()
 	win1afk.steps				:= array()
@@ -1122,6 +1123,12 @@ pbNotify(NotifyMsg,Duration := 10,YN := "",confirmCustomScript:="notifyConfirm",
 			setTimer () => (sleep(duration),fadeOSD()),duration
 } 
 
+pbWaitOSD() {
+	ui.notifyGui.destroy()
+	pbNotify("Timed out waiting for response.`nPlease try your action again",-1000)
+}
+
+
 
 loadScreen(visible := true,NotifyMsg := "cacheApp Loading",Duration := 10) {
 	if (visible) {
@@ -1170,12 +1177,6 @@ loadScreen(visible := true,NotifyMsg := "cacheApp Loading",Duration := 10) {
 
 
 
-pbWaitOSD() {
-	ui.notifyGui.destroy()
-	pbNotify("Timed out waiting for response.`nPlease try your action again",-1000)
-}
-
-
 hasVal(haystack, needle) {
 	if !(IsObject(haystack)) || (haystack.Length() = 0)
 		return 0
@@ -1202,7 +1203,7 @@ resetWindowPosition(*) {
 exitFunc(ExitReason,ExitCode) {
 	debugLog("Exit Command Received")
 	ui.MainGui.Opt("-AlwaysOnTop")
-	If (cfg.confirmExitEnabled) && !InStr("Logoff Shutdown Reload Single Close",ExitReason)
+	If  !ui.fastShutdown && (cfg.confirmExitEnabled) && !InStr("Logoff Shutdown Reload Single Close",ExitReason)
 	{
 		Result := MsgBox("Are you sure you want to`nTERMINATE cacheApp?",,4)
 		if Result = "No" {

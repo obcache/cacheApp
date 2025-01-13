@@ -72,8 +72,9 @@ libVaultInit(*) {
 		thisGui := gui()
 		thisGui.backColor:=setting.transColor
 		thisGui.setFont("s10 c000000","Calibri")
-		thisGui.opt("-border owner" winGetID("ahk_exe destiny2.exe"))	
-		winSetTransColor(setting.transColor,thisGui.hwnd)
+		;thisGui.opt("-border owner" winGetID("ahk_exe destiny2.exe"))	
+		thisGui.opt("-border")	
+		;winSetTransColor(setting.transColor,thisGui.hwnd)
 		;help:=thisGui.adwdText("section x5 y5 w650 h40 backgroundTrans c00FFFF",
 		titleBarBg:=thisGui.addText("x0 y0 w1254 h30 background454545")
 		titleBarBg.onEvent("click",wm_lbuttonDown_callback)
@@ -212,7 +213,6 @@ cleanVaultStart(*) {
 		if this.restartQueued {
 			exit()
 		}
-		try this.watchColo
 		if subStr(pixelGetColor(970,170),3,1)<="3" {
 			mouseMove(955,170)
 			this.page+=1
@@ -294,7 +294,7 @@ isUnlocked(thisCol,thisRow,x:=tile(thisCol,thisRow).x,y:=tile(thisCol,thisRow).y
 	this.color:=array()
 	sleep(20)
 	result.locked:=false
-	if thisCol >= 5 {
+	if thisCol >= 6 {
 		loop 5 {
 			this.color:=pixelGetColor(x+(setting.tileSize/2)-4,y)
 			if subStr(this.color,3,1) != subStr(this.color,5,1) {
@@ -370,7 +370,7 @@ dismantle(thisCol,thisRow,x:=tile(thisCol,thisRow).x,y:=tile(thisCol,thisRow).y)
 }
 
 timeFormat(seconds) {
-	msgBox(seconds)
+	;msgBox(seconds)
 	sec:=mod(seconds,60)
 	min:=round(seconds/60)
 	hour:=round(seconds/3600)

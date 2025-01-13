@@ -89,10 +89,9 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 			; break
 		; }
 	; }
-; }
-
-
+; }zzzz
 
 ^!+v:: {
 	incursionNotice("manualFire")
 }
+

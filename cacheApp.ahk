@@ -1,7 +1,7 @@
-A_FileVersion := "1.3.3.7"
+A_FileVersion := "1.3.4.2"
 a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
-	a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
+a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
 	
 ;@ahk2Exe-let fileVersion=%a_priorLine~U)^(.+"){1}(.+)".*$~$2% 
 ;@ahk2Exe-setName cacheApp
@@ -28,7 +28,6 @@ a_restarted :=
 			(inStr(a_cmdLine,"/restart"))
 				? true
 				: false
-
 
 persistent()
 installMouseHook()
