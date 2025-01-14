@@ -77,18 +77,16 @@ wm_mouseMove(wParam, lParam, msg, hwnd) {
 	try {
 		(hwnd == prevHwnd) 
 		? (prevHwnd := hwnd,bail()) 
-		: (winGetMinMax("A") == 1) 
-			? (prevHwnd := hwnd,bail()) 
-			: (ui.incursionNoticeHwnd == hwnd)
+		: (cfg.tooltipsEnabled && (guiCtrlFromHwnd(hwnd).hasProp("ToolTip") || guiCtrlFromHwnd(hwnd).hasProp("ToolTipData")))
+			? toolTipDelayStart(hwnd)
+			: (prevHwnd := Hwnd)
+	}
+
+			(ui.incursionNoticeHwnd == hwnd)
 				? (setTimer(d2FlashIncursionNoticeA,0)
 					,setTimer(d2FlashIncursionNoticeB,0)
-					,ui.incursionGuiBg.opt("background" cfg.themeFont3Color)
-					;,ui.incursionGuiBg.redraw()
-					,bail())
-				: (cfg.tooltipsEnabled && (guiCtrlFromHwnd(hwnd).hasProp("ToolTip") || guiCtrlFromHwnd(hwnd).hasProp("ToolTipData")))
-					? (setTimer () => toolTipDelayStart(hwnd),-850)
-					: (prevHwnd := Hwnd,bail())
-	}
+					,ui.incursionGuiBg.opt("background" cfg.themeFont3Color))
+				: prevHwnd:=hwnd
 }
 
 toolTipDelayStart(origHwnd) {
@@ -100,7 +98,7 @@ toolTipDelayStart(origHwnd) {
 				toolTip(origGuiCtrl.toolTipData)
 			else
 				toolTip(origGuiCtrl.toolTip)
-			setTimer () => toolTip(), -10000
+			setTimer () => toolTip(), -4000
 		}
 	}
 }
@@ -254,10 +252,8 @@ if (labelPos != "none") {
 	
 	ui.labelBottom%panelId%.setFont("s10")		
 	}
+	return panelId
 }
-
-USAGE:
-
 
 
 

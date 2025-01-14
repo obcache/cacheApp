@@ -41,8 +41,8 @@ GuiDockTab(&ui) {
 	ui.MainGuiTabs.UseTab("4_AppDock")
 	ui.mainGui.setFont("s9","Arial")
 	ui.lvColDefs := [":0:","Title:68:","X:40:Right","Y:40:Right","W:40:Right","H:40:Right","Process Path:159:"]
-	drawPanel(ui.mainGui,34,40,400,29,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,.75,85,"Window Sets","Calibri",cfg.themeFont1Color )
-	drawPanel(ui.mainGui,437,40,90,170,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,1.75,40,"Actions","Calibri",cfg.themeFont1Color)
+	ui.panelId := drawPanel(ui.mainGui,34,40,400,29,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,.75,85,"Window Sets","Calibri",cfg.themeFont1Color )
+	drawPanel(ui.mainGui,437,40,90,170,cfg.themePanel1Color,cfg.themeBright2Color,cfg.themeDark2Color,1,1,.05,60,"Actions","Calibri",cfg.themeFont1Color)
 	workspaceArr := array()
 	ui.selectedWorkspace := iniRead(cfg.file,"AppDock","SelectedWorkspace",1)
 	sqliteQuery(cfg.dbFilename,"SELECT name FROM workspaces",&sqlResult)

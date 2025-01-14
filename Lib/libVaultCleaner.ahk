@@ -108,6 +108,8 @@ libVaultInit(*) {
 		this.mainButtonText.setFont("s20")
 		this.mainButtonHotkey:=thisGui.addText("left ys backgroundTrans c454545 h30 w130","[ Shift ]+[ \ ]")
 		this.mainButtonHotkey.setFont("s20")
+		this.mainButton.onEvent("click",cleanVaultStart)
+		this.mainButtonText.onEvent("click",cleanVaultStart)
 		;this.mainButton.onEvent("click",toggleButton)
 		toggleButton(*) {
 			(this.state:=!this.state)
@@ -193,6 +195,7 @@ libVaultInit(*) {
 
 	
 cleanVaultStart(*) {
+	this.statusText.text:="[Esc] to Stop/Exit"
 	setTimer(timer,1000)
 	timer()
 	coordMode("mouse","client")
@@ -396,16 +399,20 @@ tile(colNum,rowNum) {
 	return tile
 }
 
+
+
+
+
 hotIf(isVault)
 +\:: {
-	this.statusText.text:="[Esc] to Stop/Exit"
-	
 	cleanVaultStart()
 }
 
-Esc:: {
-	this.restartQueued:=true
-	vault_exitFunc()
+~Esc:: {
+	try {
+		this.restartQueued:=true
+		vault_exitFunc()
+	}
 }
 
 F5:: {

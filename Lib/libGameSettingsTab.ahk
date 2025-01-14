@@ -1295,10 +1295,20 @@ MouseRemap(*) {
 
 
 #hotIf MouseRemap()
+;forward&back mappings
+ LCtrl & LButton::z
  XButton1 & LButton::z
+ 
+ LCtrl & RButton::y
  XButton1 & RButton::y
+ 
+ LCtrl & MButton::x
  XButton1 & MButton::x
+ 
  XButton2::LAlt
+ 
+ 
+ 
  ;space::msgBox(cfg.mouseRemapEnabled)
 #hotIf
 
