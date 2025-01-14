@@ -1290,7 +1290,11 @@ timerD2PhAfk(*) {
 		; send("{LButton up}")
 		; reload()
 MouseRemap(*) {
-	 return cfg.mouseRemapEnabled
+	 return (winActive(ui.game))
+				?  (cfg.mouseRemapEnabled)
+					? 1
+					: 0
+				: 0
 }
 
 
