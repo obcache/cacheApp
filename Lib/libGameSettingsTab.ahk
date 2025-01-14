@@ -1290,7 +1290,7 @@ timerD2PhAfk(*) {
 		; send("{LButton up}")
 		; reload()
 MouseRemap(*) {
-	 return (winActive(ui.game))
+	 return (winActive("ahk_exe destiny2.exe"))
 				?  (cfg.mouseRemapEnabled)
 					? 1
 					: 0
@@ -1310,21 +1310,16 @@ MouseRemap(*) {
  XButton1 & MButton::x
  
  XButton2::LAlt
- 
- 
- 
- ;space::msgBox(cfg.mouseRemapEnabled)
 #hotIf
 
 hotIfWinActive("ahk_exe destiny2.exe")
 	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
 	hotKey(cfg.d2AppPauseKey,d2ToggleAppFunctions)
-	hotkey("Ins",toggleGlyphWindow)
-	hotkey("Del",toggleCodeWindow)
-	hotkey("Home",startD2PhAfk)
-	hotkey("End",stopD2PhAfk)
-
-hotkey("PgDn",toggleJoinShuroChi)
+	;hotkey("Ins",toggleGlyphWindow)
+	;hotkey("Del",toggleCodeWindow)
+	;hotkey("Home",startD2PhAfk)
+	;hotkey("End",stopD2PhAfk)
+	;hotkey("PgDn",toggleJoinShuroChi)
 hotIf()
 
 
@@ -1346,6 +1341,7 @@ macroJoinShuroChi(*) {
 		sleep(1000)
 	}
 }
+
 hotIf(d2RemapCrouchEnabled)
 	hotkey("~*$" cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
 hotIf()
