@@ -163,9 +163,15 @@ preAutoExec(InstallDir,ConfigFileName) {
 			
 			if !dirExist(installDir "/img2/infogfx")
 				dirCreate(installDir "/img2/infogfx")
+			
 			if !dirExist(installDir "/img2/infogfx/vod")
 				dirCreate(installDir "/img2/infogfx/vod")
 
+			if !dirExist(installDir "/redist/mouseSC")
+				dirCreate(installDir "/redist/mouseSC")
+			
+			fileInstall("./redist/mouseSC_x64.exe",installDir "/redist/mouseSC_x64.exe",1)
+			
 			FileInstall("./Img/keyboard_key_up.png",InstallDir "/img/keyboard_key_up.png",1)
 			FileInstall("./Img/keyboard_key_down.png",InstallDir "/img/keyboard_key_down.png",1)
 			FileInstall("./Img/attack_icon.png",InstallDir "/Img/attack_icon.png",true)
@@ -288,7 +294,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 			FileInstall("./cacheApp_updater.exe",InstallDir "/cacheApp_updater.exe",1)
 			FileInstall("./Img/help.png",InstallDir "/Img/help.png",1)
 			FileInstall("./cacheApp_currentBuild.dat",InstallDir "/cacheApp_currentBuild.dat",1)
-
+			
 			
 			;IMGv2 below
 			FileInstall("./img2/button_afk_ready.png",InstallDir "/img2/button_afk_ready.png",true)
@@ -713,7 +719,10 @@ cfgLoad(&cfg, &ui) {
 	cfg.d2CharacterClass		:= iniRead(cfg.file,"Game","d2CharacterClass","1")
 	cfg.d2AutoGameConfigEnabled := iniRead(cfg.file,"Game","d2AutoGameConfigEnabled",true)
 	cfg.SLBHopKey				:= iniRead(cfg.file,"Game","ShatterLineBunnyHopKey","<UNSET>")
+	runWait("./redist/mouseSC_x64.exe /verticalScroll:1",,"hide")
+	
 }
+
 
 WriteConfig() {
 	Global
@@ -1229,6 +1238,7 @@ exitFunc(ExitReason,ExitCode) {
 	if fileExist("./.tmp")
 		fileDelete("./.tmp")
 	WriteConfig()
+	runWait("redist/mouseSC_x64.exe /verticalScroll:4",,"hide")
 }
 
 restartApp(*) {

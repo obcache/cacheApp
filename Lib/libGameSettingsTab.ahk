@@ -14,9 +14,7 @@ inputHookAllowedKeys := "{All}{LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{L
 ui.d2FlashingIncursionNotice := false
 ui.d2ShowingIncursionNotice := false
 ui.incursionDebug := false
-
 ui.d2FlyEnabled := false
-
 
 d2drawPanel1(*) {
 	guiName := ui.gameSettingsGui
@@ -1298,19 +1296,19 @@ MouseRemap(*) {
 }
 
 
-#hotIf MouseRemap()
-;forward&back mappings
- LCtrl & LButton::z
- XButton1 & LButton::z
+; #hotIf MouseRemap()
+	;forward&back mappings
+ ; LCtrl & LButton::z
+ ; XButton1 & LButton::z
  
- LCtrl & RButton::y
- XButton1 & RButton::y
+ ; LCtrl & RButton::y
+ ; XButton1 & RButton::y
  
- LCtrl & MButton::x
- XButton1 & MButton::x
+ ; LCtrl & MButton::x
+ ; XButton1 & MButton::x
  
- XButton2::LAlt
-#hotIf
+ ; XButton2::LAlt
+; #hotIf
 
 hotIfWinActive("ahk_exe destiny2.exe")
 	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
@@ -1518,7 +1516,7 @@ d2startSprinting(*) {
 	if (cfg.d2AlwaysRunEnabled) {
 		send("{" strLower(cfg.d2GameToggleSprintKey) "}")
 	}
-	setCapsLockState("Off")
+	;setCapsLockState("Off")
 	keyWait("w","L")
 	send("{w up}")
 }
