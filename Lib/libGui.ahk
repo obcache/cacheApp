@@ -269,6 +269,9 @@ toggleChanged(toggleControl,*) {
 		(cfg.%toggleControl.name%Enabled := !cfg.%toggleControl.name%Enabled)
 			? (toggleControl.Opt("Background" cfg.ThemeButtonOnColor),cfg.toggleOn)
 			: (toggleControl.Opt("Background" cfg.ThemeButtonReadyColor),cfg.toggleOff)
+			iniWrite(cfg.%toggleControl.name%Enabled,cfg.file,"Toggles",toggleControl.name "Enabled")
+			trayTip(toggleControl.name " changed to " ((cfg.%toggleControl.name%Enabled) ? "On" : "Off"),"CacheApp Config Change","Iconi Mute")
+
 		; reload()
 		}
 		

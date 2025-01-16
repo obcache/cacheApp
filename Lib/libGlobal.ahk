@@ -10,6 +10,7 @@ if (InStr(A_LineFile,A_ScriptFullPath)){
 
 restoreWin(*) {
 	if !cfg.topDockEnabled {
+		ui.mainGui.show()
 		guiVis(ui.mainGui,true)
 		tabsChanged()
 		ui.mainGui.opt("-toolWindow")
@@ -596,7 +597,6 @@ cfgLoad(&cfg, &ui) {
 	cfg.gameList				:= StrSplit(IniRead(cfg.file,"Game","GameList","Roblox,Rocket League"),",")
 	cfg.mainTabList				:= strSplit(IniRead(cfg.file,"Interface","MainTabList"," 1_GAME , 2_SYS , 3_AFK , 4 App Dock 4 , 5 Setup 5 "),",")
 	cfg.mainGui					:= IniRead(cfg.file,"System","MainGui","MainGui")
-	cfg.startMinimizedEnabled	:= iniRead(cfg.file,"System","StartMinimizedEnabled",false)
 	cfg.autoStartEnabled 		:= iniRead(cfg.file,"System","AutoStartEnabled",false)
 	cfg.confirmExitEnabled		:= iniRead(cfg.file,"System","ConfirmExit",false)
 	cfg.excludedApps			:= IniRead(cfg.file,"System","ExcludedApps","Windows10Universal.exe,explorer.exe,RobloxPlayerInstaller.exe,RobloxPlayerLauncher.exe,Chrome.exe,msedge.exe")
@@ -737,7 +737,6 @@ WriteConfig() {
 	IniWrite(cfg.mainGui,cfg.file,"System","MainGui")
 	iniWrite(cfg.disabledTabs,cfg.file,"System","DisabledTabs")
 	iniWrite(cfg.confirmExitEnabled,cfg.file,"System","ConfirmExit")
-	iniWrite(cfg.startMinimizedEnabled,cfg.file,"System","StartMinimizedEnabled")
 	IniWrite(ui.monitorResDDL.value,cfg.file,"System","MonitorResolution")
 	IniWrite(arr2str(cfg.gameModuleList),cfg.file,"Game","GameModuleList")
 	IniWrite(arr2str(cfg.gameList),cfg.file,"Game","GameList")
@@ -799,7 +798,7 @@ WriteConfig() {
 		iniWrite(cfg.activeEditorTab,cfg.file,"Interface","ActiveEditorTab")
 		iniWrite(cfg.topDockEnabled,cfg.file,"Interface","TopDockEnabled")
 		
-		iniWrite(cfg.SLBHopKey,cfg.file,"Game","ShatterLineBunnyHopKey")
+
 		iniWrite(cfg.d2AppPauseKey,cfg.file,"Game","d2AppPauseKey")
 		iniWrite(cfg.d2AppPaused,cfg.file,"Game","d2AppPaused")
 		IniWrite(cfg.d2AppHoldToCrouchKey,cfg.file,"Game","d2AppHoldToCrouchKey")
@@ -815,7 +814,6 @@ WriteConfig() {
 		IniWrite(cfg.d2GameSuperKey,cfg.file,"Game","d2GameSuperKey")
 		iniWrite(cfg.d2CharacterClass,cfg.file,"Game","d2CharacterClass")
 		iniWrite(cfg.d2AutoGameConfigEnabled,cfg.file,"Game","d2AutoGameConfigEnabled")
-		iniWrite(cfg.MouseRemapEnabled,cfg.file,"System","MouseRemapEnabled")
 		d2LoadoutCoordsStr := ""
 		loop cfg.d2LoadoutCoords.length {
 			d2LoadoutCoordsStr .= cfg.d2LoadoutCoords1920x1080[a_index] ","
@@ -871,18 +869,14 @@ WriteConfig() {
 	IniWrite(cfg.toggleOff,cfg.file,"Interface","ToggleOffImage")
 	IniWrite(cfg.ConsoleVisible,cfg.file,"System","ConsoleVisible")
 	IniWrite(cfg.consoleVisible,cfg.file,"System","consoleVisible")
-	IniWrite(cfg.ToolTipsEnabled,cfg.file,"System","ToolTipsEnabled")
 	IniWrite(cfg.AlwaysOnTopEnabled,cfg.file,"Interface","AlwaysOnTopEnabled")
-	IniWrite(cfg.AnimationsEnabled,cfg.file,"Interface","AnimationsEnabled")
 	IniWrite(cfg.ColorPickerEnabled,cfg.file,"Interface","ColorPickerEnabled")
-	iniWrite(cfg.pushNotificationsEnabled,cfg.file,"Interface","PushNotifications")
 	iniWrite(cfg.autoStartEnabled,cfg.file,"System","AutoStartEnabled")
 	IniWrite(cfg.AfkDataFile,cfg.file,"AFK","AfkDataFile")
 	IniWrite(cfg.SilentIdleEnabled,cfg.file,"AFK","SilentIdleEnabled")
 	iniWrite(cfg.towerInterval,cfg.file,"AFK","TowerInterval")
 	iniWrite(cfg.CelestialTowerEnabled,cfg.file,"AFK","CelestialTowerEnabled")
 	IniWrite(ui.AutoClickerSpeedSlider.Value,cfg.file,"AFK","AutoClickerSpeed")
-	iniWrite(cfg.debugEnabled,cfg.file,"System","DebugEnabled")
 	IniWrite(ui.win1classDDL.value,cfg.file,"AFK","Win1Class")
 
 	if (ui.win2ClassDDL.Text != "N/A")

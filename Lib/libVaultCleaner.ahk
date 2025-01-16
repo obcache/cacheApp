@@ -9,8 +9,9 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 	Return
 }
 
-
+ui.vaultCleanerOpen := false
 libVaultInit(*) {
+	ui.vaultCleanerOpen:=true
 	setting.gameExe := "destiny2.exe"
 	setting.xMargin:=305
 	setting.yMargin:=235
@@ -422,7 +423,7 @@ F5:: {
 hotIf()
 
 isVault(*) {
-	if winActive(ui.thisGui)
+	if winActive(ui.thisGui) && ui.vaultCleanerOpen
 		return 1
 	else
 		return 0
@@ -436,6 +437,7 @@ isIdle(*) {
 }
 
 vault_exitFunc(*) {
+	ui.vaultCleanerOpen:=false
 	try
 		setTimer(timer,0)
 	try
