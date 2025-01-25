@@ -16,6 +16,7 @@ ui.d2ShowingIncursionNotice := false
 ui.incursionDebug := false
 ui.d2FlyEnabled := false
 
+
 d2drawPanel1(*) {
 	guiName := ui.gameSettingsGui
 	ui.d2KeybindWidth := 60
@@ -1310,15 +1311,15 @@ MouseRemap(*) {
  ; XButton2::LAlt
 ; #hotIf
 
-hotIfWinActive("ahk_exe destiny2.exe")
-	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
-	hotKey(cfg.d2AppPauseKey,d2ToggleAppFunctions)
-	;hotkey("Ins",toggleGlyphWindow)
-	;hotkey("Del",toggleCodeWindow)
-	;hotkey("Home",startD2PhAfk)
-	;hotkey("End",stopD2PhAfk)
-	;hotkey("PgDn",toggleJoinShuroChi)
-hotIf()
+; hotIfWinActive("ahk_exe destiny2.exe")
+	; hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
+	; hotKey(cfg.d2AppPauseKey,d2ToggleAppFunctions)
+	; hotkey("Ins",toggleGlyphWindow)
+	; hotkey("Del",toggleCodeWindow)
+	; hotkey("Home",startD2PhAfk)
+	; hotkey("End",stopD2PhAfk)
+	; hotkey("PgDn",toggleJoinShuroChi)
+; hotIf()
 
 
 toggleJoinShuroChi(*) {
@@ -1340,19 +1341,30 @@ macroJoinShuroChi(*) {
 	}
 }
 
-hotIf(d2RemapCrouchEnabled)
-	hotkey("~*$" cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
-hotIf()
+#hotIf winActive("ahk_exe destiny2.exe")
+*~capslock::
+{
+	(getKeyState("capsLock","T"))
+		? d2ToggleAppFunctionsOn() 
+		: d2ToggleAppFunctionsOff()
+}
+#hotIf
 
-hotIf(d2ReadyToReload)
-	hotKey("~*" cfg.d2AppReloadKey,d2reload)
-hotIf()
 
-hotIf(d2ReadyToSprint)
-	hotKey("~*w",d2StartSprinting)
-hotIf()
 
-hotIf()
+; hotIf(d2RemapCrouchEnabled)
+	; hotkey("~*$" cfg.d2AppHoldToCrouchKey,d2HoldToCrouch)
+; hotIf()
+
+; hotIf(d2ReadyToReload)
+	; hotKey("~*" cfg.d2AppReloadKey,d2reload)
+; hotIf()
+
+; hotIf(d2ReadyToSprint)
+	; hotKey("~*w",d2StartSprinting)
+; hotIf()
+
+; hotIf()
 
 togglePrismatic(*) {
 	send("{F1}")
@@ -1529,8 +1541,8 @@ d2CreateLoadoutKeys(*) {
 			cfg.d2Loadoutcoords := cfg.d2LoadoutCoords%ui.monitorResDDL.text%
 		}
 		} catch {
-		cfg.d2LoadoutCoords := cfg.d2LoadoutCoords1920x1080
 	}
+		cfg.d2LoadoutCoords := cfg.d2LoadoutCoords1920x1080
 	loop cfg.d2LoadoutCoords.length {
 		d2LoadOutCoordsStr .= cfg.d2LoadoutCoords[a_index] ","
 	}	
@@ -1590,7 +1602,7 @@ d2controllerLoadoutChange(*) {
 d2LoadoutModifier(hotKeyName,isController := false) {
 	d2LoadoutCoordsStr := ""
 	if (hotKeyName == "prismatic") {
-		cfg.d2AppLoadoutMultiplier := 1.5
+		cfg.d2AppLoadoutMultiplier := 2
 		sleep(550*cfg.d2AppLoadoutMultiplier)
 		keyWait("joy12")
 		send("{F1}")
@@ -1669,7 +1681,8 @@ d2ToggleAlwaysSprint(*) {
 				? send("{" cfg.d2AppToggleSprintKey "}")
 				: 0))
 }
-
+d2ToggleAppFunctions()
+;setCapsLockState("off")
 d2ToggleAppFunctions(*) {
 	(cfg.d2AppPaused := !cfg.d2AppPaused)
 		? d2ToggleAppFunctionsOff()

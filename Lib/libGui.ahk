@@ -187,9 +187,9 @@ initOSDGui() {
 	ui.buttonDockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonDockAfk.ToolTip := "Dock AFK Panel"	
 	
-	ui.buttonStartAFK := ui.AfkGui.AddPicture("x+0 y2 section w32 h32 Background" cfg.ThemeButtonReadyColor,"./img2/button_afk_ready.png")
-	ui.buttonStartAFK.OnEvent("Click",ToggleAFK)
-	ui.buttonStartAFK.ToolTip := "Toggle AFK"
+	ui.buttonafkRoutine := ui.AfkGui.AddPicture("x+0 y2 section w32 h32 Background" cfg.ThemeButtonReadyColor,"./img2/button_afk_ready.png")
+	ui.buttonafkRoutine.OnEvent("Click",ToggleAFK)
+	ui.buttonafkRoutine.ToolTip := "Toggle AFK"
 	
 	ui.buttonTower := ui.AfkGui.AddPicture("x+0 ys0 w32 h32 section Background" cfg.ThemeButtonReadyColor,"./Img/button_tower_ready.png")
 	ui.buttonTower.OnEvent("Click",ToggleTower)
@@ -1180,7 +1180,7 @@ dockBarIcons(game,operation := "") {
 
 				ui.dockBarGui.addText("x+0 ys+0 w1 h32 section background" cfg.themeBright1Color,"")
 				ui.dockBarWidth			+= 6
-				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+-2 ys-1 w32 h32 section background" cfg.themeButtonReadyColor,ui.buttonStartAfk.value)
+				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+-2 ys-1 w32 h32 section background" cfg.themeButtonReadyColor,ui.buttonafkRoutine.value)
 				ui.dockBarWidth 		+= 30
 				ui.dockBarGui.addText("x+0 ys+0 w1 h32 section background" cfg.themeBright1Color,"")
 				
@@ -1211,7 +1211,7 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarWidth -= 2
 				
 		case "World//Zero":
-				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,ui.buttonStartAfk.value)
+				ui.dockBarAfkButton 	:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,ui.buttonafkRoutine.value)
 				ui.dockBarWidth 		+= 32
 				ui.dockBarTowerButton	:= ui.dockBarGui.addPicture("x+0 ys w32 h33 section background" cfg.themeButtonReadyColor,ui.buttonTower.value)
 				ui.dockBarWidth 		+= 32
