@@ -1232,7 +1232,6 @@ exitFunc(ExitReason,ExitCode) {
 	if fileExist("./.tmp")
 		fileDelete("./.tmp")
 	WriteConfig()
-	setCapsLockState("off")
 	runWait("redist/mouseSC_x64.exe /verticalScroll:4",,"hide")
 }
 

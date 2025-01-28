@@ -1,4 +1,4 @@
-A_FileVersion := "1.3.5.9"
+A_FileVersion := "1.3.5.5"
 a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
 a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
@@ -196,4 +196,3 @@ toggleConsole()
 ;listhotkeys()
 d2AutoGameConfigOverride()
 loadScreen(0)
-d2ToggleAppFunctionsOn()

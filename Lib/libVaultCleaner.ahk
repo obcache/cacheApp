@@ -450,3 +450,4 @@ vault_exitFunc(*) {
 	this.restartQueued:=false
 
 }
+hotIf()
