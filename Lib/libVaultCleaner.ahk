@@ -326,7 +326,7 @@ isUnlocked(thisCol,thisRow,x:=tile(thisCol,thisRow).x,y:=tile(thisCol,thisRow).y
 		loop 30 {
 			if pixelSearch(&returnX,&returnY,(thisCol>=5) ? x+50 : x-150,300,100,720,"0x830303",1) {
 				this.exotic:=true
-				sleep(3200)
+				sleep(3600)
 				break
 			}
 			sleep(5)
@@ -335,7 +335,7 @@ isUnlocked(thisCol,thisRow,x:=tile(thisCol,thisRow).x,y:=tile(thisCol,thisRow).y
 		this.dismantledTotal.text:=format("{:03d}",round(this.dismantledTotal.text)+1)
 		if this.exotic
 			this.dismantledExotics.text:=format("{:03d}",round(this.dismantledExotics.text)+1)
-		else
+		elsef
 			this.dismantledLegendary.text:=format("{:03d}",round(this.dismantledLegendary.text)+1)				
 		this.exotic:=false
 	}
