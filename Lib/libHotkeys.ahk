@@ -15,10 +15,6 @@ if (InStr(A_LineFile,A_ScriptFullPath))
 }
 
 
-^+v:: {
-	vaultCleaner()
-}
-
 ^+[:: {
 	static currOutputDeviceNum := 1
 	ui.audioDevices := array()

@@ -1310,10 +1310,18 @@ MouseRemap(*) {
  ; XButton2::LAlt
 ; #hotIf
 
+#hotIf winActive("ahk_exe destiny2.exe")
+	
+^+v:: {
+	vaultCleaner()
+}
+#hotIf
+
 hotIfWinActive("ahk_exe destiny2.exe")
 	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
 	hotKey(cfg.d2AppPauseKey,d2ToggleAppFunctions)
-	;hotkey("Ins",toggleGlyphWindow)
+
+;hotkey("Ins",toggleGlyphWindow)
 	;hotkey("Del",toggleCodeWindow)
 	;hotkey("Home",startD2PhAfk)
 	;hotkey("End",stopD2PhAfk)
@@ -1475,6 +1483,7 @@ d2FireButtonClicked(*) {
 	if ui.d2IsSprinting
 		send("{" cfg.d2GameToggleSprintKey "}")
 }
+
 d2ReadyToSwordFly(*) {
 	if winActive("ahk_exe destiny2.exe") && !cfg.d2AppPaused && ui.d2FlyEnabled
 		return 1
@@ -1490,24 +1499,23 @@ d2ReadyToReload(*) {
 }
 
 d2ReadyToSprint(*) {
-	return (winActive("ahk_exe destiny2.exe")) 
-		? (cfg.d2AlwaysRunEnabled)
-			? (!cfg.d2AppPaused)
-				? (!getKeyState("RButton")) 
-					? (!getKeyState("z"))
-						? (!getKeyState("LButton")) 
-							? (!getKeyState(cfg.d2AppHoldToCrouchKey)) 
-								? 1
-								: 0
-							: 0
-						: 0
-					: 0
-				: 0
-			: 0
-		: 0
+	return (!winActive("ahk_exe destiny2.exe")) 
+		? 0
+			: (!cfg.d2AlwaysRunEnabled)
+		? 0
+			: (cfg.d2AppPaused)
+		? 0
+			: (getKeyState("LButton"))
+		? 0
+			: (getKeyState("RButton"))
+		? 0
+			: (getKeyState("z"))
+		? 0
+			: (getKeyState(cfg.d2AppHoldToCrouchKey))
+		? 0
+			: 1
+								
 }
-
-
 
 d2startSprinting(*) {
 	;msgBox('.')
@@ -1519,6 +1527,7 @@ d2startSprinting(*) {
 	;setCapsLockState("Off")
 	keyWait("w","L")
 	send("{w up}")
+	ui.d2IsSprinting := false
 }
 
 d2CreateLoadoutKeys(*) {
