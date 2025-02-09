@@ -129,16 +129,16 @@ d2drawPanel1(*) {
 		switch cfg.d2CharacterClass {
 			case 1: 
 				(ui.d2FlyEnabled)
-					? (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
-					: (ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
+					? (ui.d2ClassIcon.value := "./img/d2ClassIconWarlock_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
+					: (ui.d2ClassIcon.value := "./img/d2ClassIconWarlock_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
 			case 2:
 				(ui.d2FlyEnabled)
-					? (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
-					: (ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
+					? (ui.d2ClassIcon.value := "./img/d2ClassIconHunter_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
+					: (ui.d2ClassIcon.value := "./img/d2ClassIconHunter_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
 			case 3:
-				(ui.d2FlyEnabled)
-					? (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
-					: (ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
+			(ui.d2FlyEnabled)
+					? (ui.d2ClassIcon.value := "./img/d2ClassIconTitan_on.png",ui.d2ClassSelectBg.opt("background" cfg.themePanel3Color))
+					: (ui.d2ClassIcon.value := "./img/d2ClassIconTitan_off.png",ui.d2ClassSelectBg.opt("background" cfg.themeFont3Color))
 			default:
 		}
 	}
@@ -613,13 +613,13 @@ d2drawPanel3(*) {
 	drawOutlineNamed("d2linkPanel",ui.gameSettingsGui,13,82,470,57,cfg.themeDark1Color,cfg.themeBright2Color,1)
 	drawOutlineNamed("d2AlwaysRunOutline",ui.gameSettingsGui,6,76,484,68,cfg.themeBright1Color,cfg.themeBright1Color,1)
 	ui.gameSettingsGui.addText("hidden x19 y21 section")
-	ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./Img2/d2_button_DIM.png")
-	ui.d2LaunchVaultCleanerButton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/button_vault_up.png")
-	ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_bbgg.png")
-	ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2CheckList.png")
-	ui.d2LaunchDestinyTrackerButton 	:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_DestinyTracker.png")
-	ui.d2Launchd2FoundryButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./Img2/d2_button_d2Foundry.png")
-	ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 vBrayTechButton backgroundTrans","./Img2/d2_button_braytech.png")
+	ui.d2LaunchDIMbutton				:= ui.gameSettingsGui.addPicture("x25 y+49 section w50 h50 backgroundTrans","./img/d2_button_DIM.png")
+	ui.d2LaunchVaultCleanerButton			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./img/button_vault_up.png")
+	ui.d2LaunchBlueberriesButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./img/d2_button_bbgg.png")
+	ui.d2LaunchD2CheckListButton 		:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./img/d2_button_d2CheckList.png")
+	ui.d2LaunchDestinyTrackerButton 	:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./img/d2_button_DestinyTracker.png")
+	ui.d2Launchd2FoundryButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 backgroundTrans","./img/d2_button_d2Foundry.png")
+	ui.d2LaunchBrayTechButton 			:= ui.gameSettingsGui.addPicture("x+15 ys w50  h50 vBrayTechButton backgroundTrans","./img/d2_button_braytech.png")
 }
 
 d2KeybindTabChange(this_button,*) {
@@ -637,24 +637,24 @@ drawKeybind(x,y,bindName,labelText := bindName,gui := ui.mainGui,w := 84,h := 30
 			case 1:
 				cfg.d2CharacterClass := 2
 				(ui.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
+					? ui.d2ClassIcon.value := "./img/d2ClassIconHunter_on.png"
+					: ui.d2ClassIcon.value := "./img/d2ClassIconHunter_off.png"
 			case 2:
 				cfg.d2CharacterClass := 3
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
 				hotIf()
 				(ui.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
+					? ui.d2ClassIcon.value := "./img/d2ClassIconTitan_on.png"
+					: ui.d2ClassIcon.value := "./img/d2ClassIconTitan_off.png"
 			case 3: 
 				cfg.d2CharacterClass := 1
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
 				hotIf()
 				(ui.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
+					? ui.d2ClassIcon.value := "./img/d2ClassIconWarlock_on.png"
+					: ui.d2ClassIcon.value := "./img/d2ClassIconWarlock_off.png"
 			default:                                          
 		}
 	}
@@ -664,24 +664,24 @@ drawKeybind(x,y,bindName,labelText := bindName,gui := ui.mainGui,w := 84,h := 30
 			case 3:
 				cfg.d2CharacterClass := 2
 				(ui.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconHunter_off.png"
+					? ui.d2ClassIcon.value := "./img/d2ClassIconHunter_on.png"
+					: ui.d2ClassIcon.value := "./img/d2ClassIconHunter_off.png"
 			case 1:
 				cfg.d2CharacterClass := 3
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2SwordFly)
 				hotIf()
 				(ui.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconTitan_off.png"
+					? ui.d2ClassIcon.value := "./img/d2ClassIconTitan_on.png"
+					: ui.d2ClassIcon.value := "./img/d2ClassIconTitan_off.png"
 			case 2: 
 				cfg.d2CharacterClass := 1
 				hotIf(d2ReadyToSwordFly)
 					hotkey("~*" cfg.d2AppSwordFlyKey,d2MorgethWarlock)
 				hotIf()
 				(ui.d2FlyEnabled)
-					? ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_on.png"
-					: ui.d2ClassIcon.value := "./img2/d2ClassIconWarlock_off.png"
+					? ui.d2ClassIcon.value := "./img/d2ClassIconWarlock_on.png"
+					: ui.d2ClassIcon.value := "./img/d2ClassIconWarlock_off.png"
 			default:                                          
 		}
 	}		
@@ -691,11 +691,11 @@ setTimer(incursionNotice,15000)
 toggleIncursionNotice(*) {
 	cfg.pushNotificationsEnabled := !cfg.pushNotificationsEnabled
 	if cfg.pushNotificationsEnabled == false {
-		ui.incursionOptOut.value := "./img2/checkbox_true.png"
+		ui.incursionOptOut.value := "./img/checkbox_true.png"
 		ui.togglePushNotifications.value := cfg.toggleOff
 		ui.togglePushNotifications.opt("background" cfg.themeButtonReadyColor)
 	} else {
-		ui.incursionOptOut.value := "./img2/checkbox_false.png"
+		ui.incursionOptOut.value := "./img/checkbox_false.png"
 		ui.togglePushNotifications.value := cfg.toggleOn
 		ui.togglePushNotifications.opt("background" cfg.themeButtonOnColor)
 	}
@@ -747,9 +747,9 @@ incursionNotice(this_trigger := "") {
 		ui.incursionOptOut := ui.incursionGui.addPicture("x224 y27 w13 h13 section backgroundTrans c" cfg.themeFont3Color,)
 			
 		if cfg.pushNotificationsEnabled	== true {
-			ui.incursionOptOut.value := "./img2/checkbox_false.png"
+			ui.incursionOptOut.value := "./img/checkbox_false.png"
 		} else {
-			ui.incursionOptOut.value := "./img2/checkbox_true.png"
+			ui.incursionOptOut.value := "./img/checkbox_true.png"
 		}
 				
 		ui.incursionOptOutLabel := ui.incursionGui.addText("x+6 ys-1 w359 backgroundTrans c" cfg.themeFont3Color,"Dont Show Again")
@@ -1320,8 +1320,7 @@ MouseRemap(*) {
 hotIfWinActive("ahk_exe destiny2.exe")
 	hotKey(cfg.d2AppToggleSprintKey,d2ToggleAlwaysSprint)
 	hotKey(cfg.d2AppPauseKey,d2ToggleAppFunctions)
-
-;hotkey("Ins",toggleGlyphWindow)
+	;hotkey("Ins",toggleGlyphWindow)
 	;hotkey("Del",toggleCodeWindow)
 	;hotkey("Home",startD2PhAfk)
 	;hotkey("End",stopD2PhAfk)
@@ -1467,6 +1466,7 @@ d2HoldToCrouch(*) {
 	}
 	send("{" cfg.d2gameHoldToCrouchKey " down}")
 	keywait(cfg.d2AppHoldToCrouchKey)
+	sleep(200)
 	ui.d2AppHoldToCrouchKeyData.opt("c" cfg.themeButtonAlertColor)
 	if (cfg.topDockEnabled) {
 		ui.dockBarD2HoldToCrouch.opt("background" cfg.themeButtonOnColor)
@@ -1759,33 +1759,33 @@ d2RedrawUI(*) {
 }
 
 d2LaunchDIMButtonClicked(*) {
-	ui.d2LaunchDIMbutton.value := "./Img2/d2_button_DIM_down.png"
-	setTimer () => ui.d2LaunchDIMbutton.value := "./Img2/d2_button_DIM.png",-400
+	ui.d2LaunchDIMbutton.value := "./img/d2_button_DIM_down.png"
+	setTimer () => ui.d2LaunchDIMbutton.value := "./img/d2_button_DIM.png",-400
 	
 	run("chrome.exe http://app.destinyitemmanager.com")
 }
 
 d2LaunchVaultCleanerButtonClicked(*) {
-	ui.d2LaunchVaultCleanerButton.value := "./Img2/button_vault_down.png"
-	setTimer () => ui.d2LaunchVaultCleanerButton.value := "./Img2/button_vault_up.png",-400
+	ui.d2LaunchVaultCleanerButton.value := "./img/button_vault_down.png"
+	setTimer () => ui.d2LaunchVaultCleanerButton.value := "./img/button_vault_up.png",-400
 	vaultCleaner()	
 }
 
 d2LaunchBlueBerriesButtonClicked(*) {
-	ui.d2LaunchBlueberriesButton.value := "./Img2/d2_button_bbgg_down.png"
-	setTimer () => ui.d2LaunchBlueberriesButton.value := "./Img2/d2_button_bbgg.png",-400
+	ui.d2LaunchBlueberriesButton.value := "./img/d2_button_bbgg_down.png"
+	setTimer () => ui.d2LaunchBlueberriesButton.value := "./img/d2_button_bbgg.png",-400
 	run("chrome.exe https://www.blueberries.gg")
 }
 	
 d2Launchd2CheckListButtonClicked(*) {
-	ui.d2Launchd2ChecklistButton.value := "./Img2/d2_button_d2Checklist_down.png"
-	setTimer () => ui.d2Launchd2ChecklistButton.value := "./Img2/d2_button_d2Checklist.png",-400
+	ui.d2Launchd2ChecklistButton.value := "./img/d2_button_d2Checklist_down.png"
+	setTimer () => ui.d2Launchd2ChecklistButton.value := "./img/d2_button_d2Checklist.png",-400
 	run("chrome.exe https://www.d2checklist.com")
 }
 
 d2LaunchDestinyTrackerButtonClicked(*) {
-	ui.d2LaunchDestinyTrackerButton.value := "./Img2/d2_button_DestinyTracker_down.png"
-	setTimer () => ui.d2LaunchDestinyTrackerButton.value := "./Img2/d2_button_DestinyTracker.png",-400
+	ui.d2LaunchDestinyTrackerButton.value := "./img/d2_button_DestinyTracker_down.png"
+	setTimer () => ui.d2LaunchDestinyTrackerButton.value := "./img/d2_button_DestinyTracker.png",-400
 	run("chrome.exe https://www.DestinyTracker.com")
 }
 
@@ -1807,7 +1807,7 @@ toggleCodeWindow(lparam,wparam*) {
 }
 	
 showCodeWindow(*) {
-	ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech_down.png"
+	ui.d2LaunchBrayTechButton.value := "./img/d2_button_brayTech_down.png"
 	d2wwCodesGuiHwnd := false
 	try 
 		d2wwCodesGuiHwnd := ui.d2wwCodesGui.hwnd
@@ -1817,8 +1817,8 @@ showCodeWindow(*) {
 		ui.d2wwCodesGui.opt("alwaysOnTop -caption toolWindow owner" ui.mainGui.hwnd)
 		ui.d2wwCodesGui.backColor := "080203"
 		winSetTransColor("080203",ui.d2wwCodesGui)
-		ui.d2wwCodeImg := ui.d2wwCodesGui.addPicture("x20 y20 w800 h600","./img2/d2CodeMorgeth.png")
-		ui.d2CodeExit := ui.d2wwCodesGui.addPicture("x805 y5 w30 h30 background" cfg.themeBright2Color,"./img2/button_quit.png")
+		ui.d2wwCodeImg := ui.d2wwCodesGui.addPicture("x20 y20 w800 h600","./img/d2CodeMorgeth.png")
+		ui.d2CodeExit := ui.d2wwCodesGui.addPicture("x805 y5 w30 h30 background" cfg.themeBright2Color,"./img/button_quit.png")
 		ui.d2CodeExit.onEvent("click",hideCodeWindow)
 		ui.d2wwCodeImg.onEvent("click",WM_LBUTTONDOWN_callback)
 	}
@@ -1826,7 +1826,7 @@ showCodeWindow(*) {
 }																																																																																																																																																																																																																				
 
 hideCodeWindow(*) {
-	ui.d2LaunchBrayTechButton.value := "./Img2/d2_button_brayTech.png"
+	ui.d2LaunchBrayTechButton.value := "./img/d2_button_brayTech.png"
 	ui.d2wwCodesGui.hide()
 }
 
@@ -1849,7 +1849,7 @@ keyBindDialogBox(Msg,Alignment := "Center") {
 	ui.notifyGui.addText("ys-4 x+0 c" cfg.themeButtonAlertColor,Msg)
 	ui.notifyGui.setFont("s11 c" cfg.themeButtonOnColor,"Courier Narrow Bold")
 	ui.notifyGui.addText("xs y+0","Or click target with desired mouse button")  ; XX & YY serve to 00auto-size the window.
-	ui.mouseBindingTarget := ui.notifyGui.addPicture("x+15 y+-18 w25 h25 backgroundTrans",".\img2\button_keyBindTarget.png")
+	ui.mouseBindingTarget := ui.notifyGui.addPicture("x+15 y+-18 w25 h25 backgroundTrans",".\img\button_keyBindTarget.png")
 	ui.mouseBindingTarget.onEvent("click",keybindMouseButtonClicked)
 	ui.mouseBindingTarget.onEvent("doubleClick",keybindMouseButtonClicked)
 	ui.notifyGui.AddText("xs hidden")
@@ -2194,7 +2194,7 @@ if (cfg.d2AlwaysRunEnabled) {
 drawInfographic("vod")
 drawInfographic(infographicName,imageWidth := 150,imageHeight := 150, numColumns := 5) {
 	imageTypes := "png,jpg,gif,bmp"
-	infographicFolder := "./img2/infogfx"
+	infographicFolder := "./img/infogfx"
 	transparentColor := "030405"
 
 	if (cfg.topDockEnabled) {
@@ -2257,7 +2257,7 @@ drawInfographic(infographicName,imageWidth := 150,imageHeight := 150, numColumns
 			columnNum := 1
 	}
 	;msgBox(fileListText)
-	ui.%infographicName%QuitButton := ui.infoGui.addPicture("x770 y0 w30 h30 backgroundTrans","./img2/button_quit.png")
+	ui.%infographicName%QuitButton := ui.infoGui.addPicture("x770 y0 w30 h30 backgroundTrans","./img/button_quit.png")
 	ui.%infographicName%QuitButton.onEvent("click",closeInfographic)
 		
 	infoGuiWidth := numColumns*imageWidth
@@ -2291,13 +2291,13 @@ toggleGlyphWindow(*) {
 showGlyphWindow(*) {
 	ui.infoGuiBg.show("noActivate") 
 	ui.infoGui.show("noActivate")
-	ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry_down.png"
+	ui.d2Launchd2FoundryButton.value := "./img/d2_button_d2Foundry_down.png"
 	winSetTransparent(255,ui.infoGuiBg.hwnd)
 	winSetTransparent(255,ui.infoGui.hwnd)
 }
 
 hideGlyphWindow(*) {
-	ui.infoGui.hide(), ui.infoGuiBg.hide(),ui.d2Launchd2FoundryButton.value := "./Img2/d2_button_d2Foundry.png"
+	ui.infoGui.hide(), ui.infoGuiBg.hide(),ui.d2Launchd2FoundryButton.value := "./img/d2_button_d2Foundry.png"
 }
 
 

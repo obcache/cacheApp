@@ -27,18 +27,18 @@ initGui(&cfg, &ui) {
 	ui.MainGui.SetFont("s13 c" cfg.ThemeFont1Color,"Calibri")
 	ui.mainBg := ui.mainGui.addText("x3 y3 w550 h210 background" cfg.themeBackgroundColor,"")
 	ui.mainGuiAnchor := ui.mainGui.addText("x0 y0 w0 h0 section hidden")
-	;ui.topHandlebar := ui.mainGui.addPicture("x-5 y2 w528 h28 backgroundTrans","./img2/handlebar_horz.png")
-	ui.1_GameButtonBg := ui.mainGui.addPicture("x32 y2 section w80 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==1) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
+	;ui.topHandlebar := ui.mainGui.addPicture("x-5 y2 w528 h28 backgroundTrans","./img/handlebar_horz.png")
+	ui.1_GameButtonBg := ui.mainGui.addPicture("x32 y2 section w80 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==1) ? "./img/tab_selected.png" : "./img/tab_unselected.png")
 	ui.1_GameButton := ui.mainGui.addText("x+-80 ys+5 w80 h22 center backgroundTrans","Game")
-	ui.2_SysButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==2) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
+	ui.2_SysButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==2) ? "./img/tab_selected.png" : "./img/tab_unselected.png")
 	ui.2_SysButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Sys")
-	ui.3_AfkButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==3) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
+	ui.3_AfkButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==3) ? "./img/tab_selected.png" : "./img/tab_unselected.png")
 	ui.3_AfkButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Afk")
-	ui.4_AppDockButtonBg := ui.mainGui.addPicture("ys+0 w100 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==4) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
+	ui.4_AppDockButtonBg := ui.mainGui.addPicture("ys+0 w100 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==4) ? "./img/tab_selected.png" : "./img/tab_unselected.png")
 	ui.4_AppDockButton := ui.mainGui.addText("ys+5 x+-100 w100 h22 center backgroundTrans"," App Dock ")
-	ui.5_ListsButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==5) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
+	ui.5_ListsButtonBg := ui.mainGui.addPicture("ys+0 w70 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==5) ? "./img/tab_selected.png" : "./img/tab_unselected.png")
 	ui.5_ListsButton := ui.mainGui.addText("ys+5 x+-70 w70 h22 center backgroundTrans","Lists")
-	ui.6_SetupButtonBg := ui.mainGui.addPicture("ys+0 w80 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==6) ? "./img2/tab_selected.png" : "./img2/tab_unselected.png")
+	ui.6_SetupButtonBg := ui.mainGui.addPicture("ys+0 w80 h30 center background" cfg.themeBackgroundColor,(cfg.activeMainTab==6) ? "./img/tab_selected.png" : "./img/tab_unselected.png")
 	ui.6_SetupButton := ui.mainGui.addText("ys+5 x+-80 w80 h22 center backgroundTrans","Setup")
 	;msgBox(cfg.mainTabList[1])
 	ui.mainGuiTabs := ui.MainGui.AddTab3("x32 y2 w495 h213  Buttons -redraw Background" cfg.ThemeBackgroundColor " -E0x200", cfg.mainTabList)
@@ -50,7 +50,7 @@ initGui(&cfg, &ui) {
 	ui.previousTab := ui.activeTab
 	ui.MainGui.SetFont("s12 c" cfg.ThemeFont1Color,"Calibri")
 	ui.handleBarBorder := ui.mainGui.addText("x0 y34 w32 h184 background" cfg.themeBright1Color,"")
-	ui.handleBarImage := ui.MainGui.AddPicture("x1 y28 w32 h157 backgroundTrans","./Img2/handlebar_vertical.png")
+	ui.handleBarImage := ui.MainGui.AddPicture("x1 y28 w32 h157 backgroundTrans","./img/handlebar_vertical.png")
 	ui.ButtonHandlebarDebug := ui.MainGui.AddPicture( 
 	(cfg.consoleVisible) 
 		? "x2 y185 w30 h27 section Background" cfg.ThemeButtonOnColor 
@@ -61,7 +61,7 @@ initGui(&cfg, &ui) {
 	ui.handleBarImage.ToolTip := "Drag Handlebar to Move.`nDouble-Click to collapse/uncollapse."
 	
 	ui.rightHandlebarBg := ui.mainGui.addText("x529 y32 w31 h182 background" cfg.themeBright1Color,"")
-	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x528 w31 y33 h180 section","./Img2/right_handlebar_vertical.png")
+	ui.rightHandlebarImage2 := ui.mainGui.AddPicture("x528 w31 y33 h180 section","./img/right_handlebar_vertical.png")
 	ui.handleBarImage.OnEvent("DoubleClick",ToggleGuiCollapse)
 
 	ui.rightHandleBarImage2.OnEvent("DoubleClick",ToggleGuiCollapse)
@@ -69,7 +69,7 @@ initGui(&cfg, &ui) {
 	ui.rightHandleBarImage2.OnEvent("Click",WM_LBUTTONDOWN_callback)
 	ui.gameTabTopDockButtonOutline := ui.mainGui.addText("x0 y0 w33 h33 background" cfg.themeBright1Color)
 	;ui.gameTabTopDockButtonOutline2 := ui.mainGui.addText("x1 y1 w33 h31 background" cfg.themeDark1Color)
-	ui.gameTabTopDockButton := ui.mainGui.addPicture("x0 y0 w34 h33 background" cfg.themeButtonOnColor,"./img2/button_dock_up.png")
+	ui.gameTabTopDockButton := ui.mainGui.addPicture("x0 y0 w34 h33 background" cfg.themeButtonOnColor,"./img/button_dock_up.png")
 	ui.gameTabTopDockButton.onEvent("click",topDockOn)
 	ui.gameTabTopDockButton.toolTip := "Dock to top of screen"
 	ui.exitButtonBg := ui.mainGui.addText("x502 y2 w58 h30 background" cfg.themeBright1Color,"")
@@ -89,12 +89,12 @@ initGui(&cfg, &ui) {
 	ui.loadingProgress.value += 5
 	; for tab in cfg.mainTabList {
 		; if a_index == cfg.activeMainTab {
-			; ui.%tab%ButtonBg.value := "./img2/tab_selected.png"
+			; ui.%tab%ButtonBg.value := "./img/tab_selected.png"
 		
-			; ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+			; ui.%tab%ButtonBg.value := "./img/tab_unselected.png"
 			; }
 	; msgBox(cfg.mainTabList[cfg.activeMainTab] "`n" a_index "`n" tab)
-			;	if ui.mainGuiTabs[cfg.activeMainTab.Text].text = tab.text ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+			;	if ui.mainGuiTabs[cfg.activeMainTab.Text].text = tab.text ui.%tab%ButtonBg.value := "./img/tab_unselected.png"
 	
 	ui.gvConsole := ui.MainGui.AddListBox("x0 y214 w560 h192 +Background" cfg.ThemePanel1Color)
 	ui.gvConsole.Color := cfg.ThemeBright1Color	
@@ -187,7 +187,7 @@ initOSDGui() {
 	ui.buttonDockAfk.OnEvent("Click",ToggleAfkDock)
 	ui.buttonDockAfk.ToolTip := "Dock AFK Panel"	
 	
-	ui.buttonStartAFK := ui.AfkGui.AddPicture("x+0 y2 section w32 h32 Background" cfg.ThemeButtonReadyColor,"./img2/button_afk_ready.png")
+	ui.buttonStartAFK := ui.AfkGui.AddPicture("x+0 y2 section w32 h32 Background" cfg.ThemeButtonReadyColor,"./img/button_afk_ready.png")
 	ui.buttonStartAFK.OnEvent("Click",ToggleAFK)
 	ui.buttonStartAFK.ToolTip := "Toggle AFK"
 	
@@ -249,7 +249,7 @@ initOSDGui() {
 	WinSetTransparent(210)
 
 	ui.AfkAnchoredToGui := true
-	ui.HandlebarAfkGui := ui.AfkGui.AddPicture("x250 y-2 w30 h138 +Hidden","./Img2/handlebar_vertical.png")
+	ui.HandlebarAfkGui := ui.AfkGui.AddPicture("x250 y-2 w30 h138 +Hidden","./img/handlebar_vertical.png")
 	ui.AfkGui.Opt("+LastFound")
 	
 	ui.loadingProgress.value += 5
@@ -922,8 +922,8 @@ tabsChanged(*) {
 	for tab in cfg.mainTabList {
 		ui.%tab%ButtonBg.value := 
 			(cfg.activeMainTab==a_index) 
-				? "./img2/tab_selected.png" 
-				: "./img2/tab_unselected.png"
+				? "./img/tab_selected.png" 
+				: "./img/tab_unselected.png"
 	}
 			
 	; ui.afkGui.opt("toolWindow")
@@ -938,45 +938,45 @@ tabsChanged(*) {
 			; guiVis(ui.gameTabGui,true)
 			; ui.gameSettingsGui.opt("-toolWindow")
 			; ui.mainGui.opt("+toolWindow")
-			; ui.1_gameButtonBg.value := "./img2/tab_selected.png"
+			; ui.1_gameButtonBg.value := "./img/tab_selected.png"
 		; case "2_Sys":
 			; guiVis(ui.gameSettingsGui,false)
 			; guiVis(ui.gameTabGui,false)
 			; guiVis(ui.afkGui,false)
 			; ui.mainGui.opt("-toolWindow")
-			; ui.2_sysButtonBg.value := "./img2/tab_selected.png"
+			; ui.2_sysButtonBg.value := "./img/tab_selected.png"
 		; case "3_AFK":
 			; guiVis(ui.afkGui,true)
 			; guiVis(ui.gameSettingsGui,false)
 			; guiVis(ui.gameTabGui,false)
 			; ui.afkGui.opt("-toolWindow")
 			; ui.mainGui.opt("+toolWindow")
-			; ui.3_afkButtonBg.value := "./img2/tab_selected.png"
+			; ui.3_afkButtonBg.value := "./img/tab_selected.png"
 		; case "4_AppDock":
 			; guiVis(ui.gameSettingsGui,false)
 			; guiVis(ui.gameTabGui,false)
 			; guiVis(ui.afkGui,false)
 			; ui.mainGui.opt("-toolWindow")
-			; ui.4_appDockButtonBg.value := "./img2/tab_selected.png"
+			; ui.4_appDockButtonBg.value := "./img/tab_selected.png"
 		; case "5_Lists":
 			; tabDisabled()
 				; Return
 			; guiVis(ui.afkGui,false)
 			; guiVis(ui.gameSettingsGui,false)
 			; guiVis(ui.gameTabGui,false)
-			; ui.5_listsButtonBg.value := "./img2/tab_selected.png"
+			; ui.5_listsButtonBg.value := "./img/tab_selected.png"
 		; case "6_Setup":
 			; guiVis(ui.gameSettingsGui,false)
 			; guiVis(ui.gameTabGui,false)
 			; guiVis(ui.afkGui,false)
 			; ui.mainGui.opt("-toolWindow")
-			;ui.6_setupButtonBg.value := "./img2/tab_selected.png"
+			;ui.6_setupButtonBg.value := "./img/tab_selected.png"
 		; default:
 			; guiVis(ui.gameSettingsGui,false)
 			; guiVis(ui.gameTabGui,false)
 			; guiVis(ui.afkGui,false)
 			; ui.mainGui.opt("-toolWindow")
-		;	ui.%tab%ButtonBg.value := "./img2/tab_unselected.png"
+		;	ui.%tab%ButtonBg.value := "./img/tab_unselected.png"
 	; }
 		
 	controlFocus(ui.mainGuiTabs,ui.mainGui)
@@ -1066,7 +1066,7 @@ createDockBar() {
 	guiVis(ui.dockBarGui,false)
 	ui.dockBarWidth := 0
 	ui.dockBarGui.SetFont("s14","Calibri Thin")
-	ui.docktopMoveButton := ui.dockBarGui.addPicture("x1 y0 w32 h33 section background" cfg.themeButtonOnColor,"./img2/button_dockLeftRight.png")
+	ui.docktopMoveButton := ui.dockBarGui.addPicture("x1 y0 w32 h33 section background" cfg.themeButtonOnColor,"./img/button_dockLeftRight.png")
 	ui.docktopMoveButton.onEvent("click",topDockMove)
 	ui.docktopMoveButton.toolTip := "Dock to top of screen"
 	ui.dockBarWidth += 32
@@ -1119,7 +1119,7 @@ createDockBar() {
 	}
 	ui.dockBarGui.addText("x+-3 ys+0 w2 h30 section background" cfg.themeBright2Color,"")
 	ui.dockBarWidth -= 0
-	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+0 ys+0 w30 h31 section background" cfg.themeButtonOnColor,"./img2/button_power.png")
+	ui.dockBarExitButton := ui.dockBarGui.addPicture("x+0 ys+0 w30 h31 section background" cfg.themeButtonOnColor,"./img/button_power.png")
 	ui.dockBarWidth += 32
 	ui.dockBarExitButton.onEvent("click",ExitButtonPushed)
 	ui.dockBarExitButton.toolTip := "Exit CacheApp"
@@ -1140,8 +1140,8 @@ createDockBar() {
 	}
 
 	topDockPowerButtonPushed(this,*) {
-		this.value := "./img2/button_power_down.png"
-		setTimer () => (this.value := "./img2/button_power.png",exitAppCallback()),-400
+		this.value := "./img/button_power_down.png"
+		setTimer () => (this.value := "./img/button_power.png",exitAppCallback()),-400
 		;setTimer () => exitAppCallback(),-100
 	}
 }
@@ -1156,7 +1156,7 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarWidth 		+= 1
 				ui.topDockDIMbutton			:= ui.dockBarGui.addPicture("x+8 ys+6 w24 h24 section backgroundTrans","./img/icon_DIM.png")
 				ui.dockBarWidth 		+= 32
-		 		ui.topDocklightGGbutton		:= ui.dockBarGui.addPicture("x+2 ys-2 w28 h28 section backgroundTrans","./Img2/button_vault_up.png")
+		 		ui.topDocklightGGbutton		:= ui.dockBarGui.addPicture("x+2 ys-2 w28 h28 section backgroundTrans","./img/button_vault_up.png")
 				ui.topDockBBGGbutton		:= ui.dockBarGui.addPicture("x+0 ys w28 h28 section backgroundTrans","./img/icon_blueberries.png")
 				ui.dockBarWidth 		+= 30
 				ui.dockBarWidth 		+= 28
@@ -1184,10 +1184,10 @@ dockBarIcons(game,operation := "") {
 				ui.dockBarWidth 		+= 30
 				ui.dockBarGui.addText("x+0 ys+0 w1 h32 section background" cfg.themeBright1Color,"")
 				
-				ui.dockBarD2HoldToCrouch 	:= ui.dockBarGui.addPicture("x+-2 ys+0 w32 h32 section background" cfg.ThemeButtonOnColor,"./img2/button_crouch.png")	
+				ui.dockBarD2HoldToCrouch 	:= ui.dockBarGui.addPicture("x+-2 ys+0 w32 h32 section background" cfg.ThemeButtonOnColor,"./img/button_crouch.png")	
 				ui.dockBarWidth 		+= 30
 				ui.dockBarD2HoldToCrouch.onEvent("click",d2AppHoldToCrouchKeyClicked)				
-				ui.dockBarLoadouts		:= ui.dockBarGui.addPicture("x+-2 ys+0 w32 h32 section background" cfg.themeButtonOnColor,"./img2/button_loadouts_ready.png")
+				ui.dockBarLoadouts		:= ui.dockBarGui.addPicture("x+-2 ys+0 w32 h32 section background" cfg.themeButtonOnColor,"./img/button_loadouts_ready.png")
 				ui.dockBarWidth			+= 30
 				ui.dockBarRunIcon 		:= ui.dockBarGui.addPicture("x+-2 ys+0 w28 h32 section background" cfg.themeDisabledColor, "./img/icon_running.png")
 				ui.dockBarWidth 		+= 30

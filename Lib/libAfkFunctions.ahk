@@ -422,12 +422,12 @@ stopAFK(*) {
 	debugLog("Stopping AFK")
 	; SetTimer(runAfkRoutine,0)
 	ui.OpsAfkButton.Opt("Background" cfg.ThemeDisabledColor)
-	ui.opsAfkButton.Value := "./img2/button_afk_ready.png"
+	ui.opsAfkButton.Value := "./img/button_afk_ready.png"
 	ui.buttonStartAFK.Opt("Background" cfg.ThemeDisabledColor)
-	ui.buttonStartAfk.value := "./img2/button_afk_ready.png"
+	ui.buttonStartAfk.value := "./img/button_afk_ready.png"
 	try {
 		ui.dockBarAfkButton.Opt("Background" cfg.ThemeButtonReadyColor)
-		ui.dockBarAfkButton.value := "./img2/button_afk_ready.png"
+		ui.dockBarAfkButton.value := "./img/button_afk_ready.png"
 	}
 	ui.OpsAfkButton.Redraw()
 	ui.buttonStartAFK.Redraw()

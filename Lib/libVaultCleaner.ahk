@@ -25,7 +25,7 @@ libVaultInit(*) {
 	result.tileNum:=0
 	result.tileStr := ""
 
-	this.page:=1
+	this.page:=0
 	this.row:=1
 	this.col:=1
 	this.x:=0
@@ -172,9 +172,9 @@ libVaultInit(*) {
 			winSetStyle("-0xC00000",this.GameWin)
 			winActivate(this.gameWin)
 			winWait(this.gameWin)
-			thisGui.show("x" this.gameWinX+2 " y" this.gameWinY-28 " w1280 h" 30+720+94 " noActivate")
 			sleep(2000)
-
+			thisGui.show("x" this.gameWinX+2 " y" this.gameWinY-28 " w1280 h" 30+720+94 " noActivate")
+			;winSetAlwaysOnTop(true,this.gameWin)
 			;winSetTransColor("830303","ahk_exe destiny2.exe")
 
 			send("{F1}")
@@ -211,6 +211,7 @@ cleanVaultStart(*) {
 	if this.restartQueued {
 		exit()
 	}
+
 	loop {
 		;msgBox(pageUpColor := pixelGetColor(970,170))
 		;msgBox(subStr(pageUpColor,3,1))
@@ -298,23 +299,42 @@ isUnlocked(thisCol,thisRow,x:=tile(thisCol,thisRow).x,y:=tile(thisCol,thisRow).y
 	this.color:=array()
 	sleep(20)
 	result.locked:=false
-	if thisCol >= 6 {
-		loop 5 {
-			this.color:=pixelGetColor(x+(setting.tileSize/2)-4,y)
-			if subStr(this.color,3,1) != subStr(this.color,5,1) {
-				result.locked:=true
-				break
+	loop 5 {
+				this.color:=pixelGetColor(x+(setting.tileSize/2)-(thisCol-7),y)
+				if subStr(this.color,3,1) != subStr(this.color,5,1) {
+					result.locked:=true
+					break
+				}
+			}
+		
+	switch { 
+		case thisCol > 5: ;10-7=3 9-7=2 8-7=1 7-7=0 6-7=- 5-3=2 4-1=3 3+1=4 2+3=5 1+5=6
+			loop 5 {
+				this.color:=pixelGetColor(x+(setting.tileSize/2)-4,y)
+				if subStr(this.color,3,1) != subStr(this.color,5,1) {
+					result.locked:=true
+					break
+				}
+			}
+		
+		; case (thisCol >= 4) && (thiscol <= 7): ;6-5=1
+			; loop 5 {
+				; this.color:=pixelGetColor(x+(setting.tileSize/2)-(thisCol+1,y)
+				; if subStr(this.color,3,1) != subStr(this.color,5,1) {
+					; result.locked:=true
+					; break
+				; }
+			; }
+
+		case thisCol < 6: ;1+3=4
+			loop 5 {
+				this.color:=pixelGetColor(x-(setting.tileSize/2)+4,y)
+				if subStr(this.color,3,1) != subStr(this.color,5,1) {
+					result.locked:=true
+					break
+				}
 			}
 		}
-	} else {
-		loop 5 {
-			this.color:=pixelGetColor(x-(setting.tileSize/2)+2,y) '`n'
-			if subStr(this.color,3,1) != subStr(this.color,5,1) {
-				result.locked:=true
-				break
-			}
-		}
-	}
 
 	sleep(150)
 	if !result.locked {
@@ -335,7 +355,7 @@ isUnlocked(thisCol,thisRow,x:=tile(thisCol,thisRow).x,y:=tile(thisCol,thisRow).y
 		this.dismantledTotal.text:=format("{:03d}",round(this.dismantledTotal.text)+1)
 		if this.exotic
 			this.dismantledExotics.text:=format("{:03d}",round(this.dismantledExotics.text)+1)
-		elsef
+		else
 			this.dismantledLegendary.text:=format("{:03d}",round(this.dismantledLegendary.text)+1)				
 		this.exotic:=false
 	}

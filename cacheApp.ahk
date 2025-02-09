@@ -1,10 +1,10 @@
-A_FileVersion := "1.3.5.8"
+A_FileVersion := "1.3.7.4"
 a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
 a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
 	
 ;@ahk2Exe-let fileVersion=%a_priorLine~U)^(.+"){1}(.+)".*$~$2% 
-;@ahk2Exe-setName cacheApp
+;@ahk2Exe-setName cacheApp
 ;@ahk2Exe-setVersion %a_fileVersion%
 ;@ahk2Exe-setFileVersion %a_fileVersion%
 
@@ -43,9 +43,9 @@ themeFileName	:= "cacheApp.themes"
 
 ; if fileExist("./extractAssets.ahk")
 	; fileDelete("./extractAssets.ahk")
-; loop files, "./img2/infogfx/vod/*.png" {
+; loop files, "./img/infogfx/vod/*.png" {
 	; flist .= a_loopFilename "`n"
-	; fileAppend('fileInstall("./img2/infogfx/vod/' a_loopFilename '", "' installDir '/img2/infogfx/vod/' a_loopFilename '",1)`n',"./extractAssets.ahk")
+	; fileAppend('fileInstall("./img/infogfx/vod/' a_loopFilename '", "' installDir '/img/infogfx/vod/' a_loopFilename '",1)`n',"./extractAssets.ahk")
 ; }
 ; keyWait("Escape")
 ; return
@@ -84,6 +84,7 @@ MonitorGetWorkArea(MonitorGetprimary(),
 	&primaryWorkAreaTop,
 	&primaryWorkAreaRight,
 	&primaryWorkAreaBottom)
+	
 cfgLoad(&cfg, &ui)
 ui.loadingProgress.value += 5
 
@@ -126,15 +127,15 @@ createDockBar()
 ui.loadingProgress.value += 5
 	
 changeGameDDL()
-
 ui.loadingProgress.value += 5
+
 drawAfkOutlines()
-
 ui.loadingProgress.value += 5
+
 try
 	guiVis("all",false)
-
 ui.loadingProgress.value += 5
+
 ui.afkGui.show("x" cfg.guiX+45 " y" cfg.guiY+50 " w270 h140 noActivate")
 ui.gameSettingsGui.show("x" cfg.guiX+30 " y" cfg.guiY+32 " w495 h182 noActivate")
 ui.mainGui.Show("x" cfg.guix " y" cfg.guiy " w562 h214 NoActivate")

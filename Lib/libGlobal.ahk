@@ -18,21 +18,24 @@ restoreWin(*) {
 }
 
 initTrayMenu(*) {
-	A_TrayMenu.Delete
-	A_TrayMenu.Add
-	A_TrayMenu.Add("Show Window", restoreWin)
-	A_TrayMenu.Add("Hide Window", HideGui)
-	A_TrayMenu.Add("Reset Window Position", ResetWindowPosition)
-	; A_TrayMenu.Add("Toggle Dock", DockApps)
-	A_TrayMenu.Add()
-	A_TrayMenu.Add("Toggle Log Window", toggleConsole)
-	A_TrayMenu.Add()
-	A_TrayMenu.Add("Exit App", KillMe)
-	A_TrayMenu.Default := "Show Window"
-	Try
-		installLog("Tray Initialized")
+	; A_TrayMenu.Delete
+	; A_TrayMenu.Add
+	; A_TrayMenu.Add("Show Window", restoreWin)
+	; A_TrayMenu.Add("Hide Window", HideGui)
+	; A_TrayMenu.Add("Reset Window Position", ResetWindowPosition)
+
+	; A_TrayMenu.Add(" ",toggleGui)
+	; A_TrayMenu.Add("Toggle Log Window", toggleConsole)
+	; A_TrayMenu.Add()
+	; A_TrayMenu.Add("Exit App", KillMe)
+	; A_TrayMenu.Default := " "
+	; Try
+		; installLog("Tray Initialized")
 }
 
+toggleGui(*) {
+	(ui.guiVisible := !ui.guiVisible) ? restoreWin() : hideGui()
+}
 preAutoExec(InstallDir,ConfigFileName) {
 	Global
 	data			:= object()
@@ -43,7 +46,7 @@ preAutoExec(InstallDir,ConfigFileName) {
 	setting 		:= object()
 	result 			:= object()
 	libVaultInit()
-	
+		
 	if (A_IsCompiled)
 	{
 		; if !(FileExist("./cacheApp.ini"))
@@ -118,9 +121,9 @@ preAutoExec(InstallDir,ConfigFileName) {
 						if !fileExist("./cacheApp.ini")
 							fileInstall("./cacheApp.ini",installDir "/cacheApp.ini")
 						if !(FileExist(InstallDir "/AfkData.csv"))
-							FileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
+							fileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
 						if !(FileExist(InstallDir "/cacheApp.themes"))
-							FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
+							fileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
 						if !(fileExist(installDir "/cacheApp.db"))
 							fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)	
 					}
@@ -129,162 +132,45 @@ preAutoExec(InstallDir,ConfigFileName) {
 				sleep(1000)
 				pbConsole("This seems to be the first time you're running cacheApp.")
 				pbConsole("A fresh install to " A_MyDocuments "\cacheApp is being performed.")
-
-				FileInstall("./cacheApp.ini",InstallDir "/cacheApp.ini",1)
-				FileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
-				FileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
+				fileInstall("./cacheApp.ini",InstallDir "/cacheApp.ini",1)
+				fileInstall("./cacheApp.themes",InstallDir "/cacheApp.themes",1)
+				fileInstall("./AfkData.csv",InstallDir "/AfkData.csv",1)
 				fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)
+			}
+			
+			if !(DirExist(InstallDir "/img"))
+				DirCreate(InstallDir "/img")
+				
+			if !dirExist(installDir "/img/infogfx")
+				dirCreate(installDir "/img/infogfx")
+			
+			if !dirExist(installDir "/img/infogfx/vod")
+				dirCreate(installDir "/img/infogfx/vod")
 
-			}
-			if !(DirExist(InstallDir "\lib"))
-			{
-				DirCreate(InstallDir "\lib")
-			}			
-			if !(DirExist(InstallDir "\Img"))
-			{
-				DirCreate(InstallDir "\Img")
-			}
-			if !(DirExist(InstallDir "\Img2"))
-			{
-				DirCreate(InstallDir "\Img2")
-			}
-			if !(DirExist(InstallDir "\Img2\infogfx"))
-			{
-				DirCreate(InstallDir "\Img2\infogfx")
-			}
-			if !(DirExist(InstallDir "\Img2\infogfx\vod"))
-			{
-				DirCreate(InstallDir "\Img2\infogfx\vod")
-			}
-			if !(DirExist(InstallDir "\Redist"))
-			{
-				DirCreate(InstallDir "\Redist")
-			}
-			installLog("Created Img folder")
+			if !(DirExist(InstallDir "/lib"))
+				DirCreate(InstallDir "/lib")
 			
-			if !dirExist(installDir "/img2/infogfx")
-				dirCreate(installDir "/img2/infogfx")
-			
-			if !dirExist(installDir "/img2/infogfx/vod")
-				dirCreate(installDir "/img2/infogfx/vod")
+			if !(DirExist(InstallDir "/redist"))
+				DirCreate(InstallDir "/redist")
 
 			if !dirExist(installDir "/redist/mouseSC")
 				dirCreate(installDir "/redist/mouseSC")
 			
+			installLog("Created Folders")
+			
+			installImgFiles:=""
+
+			try
+				fileDelete(installDir "/.installAssets.ahk")
+				
+			loop files, installDir "/img/*.*"
+				fileAppend("fileInstall('./img/" a_loopFilename "','" installDir "\img\" a_loopFilename "',1)`n",installDir "/.installAssets.ahk")
+		
+			runWait(installDir "/.installAssets.ahk")
+			try
+				fileDelete(installDir "/.installAssets.ahk")
+				
 			fileInstall("./redist/mouseSC_x64.exe",installDir "/redist/mouseSC_x64.exe",1)
-			
-			FileInstall("./Img/keyboard_key_up.png",InstallDir "/img/keyboard_key_up.png",1)
-			FileInstall("./Img/keyboard_key_down.png",InstallDir "/img/keyboard_key_down.png",1)
-			FileInstall("./Img/attack_icon.png",InstallDir "/Img/attack_icon.png",true)
-			FileInstall("./Img/sleep_icon.png",InstallDir "/Img/sleep_icon.png",true)
-			FileInstall("./Img/arrow_left.png",InstallDir "/Img/arrow_left.png",true)
-			FileInstall("./Img/arrow_right.png",InstallDir "/Img/arrow_right.png",true)
-			FileInstall("./Img/status_stopped.png",InstallDir "/Img/status_stopped.png",true)
-			FileInstall("./Img/status_running.png",InstallDir "/Img/status_running.png",true)
-			FileInstall("./Img/label_left_trim.png",InstallDir "/Img/label_left_trim.png",true)
-			FileInstall("./Img/label_right_trim.png",InstallDir "/Img/label_right_trim.png",true)
-			FileInstall("./Img/label_timer_off.png",InstallDir "/Img/label_timer_off.png",true)
-			FileInstall("./Img/label_anti_idle_timer.png",InstallDir "/Img/label_anti_idle_timer.png",true)
-			FileInstall("./Img/label_infinite_tower.png",InstallDir "/Img/label_infinite_tower.png",true)
-			FileInstall("./Img/label_celestial_tower.png",InstallDir "/Img/label_celestial_tower.png",true)			
-			FileInstall("./Img/color_swatches.png",InstallDir "/Img/color_swatches.png",1)
-			FileInstall("./Img/towerToggle_celestial.png",InstallDir "/Img/towerToggle_celestial.png",1)
-			FileInstall("./Img/towerToggle_infinite.png",InstallDir "/Img/towerToggle_infinite.png",1)
-			FileInstall("./Img/toggle_off.png",InstallDir "/Img/toggle_off.png",1)
-			FileInstall("./Img/toggle_on.png",InstallDir "/Img/toggle_on.png",1)
-			FileInstall("./Img/toggle_left.png",InstallDir "/Img/toggle_left.png",1)
-			FileInstall("./Img/toggle_right.png",InstallDir "/Img/toggle_right.png",1)
-			fileInstall("./img/toggle_vertical_trans_on.png",installDir "/img/toggle_vertical_trans_on.png",1)
-			fileInstall("./img/toggle_vertical_trans_off.png",installDir "/img/toggle_vertical_trans_off.png",1)
-			FileInstall("./Img/button_update.png",InstallDir "/img/button_update.png",1)
-			FileInstall("./Img/button_exit_gaming.png",InstallDir "/img/button_exit_gaming.png",1)
-			FileInstall("./Img/button_execute.png",InstallDir "/Img/button_execute.png",true)
-			FileInstall("./Img/button_ready.png",InstallDir "/Img/button_ready.png",1)
-			FileInstall("./Img/button_on.png",InstallDir "/Img/button_on.png",1)
-			FileInstall("./Img/button_plus.png",InstallDir "/Img/button_plus.png",1)
-			FileInstall("./Img/button_power.png",InstallDir "/Img/button_power.png",1)
-			FileInstall("./Img/button_minus.png",InstallDir "/Img/button_minus.png",1)
-			FileInstall("./Img/button_x.png",InstallDir "/Img/button_x.png",1)
-			FileInstall("./Img/button_x2.png",InstallDir "/Img/button_x2.png",1)
-			FileInstall("./Img/button_change.png",InstallDir "/Img/button_change.png",1)
-			FileInstall("./Img/button_select.png",InstallDir "/Img/button_select.png",1)
-			FileInstall("./Img/button_set.png",InstallDir "/Img/button_set.png",1)
-			FileInstall("./Img/button_add.png",InstallDir "/Img/button_add.png",1)
-			FileInstall("./Img/button_remove.png",InstallDir "/Img/button_remove.png",1)
-			FileInstall("./Img/button_popout_ready.png",InstallDir "/Img/button_popout_ready.png",1)
-			FileInstall("./Img/button_popout_on.png",InstallDir "/Img/button_popout_on.png",1)
-			FileInstall("./Img/button_refresh.png",InstallDir "/Img/button_refresh.png",1)
-			FileInstall("./Img/button_hide.png",InstallDir "/Img/button_hide.png",1)
-			FileInstall("./Img/button_autoFire1_on.png",InstallDir "/Img/button_autoFire1_on.png",1)
-			FileInstall("./Img/button_autoFire1_ready.png",InstallDir "/Img/button_autoFire1_ready.png",1)
-			FileInstall("./Img/button_autoFire2_on.png",InstallDir "/Img/button_autoFire2_on.png",1)
-			FileInstall("./Img/button_autoFire2_ready.png",InstallDir "/Img/button_autoFire2_ready.png",1)			
-			FileInstall("./Img/button_autoFire1_disabled.png",InstallDir "/Img/button_autoFire1_disabled.png",1)			
-			FileInstall("./Img/button_autoFire2_disabled.png",InstallDir "/Img/button_autoFire2_disabled.png",1)
-			FileInstall("./Img/button_swapHwnd.png",InstallDir "/Img/button_swapHwnd.png",1)
-			FileInstall("./Img/button_autoFire_ready.png",InstallDir "/Img/button_autoFire_ready.png",1)
-			FileInstall("./Img/button_autoFire1_on.png",InstallDir "/Img/button_autoFire1_on.png",1)
-			FileInstall("./Img/button_autoFire2_on.png",InstallDir "/Img/button_autoFire2_on.png",1)
-			FileInstall("./Img/button_autoClicker_ready.png",InstallDir "/Img/button_autoClicker_ready.png",1)
-			FileInstall("./Img/button_swapHwnd_enabled.png",InstallDir "/Img/button_swapHwnd_enabled.png",1)
-			FileInstall("./Img/button_swapHwnd_disabled.png",InstallDir "/Img/button_swapHwnd_disabled.png",1)
-			FileInstall("./Img/button_autoClicker_on.png",InstallDir "/Img/button_autoClicker_on.png",1)
-			FileInstall("./Img/button_quit.png",InstallDir "/Img/button_quit.png",true)
-			FileInstall("./Img/button_minimize.png",InstallDir "/Img/button_minimize.png",true)
-			FileInstall("./Img/button_tower.png",InstallDir "/Img/button_tower.png",true)
-			FileInstall("./Img/button_afk.png",InstallDir "/Img/button_afk.png",true)
-			FileInstall("./Img/button_antiIdle.png",InstallDir "/Img/button_antiIdle.png",true)
-			FileInstall("./Img/button_tower_ready.png",InstallDir "/Img/button_tower_ready.png",true)
-			FileInstall("./Img/button_tower_on.png",InstallDir "/Img/button_tower_on.png",true)
-			FileInstall("./Img/button_dockright.png",InstallDir "/Img/button_dockright.png",true)
-			FileInstall("./Img/button_afk_on.png",InstallDir "/Img/button_afk_on.png",true)
-			FileInstall("./Img/button_antiIdle_ready.png",InstallDir "/Img/button_antiIdle_ready.png",true)
-			FileInstall("./Img/button_antiIdle_on.png",InstallDir "/Img/button_antiIdle_on.png",true)
-			FileInstall("./Img/button_plus_ready.png",InstallDir "/Img/button_plus_ready.png",true)
-			FileInstall("./Img/button_plus_on.png",InstallDir "/Img/button_plus_on.png",true)
-			FileInstall("./Img/button_minus_ready.png",InstallDir "/Img/button_minus_ready.png",true)
-			FileInstall("./Img/button_minus_on.png",InstallDir "/Img/button_minus_on.png",true)
-			FileInstall("./Img/button_OpsDock.png",InstallDir "/Img/button_OpsDock.png",true)
-			FileInstall("./Img/button_launchLightGG.png",InstallDir "/Img/button_launchLightGG.png",1)
-			FileInstall("./Img/button_launchLightGG_down.png",InstallDir "/Img/button_launchLightGG_down.png",1)
-			FileInstall("./Img/button_launchDIM.png",InstallDir "/Img/button_launchDIM.png",1)
-			FileInstall("./Img/button_launchDIM_down.png",InstallDir "/Img/button_launchDIM_down.png",1)
-			FileInstall("./Img/button_launchBlueberries.png",InstallDir "/Img/button_launchBlueberries.png",1)
-			FileInstall("./Img/button_launchBlueberries_down.png",InstallDir "/Img/button_launchBlueBerries_down.png",1)
-			fileInstall("./img/button_dockDown_on.png",installDir "/img/button_dockDown_on.png",1)
-			fileInstall("./img/button_dockUp_on.png",installDir "/img/button_dockUp_on.png",1)
-			FileInstall("./Img/button_dockleft_on.png",InstallDir "/Img/button_dockleft_on.png",1)
-			FileInstall("./Img/button_dockright_on.png",InstallDir "/Img/button_dockright_on.png",1)			
-			fileInstall("./img/button_dockDown_ready.png",installDir "/img/button_dockDown_ready.png",1)
-			fileInstall("./img/button_dockUp_ready.png",installDir "/img/button_dockUp_ready.png",1)
-			FileInstall("./Img/button_dockleft_ready.png",InstallDir "/Img/button_dockleft_ready.png",1)
-			FileInstall("./Img/button_dockright_ready.png",InstallDir "/Img/button_dockright_ready.png",1)
-			FileInstall("./Img/button_dockleft.png",InstallDir "/Img/button_dockleft.png",1)
-			FileInstall("./Img/button_dockright.png",InstallDir "/Img/button_dockright.png",1)
-			FileInstall("./Img/button_power.png",InstallDir "/Img/button_power.png",1)
-			FileInstall("./Img/button_power_on.png",InstallDir "/Img/button_power_on.png",1)
-			FileInstall("./Img/button_power_ready.png",InstallDir "/Img/button_power_ready.png",1)
-			FileInstall("./Img/button_save_up.png",InstallDir "/Img/button_save_up.png",1)
-			FileInstall("./Img/button_up.png",InstallDir "/Img/button_up.png",1)
-			FileInstall("./Img/button_down.png",InstallDir "/Img/button_down.png",1)
-			FileInstall("./Img/button_help.png",InstallDir "/Img/button_help.png",1)
-			FileInstall("./Img/button_help_ready.png",InstallDir "/Img/button_help_ready.png",1)
-			FileInstall("./Img/button_help_on.png",InstallDir "/Img/button_help_on.png",1)			
-			FileInstall("./Img/button_console_ready.png",InstallDir "/Img/button_console_ready.png",1)
-			FileInstall("./Img/button_console_on.png",InstallDir "/Img/button_console_on.png",1)
-
-			fileInstall("./img/icon_running.png",installDir "/img/icon_running.png",1)
-			fileInstall("./img/icon_DIM.png",installDir "/img/icon_dim.png",1)
-			fileInstall("./img/icon_blueberries.png",installDir "/img/icon_blueberries.png",1)
-			fileInstall("./img2/button_vault_up.png",installDir "/img2/button_vault_up.png",1)
-			fileInstall("./img2/button_vault_down.png",installDir "/img2/button_vault_down.png",1)
-			fileInstall("./img/icon_d2Checklist.png",installDir "/img/icon_d2Checklist.png",1)
-			fileInstall("./img/icon_brayTech.png",installDir "/img/icon_brayTech.png",1)
-			fileInstall("./img/icon_steeringwheel.png",installDir "/img/icon_steeringwheel.png",1)
-			
-			FileInstall("./Img/keyboard_key_up.png",InstallDir "/img/keyboard_key_up.png",1)
-			FileInstall("./Img/keyboard_key_down.png",InstallDir "/img/keyboard_key_down.png",1)
-
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
 			fileInstall("./redist/soundVolumeView.exe",installDir "/redist/soundVolumeView.exe",1)
@@ -296,78 +182,11 @@ preAutoExec(InstallDir,ConfigFileName) {
 			FileInstall("./Img/help.png",InstallDir "/Img/help.png",1)
 			FileInstall("./cacheApp_currentBuild.dat",InstallDir "/cacheApp_currentBuild.dat",1)
 			
-			
-			;IMGv2 below
-			FileInstall("./img2/button_afk_ready.png",InstallDir "/img2/button_afk_ready.png",true)
-			fileInstall("./img2/button_countdown.png",installDir "/img2/button_countdown.png",1)
-			fileInstall("./img2/button_dockLeftRight.png",installDir "/img2/button_dockLeftRight.png",1)
-			fileInstall("./img2/button_loadouts_ready.png",installDir "/img2/button_loadouts_ready.png",1)
-			fileInstall("./img2/button_keyBindTarget.png",installDir "/img2/button_keybindTarget.png",1)
-			fileInstall("./img2/button_dock_up.png",installDir "/img2/button_dock_up.png",1)
-			fileInstall("./img2/button_power.png",installDir "/img2/button_power.png",1)
-			fileInstall("./img2/button_power_down.png",installDir "/img2/button_power_down.png",1)
-			fileInstall("./img2/button_quit.png",installDir "/img2/button_quit.png",1)
-			fileInstall("./img2/button_crouch.png",installDir "/img2/button_crouch.png",1)
-			fileInstall("./img2/checkbox_true.png",installDir "/img2/checkbox_true.png",1)
-			fileInstall("./img2/checkbox_false.png",installDir "/img2/checkbox_false.png",1)
-
-			fileInstall("./img2/d2_button_d2Foundry.png",installDir "/img2/d2_button_d2Foundry.png",1)
-			fileInstall("./img2/d2_button_d2Foundry_down.png",installDir "/img2/d2_button_d2Foundry_down.png",1)
-			fileInstall("./img2/d2_button_brayTech.png",installDir "/img2/d2_button_brayTech.png",1)
-			fileInstall("./img2/d2_button_brayTech_down.png",installDir "/img2/d2_button_brayTech_down.png",1)
-			fileInstall("./img2/d2_button_DestinyTracker.png",installDir "/img2/d2_button_DestinyTracker.png",1)
-			fileInstall("./img2/d2_button_DestinyTracker_down.png",installDir "/img2/d2_button_DestinyTracker_down.png",1)
-			fileInstall("./img2/d2_button_dim.png",installDir "/img2/d2_button_dim.png",1)
-			fileInstall("./img2/d2_button_dim_down.png",installDir "/img2/d2_button_dim_down.png",1)
-			fileInstall("./img2/d2_button_bbgg.png",installDir "/img2/d2_button_bbgg.png",1)
-			fileInstall("./img2/d2_button_bbgg_down.png",installDir "/img2/d2_button_bbgg_down.png",1)
-			fileInstall("./img2/button_vault_up.png",installDir "/img2/button_vault_up.png",1)
-			fileInstall("./img2/button_vault_down.png",installDir "/img2/button_vault_down.png",1)
-			fileInstall("./img2/d2_button_d2Checklist.png",installDir "/img2/d2_button_d2Checklist.png",1)
-			fileInstall("./img2/d2_button_d2Checklist_down.png",installDir "/img2/d2_button_d2Checklist_down.png",1)
-			fileInstall("./img2/d2ClassIconWarlock_on.png",installDir "/img2/d2ClassIconWarlock_on.png",1)
-			fileInstall("./img2/d2ClassIconHunter_on.png",installDir "/img2/d2ClassIconHunter_on.png",1)
-			fileInstall("./img2/d2ClassIconTitan_on.png",installDir "/img2/d2ClassIconTitan_on.png",1)
-			fileInstall("./img2/d2ClassIconWarlock_off.png",installDir "/img2/d2ClassIconWarlock_off.png",1)
-			fileInstall("./img2/d2ClassIconHunter_off.png",installDir "/img2/d2ClassIconHunter_off.png",1)
-			fileInstall("./img2/d2ClassIconTitan_off.png",installDir "/img2/d2ClassIconTitan_off.png",1)
-			fileInstall("./img2/d2CodeMorgeth.png",installDir "/img2/d2CodeMorgeth.png",1)
-			
-			fileInstall("./img2/infogfx/vod/activate.png", installDir "/img2/infogfx/vod/activate.png",1)
-			fileInstall("./img2/infogfx/vod/ascendant.png", installDir "/img2/infogfx/vod/ascendant.png",1)
-			fileInstall("./img2/infogfx/vod/black_garden.png", installDir "/img2/infogfx/vod/black_garden.png",1)
-			fileInstall("./img2/infogfx/vod/black_heart.png", installDir "/img2/infogfx/vod/black_heart.png",1)
-			fileInstall("./img2/infogfx/vod/darkness.png", installDir "/img2/infogfx/vod/darkness.png",1)
-			fileInstall("./img2/infogfx/vod/drink.png", installDir "/img2/infogfx/vod/drink.png",1)
-			fileInstall("./img2/infogfx/vod/earth.png", installDir "/img2/infogfx/vod/earth.png",1)
-			fileInstall("./img2/infogfx/vod/enter.png", installDir "/img2/infogfx/vod/enter.png",1)
-			fileInstall("./img2/infogfx/vod/grieve.png", installDir "/img2/infogfx/vod/grieve.png",1)
-			fileInstall("./img2/infogfx/vod/guardian.png", installDir "/img2/infogfx/vod/guardian.png",1)
-			fileInstall("./img2/infogfx/vod/hive.png", installDir "/img2/infogfx/vod/hive.png",1)
-			fileInstall("./img2/infogfx/vod/kill.png", installDir "/img2/infogfx/vod/kill.png",1)
-			fileInstall("./img2/infogfx/vod/light.png", installDir "/img2/infogfx/vod/light.png",1)
-			fileInstall("./img2/infogfx/vod/love.png", installDir "/img2/infogfx/vod/love.png",1)
-			fileInstall("./img2/infogfx/vod/pyramid.png", installDir "/img2/infogfx/vod/pyramid.png",1)
-			fileInstall("./img2/infogfx/vod/redacted.png", installDir "/img2/infogfx/vod/redacted.png",1)
-			fileInstall("./img2/infogfx/vod/remember.png", installDir "/img2/infogfx/vod/remember.png",1)
-			fileInstall("./img2/infogfx/vod/savathun.png", installDir "/img2/infogfx/vod/savathun.png",1)
-			fileInstall("./img2/infogfx/vod/scorn.png", installDir "/img2/infogfx/vod/scorn.png",1)
-			fileInstall("./img2/infogfx/vod/stop.png", installDir "/img2/infogfx/vod/stop.png",1)
-			fileInstall("./img2/infogfx/vod/tower.png", installDir "/img2/infogfx/vod/tower.png",1)
-			fileInstall("./img2/infogfx/vod/traveler.png", installDir "/img2/infogfx/vod/traveler.png",1)
-			fileInstall("./img2/infogfx/vod/witness.png", installDir "/img2/infogfx/vod/witness.png",1)
-			fileInstall("./img2/infogfx/vod/worm.png", installDir "/img2/infogfx/vod/worm.png",1)
-			fileInstall("./img2/infogfx/vod/worship.png", installDir "/img2/infogfx/vod/worship.png",1)
-			fileInstall("./img2/tab_selected.png", installDir "/img2/tab_selected.png",1)
-			fileInstall("./img2/tab_unselected.png", installDir "/img2/tab_unselected.png",1)
-			fileInstall("./img2/attack_icon.ico",installDir "/img2/attack_icon.ico",1)
-			fileInstall("./img2/handlebar_vertical.png",installDir "/img2/handlebar_vertical.png",true)
-			fileInstall("./img2/right_handlebar_vertical.png",installDir "/img2/right_handlebar_vertical.png",true)
 			pbConsole("`nINSTALL COMPLETED SUCCESSFULLY!")
 			installLog("Copied Assets to: " InstallDir)
 			
-			fileCreateShortcut(installDir "/cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
-			fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
+			fileCreateShortcut(installDir "/cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img/attack_icon.ico")
+			fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img/attack_icon.ico")
 			IniWrite(installDir,installDir "/cacheApp.ini","System","InstallDir")
 			Run(InstallDir "\" A_AppName ".exe")
 			sleep(4500)
@@ -531,6 +350,7 @@ cfgLoad(&cfg, &ui) {
 	global
 	cfg.dbFileName := A_ScriptDir . "\cacheApp.DB"
 	data.queryResult		:= array()
+	ui.guiVisible:=true
 	ui.guiH					:= 220  	;430 for Console Mode
 	cfg.dockbarMon			:= 1
 	ui.incursionNoticeHwnd	:= ""

@@ -163,7 +163,7 @@ GuiDockTab(&ui) {
 	winPosAdd(*) {
 		ui.winPosAdd.opt("background" cfg.themeButtonOnColor)
 		DialogBox("Adding window to workspace: " ui.workspaceDDL.text "`nClick any window or to add a window manually,`nCLick Here      to manually add a window.")
-		ui.winManualAdd := ui.notifyGui.addPicture("x150 y65 w30 h30 backgroundTrans","./img2/button_keybindTarget.png")
+		ui.winManualAdd := ui.notifyGui.addPicture("x150 y65 w30 h30 backgroundTrans","./img/button_keybindTarget.png")
 		ui.winManualAdd.onEvent("click", (*) => DialogBoxClose)
 		
 		sleep(500)
@@ -195,7 +195,7 @@ GuiDockTab(&ui) {
 			ui.winManualAddTitle := ui.notifyGui.addEdit("x5 y10 w120 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<Window TItle>")
 			ui.winManualAddCoords := ui.notifyGui.addEdit("x125 y10 w240 r1 section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<x,y,w,h>")
 			ui.winManualAddProcessPath := ui.notifyGui.addEdit("x5 y40 w310 r section background" cfg.themePanel2Color " c" cfg.themeFont2Color,"<c:\program files\this program\program.exe>")
-			ui.winManualAddSaveButton := ui.notifyGui.addPicture("x315 y30 w40 h40 backgroundTrans","/img2/button_save.png")
+			ui.winManualAddSaveButton := ui.notifyGui.addPicture("x315 y30 w40 h40 backgroundTrans","/img/button_save.png")
 			ui.winManualAddGui.show("noActivate")
 		} else {
 		splitPath(winGetProcessPath(winClicked),,,,&winName)

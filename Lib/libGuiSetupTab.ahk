@@ -139,7 +139,7 @@ GuiSetupTab(&ui,&cfg) {
 	setAutoStart(OnOff) {
 		if (OnOff == "On" || OnOff == true || OnOff == 1) {
 			try {
-				fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\Startup\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img2/attack_icon.ico")
+				fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\Startup\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img/attack_icon.ico")
 				trayTip("CacheApp now set to Autostart","CacheApp Config Change","Iconi Mute")
 			} catch {
 				trayTip("Failed to set CacheApp to Autostart","CacheApp Config Change","Iconi Mute")
