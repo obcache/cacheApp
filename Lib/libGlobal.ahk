@@ -38,6 +38,7 @@ toggleGui(*) {
 }
 preAutoExec(InstallDir,ConfigFileName) {
 	Global
+	a_sourceDir:=rtrim(a_scriptDir,"/bin")
 	data			:= object()
 	cfg				:= object()
 	ui 				:= object()
@@ -46,7 +47,10 @@ preAutoExec(InstallDir,ConfigFileName) {
 	setting 		:= object()
 	result 			:= object()
 	libVaultInit()
-		
+	
+
+			
+			
 	if (A_IsCompiled)
 	{
 		; if !(FileExist("./cacheApp.ini"))
@@ -68,6 +72,33 @@ preAutoExec(InstallDir,ConfigFileName) {
 				{
 					DirCreate(InstallDir)
 					SetWorkingDir(InstallDir)
+
+								if !(DirExist(InstallDir "/img"))
+				DirCreate(InstallDir "/img")
+				
+				if !dirExist(installDir "/img/infogfx")
+					dirCreate(installDir "/img/infogfx")
+				
+				if !dirExist(installDir "/img/infogfx/vod")
+					dirCreate(installDir "/img/infogfx/vod")
+
+				if !(DirExist(InstallDir "/lib"))
+					DirCreate(InstallDir "/lib")
+				
+				if !(DirExist(InstallDir "/redist"))
+					DirCreate(InstallDir "/redist")
+
+				if !dirExist(installDir "/redist/mouseSC")
+					dirCreate(installDir "/redist/mouseSC")
+			
+				installLog("Created Folders")
+				
+			loop files, a_sourceDir "/img/*.*"
+				fileAppend("fileInstall('" a_sourceDir "/img/" a_loopFilename "','" installDir "\img\" a_loopFilename "',1)`n",installDir "/.installAssets.ahk")	
+	
+				runWait(installDir "/.installAssets.ahk")
+				try
+					fileDelete(installDir "/.installAssets.ahk")
 				} catch {
 					installLog("Couldn't create install location")
 					sleep(1500)
@@ -81,6 +112,33 @@ preAutoExec(InstallDir,ConfigFileName) {
 				installLog("Successfully created install location at " InstallDir)
 				sleep(1000)
 			}
+			if !(DirExist(InstallDir "/img"))
+				DirCreate(InstallDir "/img")
+				
+			if !dirExist(installDir "/img/infogfx")
+				dirCreate(installDir "/img/infogfx")
+			
+			if !dirExist(installDir "/img/infogfx/vod")
+				dirCreate(installDir "/img/infogfx/vod")
+
+			if !(DirExist(InstallDir "/lib"))
+				DirCreate(InstallDir "/lib")
+			
+			if !(DirExist(InstallDir "/redist"))
+				DirCreate(InstallDir "/redist")
+
+			if !dirExist(installDir "/redist/mouseSC")
+				dirCreate(installDir "/redist/mouseSC")
+			
+			installLog("Created Folders")
+			
+			loop files, a_sourceDir "/img/*.*"
+				fileAppend("fileInstall('" a_sourceDir "/img/" a_loopFilename "','" installDir "\img\" a_loopFilename "',1)`n",installDir "/.installAssets.ahk")	
+	
+			runWait(installDir "/.installAssets.ahk")
+			try
+				fileDelete(installDir "/.installAssets.ahk")
+				
 			pbConsole("Copying executable to install location")
 			installLog("Copying executable to install location")
 			sleep(1000)
@@ -138,36 +196,10 @@ preAutoExec(InstallDir,ConfigFileName) {
 				fileInstall("./cacheApp.db",installDir "/cacheApp.db",1)
 			}
 			
-			if !(DirExist(InstallDir "/img"))
-				DirCreate(InstallDir "/img")
-				
-			if !dirExist(installDir "/img/infogfx")
-				dirCreate(installDir "/img/infogfx")
-			
-			if !dirExist(installDir "/img/infogfx/vod")
-				dirCreate(installDir "/img/infogfx/vod")
 
-			if !(DirExist(InstallDir "/lib"))
-				DirCreate(InstallDir "/lib")
-			
-			if !(DirExist(InstallDir "/redist"))
-				DirCreate(InstallDir "/redist")
-
-			if !dirExist(installDir "/redist/mouseSC")
-				dirCreate(installDir "/redist/mouseSC")
-			
-			installLog("Created Folders")
 			
 			installImgFiles:=""
 
-	
-			loop files, a_scriptDir "/img/*.*"
-				fileAppend("fileInstall('" a_scriptDir "/img/" a_loopFilename "','" installDir "\img\" a_loopFilename "',1)`n",installDir "/.installAssets.ahk")
-		
-			;runWait(installDir "/.installAssets.ahk")
-			;try
-			;fileDelete(installDir "/.installAssets.ahk")
-				
 			fileInstall("./redist/mouseSC_x64.exe",installDir "/redist/mouseSC_x64.exe",1)
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
 			fileInstall("./redist/getNir.exe",installDir "/redist/getNir.exe",1)
@@ -186,7 +218,8 @@ preAutoExec(InstallDir,ConfigFileName) {
 			fileCreateShortcut(installDir "/cacheApp.exe", A_Desktop "\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img/attack_icon.ico")
 			fileCreateShortcut(installDir "/cacheApp.exe", A_StartMenu "\Programs\cacheApp.lnk",installDir,,"CacheApp Gaming Assistant",installDir "/img/attack_icon.ico")
 			IniWrite(installDir,installDir "/cacheApp.ini","System","InstallDir")
-			Run(InstallDir "\" A_AppName ".exe")
+		
+			run(InstallDir "\" A_AppName ".exe")
 			sleep(4500)
 			ExitApp
 		
