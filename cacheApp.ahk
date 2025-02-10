@@ -1,4 +1,4 @@
-A_FileVersion := "1.4.0.0"
+A_FileVersion := "1.4.0.2"
 a_appName := "cacheApp"
 if (fileExist("./cacheApp_currentBuild.dat"))
 a_fileVersion := fileRead("./cacheApp_currentBuild.dat")
