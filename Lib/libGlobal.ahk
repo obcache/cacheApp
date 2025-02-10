@@ -160,15 +160,13 @@ preAutoExec(InstallDir,ConfigFileName) {
 			
 			installImgFiles:=""
 
-			try
-				fileDelete(installDir "/.installAssets.ahk")
-				
-			loop files, installDir "/img/*.*"
-				fileAppend("fileInstall('./img/" a_loopFilename "','" installDir "\img\" a_loopFilename "',1)`n",installDir "/.installAssets.ahk")
+	
+			loop files, a_scriptDir "/img/*.*"
+				fileAppend("fileInstall('" a_scriptDir "/img/" a_loopFilename "','" installDir "\img\" a_loopFilename "',1)`n",installDir "/.installAssets.ahk")
 		
-			runWait(installDir "/.installAssets.ahk")
-			try
-				fileDelete(installDir "/.installAssets.ahk")
+			;runWait(installDir "/.installAssets.ahk")
+			;try
+			;fileDelete(installDir "/.installAssets.ahk")
 				
 			fileInstall("./redist/mouseSC_x64.exe",installDir "/redist/mouseSC_x64.exe",1)
 			fileInstall("./redist/Discord.exe",installDir "/redist/Discord.exe",1)
