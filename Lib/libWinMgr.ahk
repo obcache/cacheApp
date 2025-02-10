@@ -220,7 +220,7 @@ getTaskbarHeight() {
 
 } ;end utility functions
 
-drawPanel(targetGui,panelX,panelY,panelW,panelH,panelColor,outlineColor,outlineColor2,outlineWidth := 1,outlineOffset := 1,labelPos := .5,labelW := 100,labelText := "Demo Panel",labelFont := "Calibri",labelFontColor := "white") {
+drawPanel(targetGui,panelX,panelY,panelW,panelH,panelColor,outlineColor,outlineColor2,outlineWidth := 1,outlineOffset := 1,labelPos := "none",labelW := 0,labelText := "",labelFont := "Calibri",labelFontColor := "white") {
 	labelH := 20
 	static panelId := 0
 	panelId+=1
